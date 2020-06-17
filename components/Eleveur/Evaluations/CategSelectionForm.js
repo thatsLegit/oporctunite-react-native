@@ -19,17 +19,16 @@ const CategSelectionForm = props => {
 const styles = StyleSheet.create({
     formContainer: {
         flexDirection: "row",
-        margin: 30,
+        marginVertical: 30,
+        marginHorizontal: 20,
         justifyContent: 'space-between'
     },
     button: {
-        width: "45%",
-        height: 33,
+        width: "47%",
+        height: 40,
         backgroundColor: Colors.accent,
         borderRadius: 10,
-        padding: 5,
         alignItems: "center",
-        right: 5,
         shadowColor: 'black',
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 2 },
@@ -39,7 +38,13 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontSize: 17,
+        fontSize: 15,
+        shadowColor: 'black',
+        shadowOpacity: 0.25,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 5,
+        padding: 7,
         fontFamily: 'open-sans-bold'
     }
 });

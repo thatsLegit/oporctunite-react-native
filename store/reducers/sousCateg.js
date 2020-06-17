@@ -22,7 +22,6 @@ export default (state = initialState, action) => {
             const nom = action.nom_sous_categ;
             let updatedSousCategSelection = { ...state.sousCategSelection };
             delete updatedSousCategSelection[nom];
-            console.log(state.sousCategSelection);
             return {
                 ...state,
                 sousCategSelection: updatedSousCategSelection

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Entypo } from '@expo/vector-icons';
 
+import Colors from '../../../../constants/Colors';
 import CategSelectionForm from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
 
 //Normalement ici on devrait fetch les evals correspondant aux sous-categ selectionnées
@@ -21,9 +23,38 @@ const EvalSelectionScreen = props => {
 
     const selectedCatHandler = (item) => {
         return (
-            <View><Text>{item.nomSousCateg}</Text></View>
-        )
-    }
+            <View style={styles.catContainer}>
+                <View style={styles.selectedCatInnerContainer}>
+                    <Text style={styles.selectedCatText}>{item.nomSousCateg}</Text>
+                    <TouchableOpacity>
+                        <Entypo name="squared-cross" size={22} color="red" />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    };
+
+    const correspondingEvals = (item) => {
+        let Touchable = TouchableOpacity;
+        if (Platform.OS == 'android') {
+            Touchable = TouchableHighlight;
+        }
+
+        return (
+            <Touchable>
+                <View style={styles.evalContainer}>
+                    <View style={styles.innerText}>
+                        <Text style={styles.subTitle}>{item.title.substring(0, 20)}</Text>
+                        <View style={styles.infoContainer}>
+                            <Text style={{ marginVertical: 20, textAlign: 'center' }}>Mini-image</Text>
+                            <Text style={styles.infos}>Catégorie de l'éval</Text>
+                            <Text style={styles.infos}>Sous-catégorie de l'éval</Text>
+                        </View>
+                    </View>
+                </View>
+            </Touchable>
+        );
+    };
 
     return (
         <View>
@@ -36,22 +67,81 @@ const EvalSelectionScreen = props => {
             />
             <FlatList
                 data={selectedCat}
-                numColumns={3}
-                renderItem={(itemData) => selectedCatHandler(itemData.item)}
+                numColumns={2}
+                renderItem={itemData => selectedCatHandler(itemData.item)}
                 keyExtractor={item => item.nomSousCateg}
             />
+            <View style={{ alignItems: 'center' }}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Tests disponibles</Text>
+                </View>
+            </View>
             <FlatList
                 data={dataSource}
-                numColumns={3}
-                renderItem={itemData => <View><Text>{itemData.item.title}</Text></View>}
+                numColumns={2}
+                renderItem={itemData => correspondingEvals(itemData.item)}
                 keyExtractor={item => item.id.toString()}
             />
         </View>
     );
 };
 
-
 const styles = StyleSheet.create({
+    catContainer: {
+        borderColor: 'black',
+        borderWidth: 1,
+        margin: 5
+    },
+    selectedCatText: {
+        margin: 2
+    },
+    selectedCatInnerContainer: {
+        flexDirection: 'row',
+        padding: 3
+    },
+    titleContainer: {
+        marginTop: 40,
+        marginBottom: 20,
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOpacity: 0.25,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 5,
+    },
+    title: {
+        marginBottom: 5,
+        fontFamily: 'open-sans-bold',
+        fontSize: 20
+    },
+    subTitle: {
+        marginBottom: 5,
+        fontFamily: 'open-sans-bold',
+        fontSize: 15
+    },
+    evalContainer: {
+        minWidth: 100,
+        minHeight: 80,
+        borderColor: 'black',
+        borderWidth: 1,
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        shadowOffset: { width: 5, height: 5 },
+        elevation: 7,
+        borderRadius: 8,
+        margin: 10,
+        backgroundColor: Colors.primary
+    },
+    innerText: {
+        padding: 10
+    },
+    infoContainer: {
+
+    },
+    infos: {
+        fontSize: 12,
+        fontFamily: 'open-sans'
+    }
 });
 
 

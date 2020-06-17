@@ -1,13 +1,19 @@
 import React from 'react';
 import { View } from 'react-native';
 import ListeSousCategorie from '../../../../components/Eleveur/Evaluations/ListeSousCategorie';
-import CategSelectionFrom from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
+import CategSelectionForm from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
 
 
 const HebergementApproprieScreen = props => {
     return (
         <View>
-            <CategSelectionFrom />
+            <CategSelectionForm
+                navigation={props.navigation}
+                retour='EvalRecap'
+                textRetour='Revenir au récap'
+                valider='EvalSelection'
+                textValider='Valider selection'
+            />
             <ListeSousCategorie />
         </View>
     );

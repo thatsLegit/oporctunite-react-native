@@ -11,7 +11,6 @@ const ItemSousCategorie = props => {
 
     const { choixInitial } = props; //choixInitial ne dépend que de la valeur de selectAll dans l'element parent
     const [choix, setChoix] = useState(choixInitial);
-    const [choiceChanged, setChoiceChanged] = useState();
     const { data } = props;
     const dispatch = useDispatch();
 

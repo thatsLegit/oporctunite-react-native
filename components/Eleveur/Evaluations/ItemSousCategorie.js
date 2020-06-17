@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { CheckBox } from "native-base"
+import { useDispatch } from 'react-redux';
+
 import Colors from '../../../constants/Colors';
+import * as sousCategActions from '../../../store/actions/sousCateg';
+
 
 const ItemSousCategorie = props => {
 
-    const { choixInitial } = props;
+    const { choixInitial } = props; //choixInitial ne dépend que de la valeur de selectAll dans l'element parent
     const [choix, setChoix] = useState(choixInitial);
+    const [choiceChanged, setChoiceChanged] = useState();
     const { data } = props;
+    const dispatch = useDispatch();
 
+    //Se déclenche lorsque le choix initial change. Se declenche aussi au début.
     useEffect(() => {
+        if (choix != choixInitial) {
+            switchChoix();
+        }
         setChoix(choixInitial);
     }, [choixInitial]);
 
+
     const switchChoix = () => {
+        if (choix) {
+            dispatch(sousCategActions.supprimerDeLaSelection(data.item.name));
+            setChoix(!choix);
+            return;
+        }
+        dispatch(sousCategActions.ajouterALaSelection(data.item.name, data.item.company.name));
         setChoix(!choix);
     };
 
@@ -27,8 +44,7 @@ const ItemSousCategorie = props => {
             />
             <TouchableOpacity style={styles.list}>
                 <Text style={styles.lightText}>{data.item.name}</Text>
-                <Text style={styles.lightText}>{data.item.email}</Text>
-                <Text style={styles.lightText}>{data.item.company.name}</Text>
+                <Text style={styles.importantText}>{data.item.company.name}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -51,6 +67,9 @@ const styles = StyleSheet.create({
     },
     lightText: {
         fontFamily: 'open-sans'
+    },
+    importantText: {
+        fontFamily: 'open-sans-bold'
     }
 });
 

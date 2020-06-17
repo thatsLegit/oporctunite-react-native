@@ -21,7 +21,7 @@ const ListeSousCategorie = props => {
         <View style={styles.superContainer}>
             <View style={styles.listContainer}>
                 <View style={styles.checkBoxAll}>
-                    <CheckBox style={styles.checkBox} checked={false} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
+                    <CheckBox style={styles.checkBox} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                     <Text style={styles.selectionText}>Tout selectionner</Text>
                 </View>
                 <FlatList

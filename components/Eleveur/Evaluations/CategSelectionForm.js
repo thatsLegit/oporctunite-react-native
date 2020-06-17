@@ -6,11 +6,11 @@ import Colors from '../../../constants/Colors';
 const CategSelectionForm = props => {
     return (
         <View style={styles.formContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('EvalRecap')}>
-                <Text style={styles.buttonText}>Revenir au récap</Text>
+            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate(props.retour)}>
+                <Text style={styles.buttonText}>{props.textRetour}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate('EvalSelection')}>
-                <Text style={styles.buttonText}>Valider selection</Text>
+            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate(props.valider)}>
+                <Text style={styles.buttonText}>{props.textValider}</Text>
             </TouchableOpacity>
         </View>
     );

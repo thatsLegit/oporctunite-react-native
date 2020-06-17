@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, Platform, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Entypo } from '@expo/vector-icons';
 
@@ -27,7 +27,7 @@ const EvalSelectionScreen = props => {
                 <View style={styles.selectedCatInnerContainer}>
                     <Text style={styles.selectedCatText}>{item.nomSousCateg}</Text>
                     <TouchableOpacity>
-                        <Entypo name="squared-cross" size={22} color="red" />
+                        <Entypo name="squared-cross" size={25} color="red" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -57,7 +57,7 @@ const EvalSelectionScreen = props => {
     };
 
     return (
-        <View>
+        <ScrollView>
             <CategSelectionForm
                 navigation={props.navigation}
                 retour='CategSelection'
@@ -66,6 +66,7 @@ const EvalSelectionScreen = props => {
                 textValider='Valider selection'
             />
             <FlatList
+                scrollEnabled={false}
                 data={selectedCat}
                 numColumns={2}
                 renderItem={itemData => selectedCatHandler(itemData.item)}
@@ -77,31 +78,36 @@ const EvalSelectionScreen = props => {
                 </View>
             </View>
             <FlatList
+                scrollEnabled={false}
                 data={dataSource}
                 numColumns={2}
                 renderItem={itemData => correspondingEvals(itemData.item)}
                 keyExtractor={item => item.id.toString()}
             />
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     catContainer: {
+        margin: 3,
         borderColor: 'black',
         borderWidth: 1,
-        margin: 5
+        shadowColor: 'black',
+        shadowOpacity: 0.25,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        elevation: 5
     },
     selectedCatText: {
-        margin: 2
+        margin: 3,
     },
     selectedCatInnerContainer: {
-        flexDirection: 'row',
-        padding: 3
+        flexDirection: 'row'
     },
     titleContainer: {
-        marginTop: 40,
-        marginBottom: 20,
+        marginTop: 35,
+        marginBottom: 10,
         alignItems: 'center',
         shadowColor: 'black',
         shadowOpacity: 0.25,
@@ -121,6 +127,7 @@ const styles = StyleSheet.create({
     },
     evalContainer: {
         minWidth: 100,
+        maxWidth: Dimensions.get('window').width / 2 - 15,
         minHeight: 80,
         borderColor: 'black',
         borderWidth: 1,

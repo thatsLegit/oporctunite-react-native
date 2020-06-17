@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
+import { StyleSheet, View, FlatList, Text, Dimensions } from "react-native";
 import ItemSousCategorie from './ItemSousCategorie'
 import { CheckBox } from "native-base"
 import Colors from '../../../constants/Colors';
@@ -23,7 +23,7 @@ const ListeSousCategorie = props => {
                 <View style={styles.checkBoxAll}>
                     <CheckBox style={styles.checkBox} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                     <Text style={styles.selectionText}>Tout selectionner</Text>
-                </View>
+                </View >
                 <FlatList
                     data={dataSource}
                     ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
@@ -45,18 +45,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         padding: 15,
-        right: 5,
         shadowColor: 'black',
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         elevation: 5,
-        borderRadius: 10
+        borderRadius: 10,
+        height: (Dimensions.get('window').height / 3) * 2
     },
     checkBoxAll: {
         flexDirection: "row",
         left: 5,
         padding: 5,
+        borderBottomWidth: 2,
+        borderBottomColor: "rgba(211,211,211,0.5)"
     },
     checkBox: {
         marginRight: 15,
@@ -67,7 +69,8 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     selectionText: {
-        fontFamily: 'open-sans'
+        fontFamily: 'open-sans',
+        marginBottom: 5
     }
 });
 

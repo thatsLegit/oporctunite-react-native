@@ -1,22 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View } from 'react-native';
+import ListeSousCategorie from '../../../../components/Eleveur/Evaluations/ListeSousCategorie';
+import CategSelectionFrom from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
 
 
 const ComportementApproprieScreen = props => {
     return (
         <View>
-            <Text>
-                Catégorie comportement approprié
-            </Text>
-            <Button title='sous-catégorie' onPress={() => { props.navigation.navigate('EvalSelection') }} />
-            <Button title='Retour au récap' onPress={() => { props.navigation.goBack() }} />
+            <CategSelectionFrom />
+            <ListeSousCategorie />
         </View>
     );
 };
 
-
-const styles = StyleSheet.create({
-});
 
 
 export default ComportementApproprieScreen;

@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import { StyleSheet, View, FlatList, Text, Dimensions } from "react-native";
-import ItemSousCategorie from './ItemSousCategorie'
 import { CheckBox } from "native-base"
+
+import ItemSousCategorie from './ItemSousCategorie'
 import Colors from '../../../constants/Colors';
 
 
 const ListeSousCategorie = props => {
-    const [dataSource, setdataSource] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
-
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users")
-            .then(response => response.json())
-            .then((responseJson) => {
-                setdataSource(responseJson)
-            })
-    }, []);
+    const categoriesData = useSelector(state => Object.values(state.sousCateg.sousCategories));
 
     return (
         <View style={styles.superContainer}>
@@ -25,10 +20,10 @@ const ListeSousCategorie = props => {
                     <Text style={styles.selectionText}>Tout selectionner</Text>
                 </View >
                 <FlatList
-                    data={dataSource}
+                    data={categoriesData}
                     ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-                    renderItem={item => <ItemSousCategorie data={item} choixInitial={selectAll} />}
-                    keyExtractor={item => item.id.toString()}
+                    renderItem={itemData => <ItemSousCategorie data={itemData.item} choixInitial={selectAll} />}
+                    keyExtractor={item => item.nomSousCateg}
                 />
             </View>
         </View>
@@ -71,6 +66,11 @@ const styles = StyleSheet.create({
     selectionText: {
         fontFamily: 'open-sans',
         marginBottom: 5
+    },
+    centered: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 

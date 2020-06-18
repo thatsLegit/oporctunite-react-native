@@ -14,7 +14,7 @@ const ComportementApproprieScreen = props => {
                 valider='EvalSelection'
                 textValider='Valider selection'
             />
-            <ListeSousCategorie />
+            <ListeSousCategorie categorie='Comportement_approprie' />
         </View>
     );
 };

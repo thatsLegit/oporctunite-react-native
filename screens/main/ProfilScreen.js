@@ -1,11 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
+import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
+import Colors from '../../constants/Colors';
 import HeaderButton from '../../components/UI/HeaderButton';
+import * as sousCategActions from '../../store/actions/sousCateg';
 
 
 const ProfilScreen = props => {
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setIsLoading(true);
+        dispatch(sousCategActions.fetchSousCateg()).then(() => setIsLoading(false));
+    }, [dispatch]);
+
+    //Loading spinner
+    if (isLoading) {
+        return (
+            <View style={styles.centered}>
+                <ActivityIndicator
+                    size='large'
+                    color={Colors.primary}
+                />
+            </View>
+        );
+    };
+
     return (
         <View>
             <Text>

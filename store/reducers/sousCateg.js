@@ -11,6 +11,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case SET_SOUS_CATEG:
+            return {
+                sousCategories: action.sousCateg
+            }
         case SELECTIONNER_SOUS_CATEG:
             const { nom_sous_categ, nom_categ } = action.categ;
             const addedSousCateg = new SousCategorie(nom_sous_categ, nom_categ);
@@ -29,4 +33,4 @@ export default (state = initialState, action) => {
         default:
             return state;
     }
-}
+};

@@ -14,7 +14,7 @@ const HebergementApproprieScreen = props => {
                 valider='EvalSelection'
                 textValider='Valider selection'
             />
-            <ListeSousCategorie />
+            <ListeSousCategorie categorie='Hebergement_approprie' />
         </View>
     );
 };

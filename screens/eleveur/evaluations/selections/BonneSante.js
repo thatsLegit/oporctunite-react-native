@@ -14,7 +14,7 @@ const BonneSanteScreen = props => {
                 valider='EvalSelection'
                 textValider='Valider selection'
             />
-            <ListeSousCategorie />
+            <ListeSousCategorie categorie='Bonne_sante' />
         </View>
     );
 };

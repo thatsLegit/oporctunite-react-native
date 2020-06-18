@@ -25,11 +25,11 @@ const ItemSousCategorie = props => {
 
     const switchChoix = () => {
         if (choix) {
-            dispatch(sousCategActions.supprimerDeLaSelection(data.item.name));
+            dispatch(sousCategActions.supprimerDeLaSelection(data.nomSousCateg));
             setChoix(!choix);
             return;
         }
-        dispatch(sousCategActions.ajouterALaSelection(data.item.name, data.item.company.name));
+        dispatch(sousCategActions.ajouterALaSelection(data.nomSousCateg, data.nomCateg));
         setChoix(!choix);
     };
 
@@ -42,8 +42,7 @@ const ItemSousCategorie = props => {
                 onPress={() => switchChoix()}
             />
             <TouchableOpacity style={styles.list}>
-                <Text style={styles.lightText}>{data.item.name}</Text>
-                <Text style={styles.importantText}>{data.item.company.name}</Text>
+                <Text style={styles.importantText}>{data.nomSousCateg}</Text>
             </TouchableOpacity>
         </View>
     );

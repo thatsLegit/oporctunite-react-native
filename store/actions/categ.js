@@ -16,25 +16,41 @@ export const fetchCateg = () => {
             }
         });
 
+        console.log('function 1');
+
         dispatch({ type: SET_CATEG, categ: loadedCategories });
     };
 };
 
-export const fetchSousCategByCateg = (categG) => {
-    let categ = categG.replace('é', 'e');
-    return async (dispatch) => {
-        const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/categories/${categ}/sousCategories/categorie`);
-        const resData = await response.json();
-        let loadedSousCategories = {};
-        resData.data.forEach(categ => {
-            loadedSousCategories = {
-                ...loadedSousCategories, [categ.nomCategorieP]: new SousCategorie(
-                    categ.nomCategorieP,
-                    categ.nomCategorieG
-                )
-            }
-        });
+export const fetchSousCategByCateg = () => {
+    return async (dispatch, getState) => {
+        let categ = [];
+        const categorie_g = getState().categ.categories;
+        let categOriginal = [];
 
-        dispatch({ type: SET_SOUS_CATEG_BY_CATEGORY, sousCateg: loadedSousCategories, categG });
+        for (const key in categorie_g) {
+            categOriginal.push(key);
+            const categModified = key.replace('é', 'e');
+            categ.push(categModified);
+        }
+
+        let count = 0;
+        for (let cat of categ) {
+            const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/categories/${cat}/sousCategories/categorie`);
+            const resData = await response.json();
+            let loadedSousCategories = {};
+            resData.data.forEach(c => {
+                loadedSousCategories = {
+                    ...loadedSousCategories, [c.nomCategorieP]: new SousCategorie(
+                        c.nomCategorieP,
+                        c.nomCategorieG
+                    )
+                }
+            });
+
+            const categG = categOriginal[count];
+            count++;
+            dispatch({ type: SET_SOUS_CATEG_BY_CATEGORY, sousCateg: loadedSousCategories, categG });
+        }
     };
 };

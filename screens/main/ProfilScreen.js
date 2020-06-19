@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -12,20 +12,15 @@ const ProfilScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
 
-    const categHandler = useCallback(() => {
-        dispatch(categActions.fetchCateg());
+    const categHandler = useCallback(async () => {
+        await dispatch(categActions.fetchCateg());
+        await dispatch(categActions.fetchSousCategByCateg());
+        setIsLoading(false);
     }, [dispatch]);
 
     useEffect(() => {
         setIsLoading(true);
         categHandler();
-        dispatch(categActions.fetchSousCategByCateg("Bonne santé"));
-        dispatch(categActions.fetchSousCategByCateg("Comportement approprié"));
-        dispatch(categActions.fetchSousCategByCateg("Bonne alimentation"));
-        dispatch(categActions.fetchSousCategByCateg("Hébergement approprié")).then(() => setIsLoading(false));
-        // for (let categ of categories) {
-
-        // }
     }, [dispatch, categHandler]);
 
 

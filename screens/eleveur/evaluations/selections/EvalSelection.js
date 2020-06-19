@@ -1,80 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, Platform, Dimensions } from 'react-native';
-import { useSelector } from 'react-redux';
-import { Entypo } from '@expo/vector-icons';
+import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { CheckBox } from "native-base"
-import { Octicons } from '@expo/vector-icons';
 
 import Colors from '../../../../constants/Colors';
 import CategSelectionForm from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
+import * as sousCategActions from '../../../../store/actions/sousCateg';
+import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
+import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
 
-//Normalement ici on devrait fetch les evals correspondant aux sous-categ selectionnées
-//Les sous-categ selectionnées se trouve dans store/recucer : sousCategSelection
 
 const EvalSelectionScreen = props => {
 
-    const [choix, setChoix] = useState(false);
-
     let selectedSousCatNames = [];
-    let selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection)); //array qui contient les sous-catégories
+    let dataSource = []; //array qui contient les évaluation correspondant aux sous-catégories séléctionnées
+    let newDataSource = [];
+
+    const [selectAll, setSelectAll] = useState(false);
+
+    const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection)); //array qui contient les sous-catégories
     for (sousCat of selectedSousCat) {
         selectedSousCatNames.push(sousCat.nomSousCateg);
     }
 
-    let dataSource = []; //array qui contient les évaluation correspondant aux sous-catégories séléctionnées
-    let newDataSource = [];
     for (let name of selectedSousCatNames) {
         newDataSource = useSelector(state => Object.values(state.sousCateg.sousCategories[name]));
         dataSource = newDataSource.concat(dataSource);
         newDataSource = [];
     }
 
-    const selectedSousCatHandler = (item) => {
-        return (
-            <View style={styles.catContainer}>
-                <View style={styles.selectedCatInnerContainer}>
-                    <Text style={styles.selectedCatText}>
-                        {item.nomSousCateg.substring(0, 22)}
-                        {item.nomSousCateg.length > 23 && "\n"}
-                        {item.nomSousCateg.substring(22, 40)}
-                        {item.nomSousCateg.length > 41 && "\n"}
-                        {item.nomSousCateg.substring(40, 65)}
-                    </Text>
-                    <TouchableOpacity>
-                        <Entypo name="squared-cross" size={25} color="red" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
+    const dispatch = useDispatch();
 
-    const correspondingEvals = (item) => {
-        let Touchable = TouchableOpacity;
-        if (Platform.OS == 'android') {
-            Touchable = TouchableHighlight;
-        }
-
-        return (
-            <Touchable onPress={() => setChoix(!choix)}>
-                <View style={styles.evalContainer}>
-                    <View style={styles.innerText}>
-                        <Text style={styles.subTitle}>{item.nomEvaluation}</Text>
-                        <Text style={styles.infos}>{item.nomCategorieP}</Text>
-                        <View style={styles.infoContainer}>
-                            <Text style={{ marginVertical: 20, textAlign: 'center' }}>Mini-image</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <CheckBox
-                                color={Colors.primary}
-                                checked={choix}
-                            />
-                            <TouchableOpacity><Octicons name="info" size={25} color="black" /></TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Touchable>
-        );
-    };
 
     return (
         <View>
@@ -90,7 +46,11 @@ const EvalSelectionScreen = props => {
                     style={{ flexGrow: 0 }}
                     data={selectedSousCat}
                     numColumns={2}
-                    renderItem={itemData => selectedSousCatHandler(itemData.item)}
+                    renderItem={itemData => (
+                        <SelectedSousCategorieItem
+                            nom={itemData.item.nomSousCateg}
+                            onRemove={() => dispatch(sousCategActions.supprimerDeLaSelection(itemData.item.nomSousCateg))}
+                        />)}
                     keyExtractor={item => item.nomSousCateg}
                 />
             </View>
@@ -106,14 +66,19 @@ const EvalSelectionScreen = props => {
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 5 }}>
-                                <CheckBox style={{ marginRight: 15 }} color={Colors.accent} onPress={() => { }} />
+                                <CheckBox style={{ marginRight: 15 }} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                                 <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout selectionner</Text>
                             </View>
                         </View>
                     )}
                     data={dataSource}
                     numColumns={2}
-                    renderItem={itemData => correspondingEvals(itemData.item)}
+                    renderItem={itemData => (
+                        <CorrespondingEvaluations
+                            nomEvaluation={itemData.item.nomEvaluation}
+                            nomCategorieP={itemData.item.nomCategorieP}
+                            choixInitial={selectAll}
+                        />)}
                     keyExtractor={item => item.nomEvaluation}
                 />
             </View>
@@ -122,23 +87,6 @@ const EvalSelectionScreen = props => {
 };
 
 const styles = StyleSheet.create({
-    catContainer: {
-        margin: 3,
-        borderColor: 'black',
-        borderWidth: 1,
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        borderRadius: 8,
-        elevation: 5
-    },
-    selectedCatText: {
-        margin: 3
-    },
-    selectedCatInnerContainer: {
-        flexDirection: 'row'
-    },
     titleContainer: {
         marginBottom: 10,
         alignItems: 'center',
@@ -152,32 +100,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontFamily: 'open-sans-bold',
         fontSize: 20
-    },
-    subTitle: {
-        marginBottom: 5,
-        fontFamily: 'open-sans-bold',
-        fontSize: 15
-    },
-    evalContainer: {
-        minWidth: 100,
-        maxWidth: Dimensions.get('window').width / 2 - 15,
-        minHeight: 80,
-        borderColor: 'black',
-        borderWidth: 1,
-        shadowColor: 'black',
-        shadowOpacity: 0.5,
-        shadowOffset: { width: 5, height: 5 },
-        elevation: 7,
-        borderRadius: 8,
-        margin: 10,
-        backgroundColor: Colors.secondary
-    },
-    innerText: {
-        padding: 10
-    },
-    infos: {
-        fontSize: 12,
-        fontFamily: 'open-sans'
     }
 });
 

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, Platform, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight, Platform, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Entypo } from '@expo/vector-icons';
+import { CheckBox } from "native-base"
+import { Octicons } from '@expo/vector-icons';
 
 import Colors from '../../../../constants/Colors';
 import CategSelectionForm from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
@@ -10,6 +12,8 @@ import CategSelectionForm from '../../../../components/Eleveur/Evaluations/Categ
 //Les sous-categ selectionnées se trouve dans store/recucer : sousCategSelection
 
 const EvalSelectionScreen = props => {
+
+    const [choix, setChoix] = useState(false);
 
     let selectedSousCatNames = [];
     let selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection)); //array qui contient les sous-catégories
@@ -29,7 +33,13 @@ const EvalSelectionScreen = props => {
         return (
             <View style={styles.catContainer}>
                 <View style={styles.selectedCatInnerContainer}>
-                    <Text style={styles.selectedCatText}>{item.nomSousCateg}</Text>
+                    <Text style={styles.selectedCatText}>
+                        {item.nomSousCateg.substring(0, 22)}
+                        {item.nomSousCateg.length > 23 && "\n"}
+                        {item.nomSousCateg.substring(22, 40)}
+                        {item.nomSousCateg.length > 41 && "\n"}
+                        {item.nomSousCateg.substring(40, 65)}
+                    </Text>
                     <TouchableOpacity>
                         <Entypo name="squared-cross" size={25} color="red" />
                     </TouchableOpacity>
@@ -45,14 +55,20 @@ const EvalSelectionScreen = props => {
         }
 
         return (
-            <Touchable>
+            <Touchable onPress={() => setChoix(!choix)}>
                 <View style={styles.evalContainer}>
                     <View style={styles.innerText}>
                         <Text style={styles.subTitle}>{item.nomEvaluation}</Text>
+                        <Text style={styles.infos}>{item.nomCategorieP}</Text>
                         <View style={styles.infoContainer}>
                             <Text style={{ marginVertical: 20, textAlign: 'center' }}>Mini-image</Text>
-                            <Text style={styles.infos}>{item.nomEvaluation}</Text>
-                            <Text style={styles.infos}>Description</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <CheckBox
+                                color={Colors.primary}
+                                checked={choix}
+                            />
+                            <TouchableOpacity><Octicons name="info" size={25} color="black" /></TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -61,7 +77,7 @@ const EvalSelectionScreen = props => {
     };
 
     return (
-        <ScrollView>
+        <View>
             <CategSelectionForm
                 navigation={props.navigation}
                 retour='CategSelection'
@@ -69,26 +85,39 @@ const EvalSelectionScreen = props => {
                 valider='EvalInfo'
                 textValider='Valider selection'
             />
-            <FlatList
-                scrollEnabled={false}
-                data={selectedSousCat}
-                numColumns={2}
-                renderItem={itemData => selectedSousCatHandler(itemData.item)}
-                keyExtractor={item => item.nomSousCateg}
-            />
-            <View style={{ alignItems: 'center' }}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Evaluations disponibles ({dataSource.length})</Text>
-                </View>
+            <View style={{ maxHeight: (Dimensions.get('window').height / 5.5) }}>
+                <FlatList
+                    style={{ flexGrow: 0 }}
+                    data={selectedSousCat}
+                    numColumns={2}
+                    renderItem={itemData => selectedSousCatHandler(itemData.item)}
+                    keyExtractor={item => item.nomSousCateg}
+                />
             </View>
-            <FlatList
-                scrollEnabled={false}
-                data={dataSource}
-                numColumns={2}
-                renderItem={itemData => correspondingEvals(itemData.item)}
-                keyExtractor={item => item.nomEvaluation}
-            />
-        </ScrollView>
+            <View style={{ marginVertical: 10 }}></View>
+            <View style={{ maxHeight: (Dimensions.get('window').height / 2) * 1.1 }}>
+                <FlatList
+                    style={{ flexGrow: 0 }}
+                    ListHeaderComponent={(
+                        <View>
+                            <View style={{ alignItems: 'center' }}>
+                                <View style={styles.titleContainer}>
+                                    <Text style={styles.title}>Evaluations disponibles ({dataSource.length})</Text>
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 5 }}>
+                                <CheckBox style={{ marginRight: 15 }} color={Colors.accent} onPress={() => { }} />
+                                <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout selectionner</Text>
+                            </View>
+                        </View>
+                    )}
+                    data={dataSource}
+                    numColumns={2}
+                    renderItem={itemData => correspondingEvals(itemData.item)}
+                    keyExtractor={item => item.nomEvaluation}
+                />
+            </View>
+        </View>
     );
 };
 
@@ -101,16 +130,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
+        borderRadius: 8,
         elevation: 5
     },
     selectedCatText: {
-        margin: 3,
+        margin: 3
     },
     selectedCatInnerContainer: {
         flexDirection: 'row'
     },
     titleContainer: {
-        marginTop: 35,
         marginBottom: 10,
         alignItems: 'center',
         shadowColor: 'black',
@@ -141,13 +170,10 @@ const styles = StyleSheet.create({
         elevation: 7,
         borderRadius: 8,
         margin: 10,
-        backgroundColor: Colors.primary
+        backgroundColor: Colors.secondary
     },
     innerText: {
         padding: 10
-    },
-    infoContainer: {
-
     },
     infos: {
         fontSize: 12,

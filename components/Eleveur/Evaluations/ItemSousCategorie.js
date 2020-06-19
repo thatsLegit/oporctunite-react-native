@@ -36,7 +36,6 @@ const ItemSousCategorie = props => {
     return (
         <View style={styles.item} >
             <CheckBox
-                style={styles.checkBox}
                 color={Colors.primary}
                 checked={choix}
                 onPress={() => switchChoix()}

@@ -16,8 +16,6 @@ export const fetchCateg = () => {
             }
         });
 
-        console.log('function 1');
-
         dispatch({ type: SET_CATEG, categ: loadedCategories });
     };
 };
@@ -34,6 +32,7 @@ export const fetchSousCategByCateg = () => {
             categ.push(categModified);
         }
 
+        //Attention, cette fonction envoie plusieurs dispatch vers les reducers (for let..of..)
         let count = 0;
         for (let cat of categ) {
             const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/categories/${cat}/sousCategories/categorie`);

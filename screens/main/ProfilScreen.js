@@ -6,6 +6,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import Colors from '../../constants/Colors';
 import HeaderButton from '../../components/UI/HeaderButton';
 import * as categActions from '../../store/actions/categ';
+import * as sousCategActions from '../../store/actions/sousCateg';
 
 
 const ProfilScreen = props => {
@@ -15,6 +16,8 @@ const ProfilScreen = props => {
     const categHandler = useCallback(async () => {
         await dispatch(categActions.fetchCateg());
         await dispatch(categActions.fetchSousCategByCateg());
+        await dispatch(sousCategActions.fetchSousCateg());
+        await dispatch(sousCategActions.fetchEvaluationBySousCateg());
         setIsLoading(false);
     }, [dispatch]);
 

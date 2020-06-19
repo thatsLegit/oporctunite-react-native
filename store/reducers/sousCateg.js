@@ -1,5 +1,5 @@
 //actions
-import { SELECTIONNER_SOUS_CATEG, DESELECTIONNER_SOUS_CATEG, SET_SOUS_CATEG } from '../actions/sousCateg';
+import { SELECTIONNER_SOUS_CATEG, DESELECTIONNER_SOUS_CATEG, SET_SOUS_CATEG, SET_EVALUATION_BY_SOUS_CATEGORY } from '../actions/sousCateg';
 //models
 import SousCategorie from '../../models/SousCategorie';
 
@@ -14,7 +14,12 @@ export default (state = initialState, action) => {
         case SET_SOUS_CATEG:
             return {
                 sousCategories: action.sousCateg
-            }
+            };
+        case SET_EVALUATION_BY_SOUS_CATEGORY:
+            return {
+                ...state,
+                sousCategories: { ...state.sousCategories, [action.categP]: action.evaluation }
+            };
         case SELECTIONNER_SOUS_CATEG:
             const { nom_sous_categ, nom_categ } = action.categ;
             const addedSousCateg = new SousCategorie(nom_sous_categ, nom_categ);

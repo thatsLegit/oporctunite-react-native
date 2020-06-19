@@ -10,18 +10,22 @@ import CategSelectionForm from '../../../../components/Eleveur/Evaluations/Categ
 //Les sous-categ selectionnées se trouve dans store/recucer : sousCategSelection
 
 const EvalSelectionScreen = props => {
-    const [dataSource, setdataSource] = useState();
-    const selectedCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection), () => true);
 
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
-            .then(response => response.json())
-            .then((responseJson) => {
-                setdataSource(responseJson)
-            })
-    }, []);
+    let selectedSousCatNames = [];
+    let selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection)); //array qui contient les sous-catégories
+    for (sousCat of selectedSousCat) {
+        selectedSousCatNames.push(sousCat.nomSousCateg);
+    }
 
-    const selectedCatHandler = (item) => {
+    let dataSource = []; //array qui contient les évaluation correspondant aux sous-catégories séléctionnées
+    let newDataSource = [];
+    for (let name of selectedSousCatNames) {
+        newDataSource = useSelector(state => Object.values(state.sousCateg.sousCategories[name]));
+        dataSource = newDataSource.concat(dataSource);
+        newDataSource = [];
+    }
+
+    const selectedSousCatHandler = (item) => {
         return (
             <View style={styles.catContainer}>
                 <View style={styles.selectedCatInnerContainer}>
@@ -44,11 +48,11 @@ const EvalSelectionScreen = props => {
             <Touchable>
                 <View style={styles.evalContainer}>
                     <View style={styles.innerText}>
-                        <Text style={styles.subTitle}>{item.title.substring(0, 20)}</Text>
+                        <Text style={styles.subTitle}>{item.nomEvaluation}</Text>
                         <View style={styles.infoContainer}>
                             <Text style={{ marginVertical: 20, textAlign: 'center' }}>Mini-image</Text>
-                            <Text style={styles.infos}>Catégorie de l'éval</Text>
-                            <Text style={styles.infos}>Sous-catégorie de l'éval</Text>
+                            <Text style={styles.infos}>{item.nomEvaluation}</Text>
+                            <Text style={styles.infos}>Description</Text>
                         </View>
                     </View>
                 </View>
@@ -67,14 +71,14 @@ const EvalSelectionScreen = props => {
             />
             <FlatList
                 scrollEnabled={false}
-                data={selectedCat}
+                data={selectedSousCat}
                 numColumns={2}
-                renderItem={itemData => selectedCatHandler(itemData.item)}
+                renderItem={itemData => selectedSousCatHandler(itemData.item)}
                 keyExtractor={item => item.nomSousCateg}
             />
             <View style={{ alignItems: 'center' }}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Tests disponibles</Text>
+                    <Text style={styles.title}>Evaluations disponibles ({dataSource.length})</Text>
                 </View>
             </View>
             <FlatList
@@ -82,7 +86,7 @@ const EvalSelectionScreen = props => {
                 data={dataSource}
                 numColumns={2}
                 renderItem={itemData => correspondingEvals(itemData.item)}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item.nomEvaluation}
             />
         </ScrollView>
     );

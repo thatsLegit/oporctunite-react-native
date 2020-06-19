@@ -8,10 +8,12 @@ import * as Font from 'expo-font';
 
 import AppNavigator from './navigation/AppNavigator';
 import sousCategReducer from './store/reducers/sousCateg';
+import categReducer from './store/reducers/categ';
 
 
 const rootReducer = combineReducers({
-  sousCateg: sousCategReducer
+  sousCateg: sousCategReducer,
+  categ: categReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

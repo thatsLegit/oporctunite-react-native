@@ -10,17 +10,17 @@ export const fetchSousCateg = () => {
     return async (dispatch) => {
         const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories');
         const resData = await response.json();
-        let loadedCategories = {};
+        let loadedSousCategories = {};
         resData.data.forEach(categ => {
-            loadedCategories = {
-                ...loadedCategories, [categ.nomCategorieP]: new SousCategorie(
+            loadedSousCategories = {
+                ...loadedSousCategories, [categ.nomCategorieP]: new SousCategorie(
                     categ.nomCategorieP,
                     categ.nomCategorieG
                 )
             }
         });
 
-        dispatch({ type: SET_SOUS_CATEG, sousCateg: loadedCategories });
+        dispatch({ type: SET_SOUS_CATEG, sousCateg: loadedSousCategories });
     };
 };
 

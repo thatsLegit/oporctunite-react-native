@@ -15,7 +15,7 @@ const BonneAlimentationScreen = props => {
                 valider='EvalSelection'
                 textValider='Valider selection'
             />
-            <ListeSousCategorie />
+            <ListeSousCategorie nomSCateg='Bonne alimentation' />
         </View>
     );
 };

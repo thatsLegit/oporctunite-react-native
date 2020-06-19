@@ -8,9 +8,9 @@ import Colors from '../../../constants/Colors';
 
 
 const ListeSousCategorie = props => {
-    const [isLoading, setIsLoading] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
-    const categoriesData = useSelector(state => Object.values(state.sousCateg.sousCategories));
+    const sousCategorie = props.nomSCateg.toString();
+    const categoriesData = useSelector(state => Object.values(state.categ.categories[sousCategorie]));
 
     return (
         <View style={styles.superContainer}>

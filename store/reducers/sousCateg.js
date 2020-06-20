@@ -5,7 +5,7 @@ import SousCategorie from '../../models/SousCategorie';
 
 //Etat initial
 const initialState = {
-    sousCategories: {}, // Ensemble des sous-categ fetch depuis l'api, donc toutes les categs
+    sousCategories: {}, // Ensemble des sous-categ, avec les évals correspondantes
     sousCategSelection: {}  // Ensemble des sous-categ séléctionnées, initialement vide
 };
 

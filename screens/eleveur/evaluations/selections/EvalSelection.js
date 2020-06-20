@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckBox } from "native-base"
 
 import Colors from '../../../../constants/Colors';
-import CategSelectionForm from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
+import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 import * as sousCategActions from '../../../../store/actions/sousCateg';
 import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
 import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
@@ -24,7 +24,7 @@ const EvalSelectionScreen = props => {
 
     return (
         <View>
-            <CategSelectionForm
+            <TopNavigationForm
                 navigation={props.navigation}
                 retour='CategSelection'
                 textRetour='Retour catégories'
@@ -54,8 +54,10 @@ const EvalSelectionScreen = props => {
                                 </Shadow>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 5 }}>
-                                <CheckBox style={{ marginRight: 15 }} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
-                                <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout selectionner</Text>
+                                <CheckBox style={{ marginRight: 15 }} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
+                                <TouchableOpacity onPress={() => setSelectAll(!selectAll)}>
+                                    <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout selectionner</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     )}
@@ -65,6 +67,7 @@ const EvalSelectionScreen = props => {
                         <CorrespondingEvaluations
                             nomEvaluation={itemData.item.nomEvaluation}
                             nomCategorieP={itemData.item.nomCategorieP}
+                            description={itemData.item.description}
                             choixInitial={selectAll}
                         />)}
                     keyExtractor={item => item.nomEvaluation}

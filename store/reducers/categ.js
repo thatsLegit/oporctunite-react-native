@@ -4,7 +4,7 @@ import { SET_SOUS_CATEG_BY_CATEGORY, SET_CATEG } from '../actions/categ';
 
 //Etat initial
 const initialState = {
-    categories: {} //contient toutes les catégories avec les catégories correspondantes
+    categories: {} //contient toutes les catégories avec les sous-catégories correspondantes
 };
 
 export default (state = initialState, action) => {

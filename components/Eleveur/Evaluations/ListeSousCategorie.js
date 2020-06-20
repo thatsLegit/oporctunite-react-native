@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from 'react-redux';
-import { StyleSheet, View, FlatList, Text, Dimensions } from "react-native";
+import { StyleSheet, View, FlatList, Text, Dimensions, TouchableOpacity } from "react-native";
 import { CheckBox } from "native-base"
 
 import ItemSousCategorie from './ItemSousCategorie'
@@ -18,8 +18,10 @@ const ListeSousCategorie = props => {
             <Shadow style={styles.listContainer}>
                 <View style={styles.checkBoxAll}>
                     <CheckBox style={styles.checkBox} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
-                    <Text style={styles.selectionText}>Tout selectionner</Text>
-                </View >
+                    <TouchableOpacity onPress={() => setSelectAll(!selectAll)}>
+                        <Text style={styles.selectionText}>Tout selectionner</Text>
+                    </TouchableOpacity>
+                </View>
                 <FlatList
                     data={categoriesData}
                     ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}

@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import Colors from '../../../constants/Colors';
-import Shadow from '../../UI/Shadow';
+import Colors from '../../constants/Colors';
+import Shadow from '../UI/Shadow';
 
 
-const CategSelectionForm = props => {
+const TopNavigationForm = props => {
     return (
         <View style={styles.formContainer}>
             <Shadow style={styles.button}>
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default CategSelectionForm;
+export default TopNavigationForm;

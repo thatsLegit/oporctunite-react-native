@@ -9,11 +9,13 @@ import * as Font from 'expo-font';
 import AppNavigator from './navigation/AppNavigator';
 import sousCategReducer from './store/reducers/sousCateg';
 import categReducer from './store/reducers/categ';
+import evalReducer from './store/reducers/evaluation';
 
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,
-  categ: categReducer
+  categ: categReducer,
+  eval: evalReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

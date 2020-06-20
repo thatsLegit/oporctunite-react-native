@@ -16,12 +16,9 @@ const ItemSousCategorie = props => {
 
     //Se déclenche lorsque le choix initial change. Se declenche aussi au début.
     useEffect(() => {
-        if (choix != choixInitial) {
-            switchChoix();
-        }
+        choix != choixInitial && switchChoix();
         setChoix(choixInitial);
     }, [choixInitial]);
-
 
     const switchChoix = () => {
         if (choix) {
@@ -32,6 +29,7 @@ const ItemSousCategorie = props => {
         dispatch(sousCategActions.ajouterALaSelection(data.nomSousCateg, data.nomCateg));
         setChoix(!choix);
     };
+
 
     return (
         <View style={styles.item} >

@@ -1,13 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 import ListeSousCategorie from '../../../../components/Eleveur/Evaluations/ListeSousCategorie';
-import CategSelectionForm from '../../../../components/Eleveur/Evaluations/CategSelectionForm';
+import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 
 
 const BonneSanteScreen = props => {
     return (
         <View>
-            <CategSelectionForm
+            <TopNavigationForm
                 navigation={props.navigation}
                 retour='EvalRecap'
                 textRetour='Revenir au récap'

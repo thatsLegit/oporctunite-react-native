@@ -1,18 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Platform, Dimensions } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { CheckBox } from "native-base"
 import { Octicons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
 import Shadow from '../../UI/Shadow';
+import * as evalActions from '../../../store/actions/evaluation';
+import Evaluation from '../../../models/Evaluation';
 
 
 const CorrespondingEvaluations = props => {
     const { choixInitial } = props; //choixInitial ne dépend que de la valeur de selectAll dans l'element parent
     const [choix, setChoix] = useState(choixInitial);
+    const Eval = new Evaluation(props.nomEvaluation, props.description, props.nomCategorieP);
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        choix != choixInitial && switchChoix();
         setChoix(choixInitial);
     }, [choixInitial]);
+
+    const switchChoix = () => {
+        if (choix) {
+            console.log('supprimé');
+            dispatch(evalActions.supprimerDeLaSelection(Eval.nomEvaluation));
+            setChoix(!choix);
+            return;
+        }
+        console.log('ajouté');
+        dispatch(evalActions.ajouterALaSelection(Eval));
+        setChoix(!choix);
+    };
 
     let Touchable = TouchableOpacity;
     if (Platform.OS == 'android') {
@@ -20,17 +38,17 @@ const CorrespondingEvaluations = props => {
     }
 
     return (
-        <Touchable onPress={() => setChoix(!choix)}>
+        <Touchable onPress={() => switchChoix()}>
             <Shadow style={styles.evalContainer}>
                 <View style={styles.innerText}>
-                    <Text style={styles.subTitle}>{props.nomEvaluation}</Text>
-                    <Text style={styles.infos}>{props.nomCategorieP}</Text>
+                    <Text style={styles.subTitle}>{Eval.nomEvaluation}</Text>
+                    <Text style={styles.infos}>{Eval.nomCategorieP}</Text>
                     <View>
                         <Text style={{ marginVertical: 20, textAlign: 'center' }}>Mini-image</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <CheckBox
-                            onPress={() => setChoix(!choix)}
+                            onPress={() => switchChoix()}
                             color={Colors.primary}
                             checked={choix}
                         />

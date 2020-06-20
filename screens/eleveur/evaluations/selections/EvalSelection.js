@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckBox } from "native-base"
@@ -8,27 +8,25 @@ import CategSelectionForm from '../../../../components/Eleveur/Evaluations/Categ
 import * as sousCategActions from '../../../../store/actions/sousCateg';
 import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
 import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
+import Shadow from '../../../../components/UI/Shadow';
 
 
 const EvalSelectionScreen = props => {
 
     let selectedSousCatNames = [];
-    let dataSource = []; //array qui contient les évaluation correspondant aux sous-catégories séléctionnées
-    let newDataSource = [];
-
-    const [selectAll, setSelectAll] = useState(false);
+    let evaluations = [];
 
     const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection)); //array qui contient les sous-catégories
-    for (sousCat of selectedSousCat) {
+
+    for (const sousCat of selectedSousCat) {
         selectedSousCatNames.push(sousCat.nomSousCateg);
     }
 
-    for (let name of selectedSousCatNames) {
-        newDataSource = useSelector(state => Object.values(state.sousCateg.sousCategories[name]));
-        dataSource = newDataSource.concat(dataSource);
-        newDataSource = [];
+    for (const name of selectedSousCatNames) {
+        evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories[name])).concat(evaluations);
     }
 
+    const [selectAll, setSelectAll] = useState(false);
     const dispatch = useDispatch();
 
 
@@ -43,7 +41,6 @@ const EvalSelectionScreen = props => {
             />
             <View style={{ maxHeight: (Dimensions.get('window').height / 5.5) }}>
                 <FlatList
-                    style={{ flexGrow: 0 }}
                     data={selectedSousCat}
                     numColumns={2}
                     renderItem={itemData => (
@@ -55,15 +52,14 @@ const EvalSelectionScreen = props => {
                 />
             </View>
             <View style={{ marginVertical: 10 }}></View>
-            <View style={{ maxHeight: (Dimensions.get('window').height / 2) * 1.1 }}>
+            <View style={{ maxHeight: (Dimensions.get('window').height / 2) * 1.17, minHeight: (Dimensions.get('window').height / 2) * 1.1 }}>
                 <FlatList
-                    style={{ flexGrow: 0 }}
                     ListHeaderComponent={(
                         <View>
                             <View style={{ alignItems: 'center' }}>
-                                <View style={styles.titleContainer}>
-                                    <Text style={styles.title}>Evaluations disponibles ({dataSource.length})</Text>
-                                </View>
+                                <Shadow style={styles.titleContainer}>
+                                    <Text style={styles.title}>Evaluations disponibles ({evaluations.length})</Text>
+                                </Shadow>
                             </View>
                             <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 5 }}>
                                 <CheckBox style={{ marginRight: 15 }} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
@@ -71,7 +67,7 @@ const EvalSelectionScreen = props => {
                             </View>
                         </View>
                     )}
-                    data={dataSource}
+                    data={evaluations}
                     numColumns={2}
                     renderItem={itemData => (
                         <CorrespondingEvaluations
@@ -89,12 +85,7 @@ const EvalSelectionScreen = props => {
 const styles = StyleSheet.create({
     titleContainer: {
         marginBottom: 10,
-        alignItems: 'center',
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        elevation: 5,
+        alignItems: 'center'
     },
     title: {
         marginBottom: 5,

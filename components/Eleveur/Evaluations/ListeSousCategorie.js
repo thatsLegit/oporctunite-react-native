@@ -5,6 +5,7 @@ import { CheckBox } from "native-base"
 
 import ItemSousCategorie from './ItemSousCategorie'
 import Colors from '../../../constants/Colors';
+import Shadow from '../../UI/Shadow';
 
 
 const ListeSousCategorie = props => {
@@ -14,7 +15,7 @@ const ListeSousCategorie = props => {
 
     return (
         <View style={styles.superContainer}>
-            <View style={styles.listContainer}>
+            <Shadow style={styles.listContainer}>
                 <View style={styles.checkBoxAll}>
                     <CheckBox style={styles.checkBox} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                     <Text style={styles.selectionText}>Tout selectionner</Text>
@@ -25,7 +26,7 @@ const ListeSousCategorie = props => {
                     renderItem={itemData => <ItemSousCategorie data={itemData.item} choixInitial={selectAll} />}
                     keyExtractor={item => item.nomSousCateg}
                 />
-            </View>
+            </Shadow>
         </View>
     );
 };
@@ -40,11 +41,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         padding: 15,
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        elevation: 5,
         borderRadius: 10,
         height: (Dimensions.get('window').height / 3) * 2
     },

@@ -1,17 +1,22 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Colors from '../../../constants/Colors';
+import Shadow from '../../UI/Shadow';
 
 
 const CategSelectionForm = props => {
     return (
         <View style={styles.formContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate(props.retour)}>
-                <Text style={styles.buttonText}>{props.textRetour}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => props.navigation.navigate(props.valider)}>
-                <Text style={styles.buttonText}>{props.textValider}</Text>
-            </TouchableOpacity>
+            <Shadow style={styles.button}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(props.retour)}>
+                    <Shadow><Text style={styles.buttonText}>{props.textRetour}</Text></Shadow>
+                </TouchableOpacity>
+            </Shadow>
+            <Shadow style={styles.button}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(props.valider)}>
+                    <Shadow><Text style={styles.buttonText}>{props.textValider}</Text></Shadow>
+                </TouchableOpacity>
+            </Shadow>
         </View>
     );
 };
@@ -29,21 +34,11 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.accent,
         borderRadius: 10,
         alignItems: "center",
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        elevation: 5,
         borderRadius: 10
     },
     buttonText: {
         color: 'white',
         fontSize: 15,
-        shadowColor: 'black',
-        shadowOpacity: 0.25,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 8,
-        elevation: 5,
         padding: 7,
         fontFamily: 'open-sans-bold'
     }

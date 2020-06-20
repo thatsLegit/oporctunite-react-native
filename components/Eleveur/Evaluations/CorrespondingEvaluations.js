@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Platform,
 import { CheckBox } from "native-base"
 import { Octicons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
+import Shadow from '../../UI/Shadow';
 
 
 const CorrespondingEvaluations = props => {
@@ -20,7 +21,7 @@ const CorrespondingEvaluations = props => {
 
     return (
         <Touchable onPress={() => setChoix(!choix)}>
-            <View style={styles.evalContainer}>
+            <Shadow style={styles.evalContainer}>
                 <View style={styles.innerText}>
                     <Text style={styles.subTitle}>{props.nomEvaluation}</Text>
                     <Text style={styles.infos}>{props.nomCategorieP}</Text>
@@ -36,7 +37,7 @@ const CorrespondingEvaluations = props => {
                         <TouchableOpacity><Octicons name="info" size={25} color="black" /></TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </Shadow>
         </Touchable>
     );
 };
@@ -53,10 +54,6 @@ const styles = StyleSheet.create({
         minHeight: 80,
         borderColor: 'black',
         borderWidth: 1,
-        shadowColor: 'black',
-        shadowOpacity: 0.5,
-        shadowOffset: { width: 5, height: 5 },
-        elevation: 7,
         borderRadius: 8,
         margin: 10,
         backgroundColor: Colors.secondary

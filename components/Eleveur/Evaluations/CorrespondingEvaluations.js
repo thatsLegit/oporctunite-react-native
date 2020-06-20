@@ -10,24 +10,22 @@ import Evaluation from '../../../models/Evaluation';
 
 
 const CorrespondingEvaluations = props => {
-    const { choixInitial } = props; //choixInitial ne dépend que de la valeur de selectAll dans l'element parent
-    const [choix, setChoix] = useState(choixInitial);
+    const { selectAll } = props;
+    const [choix, setChoix] = useState(selectAll);
     const Eval = new Evaluation(props.nomEvaluation, props.description, props.nomCategorieP);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        choix != choixInitial && switchChoix();
-        setChoix(choixInitial);
-    }, [choixInitial]);
+        choix != selectAll && switchChoix();
+        setChoix(selectAll);
+    }, [selectAll]);
 
     const switchChoix = () => {
         if (choix) {
-            console.log('supprimé');
             dispatch(evalActions.supprimerDeLaSelection(Eval.nomEvaluation));
             setChoix(!choix);
             return;
         }
-        console.log('ajouté');
         dispatch(evalActions.ajouterALaSelection(Eval));
         setChoix(!choix);
     };

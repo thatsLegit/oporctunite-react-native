@@ -68,7 +68,7 @@ const EvalSelectionScreen = props => {
                             nomEvaluation={itemData.item.nomEvaluation}
                             nomCategorieP={itemData.item.nomCategorieP}
                             description={itemData.item.description}
-                            choixInitial={selectAll}
+                            selectAll={selectAll}
                         />)}
                     keyExtractor={item => item.nomEvaluation}
                 />

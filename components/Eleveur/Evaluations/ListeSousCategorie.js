@@ -25,7 +25,7 @@ const ListeSousCategorie = props => {
                 <FlatList
                     data={categoriesData}
                     ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-                    renderItem={itemData => <ItemSousCategorie data={itemData.item} choixInitial={selectAll} />}
+                    renderItem={itemData => <ItemSousCategorie data={itemData.item} selectAll={selectAll} />}
                     keyExtractor={item => item.nomSousCateg}
                 />
             </Shadow>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { CheckBox } from "native-base"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Colors from '../../../constants/Colors';
 import * as sousCategActions from '../../../store/actions/sousCateg';
@@ -9,16 +9,22 @@ import * as sousCategActions from '../../../store/actions/sousCateg';
 
 const ItemSousCategorie = props => {
 
-    const { choixInitial } = props; //choixInitial ne dépend que de la valeur de selectAll dans l'element parent
-    const [choix, setChoix] = useState(choixInitial);
+    const { selectAll } = props;
+    const [choix, setChoix] = useState(selectAll);
     const { data } = props;
+    //Cas ou la sous-cat est supprimée via les filtres,choix et sousCatPresenteDsLeStoreOuPas vont alors diverger
+    let sousCatPresenteDsLeStoreOuPas = useSelector(state => state.sousCateg.sousCategSelection);
+    if (sousCatPresenteDsLeStoreOuPas !== undefined) {
+        sousCatPresenteDsLeStoreOuPas = Object.values(sousCatPresenteDsLeStoreOuPas).some(e => e.nomSousCateg == data.nomSousCateg);
+        sousCatPresenteDsLeStoreOuPas != choix && setChoix(false);
+    }
+
     const dispatch = useDispatch();
 
-    //Se déclenche lorsque le choix initial change. Se declenche aussi au début.
     useEffect(() => {
-        choix != choixInitial && switchChoix();
-        setChoix(choixInitial);
-    }, [choixInitial]);
+        choix != selectAll && switchChoix();
+        setChoix(selectAll);
+    }, [selectAll]);
 
     const switchChoix = () => {
         if (choix) {
@@ -29,7 +35,6 @@ const ItemSousCategorie = props => {
         dispatch(sousCategActions.ajouterALaSelection(data.nomSousCateg, data.nomCateg));
         setChoix(!choix);
     };
-
 
     return (
         <View style={styles.item} >

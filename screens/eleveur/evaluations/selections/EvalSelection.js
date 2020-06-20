@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckBox } from "native-base"
@@ -13,20 +13,12 @@ import Shadow from '../../../../components/UI/Shadow';
 
 const EvalSelectionScreen = props => {
 
-    let selectedSousCatNames = [];
-    let evaluations = [];
+    const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection));
+    const selectedSousCatNames = selectedSousCat.map(sousCat => sousCat.nomSousCateg);
 
-    const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection)); //array qui contient les sous-catégories
-
-    for (const sousCat of selectedSousCat) {
-        selectedSousCatNames.push(sousCat.nomSousCateg);
-    }
-
-    for (const name of selectedSousCatNames) {
-        evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories[name])).concat(evaluations);
-    }
-
+    const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).filter(e => selectedSousCatNames.includes(e.nomCategorieP)));
     const [selectAll, setSelectAll] = useState(false);
+
     const dispatch = useDispatch();
 
 

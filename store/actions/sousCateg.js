@@ -42,7 +42,7 @@ export const fetchEvaluationBySousCateg = () => {
             let loadedEvaluations = {};
             resData.data.forEach(e => {
                 loadedEvaluations = {
-                    ...loadedEvaluations, [e.nomEvaluation]: new Evaluation(
+                    ...loadedEvaluations, ...new Evaluation(
                         e.nomEvaluation,
                         e.description,
                         e.nomCategorieP

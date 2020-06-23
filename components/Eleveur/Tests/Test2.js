@@ -5,7 +5,7 @@ import Counter from '../../../../components/Counter/Counter'
 
 
 
-const TestScreen = props => {
+const Test2 = props => {
     const selectedCat = useSelector(state => Object.values(state.categ.categSelection).map(categ => categ.nomCateg));
     console.log(selectedCat);
     
@@ -21,7 +21,33 @@ const TestScreen = props => {
 
     return (
         <View style={styles.container}>
-            
+            <View style={styles.header}>
+                <Text style={styles.titre1}>
+                    {selectedCat} "La catégorie"
+                </Text>
+                <Text style={styles.titre2}>
+                    {selectedSousCat}
+                </Text>
+                <Text style={styles.titre3}>
+                    {selectedEvaluations}
+                </Text>
+            </View>
+            <View style={styles.contentContainer}>
+                <Text style={styles.titre1}>
+                    Truies:
+                </Text>
+                <View style={styles.innerContainer}>
+                    <Text>
+                    L'abreuvoir est adéquate:
+                    </Text>
+                    <Counter/>
+                    <View style={styles.itemSeparator} />
+                    <Text>
+                    L'abreuvoir n'est pas adéquate:
+                    </Text>
+                    <Counter/>
+                </View>         
+            </View>
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerBtn}
@@ -31,11 +57,12 @@ const TestScreen = props => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => { props.navigation.navigate('Test2') }}
+                    onPress={() => { props.navigation.navigate('TestRecap') }}
                 >
                     <Text style={styles.footerText}>Confirmer</Text>
                 </TouchableOpacity>
             </View>
+            
         </View>
     );
 };
@@ -100,4 +127,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default TestScreen;
+export default Test2;

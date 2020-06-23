@@ -5,7 +5,7 @@ import Counter from '../../../../components/Counter/Counter'
 
 
 
-const TestScreen = props => {
+const Test1 = props => {
     const selectedCat = useSelector(state => Object.values(state.categ.categSelection).map(categ => categ.nomCateg));
     console.log(selectedCat);
     
@@ -21,7 +21,38 @@ const TestScreen = props => {
 
     return (
         <View style={styles.container}>
-            
+            <View style={styles.header}>
+                <Text style={styles.titre1}>
+                    {selectedCat} "La catégorie"
+                </Text>
+                <Text style={styles.titre2}>
+                    {selectedSousCat}
+                </Text>
+                <Text style={styles.titre3}>
+                    {selectedEvaluations}
+                </Text>
+            </View>
+            <View style={styles.contentContainer}>
+                <Text style={styles.titre1}>
+                    Truies:
+                </Text>
+                <View style={styles.innerContainer}>
+                    <Text>
+                    Une pression ferme avec la paume de la main permet de sentir les reliefs osseux:
+                    </Text>
+                    <Counter/>
+                    <View style={styles.itemSeparator} />
+                    <Text>
+                    Les reliefs osseux de la hanche et du dos sont facilement sentis sans aucune pres:
+                    </Text>
+                    <Counter/>
+                    <View style={styles.itemSeparator} />
+                    <Text>
+                    Ma truie semble très mince visuellement avec des hanche et un dos très proémin:
+                    </Text>
+                    <Counter/>
+                </View>         
+            </View>
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerBtn}
@@ -36,6 +67,7 @@ const TestScreen = props => {
                     <Text style={styles.footerText}>Confirmer</Text>
                 </TouchableOpacity>
             </View>
+            
         </View>
     );
 };
@@ -100,4 +132,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default TestScreen;
+export default Test1;

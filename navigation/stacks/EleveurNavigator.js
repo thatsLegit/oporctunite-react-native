@@ -17,6 +17,7 @@ import HebergementApproprie from '../../screens/eleveur/evaluations/selections/H
 import EvalSelectionScreen from '../../screens/eleveur/evaluations/selections/EvalSelection';
 import EvalInfoScreen from '../../screens/eleveur/evaluations/selections/InformationScreen';
 import TestScreen, { screenOptions as TestScreenOptions } from '../../screens/eleveur/evaluations/tests/TestScreen';
+import TestScreen2, { screenOptions as TestScreenOptions2 } from '../../screens/eleveur/evaluations/tests/TestScreen2';
 import TestRecapScreen from '../../screens/eleveur/evaluations/tests/RecapScreen';
 import TestRecapInfoScreen from '../../screens/eleveur/evaluations/tests/InformationScreen';
 
@@ -132,6 +133,11 @@ export const EvaluationNavigator = () => {
                 name='Test'
                 component={TestScreen}
                 options={TestScreenOptions}
+            />
+            <EvaluationStackNavigator.Screen
+                name='Test2'
+                component={TestScreen2}
+                options={TestScreenOptions2}
             />
             <EvaluationStackNavigator.Screen
                 name='TestRecap'

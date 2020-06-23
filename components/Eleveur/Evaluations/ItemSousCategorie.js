@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Colors from '../../../constants/Colors';
 import * as sousCategActions from '../../../store/actions/sousCateg';
-
+import * as categActions from '../../../store/actions/categ';
 
 const ItemSousCategorie = props => {
 
@@ -29,10 +29,12 @@ const ItemSousCategorie = props => {
     const switchChoix = () => {
         if (choix) {
             dispatch(sousCategActions.supprimerDeLaSelection(data.nomSousCateg));
+            dispatch(categActions.supprimerDeLaSelection(data.nomCateg));
             setChoix(!choix);
             return;
         }
         dispatch(sousCategActions.ajouterALaSelection(data.nomSousCateg, data.nomCateg));
+        dispatch(categActions.ajouterALaSelection(data.nomCateg));
         setChoix(!choix);
     };
 

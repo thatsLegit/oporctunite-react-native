@@ -6,7 +6,7 @@ const TestRecapScreen = props => {
     return (
         <View>
             <Text>
-                Recap du test 1
+                Récapitulatif de l'évaluation 1
             </Text>
             <Button title='Valider' onPress={() => { props.navigation.navigate('TestRecapInfo') }} />
         </View>

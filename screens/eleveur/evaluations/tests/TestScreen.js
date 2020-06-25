@@ -9,32 +9,15 @@ import {useSelector } from 'react-redux';
 const TestScreen = props => {
 
 
-    const [indexEvaluation=0, setIndexEvaluation] = useState(0);
-    console.log("indexEvaluation: "+indexEvaluation);
-    const selectedEvaluations = useSelector(state => Object.keys(state.eval.evalSelection));
-    console.log(selectedEvaluations);
-
-    const selectedEvaluation = selectedEvaluations[indexEvaluation];
-    const [evaluationCourante=selectedEvaluation]=useState();
-
-    const [finEval=((indexEvaluation+1)>=(selectedEvaluations.length)), setFinEval]=useState();
-    console.log("finEval: "+finEval);
-
-    const allEvaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).map(eva => eva.nomEvaluation));
-    console.log("allEvaluations: "+allEvaluations);
-
-    const [positionEval = allEvaluations.indexOf(evaluationCourante)] = useState();
-    console.log(evaluationCourante);
-    console.log("positionEval: "+positionEval);
+    const [indexEvaluation, setIndexEvaluation] = useState(0);
     
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomEvaluation));
+    const selectedEvaluation = selectedEvaluations[indexEvaluation];
 
-    const increment = () =>{
-
-        setIndexEvaluation(indexEvaluation+1);    
-    }
+    const selectedEvaluationsSC = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomCategorieP));
+    const selectedEvaluationSC = selectedEvaluationsSC[indexEvaluation];
 
     const btnSuivant = () =>{
-        //setIndexEvaluation(indexEvaluation+1);
         return(
             <TouchableOpacity
             style={styles.footerBtn}
@@ -46,8 +29,6 @@ const TestScreen = props => {
     }
 
     const btnValider = () =>{
-        //setIndexEvaluation(0);
-
         return(
             <TouchableOpacity
             style={styles.footerBtn}
@@ -63,22 +44,13 @@ const TestScreen = props => {
         console.log(selectedEvaluations.length+" > "+ (indexEvaluation+1));
         if((selectedEvaluations.length>(indexEvaluation+1))){
             btnSuivant();
-            increment();
-            console.log("Valeur après increment: "+indexEvaluation);
-            //afficherTest();      
-            //return "props.navigation.navigate('Test')";        
+            setIndexEvaluation(indexEvaluation+1);     
         }  
         else if (selectedEvaluations.length===(indexEvaluation+1)){
-            console.log("btnValider");
-            btnValider();
-            //setIndexEvaluation(0);   
-            setFinEval(true);   
-            console.log("Valeur FinEval après setFinEval(true): "+finEval);      
+            btnValider();    
         }
     }
     
-
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -87,31 +59,31 @@ const TestScreen = props => {
                     Catégorie
                 </Text>
                 <Text style={styles.titre2}>
-                    Sous-catégorie
+                    {selectedEvaluationSC}
                 </Text>
                             
                 <Text style={styles.titre3}>
-                    {evaluationCourante} ({indexEvaluation+1} / {selectedEvaluations.length})
+                    {selectedEvaluation} ({indexEvaluation+1} / {selectedEvaluations.length})
                 </Text>
 
             </View>
             <View style={styles.contentContainer}>    
  
-            {(positionEval===0) ? <Test1/> :null}
-            {(positionEval===1) ? <Test2/>: null }
-
+                {((useSelector(state => Object.values(state.sousCateg.sousCategories).map(eva => eva.nomEvaluation).indexOf(selectedEvaluation)))==0) ? <Test1/> :null}
+                {((useSelector(state => Object.values(state.sousCateg.sousCategories).map(eva => eva.nomEvaluation).indexOf(selectedEvaluation)))==1) ? <Test2/>: null }
 
             </View>
             
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => { props.navigation.navigate('CategSelection'), setIndexEvaluation(0) }}
+                    onPress={() => { props.navigation.navigate('CategSelection')}}
                 >
                     <Text style={styles.footerText}>Annuler </Text>
                 </TouchableOpacity>
                    
-                {finEval ? btnValider() : btnSuivant()}
+                {( (indexEvaluation+1) == (selectedEvaluations.length) ) ? btnValider() : btnSuivant()}
+
 
             </View>
         </View>

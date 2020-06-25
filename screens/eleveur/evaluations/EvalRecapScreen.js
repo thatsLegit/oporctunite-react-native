@@ -9,7 +9,7 @@ const EvalRecapScreen = props => {
     return (
         <View>
             <Text>
-                Recap des tests effectués.
+                Récapitulatif des évaluations effectuées.
             </Text>
             <Button title='Réaliser des évaluations' onPress={() => { props.navigation.navigate('CategSelection') }} />
         </View>

@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useSelector} from 'react-redux';
 import Test1 from '../../../../components/Eleveur/Tests/Test1'
 import Test2 from '../../../../components/Eleveur/Tests/Test2'
-
+import { useDispatch, useSelector } from 'react-redux';
+import * as evalActions from '../../../../store/actions/evaluation';
 
 
 const TestScreen = props => {
 
-    const [indexEvaluation, setIndexEvaluation] = useState(0);
+    //const dispatch = useDispatch();
+    //dispatch(evalActions.fetchEvaluations());
 
+    const [indexEvaluation=0, setIndexEvaluation] = useState(0);
+    console.log("indexEvaluation: "+indexEvaluation);
     const selectedEvaluations = useSelector(state => Object.keys(state.eval.evalSelection));
-    const selectedEvaluation = selectedEvaluations[indexEvaluation];
+    console.log(selectedEvaluations);
 
-    const [evaluationCourante=selectedEvaluation, setEvaluationCourante]=useState();
+    const selectedEvaluation = selectedEvaluations[indexEvaluation];
+    const [evaluationCourante=selectedEvaluation]=useState();
 
     const [finEval=((indexEvaluation+1)>=(selectedEvaluations.length)), setFinEval]=useState();
+    console.log("finEval: "+finEval);
 
-
-    
-
-    
     //const selectedCat = useSelector(state => Object.values(state.categ.categSelection).map(categ => categ.nomCateg));
     
     //console.log(selectedSousCat);
@@ -30,12 +31,8 @@ const TestScreen = props => {
     console.log(categoriesData); */
     
 
-    
-
     //const selectedEvaluations = useSelector(state => Object.keys(state.eval.evalSelection));
     //const selectedEvaluation = selectedEvaluations[indexEvaluation];
-
-
 
 /*     const selectedSousCats = useSelector(state => Object.keys(state.sousCateg.sousCategories));
     const selectedCats = useSelector(state => Object.keys(state.categ.categories));
@@ -109,41 +106,12 @@ const TestScreen = props => {
     
 
    // const selectedEvaluations = useSelector(state => Object.keys(state.eval.evalSelection).map(e => e.nomEvaluation));
-    const afficherTest = () =>{
-       // console.log(indexEvaluation);
-        
-       //findSousCategByEvaluation(selectedEvaluation);
+    
 
-       console.log("afficherTest")
-
-        switch (indexEvaluation) {
-            case 0:
-                console.log("afficherTest indexEvaluation case 0: "+indexEvaluation)
-                return(
-                    <Test1/>
-                )
-                break;
-            case 1:    
-                console.log("afficherTest indexEvaluation case 1: "+indexEvaluation)
-  
-                return(
-                    <Test2/>
-                )
-                break;        
-            default:        
-                return(
-                    <Test1/>
-                )
-                break;
-        }
-        
-    }
 
     const increment = () =>{
 
         setIndexEvaluation(indexEvaluation+1);    
-        
-        
     }
 
     const btnSuivant = () =>{
@@ -159,6 +127,8 @@ const TestScreen = props => {
     }
 
     const btnValider = () =>{
+        //setIndexEvaluation(0);
+
         return(
             <TouchableOpacity
             style={styles.footerBtn}
@@ -170,17 +140,21 @@ const TestScreen = props => {
     }
     const btn = () =>{
 
+        console.log("btn")
+        console.log(selectedEvaluations.length+" > "+ (indexEvaluation+1));
         if((selectedEvaluations.length>(indexEvaluation+1))){
-            //btnSuivant();
+            btnSuivant();
             increment();
+            console.log("Valeur après increment: "+indexEvaluation);
             //afficherTest();      
             //return "props.navigation.navigate('Test')";        
         }  
         else if (selectedEvaluations.length===(indexEvaluation+1)){
-
-            //btnValider();
-            setIndexEvaluation(0);   
-            //setFinEval(true);         
+            console.log("btnValider");
+            btnValider();
+            //setIndexEvaluation(0);   
+            setFinEval(true);   
+            console.log("Valeur FinEval après setFinEval(true): "+finEval);      
         }
     }
     
@@ -203,14 +177,15 @@ const TestScreen = props => {
 
             </View>
             <View style={styles.contentContainer}>    
-                {afficherTest()}
+ 
+            {finEval ? <Test2/> : <Test1/>}
 
             </View>
             
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => { props.navigation.navigate('CategSelection') }}
+                    onPress={() => { props.navigation.navigate('CategSelection'), setIndexEvaluation(0) }}
                 >
                     <Text style={styles.footerText}>Annuler </Text>
                 </TouchableOpacity>

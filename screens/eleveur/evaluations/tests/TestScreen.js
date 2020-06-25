@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Test1 from '../../../../components/Eleveur/Tests/Test1'
 import Test2 from '../../../../components/Eleveur/Tests/Test2'
-import { useDispatch, useSelector } from 'react-redux';
-import * as evalActions from '../../../../store/actions/evaluation';
+import {useSelector } from 'react-redux';
+
 
 
 const TestScreen = props => {
 
-    //const dispatch = useDispatch();
-    //dispatch(evalActions.fetchEvaluations());
 
     const [indexEvaluation=0, setIndexEvaluation] = useState(0);
     console.log("indexEvaluation: "+indexEvaluation);
@@ -22,92 +20,13 @@ const TestScreen = props => {
     const [finEval=((indexEvaluation+1)>=(selectedEvaluations.length)), setFinEval]=useState();
     console.log("finEval: "+finEval);
 
-    //const selectedCat = useSelector(state => Object.values(state.categ.categSelection).map(categ => categ.nomCateg));
+    const allEvaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).map(eva => eva.nomEvaluation));
+    console.log("allEvaluations: "+allEvaluations);
+
+    const [positionEval = allEvaluations.indexOf(evaluationCourante)] = useState();
+    console.log(evaluationCourante);
+    console.log("positionEval: "+positionEval);
     
-    //console.log(selectedSousCat);
-
-/*     const categoriesData = useSelector(state => Object.values(state.categ.categories).map(categ => categ.nomCateg));
-    console.log("categoriesData");
-    console.log(categoriesData); */
-    
-
-    //const selectedEvaluations = useSelector(state => Object.keys(state.eval.evalSelection));
-    //const selectedEvaluation = selectedEvaluations[indexEvaluation];
-
-/*     const selectedSousCats = useSelector(state => Object.keys(state.sousCateg.sousCategories));
-    const selectedCats = useSelector(state => Object.keys(state.categ.categories));
-    console.log("Les catégories sont: "+selectedCats); */
-
-/*     const selectedSousCategories = useSelector(state => Object.values(state.sousCateg.sousCategories.evaluation));
-    const findit = selectedSousCategories.find(el => el=selectedEvaluation);
-    console.log("findit : "+findit);
-    console.log("findit : "+findit);
-
-    const selectedSousCategorie = selectedSousCategories[selectedEvaluation];
-    console.log("selectedSousCategories "+selectedSousCategories);
-    console.log("selectedSousCategories "+selectedSousCategorie);
-
-
-    function findSousCategByEvaluation(name) {
-
-        for (const item of selectedSousCats) {
-
-            let evaSousCateg = useSelector(state => Object.values(state.sousCateg.sousCategories[item].nomEvaluation));
-            console.log("findSousCategByEvaluation name evaluation: "+name);
-            console.log("findSousCategByEvaluation evaSousCateg: "+evaSousCateg.join(""));
-
-          if (name === evaSousCateg.join("")) {
-            
-            console.log("findSousCategByEvaluation la sous categorie correspondante est: "+item);
-            return setNomSousCategorieCourante(item);
-          }
-        }
-    } */
-
-   // const selectedCat = useSelector(state => Object.values(state.sousCateg.sousCategories["Absence de faim prolongée"].nomCategorieP));
-
-   /* function findCategBySousCategorie() {
-
-    console.log("name "+nomSousCategorieCourante);
-
-    for (const item of selectedCats) {
-        console.log("item "+item);
-        let dataCats = useSelector(state => Object.values(state.categ.categories[item]));
-        console.log("dataCats "+dataCats);
-        console.log("dataCats "+dataCats.nomCateg);
-        console.log("dataCats "+dataCats.evaluation);
-      if (nomSousCategorieCourante === dataCats.join("")) {
-
-        return (
-            <Text style={styles.titre1}>
-                 {item}   
-            </Text>
-        );
-      }
-    }
-    } */
-/*     function NomCategorieBySousCategorie() {
-        
-        let sousCat = findSousCategByEvaluation(selectedEvaluation);
-        console.log("sousCat : "+sousCat);
-        //let selectedCat = useSelector(state => Object.values(state.categ.categories.nomCateg));
-        const categoriesData = useSelector(state => Object.values(state.categ.categories[sousCat]));
-        console.log("sousCat gg : "+categoriesData);
-        //console.log("sousCat ggg : "+selectedCat.sousCateg);
-        //console.log("sousCat gggg : "+selectedCat.nomCateg);
-        return selectedCat;
-    } */
-
-    
-    //console.log("selectedCat "+selectedCat.join(""));
-    //console.log("selectedCat."+selectedCat.);
-
-    
-    
-
-   // const selectedEvaluations = useSelector(state => Object.keys(state.eval.evalSelection).map(e => e.nomEvaluation));
-    
-
 
     const increment = () =>{
 
@@ -178,7 +97,9 @@ const TestScreen = props => {
             </View>
             <View style={styles.contentContainer}>    
  
-            {finEval ? <Test2/> : <Test1/>}
+            {(positionEval===0) ? <Test1/> :null}
+            {(positionEval===1) ? <Test2/>: null }
+
 
             </View>
             

@@ -1,12 +1,9 @@
 //actions
-import { SET_SOUS_CATEG_BY_CATEGORY, SET_CATEG, SELECTIONNER_CATEG, DESELECTIONNER_CATEG } from '../actions/categ';
-
-import Categorie from '../../models/Categorie';
+import { SET_SOUS_CATEG_BY_CATEGORY, SET_CATEG } from '../actions/categ';
 
 //Etat initial
 const initialState = {
-    categories: {}, //contient toutes les catégories avec les sous-catégories correspondantes
-    categSelection: "pnull",
+    categories: {} //contient toutes les catégories avec les sous-catégories correspondantes
 };
 
 export default (state = initialState, action) => {
@@ -19,18 +16,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 categories: { ...state.categories, [action.categG]: action.sousCateg }
-            };
-        case SELECTIONNER_CATEG:
-            const nom_categ = action.categ;
-            const addedCateg = new Categorie(nom_categ);
-            return {    
-                ...state,                                        
-                categSelection: addedCateg,
-            };         
-        case DESELECTIONNER_CATEG:
-            return {
-                ...state,
-                categSelection: null
             };
         default:
             return state;

@@ -5,8 +5,8 @@ import SousCategorie from '../../models/SousCategorie';
 
 //Etat initial
 const initialState = {
-    sousCategories: {}, // Ensemble des sous-categ, avec les évals correspondantes
-    sousCategSelection: {}  // Ensemble des sous-categ séléctionnées, initialement vide
+    sousCategories: {}, // Ensemble des sous-categ, avec les évals correspondantes { x: {[], [], ...}, y: ...}
+    sousCategSelection: {}  // Ensemble des sous-categ séléctionnées, initialement vide { x: {}, y: {}}
 };
 
 export default (state = initialState, action) => {

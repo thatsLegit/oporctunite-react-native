@@ -14,7 +14,7 @@ export const fetchSousCateg = () => {
         let loadedSousCategories = {};
         resData.data.forEach(categ => {
             loadedSousCategories = {
-                ...loadedSousCategories, [categ.nomCategorieP]: {}
+                ...loadedSousCategories, [categ.nomCategorieP]: []
             }
         });
 
@@ -39,15 +39,13 @@ export const fetchEvaluationBySousCateg = () => {
         for (let sousCat of sousCateg) {
             const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories/${sousCat}/evaluations/sousCategorie`);
             const resData = await response.json();
-            let loadedEvaluations = {};
+            let loadedEvaluations = [];
             resData.data.forEach(e => {
-                loadedEvaluations = {
-                    ...loadedEvaluations, ...new Evaluation(
-                        e.nomEvaluation,
-                        e.description,
-                        e.nomCategorieP
-                    )
-                }
+                loadedEvaluations.push(new Evaluation(
+                    e.nomEvaluation,
+                    e.description,
+                    e.nomCategorieP
+                ))
             });
 
             const categP = sousCategOriginal[count];

@@ -16,6 +16,11 @@ const TestScreen = props => {
     const selectedEvaluationsSC = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomCategorieP));
     const selectedEvaluationSC = selectedEvaluationsSC[indexEvaluation];
 
+    let evaluations = [];
+    //[nomEvaluation, x, y, ...]
+    useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
+    console.log(evaluations);
+
     const btnSuivant = () => {
         return (
             <TouchableOpacity
@@ -61,8 +66,8 @@ const TestScreen = props => {
 
             </View>
             <View style={styles.contentContainer}>
-                {((useSelector(state => Object.values(state.sousCateg.sousCategories).map(eva => eva.nomEvaluation).indexOf(selectedEvaluation))) == 0) ? <Test1 /> : null}
-                {((useSelector(state => Object.values(state.sousCateg.sousCategories).map(eva => eva.nomEvaluation).indexOf(selectedEvaluation))) == 1) ? <Test2 /> : null}
+                {((evaluations.map(eva => eva.nomEvaluation).indexOf(selectedEvaluation)) == 0) ? <Test1 /> : null}
+                {((evaluations.map(eva => eva.nomEvaluation).indexOf(selectedEvaluation)) == 1) ? <Test2 /> : null}
             </View>
 
             <View style={styles.footer}>

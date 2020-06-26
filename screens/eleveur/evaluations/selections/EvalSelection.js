@@ -16,7 +16,10 @@ const EvalSelectionScreen = props => {
     const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection));
     const selectedSousCatNames = selectedSousCat.map(sousCat => sousCat.nomSousCateg);
 
-    const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).filter(e => selectedSousCatNames.includes(e.nomCategorieP)));
+    let evaluations = [];
+    useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
+    evaluations = evaluations.filter(e => selectedSousCatNames.includes(e.nomCategorieP));
+
     const [selectAll, setSelectAll] = useState(false);
 
     const dispatch = useDispatch();

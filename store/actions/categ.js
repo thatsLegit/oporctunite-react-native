@@ -1,8 +1,6 @@
 //models
 import SousCategorie from '../../models/SousCategorie';
 //actions
-export const SELECTIONNER_CATEG = 'SELECTIONNER_CATEG';
-export const DESELECTIONNER_CATEG = 'DESELECTIONNER_CATEG';
 export const SET_CATEG = 'SET_CATEG';
 export const SET_SOUS_CATEG_BY_CATEGORY = 'SET_SOUS_CATEG_BY_CATEGORY';
 
@@ -52,17 +50,6 @@ export const fetchSousCategByCateg = () => {
             const categG = categOriginal[count];
             count++;
             dispatch({ type: SET_SOUS_CATEG_BY_CATEGORY, sousCateg: loadedSousCategories, categG });
-        }
-    };
-};
-export const supprimerDeLaSelection = nom_categ => {
-    return { type: DESELECTIONNER_CATEG, nom_categ };
-};
-
-export const ajouterALaSelection = (nom_categ) => {
-    return {
-        type: SELECTIONNER_CATEG, categ: {
-            nom_categ
         }
     };
 };

@@ -61,7 +61,7 @@ const Test1 = props => {
                 <Counter onChange={changeHandler3} />
             </View>
             <View style={styles.counterContainer}>
-                <Text style={styles.counterText}>{globalCount} / 30</Text>
+                <Text style={styles.counterText}>{globalCount} / 40</Text>
             </View>
         </View>
     );

@@ -6,6 +6,7 @@ import { CheckBox } from "native-base"
 import Colors from '../../../../constants/Colors';
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 import * as sousCategActions from '../../../../store/actions/sousCateg';
+import * as evalActions from '../../../../store/actions/evaluation';
 import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
 import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
 import Shadow from '../../../../components/UI/Shadow';
@@ -21,9 +22,13 @@ const EvalSelectionScreen = props => {
     evaluations = evaluations.filter(e => selectedSousCatNames.includes(e.nomCategorieP));
 
     const [selectAll, setSelectAll] = useState(false);
-
     const dispatch = useDispatch();
 
+    const removeSCategHandler = item => {
+        dispatch(sousCategActions.supprimerDeLaSelection(item.nomSousCateg));
+        const nomEval = evaluations.filter(e => e.nomCategorieP == item.nomSousCateg).map(ev => ev.nomEvaluation);
+        dispatch(evalActions.supprimerDeLaSelection(nomEval[0]));
+    };
 
     return (
         <View>
@@ -41,7 +46,7 @@ const EvalSelectionScreen = props => {
                     renderItem={itemData => (
                         <SelectedSousCategorieItem
                             nom={itemData.item.nomSousCateg}
-                            onRemove={() => dispatch(sousCategActions.supprimerDeLaSelection(itemData.item.nomSousCateg))}
+                            onRemove={removeSCategHandler.bind(this, itemData.item)}
                         />)}
                     keyExtractor={item => item.nomSousCateg}
                 />

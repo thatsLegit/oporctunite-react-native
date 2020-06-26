@@ -83,11 +83,9 @@ const TestScreen = props => {
     );
 };
 
-export const screenOptions = (navData) => {
-    return {
-        headerLeft: null,
-        headerTitle: 'Evaluation'
-    };
+export const screenOptions = {
+    headerLeft: null,
+    headerTitle: 'Evaluation'
 };
 
 const styles = StyleSheet.create({

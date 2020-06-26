@@ -5,6 +5,7 @@ import Shadow from '../../UI/Shadow';
 
 
 const SelectedSousCategorieItem = props => {
+
     return (
         <Shadow style={styles.catContainer}>
             <View style={styles.selectedCatInnerContainer}>

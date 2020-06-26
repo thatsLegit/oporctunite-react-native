@@ -1,47 +1,72 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useSelector} from 'react-redux';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import Counter from '../../Counter/Counter'
 
 
 
 const Test2 = props => {
 
+    [count, setCount] = useState(0);
+    [count2, setCount2] = useState(0);
+    [globalCount, setGlobalCount] = useState(0);
+
+    const changeHandler = (count, sign) => {
+        setCount(count);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + 1);
+        } else {
+            setGlobalCount(globalCount - 1);
+        }
+    }
+    const changeHandler2 = (count2, sign) => {
+        setCount(count2);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + 1);
+        } else {
+            setGlobalCount(globalCount - 1);
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.titre1}>
-            Truies:
-            </Text>
-            
-            <Text>
-            L'abreuvoir est adéquate:
-            </Text>
-            <Counter/>
-            <View style={styles.itemSeparator} />
-            <Text>
-            L'abreuvoir n'est pas adéquate:
-            </Text>
-            <Counter/>
-            
+            <View>
+                <View style={styles.explications}>
+                    <Text>
+                        L'abreuvoir est adéquat :
+                    </Text>
+                </View>
+                <Counter onChange={changeHandler} />
+
+                <View style={styles.explications}>
+                    <Text>
+                        L'abreuvoir n'est pas adéquat :
+                    </Text>
+                </View>
+                <Counter onChange={changeHandler2} />
             </View>
+            <View style={styles.counterContainer}>
+                <Text style={styles.counterText}>{globalCount} / 30</Text>
+            </View>
+        </View>
     );
 };
 
-export const screenOptions = (navData) => {
-    return {
-        headerLeft: null
-    };
-};
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        marginTop:10,
-        alignItems:"center",
+    container: {
+        flex: 1,
+        alignItems: "center",
     },
-    itemSeparator: {
-        marginTop:30
-    }    
+    explications: {
+        marginVertical: 25
+    },
+    counterContainer: {
+        marginVertical: 50
+    },
+    counterText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 20
+    }
 });
 
 

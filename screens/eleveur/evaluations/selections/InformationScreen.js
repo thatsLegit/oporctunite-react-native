@@ -1,87 +1,65 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
+import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 
 
 const EvalInfoScreen = props => {
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).map(e => e.nomEvaluation));
 
+    const evalInfoHandler = item => {
+        return (
+            <View>
+                <Text style={styles.item}>{item}</Text>
+                <Text style={styles.temps}>Temps de réalisation estimé : 2 minutes.</Text>
+                <Text style={styles.temps}>Nombre de truies à évaluer : 30.</Text>
+            </View>
+        );
+    };
+
     return (
-        <View style={styles.container}>
+        <View>
+            <TopNavigationForm
+                navigation={props.navigation}
+                retour='EvalSelection'
+                textRetour='Retour selection'
+                valider='Test'
+                textValider='Commencer'
+            />
             <View style={styles.header}>
                 <Text style={styles.titre1}>
                     Evaluations séléctionnées
                 </Text>
-            </View>   
-            <View style={styles.contentContainer}>    
-                <FlatList
-                    data={selectedEvaluations}
-                    renderItem={({item}) => 
-                    
-                    <Text style={styles.item}>{item}</Text>}
-                />
             </View>
-            <View style={styles.footer}>
-                <TouchableOpacity
-                        style={styles.footerBtn}
-                        onPress={() => { props.navigation.goBack()}}
-                    >
-                        <Text style={styles.footerText}>Retour séléction</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                        style={styles.footerBtn}
-                        onPress={() => { props.navigation.navigate('Test')}}
-                    >
-                        <Text style={styles.footerText}>Démarrer le test</Text>
-                </TouchableOpacity>
-
-            </View>
+            <FlatList
+                keyExtractor={item => item}
+                data={selectedEvaluations}
+                renderItem={(itemData) => evalInfoHandler(itemData.item)}
+            />
         </View>
     );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 22
+    header: {
+        marginTop: 50,
+        alignItems: "center",
+        fontFamily: 'open-sans-bold'
     },
-    header:{
-        flex:1,
-        marginTop:10,
-        alignItems:"center",
-    },
-    titre1:{
+    titre1: {
         fontSize: 18,
-        marginBottom:10,
+        marginBottom: 10,
+        fontFamily: 'open-sans'
     },
     item: {
-        marginLeft:10,
+        marginVertical: 25,
         fontSize: 16,
-    },   
-    contentContainer:{
-        flex:11,
-        marginLeft:10,
-        marginRight:10,
+        textDecorationLine: 'underline'
     },
-    footer:{
-        flex:1,
-        flexDirection:"row",
-        alignItems:"center",
-        width:"100%",
-    },
-    footerBtn:{
-        alignItems: "center",
-        justifyContent:"center",
-        backgroundColor:"#27AAE1",
-        color:"#FFF",
-        height:"100%",
-        width:"50%",
-    },
-    footerText:{
-        fontSize:18,
-        color:"#FFF"
-    }   
+    temps: {
+        marginVertical: 20
+    }
 });
 
 

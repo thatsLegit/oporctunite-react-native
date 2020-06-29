@@ -5,19 +5,18 @@ import Test2 from '../../../../components/Eleveur/Tests/Test2'
 import { useSelector } from 'react-redux';
 
 
-
 const TestScreen = props => {
 
     const [indexEvaluation, setIndexEvaluation] = useState(0);
 
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomEvaluation));
     const selectedEvaluation = selectedEvaluations[indexEvaluation];
+    console.log(selectedEvaluations);
 
     const selectedEvaluationsSC = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomCategorieP));
     const selectedEvaluationSC = selectedEvaluationsSC[indexEvaluation];
 
     let evaluations = [];
-    //[nomEvaluation, x, y, ...]
     useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
     console.log(evaluations);
 

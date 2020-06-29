@@ -1,10 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import Colors from '../../constants/Colors';
 import Shadow from '../UI/Shadow';
 
 
 const TopNavigationForm = props => {
+    const {selection} = props;
+    const isEmpty = (obj) => {
+        return Object.keys(obj).length === 0;
+    }
+    const disable = () => {
+        if (selection != undefined && !isEmpty(selection)) return false;
+        if (selection == undefined || isEmpty(selection)) return true;
+    }
+
     return (
         <View style={styles.formContainer}>
             <Shadow style={styles.button}>
@@ -13,9 +22,15 @@ const TopNavigationForm = props => {
                 </TouchableOpacity>
             </Shadow>
             <Shadow style={styles.button}>
-                <TouchableOpacity onPress={() => props.navigation.navigate(props.valider)}>
+                {!props.check && <TouchableOpacity onPress={() => props.navigation.navigate(props.valider)}>
                     <Shadow><Text style={styles.buttonText}>{props.textValider}</Text></Shadow>
-                </TouchableOpacity>
+                </TouchableOpacity>}
+                {props.check && !disable() && <TouchableOpacity onPress={() => props.navigation.navigate(props.valider)}>
+                    <Shadow><Text style={styles.buttonText}>{props.textValider}</Text></Shadow>
+                </TouchableOpacity>}
+                {props.check && disable() && <TouchableOpacity onPress={() => Alert.alert('Aucune selection', `Veuillez selectionner au moins une ${props.type}`, [{text: 'OK', style: 'destructive'}])}>
+                    <Shadow><Text style={styles.buttonText}>{props.textValider}</Text></Shadow>
+                </TouchableOpacity>}
             </Shadow>
         </View>
     );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Counter from '../../Counter/Counter';
+import Counter from '../../UI/Counter';
 
 
 

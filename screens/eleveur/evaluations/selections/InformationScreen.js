@@ -25,6 +25,7 @@ const EvalInfoScreen = props => {
                 textRetour='Retour selection'
                 valider='Test'
                 textValider='Commencer'
+                check = {false}
             />
             <View style={styles.header}>
                 <Text style={styles.titre1}>

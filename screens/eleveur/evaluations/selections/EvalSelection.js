@@ -21,6 +21,8 @@ const EvalSelectionScreen = props => {
     useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
     evaluations = evaluations.filter(e => selectedSousCatNames.includes(e.nomCategorieP));
 
+    const emptySelectionOrNot = useSelector(state => state.eval.evalSelection);
+
     const [selectAll, setSelectAll] = useState(false);
     const dispatch = useDispatch();
 
@@ -38,6 +40,9 @@ const EvalSelectionScreen = props => {
                 textRetour='Retour catégories'
                 valider='EvalInfo'
                 textValider='Valider selection'
+                selection = {emptySelectionOrNot}
+                type='evaluation'
+                check = {true}
             />
             <View style={{ maxHeight: (Dimensions.get('window').height / 5.5) }}>
                 <FlatList

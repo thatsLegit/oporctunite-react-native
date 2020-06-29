@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Test1 from '../../../../components/Eleveur/Tests/Test1'
-import Test2 from '../../../../components/Eleveur/Tests/Test2'
+import ConditionCorporelle from '../../../../components/Eleveur/Tests/ConditionCorporelle'
+import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau'
 import { useSelector } from 'react-redux';
 
 
@@ -11,20 +11,16 @@ const TestScreen = props => {
 
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomEvaluation));
     const selectedEvaluation = selectedEvaluations[indexEvaluation];
-    console.log(selectedEvaluations);
 
     const selectedEvaluationsSC = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomCategorieP));
     const selectedEvaluationSC = selectedEvaluationsSC[indexEvaluation];
 
-    let evaluations = [];
-    useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
-    console.log(evaluations);
 
     const btnSuivant = () => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => { btn() }}
+                onPress={() => setIndexEvaluation(indexEvaluation + 1)}
             >
                 <Text style={styles.footerText}>Suivant </Text>
             </TouchableOpacity>
@@ -35,20 +31,11 @@ const TestScreen = props => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => { props.navigation.navigate('TestRecap') }}
+                onPress={() => props.navigation.navigate('TestRecap')}
             >
                 <Text style={styles.footerText}>Valider </Text>
             </TouchableOpacity>
         )
-    }
-    const btn = () => {
-        if ((selectedEvaluations.length > (indexEvaluation + 1))) {
-            btnSuivant();
-            setIndexEvaluation(indexEvaluation + 1);
-        }
-        else if (selectedEvaluations.length === (indexEvaluation + 1)) {
-            btnValider();
-        }
     }
 
     return (
@@ -65,8 +52,8 @@ const TestScreen = props => {
 
             </View>
             <View style={styles.contentContainer}>
-                {((evaluations.map(eva => eva.nomEvaluation).indexOf(selectedEvaluation)) == 0) ? <Test1 /> : null}
-                {((evaluations.map(eva => eva.nomEvaluation).indexOf(selectedEvaluation)) == 1) ? <Test2 /> : null}
+                {selectedEvaluation == 'Condition corporelle' && <ConditionCorporelle />}
+                {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
             </View>
 
             <View style={styles.footer}>
@@ -84,6 +71,7 @@ const TestScreen = props => {
 
 export const screenOptions = {
     headerLeft: null,
+    headerTitleStyle: { alignSelf: 'center' },
     headerTitle: 'Evaluation'
 };
 
@@ -120,6 +108,8 @@ const styles = StyleSheet.create({
         color: "#FFF",
         height: "100%",
         width: "50%",
+        borderColor: 'white',
+        borderWidth: 1
     },
     footerText: {
         fontSize: 18,

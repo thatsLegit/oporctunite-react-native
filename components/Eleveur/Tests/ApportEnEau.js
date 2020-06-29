@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Counter from '../../UI/Counter'
+import Counter from '../../UI/Counter';
+import ProgressBar from 'react-native-progress/Bar';
 
 
 const ApportEnEau = props => {
@@ -45,6 +46,7 @@ const ApportEnEau = props => {
             </View>
             <View style={styles.counterContainer}>
                 <Text style={styles.counterText}>{globalCount} / 30</Text>
+                <ProgressBar progress={globalCount / 30} width={200} />
             </View>
         </View>
     );

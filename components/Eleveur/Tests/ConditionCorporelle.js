@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Counter from '../../UI/Counter';
-
+import ProgressBar from 'react-native-progress/Bar';
 
 
 const ConditionCorporelle = props => {
@@ -62,6 +62,7 @@ const ConditionCorporelle = props => {
             </View>
             <View style={styles.counterContainer}>
                 <Text style={styles.counterText}>{globalCount} / 40</Text>
+                <ProgressBar progress={globalCount / 40} width={200} />
             </View>
         </View>
     );

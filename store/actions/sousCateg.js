@@ -44,7 +44,8 @@ export const fetchEvaluationBySousCateg = () => {
                 loadedEvaluations.push(new Evaluation(
                     e.nomEvaluation,
                     e.description,
-                    e.nomCategorieP
+                    e.nomCategorieP,
+                    e.nbTruies
                 ))
             });
 

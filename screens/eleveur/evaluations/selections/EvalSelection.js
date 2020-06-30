@@ -33,16 +33,16 @@ const EvalSelectionScreen = props => {
     };
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <TopNavigationForm
                 navigation={props.navigation}
                 retour='CategSelection'
                 textRetour='Retour catégories'
                 valider='EvalInfo'
                 textValider='Valider selection'
-                selection = {emptySelectionOrNot}
+                selection={emptySelectionOrNot}
                 type='evaluation'
-                check = {true}
+                check={true}
             />
             <View style={{ maxHeight: (Dimensions.get('window').height / 5.5) }}>
                 <FlatList
@@ -81,6 +81,7 @@ const EvalSelectionScreen = props => {
                             nomEvaluation={itemData.item.nomEvaluation}
                             nomCategorieP={itemData.item.nomCategorieP}
                             description={itemData.item.description}
+                            nbTruies={itemData.item.nbTruies}
                             selectAll={selectAll}
                         />)}
                     keyExtractor={item => item.nomEvaluation}

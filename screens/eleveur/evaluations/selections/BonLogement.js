@@ -15,11 +15,11 @@ const HebergementApproprieScreen = props => {
                 textRetour='Revenir au récap'
                 valider='EvalSelection'
                 textValider='Valider selection'
-                selection = {emptySelectionOrNot}
-                type = 'sous-catégorie'
-                check = {true}
+                selection={emptySelectionOrNot}
+                type='sous-catégorie'
+                check={true}
             />
-            <ListeSousCategorie nomSCateg='Hébergement approprié' />
+            <ListeSousCategorie nomSCateg='Bon logement' />
         </View>
     );
 };

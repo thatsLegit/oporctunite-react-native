@@ -12,7 +12,7 @@ import Evaluation from '../../../models/Evaluation';
 const CorrespondingEvaluations = props => {
     const { selectAll } = props;
     const [choix, setChoix] = useState(selectAll);
-    const Eval = new Evaluation(props.nomEvaluation, props.description, props.nomCategorieP);
+    const Eval = new Evaluation(props.nomEvaluation, props.description, props.nomCategorieP, props.nbTruies);
     const dispatch = useDispatch();
 
     useEffect(() => {

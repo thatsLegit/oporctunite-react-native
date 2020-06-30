@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import ConditionCorporelle from '../../../../components/Eleveur/Tests/ConditionCorporelle'
+import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel'
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau'
 import { useSelector } from 'react-redux';
 
@@ -14,6 +14,9 @@ const TestScreen = props => {
 
     const selectedEvaluationsSC = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomCategorieP));
     const selectedEvaluationSC = selectedEvaluationsSC[indexEvaluation];
+
+    const nbTruies = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nbTruies));
+    const currentNbTruies = nbTruies[indexEvaluation];
 
 
     const btnSuivant = () => {
@@ -52,7 +55,7 @@ const TestScreen = props => {
 
             </View>
             <View style={styles.contentContainer}>
-                {selectedEvaluation == 'Condition corporelle' && <ConditionCorporelle />}
+                {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} />}
                 {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
             </View>
 

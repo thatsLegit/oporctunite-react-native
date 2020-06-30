@@ -4,7 +4,7 @@ import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
 
 
-const ConditionCorporelle = props => {
+const EtatCorporel = props => {
 
     [count, setCount] = useState(0);
     [count2, setCount2] = useState(0);
@@ -46,14 +46,14 @@ const ConditionCorporelle = props => {
                 </View>
 
                 <Counter onChange={changeHandler} />
-                <View style={{marginVertical: 25}}>
+                <View style={{ marginVertical: 25 }}>
                     <Text>
                         Les reliefs osseux de la hanche et du dos sont facilement sentis sans aucune pression :
                     </Text>
                 </View>
 
                 <Counter onChange={changeHandler2} />
-                <View style={{marginVertical: 25}}>
+                <View style={{ marginVertical: 25 }}>
                     <Text>
                         Ma truie semble très mince visuellement avec des hanche et un dos très proéminent :
                     </Text>
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ConditionCorporelle;
+export default EtatCorporel;

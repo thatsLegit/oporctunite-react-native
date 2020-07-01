@@ -46,6 +46,10 @@ const TestScreen = props => {
         );
     };
 
+    const modalCloser = () => {
+        setInfoModalVisible(false);
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -67,7 +71,7 @@ const TestScreen = props => {
                 </Text>
             </View>
 
-            {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} modalInfo={infoModalVisible} />}
+            {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} modalInfo={infoModalVisible} onClose={modalCloser} />}
             {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
 
             <View style={styles.footer}>

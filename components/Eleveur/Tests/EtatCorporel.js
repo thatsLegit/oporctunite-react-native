@@ -47,6 +47,7 @@ const EtatCorporel = props => {
 
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
+        props.onClose();
     }
 
     useEffect(() => {

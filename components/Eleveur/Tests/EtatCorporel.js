@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 const EtatCorporel = props => {
@@ -37,32 +38,61 @@ const EtatCorporel = props => {
     }
 
     return (
-        <View style={styles.container}>
-            <View>
-                <View>
-                    <Text>
-                        Une pression ferme avec la paume de la main permet de sentir les reliefs osseux :
-                    </Text>
-                </View>
-
-                <Counter onChange={changeHandler} />
-                <View style={{ marginVertical: 25 }}>
-                    <Text>
-                        Les reliefs osseux de la hanche et du dos sont facilement sentis sans aucune pression :
-                    </Text>
-                </View>
-
-                <Counter onChange={changeHandler2} />
-                <View style={{ marginVertical: 25 }}>
-                    <Text>
-                        Ma truie semble très mince visuellement avec des hanche et un dos très proéminent :
-                    </Text>
-                </View>
-                <Counter onChange={changeHandler3} />
-            </View>
+        <View>
             <View style={styles.counterContainer}>
                 <Text style={styles.counterText}>{globalCount} / 40</Text>
                 <ProgressBar progress={globalCount / 40} width={200} />
+            </View>
+            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
+                <ScrollView>
+                    <View>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            Nombre de truies maigres {" "}
+                                <TouchableWithoutFeedback>
+                                    <FontAwesome name="question-circle" size={24} color="black" />
+                                </TouchableWithoutFeedback>
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Counter onChange={changeHandler} />
+                        </View>
+                    </View>
+
+                    <View style={{ marginVertical: 25 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            Nombre de truies normales {" "}
+                                <TouchableWithoutFeedback>
+                                    <FontAwesome name="question-circle" size={24} color="black" />
+                                </TouchableWithoutFeedback>
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Counter onChange={changeHandler2} />
+                        </View>
+                    </View>
+
+                    <View style={{ marginVertical: 25 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            Nombre de truies grasses {" "}
+                                <TouchableWithoutFeedback>
+                                    <FontAwesome name="question-circle" size={24} color="black" />
+                                </TouchableWithoutFeedback>
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Counter onChange={changeHandler3} />
+                        </View>
+                    </View>
+                </ScrollView>
             </View>
         </View>
     );
@@ -70,16 +100,29 @@ const EtatCorporel = props => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-    },
     counterContainer: {
-        marginVertical: 50
+        alignItems: 'center',
+        marginBottom: 35,
+    },
+    content: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginTop: 20
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 20
+    },
+    photo1: {
+        minWidth: 125,
+        maxWidth: 200,
+        maxHeight: 250,
+        minHeight: 150
+    },
+    text: {
+        fontFamily: 'open-sans',
+        fontSize: 17,
+        marginLeft: 20
     }
 });
 

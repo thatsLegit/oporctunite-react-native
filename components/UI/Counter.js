@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Colors from '../../constants/Colors';
 
 
 const Counter = props => {
@@ -24,7 +25,7 @@ const Counter = props => {
             <View style={Styles.rowContainer}>
                 <Icon.Button
                     name="minus"
-                    backgroundColor="#27AAE1"
+                    backgroundColor={Colors.primary}
                     onPress={moins}
                     size={20}
                     paddingRight={0}
@@ -32,7 +33,7 @@ const Counter = props => {
                 <Text style={Styles.result}>{count}</Text>
                 <Icon.Button
                     name="plus"
-                    backgroundColor="#27AAE1"
+                    backgroundColor={Colors.primary}
                     onPress={plus}
                     size={20}
                     paddingRight={0}

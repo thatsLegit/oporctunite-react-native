@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { useSelector } from 'react-redux';
+import { EvilIcons } from '@expo/vector-icons';
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel'
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau'
-import { useSelector } from 'react-redux';
 import Colors from '../../../../constants/Colors';
 
 
 const TestScreen = props => {
 
+    const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
 
@@ -41,8 +43,8 @@ const TestScreen = props => {
             >
                 <Text style={styles.footerText}>Valider </Text>
             </TouchableOpacity>
-        )
-    }
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -56,11 +58,16 @@ const TestScreen = props => {
                 </Text>
 
                 <Text style={styles.titre2}>
-                    {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
+                    {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length}) {" "}
+                    <TouchableWithoutFeedback onPress={() => {
+                        setInfoModalVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
                 </Text>
             </View>
 
-            {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} />}
+            {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} modalInfo={infoModalVisible} />}
             {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
 
             <View style={styles.footer}>
@@ -72,6 +79,7 @@ const TestScreen = props => {
                 </TouchableOpacity>
                 {((indexEvaluation + 1) == (selectedEvaluations.length)) ? btnValider() : btnSuivant()}
             </View>
+
         </View>
     );
 };

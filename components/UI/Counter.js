@@ -53,6 +53,7 @@ const Styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     result: {
+        fontSize: 20,
         paddingTop: 5,
         marginLeft: 10,
         marginRight: 10,

@@ -8,15 +8,11 @@ import { useSelector } from 'react-redux';
 const TestScreen = props => {
 
     const [indexEvaluation, setIndexEvaluation] = useState(0);
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
 
-    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomEvaluation));
-    const selectedEvaluation = selectedEvaluations[indexEvaluation];
-
-    const selectedEvaluationsSC = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nomCategorieP));
-    const selectedEvaluationSC = selectedEvaluationsSC[indexEvaluation];
-
-    const nbTruies = useSelector(state => Object.values(state.eval.evalSelection).map(eva => eva.nbTruies));
-    const currentNbTruies = nbTruies[indexEvaluation];
+    const selectedEvaluation = selectedEvaluations.map(eva => eva.nomEvaluation)[indexEvaluation];
+    const selectedEvaluationSC = selectedEvaluations.map(eva => eva.nomCategorieP)[indexEvaluation];
+    const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
 
 
     const btnSuivant = () => {

@@ -12,7 +12,7 @@ const EvalInfoScreen = props => {
             <View>
                 <Text style={styles.item}>{item.nomEvaluation}</Text>
                 <Text style={styles.temps}>Temps de réalisation estimé : 2 minutes.</Text>
-                <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != 0 ? item.nbTruies : 'indéfini'}.</Text>
+                <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != null ? item.nbTruies : 'indéfini'}.</Text>
             </View>
         );
     };

@@ -10,6 +10,7 @@ import * as evalActions from '../../../../store/actions/evaluation';
 import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
 import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
 import Shadow from '../../../../components/UI/Shadow';
+import Evaluation from '../../../../models/Evaluation';
 
 
 const EvalSelectionScreen = props => {
@@ -78,10 +79,15 @@ const EvalSelectionScreen = props => {
                     numColumns={2}
                     renderItem={itemData => (
                         <CorrespondingEvaluations
-                            nomEvaluation={itemData.item.nomEvaluation}
-                            nomCategorieP={itemData.item.nomCategorieP}
-                            description={itemData.item.description}
-                            nbTruies={itemData.item.nbTruies}
+                            eval={new Evaluation(
+                                itemData.item.nomEvaluation,
+                                itemData.item.description,
+                                itemData.item.nomCategorieP,
+                                itemData.item.nbTruies,
+                                itemData.item.photo1,
+                                itemData.item.photo2,
+                                itemData.item.photo3
+                            )}
                             selectAll={selectAll}
                         />)}
                     keyExtractor={item => item.nomEvaluation}

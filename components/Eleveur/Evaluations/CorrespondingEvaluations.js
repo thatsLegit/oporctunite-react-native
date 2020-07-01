@@ -6,13 +6,12 @@ import { Octicons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
 import Shadow from '../../UI/Shadow';
 import * as evalActions from '../../../store/actions/evaluation';
-import Evaluation from '../../../models/Evaluation';
 
 
 const CorrespondingEvaluations = props => {
     const { selectAll } = props;
     const [choix, setChoix] = useState(selectAll);
-    const Eval = new Evaluation(props.nomEvaluation, props.description, props.nomCategorieP, props.nbTruies);
+    const Eval = props.eval;
     const dispatch = useDispatch();
 
     useEffect(() => {

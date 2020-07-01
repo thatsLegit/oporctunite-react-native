@@ -45,7 +45,10 @@ export const fetchEvaluationBySousCateg = () => {
                     e.nomEvaluation,
                     e.description,
                     e.nomCategorieP,
-                    e.nbTruies
+                    e.nbTruies,
+                    e.photo1,
+                    e.photo2,
+                    e.photo3
                 ))
             });
 

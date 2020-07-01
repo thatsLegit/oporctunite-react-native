@@ -31,7 +31,7 @@ const EvalSelectionScreen = props => {
     };
 
     return (
-        <View style={{flex:1}}>
+        <View >
             <TopNavigationForm
                 navigation={props.navigation}
                 retour='CategSelection'

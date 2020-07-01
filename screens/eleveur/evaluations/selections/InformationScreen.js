@@ -5,14 +5,14 @@ import TopNavigationForm from '../../../../components/Navigation/TopNavigationFo
 
 
 const EvalInfoScreen = props => {
-    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).map(e => e.nomEvaluation));
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
 
     const evalInfoHandler = item => {
         return (
             <View>
-                <Text style={styles.item}>{item}</Text>
+                <Text style={styles.item}>{item.nomEvaluation}</Text>
                 <Text style={styles.temps}>Temps de réalisation estimé : 2 minutes.</Text>
-                <Text style={styles.temps}>Nombre de truies à évaluer : 30.</Text>
+                <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != null ? item.nbTruies : 'indéfini'}.</Text>
             </View>
         );
     };
@@ -25,6 +25,7 @@ const EvalInfoScreen = props => {
                 textRetour='Retour selection'
                 valider='Test'
                 textValider='Commencer'
+                check={false}
             />
             <View style={styles.header}>
                 <Text style={styles.titre1}>
@@ -32,7 +33,7 @@ const EvalInfoScreen = props => {
                 </Text>
             </View>
             <FlatList
-                keyExtractor={item => item}
+                keyExtractor={item => item.nomEvaluation}
                 data={selectedEvaluations}
                 renderItem={(itemData) => evalInfoHandler(itemData.item)}
             />

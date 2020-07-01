@@ -13,7 +13,7 @@ import EvalRecapScreen, { screenOptions as EvalOptions } from '../../screens/ele
 import BonneAlimentation from '../../screens/eleveur/evaluations/selections/BonneAlimentation';
 import BonneSante from '../../screens/eleveur/evaluations/selections/BonneSante';
 import ComportementApproprie from '../../screens/eleveur/evaluations/selections/ComportementApproprie';
-import HebergementApproprie from '../../screens/eleveur/evaluations/selections/HebergementApproprie';
+import BonLogement from '../../screens/eleveur/evaluations/selections/BonLogement';
 import EvalSelectionScreen from '../../screens/eleveur/evaluations/selections/EvalSelection';
 import EvalInfoScreen from '../../screens/eleveur/evaluations/selections/InformationScreen';
 import TestScreen, { screenOptions as TestScreenOptions } from '../../screens/eleveur/evaluations/tests/TestScreen';
@@ -73,11 +73,11 @@ export const CategSelectionNavigator = () => {
                 }}
             />
             <CategSelectionTabNavigator.Screen
-                name='HebergementApproprie'
-                component={HebergementApproprie}
+                name='BonLogement'
+                component={BonLogement}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Hebergement approprié</Text>;
+                        return <Text style={styles.tabBarLabel}>Bon logement</Text>;
                     }
                 }}
             />

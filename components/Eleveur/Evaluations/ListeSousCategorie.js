@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     itemSeparator: {
-        height: .5,
+        height: StyleSheet.hairlineWidth,
         width: "100%",
         backgroundColor: "rgba(0,0,0,0.5)",
     },

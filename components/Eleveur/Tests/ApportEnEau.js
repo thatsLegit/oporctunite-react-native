@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Counter from '../../Counter/Counter'
+import Counter from '../../UI/Counter';
 
 
-
-const Test2 = props => {
+const ApportEnEau = props => {
 
     [count, setCount] = useState(0);
     [count2, setCount2] = useState(0);
@@ -45,7 +44,7 @@ const Test2 = props => {
                 <Counter onChange={changeHandler2} />
             </View>
             <View style={styles.counterContainer}>
-                <Text style={styles.counterText}>{globalCount} / 30</Text>
+                <Text style={styles.counterText}>Nombre total d'abreuvoirs : {globalCount}</Text>
             </View>
         </View>
     );
@@ -70,4 +69,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Test2;
+export default ApportEnEau;

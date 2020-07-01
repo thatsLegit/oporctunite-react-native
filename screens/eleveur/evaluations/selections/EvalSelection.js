@@ -10,6 +10,7 @@ import * as evalActions from '../../../../store/actions/evaluation';
 import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
 import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
 import Shadow from '../../../../components/UI/Shadow';
+import Evaluation from '../../../../models/Evaluation';
 
 
 const EvalSelectionScreen = props => {
@@ -20,6 +21,8 @@ const EvalSelectionScreen = props => {
     let evaluations = [];
     useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
     evaluations = evaluations.filter(e => selectedSousCatNames.includes(e.nomCategorieP));
+
+    const emptySelectionOrNot = useSelector(state => state.eval.evalSelection);
 
     const [selectAll, setSelectAll] = useState(false);
     const dispatch = useDispatch();
@@ -38,6 +41,9 @@ const EvalSelectionScreen = props => {
                 textRetour='Retour catégories'
                 valider='EvalInfo'
                 textValider='Valider selection'
+                selection={emptySelectionOrNot}
+                type='evaluation'
+                check={true}
             />
             <View style={{ maxHeight: (Dimensions.get('window').height / 5.5) }}>
                 <FlatList
@@ -73,9 +79,15 @@ const EvalSelectionScreen = props => {
                     numColumns={2}
                     renderItem={itemData => (
                         <CorrespondingEvaluations
-                            nomEvaluation={itemData.item.nomEvaluation}
-                            nomCategorieP={itemData.item.nomCategorieP}
-                            description={itemData.item.description}
+                            eval={new Evaluation(
+                                itemData.item.nomEvaluation,
+                                itemData.item.description,
+                                itemData.item.nomCategorieP,
+                                itemData.item.nbTruies,
+                                itemData.item.photo1,
+                                itemData.item.photo2,
+                                itemData.item.photo3
+                            )}
                             selectAll={selectAll}
                         />)}
                     keyExtractor={item => item.nomEvaluation}

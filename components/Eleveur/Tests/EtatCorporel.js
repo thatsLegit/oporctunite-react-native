@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Counter from '../../Counter/Counter';
+import Counter from '../../UI/Counter';
+import ProgressBar from 'react-native-progress/Bar';
 
 
-
-const Test1 = props => {
+const EtatCorporel = props => {
 
     [count, setCount] = useState(0);
     [count2, setCount2] = useState(0);
@@ -39,21 +39,21 @@ const Test1 = props => {
     return (
         <View style={styles.container}>
             <View>
-                <View style={styles.explications}>
+                <View>
                     <Text>
                         Une pression ferme avec la paume de la main permet de sentir les reliefs osseux :
                     </Text>
                 </View>
 
                 <Counter onChange={changeHandler} />
-                <View style={styles.explications}>
+                <View style={{ marginVertical: 25 }}>
                     <Text>
                         Les reliefs osseux de la hanche et du dos sont facilement sentis sans aucune pression :
                     </Text>
                 </View>
 
                 <Counter onChange={changeHandler2} />
-                <View style={styles.explications}>
+                <View style={{ marginVertical: 25 }}>
                     <Text>
                         Ma truie semble très mince visuellement avec des hanche et un dos très proéminent :
                     </Text>
@@ -62,6 +62,7 @@ const Test1 = props => {
             </View>
             <View style={styles.counterContainer}>
                 <Text style={styles.counterText}>{globalCount} / 40</Text>
+                <ProgressBar progress={globalCount / 40} width={200} />
             </View>
         </View>
     );
@@ -73,9 +74,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
     },
-    explications: {
-        marginVertical: 25
-    },
     counterContainer: {
         marginVertical: 50
     },
@@ -86,4 +84,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Test1;
+export default EtatCorporel;

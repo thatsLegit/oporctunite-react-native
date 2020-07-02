@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -7,6 +7,7 @@ import Colors from '../../constants/Colors';
 import HeaderButton from '../../components/UI/HeaderButton';
 import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
+import * as bilanActions from '../../store/actions/bilan';
 
 
 const ProfilScreen = props => {
@@ -18,6 +19,8 @@ const ProfilScreen = props => {
         await dispatch(categActions.fetchSousCategByCateg());
         await dispatch(sousCategActions.fetchSousCateg());
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
+        await dispatch(bilanActions.fetchNoteCategories());
+        await dispatch(bilanActions.fetchNoteGlobaleCategories());
         setIsLoading(false);
     }, [dispatch]);
 
@@ -27,7 +30,6 @@ const ProfilScreen = props => {
     }, [dispatch, categHandler]);
 
 
-    //Loading spinner
     if (isLoading) {
         return (
             <View style={styles.centered}>

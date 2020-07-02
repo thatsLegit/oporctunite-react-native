@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome } from '@expo/vector-icons';
@@ -9,16 +9,21 @@ import { EvilIcons } from '@expo/vector-icons';
 
 const EtatCorporel = props => {
 
-    const { modalInfo } = props;
+    const { modalInfo, nbTruies } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalVisible, setModalVisible] = useState(false);
-    [count, setCount] = useState(0);
-    [count2, setCount2] = useState(0);
-    [count3, setCount3] = useState(0);
-    [globalCount, setGlobalCount] = useState(0);
+    const [count, setCount] = useState(0);
+    const [count2, setCount2] = useState(0);
+    const [count3, setCount3] = useState(0);
+    const [globalCount, setGlobalCount] = useState(0);
 
     const changeHandler = (count, sign, value) => {
+        console.log(globalCount);
+        if (globalCount + 1 > nbTruies) {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
         setCount(count);
         if (sign == 'plus') {
             setGlobalCount(globalCount + value);
@@ -27,7 +32,11 @@ const EtatCorporel = props => {
         }
     }
     const changeHandler2 = (count2, sign, value) => {
-        setCount(count2);
+        if (globalCount + 1 > nbTruies) {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount2(count2);
         if (sign == 'plus') {
             setGlobalCount(globalCount + value);
         } else {
@@ -35,7 +44,11 @@ const EtatCorporel = props => {
         }
     }
     const changeHandler3 = (count3, sign, value) => {
-        setCount(count3);
+        if (globalCount + 1 > nbTruies) {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount3(count3);
         if (sign == 'plus') {
             setGlobalCount(globalCount + value);
         } else {
@@ -64,14 +77,14 @@ const EtatCorporel = props => {
         <View>
             <View style={styles.counterContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.counterText}>   {globalCount} / 40 </Text>
+                    <Text style={styles.counterText}>   {globalCount} / {nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
-                <ProgressBar progress={globalCount / 40} width={200} />
+                <ProgressBar progress={globalCount / nbTruies} width={200} />
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
@@ -89,7 +102,7 @@ const EtatCorporel = props => {
                         </View>
                         <View style={styles.content}>
                             <Image style={styles.photo1} source={{ uri: props.photo1 }} />
-                            <Counter onChange={changeHandler} />
+                            <Counter onChange={changeHandler} max={nbTruies} />
                         </View>
                     </View>
 
@@ -105,7 +118,7 @@ const EtatCorporel = props => {
                         </View>
                         <View style={styles.content}>
                             <Image style={styles.photo1} source={{ uri: props.photo1 }} />
-                            <Counter onChange={changeHandler2} />
+                            <Counter onChange={changeHandler2} max={nbTruies} />
                         </View>
                     </View>
 
@@ -121,7 +134,7 @@ const EtatCorporel = props => {
                         </View>
                         <View style={styles.content}>
                             <Image style={styles.photo1} source={{ uri: props.photo1 }} />
-                            <Counter onChange={changeHandler3} />
+                            <Counter onChange={changeHandler3} max={nbTruies} />
                         </View>
                     </View>
                 </ScrollView>

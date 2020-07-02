@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, StyleSheet, TextInput } from 'react-native';
+import { SafeAreaView, View, StyleSheet, TextInput, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
 
@@ -7,26 +7,35 @@ import Colors from '../../constants/Colors';
 const Counter = props => {
 
     const [count, setCount] = useState('0');
+    const { max } = props;
 
     const plus = () => {
+        if (parseInt(count) + 1 > max) {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return;
+        }
+        if (props.onChange(parseInt(count) + 1, 'plus', 1) == 'error') { return };
         setCount((parseInt(count) + 1).toString());
-        props.onChange(parseInt(count) + 1, 'plus', 1);
-    }
+    };
 
     const moins = () => {
         if (count > 0) {
+            if (props.onChange(parseInt(count) - 1, 'minus', 1) == 'error') { return };
             setCount((parseInt(count) - 1).toString());
-            props.onChange(parseInt(count) - 1, 'minus', 1);
         }
-    }
+    };
 
     const numberInputHandler = num => {
+        if (parseInt(num) > max) {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return;
+        }
         if (num.length > 0) {
             const difference = parseInt(num) - count;
             if (difference > 0) { //input number is lower than the previous counter
-                props.onChange(parseInt(num), 'plus', difference);
+                if (props.onChange(parseInt(num), 'plus', difference) == 'error') { error };
             } else { //input is greater than previous counter
-                props.onChange(parseInt(num), 'minus', Math.abs(difference));
+                if (props.onChange(parseInt(num), 'minus', Math.abs(difference)) == 'error') { error };
             }
             setCount(num);
         } else {

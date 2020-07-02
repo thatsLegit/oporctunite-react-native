@@ -4,11 +4,13 @@ import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import { EvilIcons } from '@expo/vector-icons';
 
 
 const EtatCorporel = props => {
 
     const { modalInfo } = props;
+    const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalVisible, setModalVisible] = useState(false);
     [count, setCount] = useState(0);
@@ -16,28 +18,28 @@ const EtatCorporel = props => {
     [count3, setCount3] = useState(0);
     [globalCount, setGlobalCount] = useState(0);
 
-    const changeHandler = (count, sign) => {
+    const changeHandler = (count, sign, value) => {
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     }
-    const changeHandler2 = (count2, sign) => {
+    const changeHandler2 = (count2, sign, value) => {
         setCount(count2);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     }
-    const changeHandler3 = (count3, sign) => {
+    const changeHandler3 = (count3, sign, value) => {
         setCount(count3);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     }
 
@@ -50,6 +52,10 @@ const EtatCorporel = props => {
         props.onClose();
     }
 
+    const modalEchantillonCloser = () => {
+        setModalEchantillonVisible(false);
+    }
+
     useEffect(() => {
         setModalInfoVisible(modalInfo);
     }, [modalInfo]);
@@ -57,7 +63,14 @@ const EtatCorporel = props => {
     return (
         <View>
             <View style={styles.counterContainer}>
-                <Text style={styles.counterText}>{globalCount} / 40</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.counterText}>   {globalCount} / 40 </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
+                </View>
                 <ProgressBar progress={globalCount / 40} width={200} />
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
@@ -66,7 +79,7 @@ const EtatCorporel = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                            Nombre de truies maigres {" "}
+                                Nombre de truies maigres {" "}
                                 <TouchableWithoutFeedback onPress={() => {
                                     setModalVisible(true);
                                 }}>
@@ -84,7 +97,7 @@ const EtatCorporel = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                            Nombre de truies normales {" "}
+                                Nombre de truies normales {" "}
                                 <TouchableWithoutFeedback>
                                     <FontAwesome name="question-circle" size={24} color="black" />
                                 </TouchableWithoutFeedback>
@@ -100,7 +113,7 @@ const EtatCorporel = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                            Nombre de truies grasses {" "}
+                                Nombre de truies grasses {" "}
                                 <TouchableWithoutFeedback>
                                     <FontAwesome name="question-circle" size={24} color="black" />
                                 </TouchableWithoutFeedback>
@@ -114,18 +127,25 @@ const EtatCorporel = props => {
                 </ScrollView>
             </View>
 
-            {/*Modal popup*/}
+            {/*Modal définition des champs*/}
             <ModalPopupInfo
                 visible={modalVisible}
                 onClose={modalCloser}
                 text='Une pression ferme avec la paume de la main permet de ressentir les reliefs osseux de la hanche et du dos.'
             />
 
-            {/*Modal info popup*/}
+            {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
                 text='Regarder les saillies osseuses, la colonne vertebrale, les hanches et les arêtes osseuses doivent être inspectées et palpées.'
+            />
+
+            {/*Modal infos sur la composition de l'échantillon*/}
+            <ModalPopupInfo
+                visible={modalEchantillonVisible}
+                onClose={modalEchantillonCloser}
+                text='30 truies (dont 15 en milieu de gestation et 15 en fin de gestation) + 10 truies autour du sevrage.'
             />
 
         </View>

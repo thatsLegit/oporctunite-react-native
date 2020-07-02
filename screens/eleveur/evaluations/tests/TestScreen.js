@@ -62,7 +62,7 @@ const TestScreen = props => {
                 </Text>
 
                 <Text style={styles.titre2}>
-                    {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length}) {" "}
+                    {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
                     <TouchableWithoutFeedback onPress={() => {
                         setInfoModalVisible(true);
                     }}>

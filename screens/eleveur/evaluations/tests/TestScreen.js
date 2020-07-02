@@ -10,6 +10,7 @@ import Colors from '../../../../constants/Colors';
 const TestScreen = props => {
 
     const [infoModalVisible, setInfoModalVisible] = useState(false);
+    const [modalConfirmation, setModalConfirmation,] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
 
@@ -39,15 +40,18 @@ const TestScreen = props => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => props.navigation.navigate('TestRecap')}
+                onPress={() => setModalConfirmation(true)}
             >
                 <Text style={styles.footerText}>Valider </Text>
             </TouchableOpacity>
         );
     };
 
-    const modalCloser = () => {
+    const modalInfoCloser = () => {
         setInfoModalVisible(false);
+    };
+    const modalConfirmationCloser = () => {
+        setModalConfirmation(false);
     };
 
     return (
@@ -74,7 +78,15 @@ const TestScreen = props => {
                         </Text>
                     </View>
 
-                    {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} modalInfo={infoModalVisible} onClose={modalCloser} />}
+                    {selectedEvaluation == 'Etat corporel' && <EtatCorporel
+                        nbTruies={currentNbTruies}
+                        photo1={currentPhoto1}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation='Etat corporel'
+                        confirmation={modalConfirmation}
+                    />}
                     {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
                 </View>
             </KeyboardAvoidingView>

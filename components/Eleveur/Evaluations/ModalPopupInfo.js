@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Modal, TouchableHighlight, Text, StyleSheet } from 'react-native';
+import Colors from '../../../constants/Colors';
+import { AntDesign } from '@expo/vector-icons';
 
 
 const ModalPopupInfo = props => {
-    const { visible } = props;
+    const { visible, confirmation } = props;
     const [modalVisible, setModalVisible] = useState(visible);
 
     useEffect(() => {
@@ -22,12 +24,20 @@ const ModalPopupInfo = props => {
                         <Text style={styles.modalText}>
                             {props.text}
                         </Text>
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                            onPress={props.onClose}
-                        >
-                            <Text style={styles.textStyle}>Fermer</Text>
-                        </TouchableHighlight>
+                        <View style={{ flexDirection: confirmation ? 'row' : 'column' }}>
+                            <TouchableHighlight
+                                style={{ ...styles.openButton }}
+                                onPress={props.onClose}
+                            >
+                                <Text style={styles.textStyle}>{props.buttonText}</Text>
+                            </TouchableHighlight>
+                            {confirmation && <TouchableHighlight
+                                style={{ ...styles.openButton, marginLeft: 20, backgroundColor: Colors.primary }}
+                                onPress={props.onClose}
+                            >
+                                <Text style={styles.textStyle}>Confirmer</Text>
+                            </TouchableHighlight>}
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -58,15 +68,16 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     openButton: {
-        backgroundColor: "#F194FF",
+        backgroundColor: Colors.secondary,
         borderRadius: 20,
         padding: 10,
         elevation: 2
     },
     textStyle: {
         color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: 'open-sans-bold',
+        fontSize: 15
     },
     modalText: {
         marginBottom: 15,

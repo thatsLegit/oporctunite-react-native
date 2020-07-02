@@ -5,14 +5,16 @@ import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
+import Test from '../../../models/Test';
 
 
 const EtatCorporel = props => {
 
-    const { modalInfo, nbTruies } = props;
+    const { modalInfo, nbTruies, confirmation } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
     const [count3, setCount3] = useState(0);
@@ -59,19 +61,22 @@ const EtatCorporel = props => {
     const modalCloser = () => {
         setModalVisible(false);
     }
-
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
-        props.onClose();
+        props.onCloseInfo();
     }
-
     const modalEchantillonCloser = () => {
         setModalEchantillonVisible(false);
+    }
+    const modalConfirmationCloser = () => {
+        setModalConfirmation(false);
+        props.onCloseConfirmation();
     }
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-    }, [modalInfo]);
+        setModalConfirmation(confirmation);
+    }, [modalInfo, confirmation]);
 
     return (
         <View>
@@ -145,6 +150,7 @@ const EtatCorporel = props => {
                 visible={modalVisible}
                 onClose={modalCloser}
                 text='Une pression ferme avec la paume de la main permet de ressentir les reliefs osseux de la hanche et du dos.'
+                buttonText='Fermer'
             />
 
             {/*Modal infos sur l'évaluation*/}
@@ -152,6 +158,7 @@ const EtatCorporel = props => {
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
                 text='Regarder les saillies osseuses, la colonne vertebrale, les hanches et les arêtes osseuses doivent être inspectées et palpées.'
+                buttonText='Fermer'
             />
 
             {/*Modal infos sur la composition de l'échantillon*/}
@@ -159,6 +166,16 @@ const EtatCorporel = props => {
                 visible={modalEchantillonVisible}
                 onClose={modalEchantillonCloser}
                 text='30 truies (dont 15 en milieu de gestation et 15 en fin de gestation) + 10 truies autour du sevrage.'
+                buttonText='Fermer'
+            />
+
+            {/*Modal infos sur la composition de l'échantillon*/}
+            <ModalPopupInfo
+                visible={modalConfirmation}
+                onClose={modalConfirmationCloser}
+                text={'Valider définitivement les données saisies ?'}
+                buttonText='Annuler'
+                confirmation
             />
 
         </View>

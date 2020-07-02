@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel'
@@ -51,28 +51,33 @@ const TestScreen = props => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.titre}>
-                    {selectedcategorie}
-                </Text>
+        <View style={{ flex: 1 }}>
 
-                <Text style={styles.titre1}>
-                    {selectedEvaluationSC}
-                </Text>
+            <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={10} behavior={"position"}>
+                <View>
+                    <View style={styles.header}>
+                        <Text style={styles.titre}>
+                            {selectedcategorie}
+                        </Text>
 
-                <Text style={styles.titre2}>
-                    {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
+                        <Text style={styles.titre1}>
+                            {selectedEvaluationSC}
+                        </Text>
+
+                        <Text style={styles.titre2}>
+                            {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
                     <TouchableWithoutFeedback onPress={() => {
-                        setInfoModalVisible(true);
-                    }}>
-                        <EvilIcons name="question" size={30} color="black" />
-                    </TouchableWithoutFeedback>
-                </Text>
-            </View>
+                                setInfoModalVisible(true);
+                            }}>
+                                <EvilIcons name="question" size={30} color="black" />
+                            </TouchableWithoutFeedback>
+                        </Text>
+                    </View>
 
-            {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} modalInfo={infoModalVisible} onClose={modalCloser} />}
-            {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
+                    {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} photo1={currentPhoto1} modalInfo={infoModalVisible} onClose={modalCloser} />}
+                    {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
+                </View>
+            </KeyboardAvoidingView>
 
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -95,9 +100,6 @@ export const screenOptions = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     header: {
         marginTop: 10,
         marginBottom: 20,

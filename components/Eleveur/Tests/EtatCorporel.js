@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,7 +11,7 @@ import Test from '../../../models/Test';
 
 const EtatCorporel = props => {
 
-    const { modalInfo, nbTruies, confirmation } = props;
+    const { modalInfo, nbTruies, confirmation, navigation } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalVisible, setModalVisible] = useState(false);
@@ -20,8 +21,16 @@ const EtatCorporel = props => {
     const [count3, setCount3] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const note = (count2 / nbTruies) * 10 + (count3 / nbTruies) * 5;
+
+    const validationHandler = () => {
+        //dispatch...
+        //navigation.navigate('TestRecap', {...});
+    }
+
     const changeHandler = (count, sign, value) => {
-        console.log(globalCount);
         if (globalCount + 1 > nbTruies) {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
@@ -75,8 +84,13 @@ const EtatCorporel = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        setModalConfirmation(confirmation);
-    }, [modalInfo, confirmation]);
+        if (confirmation && globalCount == nbTruies) {
+            setModalConfirmation(confirmation);
+        }
+        if (confirmation && globalCount != nbTruies) {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        }
+    }, [modalInfo, confirmation, globalCount]);
 
     return (
         <View>
@@ -169,13 +183,14 @@ const EtatCorporel = props => {
                 buttonText='Fermer'
             />
 
-            {/*Modal infos sur la composition de l'échantillon*/}
+            {/*Modal pour la confirmation de la validation*/}
             <ModalPopupInfo
                 visible={modalConfirmation}
                 onClose={modalConfirmationCloser}
-                text={'Valider définitivement les données saisies ?'}
+                text='Valider définitivement les données saisies ?'
                 buttonText='Annuler'
                 confirmation
+                onValidation={validationHandler}
             />
 
         </View>

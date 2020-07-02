@@ -86,6 +86,7 @@ const TestScreen = props => {
                         onCloseConfirmation={modalConfirmationCloser}
                         nomEvaluation='Etat corporel'
                         confirmation={modalConfirmation}
+                        navigation={props.navigation}
                     />}
                     {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
                 </View>

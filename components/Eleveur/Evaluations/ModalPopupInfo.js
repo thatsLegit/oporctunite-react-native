@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Modal, TouchableHighlight, Text, StyleSheet } from 'react-native';
 import Colors from '../../../constants/Colors';
-import { AntDesign } from '@expo/vector-icons';
 
 
 const ModalPopupInfo = props => {
@@ -33,7 +32,7 @@ const ModalPopupInfo = props => {
                             </TouchableHighlight>
                             {confirmation && <TouchableHighlight
                                 style={{ ...styles.openButton, marginLeft: 20, backgroundColor: Colors.primary }}
-                                onPress={props.onClose}
+                                onPress={props.onValidation}
                             >
                                 <Text style={styles.textStyle}>Confirmer</Text>
                             </TouchableHighlight>}

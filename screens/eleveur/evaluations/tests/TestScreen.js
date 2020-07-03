@@ -12,7 +12,7 @@ const TestScreen = props => {
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalConfirmation, setModalConfirmation,] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
-    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection), () => true);
 
     const selectedEvaluation = selectedEvaluations.map(eva => eva.nomEvaluation)[indexEvaluation];
     const selectedEvaluationSC = selectedEvaluations.map(eva => eva.nomCategorieP)[indexEvaluation];
@@ -94,6 +94,7 @@ const TestScreen = props => {
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
                 </View>

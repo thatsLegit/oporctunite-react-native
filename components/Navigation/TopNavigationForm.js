@@ -5,7 +5,7 @@ import Shadow from '../UI/Shadow';
 
 
 const TopNavigationForm = props => {
-    const {selection} = props;
+    const { selection } = props;
     const isEmpty = (obj) => {
         return Object.keys(obj).length === 0;
     }
@@ -28,7 +28,7 @@ const TopNavigationForm = props => {
                 {props.check && !disable() && <TouchableOpacity onPress={() => props.navigation.navigate(props.valider)}>
                     <Shadow><Text style={styles.buttonText}>{props.textValider}</Text></Shadow>
                 </TouchableOpacity>}
-                {props.check && disable() && <TouchableOpacity onPress={() => Alert.alert('Aucune selection', `Veuillez selectionner au moins une ${props.type}`, [{text: 'OK', style: 'destructive'}])}>
+                {props.check && disable() && <TouchableOpacity onPress={() => Alert.alert('Aucune selection', `Veuillez selectionner au moins une ${props.type}`, [{ text: 'OK', style: 'destructive' }])}>
                     <Shadow><Text style={styles.buttonText}>{props.textValider}</Text></Shadow>
                 </TouchableOpacity>}
             </Shadow>

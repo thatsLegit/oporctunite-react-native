@@ -12,7 +12,7 @@ import * as testActions from '../../../store/actions/test';
 
 const EtatCorporel = props => {
 
-    const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, type } = props;
+    const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalVisible, setModalVisible] = useState(false);
@@ -30,7 +30,8 @@ const EtatCorporel = props => {
         const newTest = new Test(note, 'FR00000', nomEvaluation);
         await dispatch(testActions.ajouterTest(newTest));
 
-        if (type == 'valider') {
+        if (Vtype == 'valider') {
+            modalConfirmationCloser();
             navigation.navigate('TestRecap');
         } else { //Suivant case
             props.onNextValidation();

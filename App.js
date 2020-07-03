@@ -10,12 +10,14 @@ import AppNavigator from './navigation/AppNavigator';
 import sousCategReducer from './store/reducers/sousCateg';
 import categReducer from './store/reducers/categ';
 import evalReducer from './store/reducers/evaluation';
+import testReducer from './store/reducers/test';
 
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,
   categ: categReducer,
-  eval: evalReducer
+  eval: evalReducer,
+  test: testReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, StyleSheet, TextInput, Alert } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { SafeAreaView, View, StyleSheet, TextInput, Alert, Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
 
@@ -7,6 +7,7 @@ import Colors from '../../constants/Colors';
 const Counter = props => {
 
     const [count, setCount] = useState('0');
+    const modifyCounter = useRef('0');
     const { max } = props;
 
     const plus = () => {
@@ -25,32 +26,38 @@ const Counter = props => {
         }
     };
 
-    const numberInputHandler = num => {
-        if (parseInt(num) > max) {
+    const numberInputHandler = () => {
+        if (parseInt(count) > max) {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
+            setCount(modifyCounter.current);
             return;
         }
-        if (num.length > 0) {
-            const difference = parseInt(num) - count;
+        if (count.length > 0) {
+            const difference = parseInt(count) - parseInt(modifyCounter.current);
             if (difference > 0) { //input number is lower than the previous counter
-                if (props.onChange(parseInt(num), 'plus', difference) == 'error') { error };
+                if (props.onChange(parseInt(count), 'plus', difference) == 'error') {
+                    setCount(modifyCounter.current);
+                    return;
+                };
             } else { //input is greater than previous counter
-                if (props.onChange(parseInt(num), 'minus', Math.abs(difference)) == 'error') { error };
+                props.onChange(parseInt(count), 'minus', Math.abs(difference));
             }
-            setCount(num);
+            modifyCounter.current = count;
         } else {
-            props.onChange(0, 'minus', parseInt(count));
-            setCount('');
+            props.onChange(0, 'minus', parseInt(modifyCounter.current));
+            setCount('0');
+            modifyCounter.current = '0';
         }
     };
 
-    const maybeZero = () => {
-        if (count != '') {
-            return;
-        } else {
-            setCount('0');
-        }
+    const changeTextEventHandler = num => {
+        setCount(num);
     };
+
+    const saveCountBeforeModify = () => {
+        modifyCounter.current = count
+    }
+
 
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -64,8 +71,9 @@ const Counter = props => {
                 />
                 <TextInput
                     style={styles.result}
-                    onChangeText={numberInputHandler}
-                    onBlur={maybeZero}
+                    onBlur={numberInputHandler}
+                    onChangeText={changeTextEventHandler}
+                    onFocus={saveCountBeforeModify}
                     value={count.toString()}
                     autoCapitalize='none'
                     autoCorrect={false}

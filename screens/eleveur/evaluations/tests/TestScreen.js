@@ -25,11 +25,17 @@ const TestScreen = props => {
     const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
     const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
 
+
+    const nextValidationHandler = () => {
+        setModalConfirmation(false);
+        setIndexEvaluation(indexEvaluation + 1);
+    };
+
     const btnSuivant = () => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => setIndexEvaluation(indexEvaluation + 1)}
+                onPress={() => { setModalConfirmation(true) }}
             >
                 <Text style={styles.footerText}>Suivant </Text>
             </TouchableOpacity>
@@ -87,6 +93,7 @@ const TestScreen = props => {
                         nomEvaluation='Etat corporel'
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
                     />}
                     {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
                 </View>

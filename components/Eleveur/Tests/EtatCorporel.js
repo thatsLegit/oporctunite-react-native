@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
@@ -7,11 +7,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import Test from '../../../models/Test';
+import * as testActions from '../../../store/actions/test';
 
 
 const EtatCorporel = props => {
 
-    const { modalInfo, nbTruies, confirmation, navigation } = props;
+    const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, type } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,13 +26,19 @@ const EtatCorporel = props => {
 
     const note = (count2 / nbTruies) * 10 + (count3 / nbTruies) * 5;
 
-    const validationHandler = () => {
-        //dispatch...
-        //navigation.navigate('TestRecap', {...});
-    }
+    const validationHandler = async () => {
+        const newTest = new Test(note, 'FR00000', nomEvaluation);
+        await dispatch(testActions.ajouterTest(newTest));
+
+        if (type == 'valider') {
+            navigation.navigate('TestRecap');
+        } else { //Suivant case
+            props.onNextValidation();
+        }
+    };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + 1 > nbTruies) {
+        if (globalCount + value > nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -41,9 +48,9 @@ const EtatCorporel = props => {
         } else {
             setGlobalCount(globalCount - value);
         }
-    }
+    };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + 1 > nbTruies) {
+        if (globalCount + value > nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -53,9 +60,9 @@ const EtatCorporel = props => {
         } else {
             setGlobalCount(globalCount - value);
         }
-    }
+    };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + 1 > nbTruies) {
+        if (globalCount + value > nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -65,22 +72,22 @@ const EtatCorporel = props => {
         } else {
             setGlobalCount(globalCount - value);
         }
-    }
+    };
 
     const modalCloser = () => {
         setModalVisible(false);
-    }
+    };
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
-    }
+    };
     const modalEchantillonCloser = () => {
         setModalEchantillonVisible(false);
-    }
-    const modalConfirmationCloser = () => {
-        setModalConfirmation(false);
-        props.onCloseConfirmation();
-    }
+    };
+    const modalConfirmationCloser = useCallback(() => {
+        setModalConfirmation(false); //local component
+        props.onCloseConfirmation(); //parent component
+    });
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
@@ -88,6 +95,7 @@ const EtatCorporel = props => {
             setModalConfirmation(confirmation);
         }
         if (confirmation && globalCount != nbTruies) {
+            modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
     }, [modalInfo, confirmation, globalCount]);

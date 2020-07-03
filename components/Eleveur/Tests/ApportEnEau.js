@@ -27,7 +27,7 @@ const ApportEnEau = props => {
     }
 
     return (
-        <View style={styles.container}>
+        <View>
             <View>
                 <View style={styles.explications}>
                     <Text>
@@ -52,10 +52,6 @@ const ApportEnEau = props => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-    },
     explications: {
         marginVertical: 25
     },

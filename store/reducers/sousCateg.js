@@ -37,8 +37,9 @@ export default (state = initialState, action) => {
             };
         case SUPPRIMER_TOUTE_LA_SELECTION:
             return {
-                sousCategSelection: {}
-            };
+                ...state,
+                sousCategSelection: new Object()
+            }
         default:
             return state;
     }

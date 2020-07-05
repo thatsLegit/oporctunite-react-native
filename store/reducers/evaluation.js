@@ -22,8 +22,9 @@ export default (state = initialState, action) => {
             };
         case SUPPRIMER_SELECTION:
             return {
-                evalSelection: {}
-            };
+                ...state,
+                evalSelection: new Object()
+            }
         default:
             return state;
     }

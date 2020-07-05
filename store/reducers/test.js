@@ -1,5 +1,5 @@
 //actions
-import { AJOUTER_TEST } from '../actions/test';
+import { AJOUTER_TEST, SOUMETTRE_TESTS } from '../actions/test';
 
 //Etat initial
 const initialState = {
@@ -13,6 +13,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 enCours: { ...state.enCours, [action.nomEvaluation]: newTest }
+            }
+        case SOUMETTRE_TESTS:
+            return {
+                ...state,
+                enCours: new Object()
             }
         default:
             return state;

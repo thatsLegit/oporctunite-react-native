@@ -5,7 +5,7 @@ import ListeSousCategorie from '../../../../components/Eleveur/Evaluations/Liste
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 
 
-const HebergementApproprieScreen = props => {
+const BonEtatGeneralScreen = props => {
     const emptySelectionOrNot = useSelector(state => state.sousCateg.sousCategSelection);
     return (
         <View>
@@ -19,10 +19,10 @@ const HebergementApproprieScreen = props => {
                 type='sous-catégorie'
                 check={true}
             />
-            <ListeSousCategorie nomSCateg='Bon logement' />
+            <ListeSousCategorie nomSCateg='Bon état général' />
         </View>
     );
 };
 
 
-export default HebergementApproprieScreen;
+export default BonEtatGeneralScreen;

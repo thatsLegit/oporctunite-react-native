@@ -44,7 +44,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 15,
         borderRadius: 10,
-        height: (Dimensions.get('window').height / 3) * 2
+        height: (Dimensions.get('window').height / 3) * 2,
+        minWidth: 300
     },
     checkBoxAll: {
         flexDirection: "row",

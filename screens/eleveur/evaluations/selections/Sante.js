@@ -5,7 +5,7 @@ import ListeSousCategorie from '../../../../components/Eleveur/Evaluations/Liste
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 
 
-const BonneSanteScreen = props => {
+const SanteScreen = props => {
     const emptySelectionOrNot = useSelector(state => state.sousCateg.sousCategSelection);
     return (
         <View>
@@ -15,14 +15,14 @@ const BonneSanteScreen = props => {
                 textRetour='Revenir au récap'
                 valider='EvalSelection'
                 textValider='Valider selection'
-                selection = {emptySelectionOrNot}
-                type = 'sous-catégorie'
-                check = {true}
+                selection={emptySelectionOrNot}
+                type='sous-catégorie'
+                check={true}
             />
-            <ListeSousCategorie nomSCateg='Bonne santé' />
+            <ListeSousCategorie nomSCateg='Santé' />
         </View>
     );
 };
 
 
-export default BonneSanteScreen;
+export default SanteScreen;

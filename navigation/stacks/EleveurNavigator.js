@@ -10,10 +10,10 @@ import defaultNavOptions from '../../components/Navigation/DefaultNavOptions';
 import BilanScreen, { screenOptions as BilanScreenOptions } from '../../screens/eleveur/bilans/BilanScreen';
 import BilanInformationScreen, { screenOptions as BilanInformationOptions } from '../../screens/eleveur/bilans/BilanInformationScreen';
 import EvalRecapScreen, { screenOptions as EvalOptions } from '../../screens/eleveur/evaluations/EvalRecapScreen';
-import BonneAlimentation from '../../screens/eleveur/evaluations/selections/BonneAlimentation';
-import BonneSante from '../../screens/eleveur/evaluations/selections/BonneSante';
-import ComportementApproprie from '../../screens/eleveur/evaluations/selections/ComportementApproprie';
-import BonLogement from '../../screens/eleveur/evaluations/selections/BonLogement';
+import BonEtatGeneral from '../../screens/eleveur/evaluations/selections/BonEtatGeneral';
+import Sante from '../../screens/eleveur/evaluations/selections/Sante';
+import ExpressionDesComportements from '../../screens/eleveur/evaluations/selections/ExpressionDesComportements';
+import EnvironnementApproprie from '../../screens/eleveur/evaluations/selections/EnvironnementApproprie';
 import EvalSelectionScreen from '../../screens/eleveur/evaluations/selections/EvalSelection';
 import EvalInfoScreen from '../../screens/eleveur/evaluations/selections/InformationScreen';
 import TestScreen, { screenOptions as TestScreenOptions } from '../../screens/eleveur/evaluations/tests/TestScreen';
@@ -55,8 +55,8 @@ export const CategSelectionNavigator = () => {
             }}
         >
             <CategSelectionTabNavigator.Screen
-                name='BonneAlimentation'
-                component={BonneAlimentation}
+                name='BonEtatGeneral'
+                component={BonEtatGeneral}
                 options={{
                     tabBarLabel: () => {
                         return <Text style={styles.tabBarLabel}>Bonne alimentation</Text>;
@@ -64,8 +64,8 @@ export const CategSelectionNavigator = () => {
                 }}
             />
             <CategSelectionTabNavigator.Screen
-                name='BonneSante'
-                component={BonneSante}
+                name='Sante'
+                component={Sante}
                 options={{
                     tabBarLabel: () => {
                         return <Text style={styles.tabBarLabel}>Bonne {"\n"} santé</Text>;
@@ -73,8 +73,8 @@ export const CategSelectionNavigator = () => {
                 }}
             />
             <CategSelectionTabNavigator.Screen
-                name='BonLogement'
-                component={BonLogement}
+                name='EnvironnementApproprie'
+                component={EnvironnementApproprie}
                 options={{
                     tabBarLabel: () => {
                         return <Text style={styles.tabBarLabel}>Bon logement</Text>;
@@ -82,8 +82,8 @@ export const CategSelectionNavigator = () => {
                 }}
             />
             <CategSelectionTabNavigator.Screen
-                name='ComportementApproprie'
-                component={ComportementApproprie}
+                name='ExpressionDesComportements'
+                component={ExpressionDesComportements}
                 options={{
                     tabBarLabel: () => {
                         return <Text style={styles.tabBarLabel}>Comportement approprié</Text>;

@@ -1,5 +1,5 @@
 //actions
-import { SELECTIONNER_EVALUATION, DESELECTIONNER_EVALUATION} from '../actions/evaluation';
+import { SELECTIONNER_EVALUATION, DESELECTIONNER_EVALUATION, SUPPRIMER_SELECTION } from '../actions/evaluation';
 
 //Etat initial
 const initialState = {
@@ -19,6 +19,10 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 evalSelection: updatedEvalSelection
+            };
+        case SUPPRIMER_SELECTION:
+            return {
+                evalSelection: {}
             };
         default:
             return state;

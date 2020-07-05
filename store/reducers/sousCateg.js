@@ -1,5 +1,5 @@
 //actions
-import { SELECTIONNER_SOUS_CATEG, DESELECTIONNER_SOUS_CATEG, SET_SOUS_CATEG, SET_EVALUATION_BY_SOUS_CATEGORY } from '../actions/sousCateg';
+import { SELECTIONNER_SOUS_CATEG, DESELECTIONNER_SOUS_CATEG, SET_SOUS_CATEG, SET_EVALUATION_BY_SOUS_CATEGORY, SUPPRIMER_TOUTE_LA_SELECTION } from '../actions/sousCateg';
 //models
 import SousCategorie from '../../models/SousCategorie';
 
@@ -34,6 +34,10 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 sousCategSelection: updatedSousCategSelection
+            };
+        case SUPPRIMER_TOUTE_LA_SELECTION:
+            return {
+                sousCategSelection: {}
             };
         default:
             return state;

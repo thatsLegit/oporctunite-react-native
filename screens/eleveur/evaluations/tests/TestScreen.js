@@ -1,25 +1,41 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { useSelector } from 'react-redux';
+import { EvilIcons } from '@expo/vector-icons';
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel'
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau'
-import { useSelector } from 'react-redux';
+import Colors from '../../../../constants/Colors';
 
 
 const TestScreen = props => {
 
+    const [infoModalVisible, setInfoModalVisible] = useState(false);
+    const [modalConfirmation, setModalConfirmation,] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
-    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection), () => true);
 
     const selectedEvaluation = selectedEvaluations.map(eva => eva.nomEvaluation)[indexEvaluation];
     const selectedEvaluationSC = selectedEvaluations.map(eva => eva.nomCategorieP)[indexEvaluation];
+    let selectedcategorie = useSelector(state => state.categ.categories);
+    for (const key in selectedcategorie) {
+        for (const key2 in selectedcategorie[key]) {
+            if (key2 == selectedEvaluationSC) { selectedcategorie = key }
+        }
+    }
     const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
+    const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
 
+
+    const nextValidationHandler = () => {
+        setModalConfirmation(false);
+        setIndexEvaluation(indexEvaluation + 1);
+    };
 
     const btnSuivant = () => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => setIndexEvaluation(indexEvaluation + 1)}
+                onPress={() => { setModalConfirmation(true) }}
             >
                 <Text style={styles.footerText}>Suivant </Text>
             </TouchableOpacity>
@@ -30,30 +46,59 @@ const TestScreen = props => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => props.navigation.navigate('TestRecap')}
+                onPress={() => setModalConfirmation(true)}
             >
                 <Text style={styles.footerText}>Valider </Text>
             </TouchableOpacity>
-        )
-    }
+        );
+    };
+
+    const modalInfoCloser = () => {
+        setInfoModalVisible(false);
+    };
+    const modalConfirmationCloser = () => {
+        setModalConfirmation(false);
+    };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
+        <View style={{ flex: 1 }}>
 
-                <Text style={styles.titre1}>
-                    {selectedEvaluationSC}
-                </Text>
+            <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={10} behavior={"position"}>
+                <View>
+                    <View style={styles.header}>
+                        <Text style={styles.titre}>
+                            {selectedcategorie}
+                        </Text>
 
-                <Text style={styles.titre2}>
-                    {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
-                </Text>
+                        <Text style={styles.titre1}>
+                            {selectedEvaluationSC}
+                        </Text>
 
-            </View>
-            <View style={styles.contentContainer}>
-                {selectedEvaluation == 'Etat corporel' && <EtatCorporel nbTruies={currentNbTruies} />}
-                {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
-            </View>
+                        <Text style={styles.titre2}>
+                            {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
+                    <TouchableWithoutFeedback onPress={() => {
+                                setInfoModalVisible(true);
+                            }}>
+                                <EvilIcons name="question" size={30} color="black" />
+                            </TouchableWithoutFeedback>
+                        </Text>
+                    </View>
+
+                    {selectedEvaluation == 'Etat corporel' && <EtatCorporel
+                        nbTruies={currentNbTruies}
+                        photo1={currentPhoto1}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation='Etat corporel'
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
+                </View>
+            </KeyboardAvoidingView>
 
             <View style={styles.footer}>
                 <TouchableOpacity
@@ -64,6 +109,7 @@ const TestScreen = props => {
                 </TouchableOpacity>
                 {((indexEvaluation + 1) == (selectedEvaluations.length)) ? btnValider() : btnSuivant()}
             </View>
+
         </View>
     );
 };
@@ -75,35 +121,37 @@ export const screenOptions = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     header: {
-        flex: 2,
         marginTop: 10,
+        marginBottom: 20,
         alignItems: "center",
+    },
+    titre: {
+        fontFamily: 'open-sans',
+        fontSize: 14,
+        color: 'red'
     },
     titre1: {
-        fontSize: 18,
+        fontSize: 14,
+        fontFamily: 'open-sans',
+        color: 'blue'
     },
     titre2: {
-        fontSize: 16,
-    },
-    contentContainer: {
-        flex: 9,
-        marginLeft: 10,
-        marginRight: 10,
+        marginTop: 10,
+        fontSize: 20,
+        fontFamily: 'open-sans-bold',
+        color: 'green'
     },
     footer: {
-        flex: 1,
         flexDirection: "row",
-        alignItems: "center",
-        width: "100%",
+        height: '8%',
+        position: 'absolute',
+        bottom: 0
     },
     footerBtn: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#27AAE1",
+        backgroundColor: Colors.accent,
         color: "#FFF",
         height: "100%",
         width: "50%",
@@ -111,7 +159,8 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     footerText: {
-        fontSize: 18,
+        fontSize: 20,
+        fontFamily: 'open-sans-bold',
         color: "#FFF"
     }
 });

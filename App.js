@@ -11,12 +11,18 @@ import sousCategReducer from './store/reducers/sousCateg';
 import categReducer from './store/reducers/categ';
 import evalReducer from './store/reducers/evaluation';
 import bilanReducer from './store/reducers/bilan';
+import testReducer from './store/reducers/test';
+
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,
   categ: categReducer,
   eval: evalReducer,
-  bilan: bilanReducer
+
+  bilan: bilanReducer,
+
+  test: testReducer
+
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

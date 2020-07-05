@@ -5,6 +5,7 @@ export const SELECTIONNER_SOUS_CATEG = 'SELECTIONNER_SOUS_CATEG';
 export const DESELECTIONNER_SOUS_CATEG = 'DESELECTIONNER_SOUS_CATEG';
 export const SET_SOUS_CATEG = 'SET_SOUS_CATEG';
 export const SET_EVALUATION_BY_SOUS_CATEGORY = 'SET_EVALUATION_BY_SOUS_CATEGORY';
+export const SUPPRIMER_TOUTE_LA_SELECTION = 'SUPPRIMER_TOUTE_LA_SELECTION';
 
 
 export const fetchSousCateg = () => {
@@ -61,6 +62,10 @@ export const fetchEvaluationBySousCateg = () => {
 
 export const supprimerDeLaSelection = nom_sous_categ => {
     return { type: DESELECTIONNER_SOUS_CATEG, nom_sous_categ };
+};
+
+export const supprimerSousCategSelection = () => {
+    return { type: SUPPRIMER_TOUTE_LA_SELECTION };
 };
 
 export const ajouterALaSelection = (nom_sous_categ, nom_categ) => {

@@ -17,18 +17,30 @@ const RadarChart = props => {
     useSelector(state => Object.entries(state.bilan.noteCateg)).map(([key, value]) => {
         bilanEleveurTitreCateg.push(key);
         bilanEleveurCateg.push(value);  
+        console.log(key +" "+value);
     })
  
     // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
     let tableauNoteCategArranger = [];
-    let i = 0;
-    titreGlobaleCateg.forEach(element => {
-        if(element===bilanEleveurTitreCateg[i]){
-            tableauNoteCategArranger.push(bilanEleveurCateg[i]);
-        }else{
-            tableauNoteCategArranger.push(0);
+    
+
+    titreGlobaleCateg.forEach(globalTitre => {
+  
+        let i = 0;
+
+        while (i<4) {
+            if(globalTitre == bilanEleveurTitreCateg[i]){
+                tableauNoteCategArranger.push(bilanEleveurCateg[i]);
+            }
+            else if (bilanEleveurTitreCateg.indexOf(globalTitre)== -1){
+                tableauNoteCategArranger.push(0);
+                i=4; //  Pour sortie de la boucle et pas ajouter quatre 0
+            }
+            console.log("d "+bilanEleveurTitreCateg.indexOf(globalTitre));
+            i++;
         }
-        i++;
+        
+        i=0;
     });
 
     const UserData = [

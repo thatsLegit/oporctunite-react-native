@@ -5,15 +5,18 @@ import * as testActions from '../../../../store/actions/test';
 import { FlatList } from 'react-native-gesture-handler';
 import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
+import * as evalActions from '../../../../store/actions/evaluation';
+import * as sousCategActions from '../../../../store/actions/sousCateg';
+
 
 
 const TestRecapScreen = props => {
 
     const dispatch = useDispatch();
-    // useEffect(() => {
-    //     dispatch(evalActions.supprimerEvalSelection());
-    //     dispatch(sousCategActions.supprimerSousCategSelection());
-    // }, []);
+    useEffect(() => {
+        dispatch(evalActions.supprimerEvalSelection());
+        dispatch(sousCategActions.supprimerSousCategSelection());
+    }, []);
 
     const tests = useSelector(state => Object.values(state.test.enCours));
 
@@ -27,8 +30,9 @@ const TestRecapScreen = props => {
         );
     };
 
-    const submitHandler = () => {
-        dispatch(testActions.soumettreTests());
+    const submitHandler = async () => {
+        await dispatch(testActions.soumettreTests());
+        props.navigation.navigate('TestRecapInfo');
     };
 
     return (

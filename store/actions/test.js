@@ -7,15 +7,16 @@ export const ajouterTest = (test) => {
 };
 
 export const soumettreTests = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
 
         const tests = Object.values(getState().test.enCours);
-        tests.forEach(test => {
+
+        await Promise.all(tests.map(async test => {
             const valeur = test.valeur;
             const numEleveur = test.numEleveur;
             const nomEvaluation = test.nomEvaluation;
 
-            const response = fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
+            await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -26,7 +27,9 @@ export const soumettreTests = () => {
                     nomEvaluation
                 })
             });
+        }));
 
-        });
+        dispatch({ type: SOUMETTRE_TESTS });
+
     };
 };

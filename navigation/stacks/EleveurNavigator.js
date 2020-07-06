@@ -7,8 +7,14 @@ import { Text, StyleSheet } from 'react-native'
 
 import Colors from '../../constants/Colors';
 import defaultNavOptions from '../../components/Navigation/DefaultNavOptions';
+
 import BilanScreen, { screenOptions as BilanScreenOptions } from '../../screens/eleveur/bilans/BilanScreen';
-import BilanInformationScreen, { screenOptions as BilanInformationOptions } from '../../screens/eleveur/bilans/BilanInformationScreen';
+import BilanCategorie1Screen from '../../screens/eleveur/bilans/BilanCategorie1Screen';
+import BilanCategorie2Screen from '../../screens/eleveur/bilans/BilanCategorie2Screen';
+import BilanCategorie3Screen from '../../screens/eleveur/bilans/BilanCategorie3Screen';
+import BilanCategorie4Screen from '../../screens/eleveur/bilans/BilanCategorie4Screen';
+
+
 import EvalRecapScreen, { screenOptions as EvalOptions } from '../../screens/eleveur/evaluations/EvalRecapScreen';
 import BonEtatGeneral from '../../screens/eleveur/evaluations/selections/BonEtatGeneral';
 import Sante from '../../screens/eleveur/evaluations/selections/Sante';
@@ -19,6 +25,69 @@ import EvalInfoScreen from '../../screens/eleveur/evaluations/selections/Informa
 import TestScreen, { screenOptions as TestScreenOptions } from '../../screens/eleveur/evaluations/tests/TestScreen';
 import TestRecapScreen from '../../screens/eleveur/evaluations/tests/RecapScreen';
 import TestRecapInfoScreen from '../../screens/eleveur/evaluations/tests/InformationScreen';
+
+
+const styles = StyleSheet.create({
+    tabBarLabel: {
+        color: 'white',
+        fontSize: 12,
+        textAlign: 'center'
+    }
+});
+
+//Eval selection bottom-tab navigator
+const BilanCategSelectionTabNavigator = createBottomTabNavigator();
+export const BilanCategSelectionNavigator = () => {
+    return (
+        <BilanCategSelectionTabNavigator.Navigator
+            tabBarOptions={{
+                activeTintColor: Colors.secondary,
+                inactiveTintColor: Colors.secondary,
+                activeBackgroundColor: Colors.primary,
+                inactiveBackgroundColor: 'gray',
+                adaptive: true,
+                tabStyle: { justifyContent: 'center' }
+            }}
+        >
+            <BilanCategSelectionTabNavigator.Screen
+                name='BilanCategorie1Screen'
+                component={BilanCategorie1Screen}
+                options={{
+                    tabBarLabel: () => {
+                        return <Text style={styles.tabBarLabel}>Bon état général</Text>;
+                    }
+                }}
+            />
+            <BilanCategSelectionTabNavigator.Screen
+                name='BilanCategorie2Screen'
+                component={BilanCategorie2Screen}
+                options={{
+                    tabBarLabel: () => {
+                        return <Text style={styles.tabBarLabel}>Environnement approprié</Text>;
+                    }
+                }}
+            />
+            <BilanCategSelectionTabNavigator.Screen
+                name='BilanCategorie3Screen'
+                component={BilanCategorie3Screen}
+                options={{
+                    tabBarLabel: () => {
+                        return <Text style={styles.tabBarLabel}>Expression des comportements</Text>;
+                    }
+                }}
+            />
+            <BilanCategSelectionTabNavigator.Screen
+                name='BilanCategorie4Screen'
+                component={BilanCategorie4Screen}
+                options={{
+                    tabBarLabel: () => {
+                        return <Text style={styles.tabBarLabel}>Santé</Text>;
+                    }
+                }}
+            />
+        </BilanCategSelectionTabNavigator.Navigator>
+    );
+};
 
 //Bilans stack navigator
 const BilanStackNavigator = createStackNavigator();
@@ -31,9 +100,9 @@ export const BilanNavigator = () => {
                 options={BilanScreenOptions}
             />
             <BilanStackNavigator.Screen
-                name='Information'
-                component={BilanInformationScreen}
-                options={BilanInformationOptions}
+                name='BilanCategorieScreen'
+                component={BilanCategSelectionNavigator}
+                options={EvalOptions}
             />
         </BilanStackNavigator.Navigator>
     );
@@ -94,14 +163,7 @@ export const CategSelectionNavigator = () => {
     );
 };
 
-const styles = StyleSheet.create({
-    tabBarLabel: {
-        color: Colors.secondary,
-        fontSize: 12,
-        textAlign: 'center',
-        fontWeight: 'bold'
-    }
-});
+
 
 //Evaluation stack navigator
 const EvaluationStackNavigator = createStackNavigator();

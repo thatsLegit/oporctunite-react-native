@@ -21,6 +21,8 @@ const ProfilScreen = props => {
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
         await dispatch(bilanActions.fetchNoteCategories());
         await dispatch(bilanActions.fetchNoteGlobaleCategories());
+        await dispatch(bilanActions.fetchNoteSousCategories());
+        await dispatch(bilanActions.fetchNoteGlobaleSousCategories());
         setIsLoading(false);
     }, [dispatch]);
 

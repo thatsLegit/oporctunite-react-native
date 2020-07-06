@@ -1,22 +1,31 @@
+//Models
+import Test from '../../models/Test';
+//Actions
 export const AJOUTER_TEST = 'AJOUTER_TEST';
-export const SOUMETTRE_TESTS = 'SOUMETTRE_TESTS';
+export const SUPPRIMER_TESTS_EN_COURS = 'SUPPRIMER_TESTS_EN_COURS';
 
 
-export const ajouterTest = (test) => {
-    return { type: AJOUTER_TEST, test, nomEvaluation: test.nomEvaluation };
+export const ajouterTest = (note, nomEvaluation) => {
+    return { type: AJOUTER_TEST, test: new Test(note, 'FR00000', nomEvaluation) };
+};
+
+export const annulerTests = () => {
+    return { type: SUPPRIMER_TESTS_EN_COURS };
 };
 
 export const soumettreTests = () => {
     return async (dispatch, getState) => {
 
         const tests = Object.values(getState().test.enCours);
+        let resData = [];
 
-        await Promise.all(tests.map(async test => {
-            const valeur = test.valeur;
-            const numEleveur = test.numEleveur;
-            const nomEvaluation = test.nomEvaluation;
+        for (const key of tests) {
+            const valeur = key.valeur;
+            const numEleveur = key.numEleveur;
+            const nomEvaluation = key.nomEvaluation;
+            console.log(valeur);
 
-            await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
+            const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -27,9 +36,11 @@ export const soumettreTests = () => {
                     nomEvaluation
                 })
             });
-        }));
+            await resData.push(response.json());
+        };
 
-        dispatch({ type: SOUMETTRE_TESTS });
+        console.log(resData);
+        dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
 
     };
 };

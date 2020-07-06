@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { SafeAreaView, View, StyleSheet, TextInput, Alert, Keyboard } from 'react-native';
+import { SafeAreaView, View, StyleSheet, TextInput, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
 
@@ -11,7 +11,7 @@ const Counter = props => {
     const { max } = props;
 
     const plus = () => {
-        if (parseInt(count) + 1 > max) {
+        if (max && parseInt(count) + 1 > max) {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
             return;
         }
@@ -27,7 +27,7 @@ const Counter = props => {
     };
 
     const numberInputHandler = () => {
-        if (parseInt(count) > max) {
+        if (max && parseInt(count) > max) {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
             setCount(modifyCounter.current);
             return;

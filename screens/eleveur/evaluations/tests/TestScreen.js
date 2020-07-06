@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel'
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau'
 import Colors from '../../../../constants/Colors';
+import * as testActions from '../../../../store/actions/test';
 
 
 const TestScreen = props => {
@@ -12,23 +13,27 @@ const TestScreen = props => {
     const [infoModalVisible, setInfoModalVisible] = useState(false);
     const [modalConfirmation, setModalConfirmation,] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
-    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection), () => true);
-
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
     const selectedEvaluation = selectedEvaluations.map(eva => eva.nomEvaluation)[indexEvaluation];
     const selectedEvaluationSC = selectedEvaluations.map(eva => eva.nomCategorieP)[indexEvaluation];
-    let selectedcategorie = useSelector(state => state.categ.categories);
-    for (const key in selectedcategorie) {
-        for (const key2 in selectedcategorie[key]) {
-            if (key2 == selectedEvaluationSC) { selectedcategorie = key }
+    let selectedCategorie = useSelector(state => state.categ.categories);
+    for (const key in selectedCategorie) {
+        for (const key2 in selectedCategorie[key]) {
+            if (key2 == selectedEvaluationSC) { selectedCategorie = key }
         }
     }
     const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
     const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
+    const dispatch = useDispatch();
 
 
     const nextValidationHandler = () => {
         setModalConfirmation(false);
         setIndexEvaluation(indexEvaluation + 1);
+    };
+    const annulationHandler = async () => {
+        await dispatch(testActions.annulerTests());
+        props.navigation.navigate('CategSelection');
     };
 
     const btnSuivant = () => {
@@ -41,7 +46,6 @@ const TestScreen = props => {
             </TouchableOpacity>
         )
     }
-
     const btnValider = () => {
         return (
             <TouchableOpacity
@@ -60,14 +64,21 @@ const TestScreen = props => {
         setModalConfirmation(false);
     };
 
+    if (selectedEvaluations.length == 0) {
+        return (
+            <View>
+                <Text>Aucune évaluation séléctionnée</Text>
+            </View>
+        );
+    }
+
     return (
         <View style={{ flex: 1 }}>
-
             <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={10} behavior={"position"}>
                 <View>
                     <View style={styles.header}>
                         <Text style={styles.titre}>
-                            {selectedcategorie}
+                            {selectedCategorie}
                         </Text>
 
                         <Text style={styles.titre1}>
@@ -96,20 +107,29 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Apport en eau' && <ApportEnEau />}
+                    {selectedEvaluation == 'Apport en eau' && <ApportEnEau
+                        photo1={currentPhoto1}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation='Apport en eau'
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
                 </View>
             </KeyboardAvoidingView>
 
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => { props.navigation.navigate('CategSelection') }}
+                    onPress={() => annulationHandler()}
                 >
                     <Text style={styles.footerText}>Annuler </Text>
                 </TouchableOpacity>
                 {((indexEvaluation + 1) == (selectedEvaluations.length)) ? btnValider() : btnSuivant()}
             </View>
-
         </View>
     );
 };

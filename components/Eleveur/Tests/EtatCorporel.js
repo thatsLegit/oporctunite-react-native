@@ -6,7 +6,6 @@ import ProgressBar from 'react-native-progress/Bar';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
-import Test from '../../../models/Test';
 import * as testActions from '../../../store/actions/test';
 
 
@@ -15,7 +14,7 @@ const EtatCorporel = props => {
     const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -24,11 +23,10 @@ const EtatCorporel = props => {
 
     const dispatch = useDispatch();
 
-    const note = (count2 / nbTruies) * 10 + (count3 / nbTruies) * 5;
+    const note = Math.round((((count2 / nbTruies) * 10 + (count3 / nbTruies) * 5 + Number.EPSILON) * 10)) / 10;
 
     const validationHandler = async () => {
-        const newTest = new Test(note, 'FR00000', nomEvaluation);
-        await dispatch(testActions.ajouterTest(newTest));
+        await dispatch(testActions.ajouterTest(note, nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -75,8 +73,8 @@ const EtatCorporel = props => {
         }
     };
 
-    const modalCloser = () => {
-        setModalVisible(false);
+    const modalInput1Closer = () => {
+        setModalInput1Visible(false);
     };
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
@@ -122,7 +120,7 @@ const EtatCorporel = props => {
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre de truies maigres {" "}
                                 <TouchableWithoutFeedback onPress={() => {
-                                    setModalVisible(true);
+                                    setModalInput1Visible(true);
                                 }}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
                                 </TouchableWithoutFeedback>
@@ -170,12 +168,11 @@ const EtatCorporel = props => {
 
             {/*Modal définition des champs*/}
             <ModalPopupInfo
-                visible={modalVisible}
-                onClose={modalCloser}
+                visible={modalInput1Visible}
+                onClose={modalInput1Closer}
                 text='Une pression ferme avec la paume de la main permet de ressentir les reliefs osseux de la hanche et du dos.'
                 buttonText='Fermer'
             />
-
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
@@ -183,7 +180,6 @@ const EtatCorporel = props => {
                 text='Regarder les saillies osseuses, la colonne vertebrale, les hanches et les arêtes osseuses doivent être inspectées et palpées.'
                 buttonText='Fermer'
             />
-
             {/*Modal infos sur la composition de l'échantillon*/}
             <ModalPopupInfo
                 visible={modalEchantillonVisible}
@@ -191,7 +187,6 @@ const EtatCorporel = props => {
                 text='30 truies (dont 15 en milieu de gestation et 15 en fin de gestation) + 10 truies autour du sevrage.'
                 buttonText='Fermer'
             />
-
             {/*Modal pour la confirmation de la validation*/}
             <ModalPopupInfo
                 visible={modalConfirmation}
@@ -201,7 +196,6 @@ const EtatCorporel = props => {
                 confirmation
                 onValidation={validationHandler}
             />
-
         </View>
     );
 };

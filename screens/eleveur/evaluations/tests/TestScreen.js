@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
-import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel'
-import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau'
+import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel';
+import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau';
+import Boiterie from '../../../../components/Eleveur/Tests/Boitierie';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 
@@ -113,6 +114,18 @@ const TestScreen = props => {
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
                         nomEvaluation='Apport en eau'
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == 'Boiterie' && <Boiterie
+                        nbTruies={currentNbTruies}
+                        photo1={currentPhoto1}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation='Boiterie'
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}

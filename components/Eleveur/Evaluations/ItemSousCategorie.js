@@ -43,7 +43,7 @@ const ItemSousCategorie = props => {
                 checked={choix}
                 onPress={() => switchChoix()}
             />
-            <TouchableOpacity style={styles.list}>
+            <TouchableOpacity style={styles.list} onPress={() => switchChoix()}>
                 <Text style={styles.importantText}>{data.nomSousCateg}</Text>
             </TouchableOpacity>
         </View>

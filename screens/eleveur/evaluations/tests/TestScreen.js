@@ -9,6 +9,7 @@ import Boiterie from '../../../../components/Eleveur/Tests/Boitierie';
 import Bursite from '../../../../components/Eleveur/Tests/Bursite';
 import Mortalite from '../../../../components/Eleveur/Tests/Mortalite';
 import Stereotypies from '../../../../components/Eleveur/Tests/Stereotypies';
+import PoseAnneau from '../../../../components/Eleveur/Tests/PoseAnneau';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -32,6 +33,7 @@ const TestScreen = props => {
     }
     const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
     const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
+    const currentPhoto2 = selectedEvaluations.map(eva => eva.photo2)[indexEvaluation];
     const dispatch = useDispatch();
 
 
@@ -115,6 +117,7 @@ const TestScreen = props => {
                     {selectedEvaluation == 'Etat corporel' && <EtatCorporel
                         nbTruies={currentNbTruies}
                         photo1={currentPhoto1}
+                        photo2={currentPhoto2}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
@@ -169,6 +172,17 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation == 'Stéréotypies' && <Stereotypies
+                        nbTruies={currentNbTruies}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == "Pose d'anneaux nasaux et coupe de queue" && <PoseAnneau
                         nbTruies={currentNbTruies}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

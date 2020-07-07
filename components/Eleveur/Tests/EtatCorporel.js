@@ -15,6 +15,8 @@ const EtatCorporel = props => {
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
+    const [modalInput2Visible, setModalInput2Visible] = useState(false);
+    const [modalInput3Visible, setModalInput3Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -76,6 +78,12 @@ const EtatCorporel = props => {
     const modalInput1Closer = () => {
         setModalInput1Visible(false);
     };
+    const modalInput2Closer = () => {
+        setModalInput2Visible(false);
+    };
+    const modalInput3Closer = () => {
+        setModalInput3Visible(false);
+    };
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
@@ -127,7 +135,7 @@ const EtatCorporel = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Image style={styles.photo} source={{ uri: props.photo1 }} />
                             <Counter onChange={changeHandler} max={nbTruies} />
                         </View>
                     </View>
@@ -137,13 +145,15 @@ const EtatCorporel = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre de truies normales {" "}
-                                <TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={() => {
+                                    setModalInput2Visible(true);
+                                }}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
                                 </TouchableWithoutFeedback>
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Image style={styles.photo} source={{ uri: props.photo2 }} />
                             <Counter onChange={changeHandler2} max={nbTruies} />
                         </View>
                     </View>
@@ -153,13 +163,15 @@ const EtatCorporel = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre de truies grasses {" "}
-                                <TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={() => {
+                                    setModalInput3Visible(true);
+                                }}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
                                 </TouchableWithoutFeedback>
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Image style={styles.photo} source={{ uri: props.photo2 }} />
                             <Counter onChange={changeHandler3} max={nbTruies} />
                         </View>
                     </View>
@@ -171,6 +183,18 @@ const EtatCorporel = props => {
                 visible={modalInput1Visible}
                 onClose={modalInput1Closer}
                 text='Une pression ferme avec la paume de la main permet de ressentir les reliefs osseux de la hanche et du dos.'
+                buttonText='Fermer'
+            />
+            <ModalPopupInfo
+                visible={modalInput2Visible}
+                onClose={modalInput2Closer}
+                text='Les reliefs osseux de la hanche et du dos sont facilement sentis sans aucune pression .'
+                buttonText='Fermer'
+            />
+            <ModalPopupInfo
+                visible={modalInput3Visible}
+                onClose={modalInput3Closer}
+                text='La truie semble très mince visuellement avec des hanches et un dos très proéminent.'
                 buttonText='Fermer'
             />
             {/*Modal infos sur l'évaluation*/}
@@ -215,7 +239,7 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         fontSize: 20
     },
-    photo1: {
+    photo: {
         minWidth: 125,
         maxWidth: 200,
         maxHeight: 250,

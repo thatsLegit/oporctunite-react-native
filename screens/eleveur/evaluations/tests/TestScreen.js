@@ -2,19 +2,24 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
+import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel';
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau';
 import Boiterie from '../../../../components/Eleveur/Tests/Boitierie';
 import Bursite from '../../../../components/Eleveur/Tests/Bursite';
 import Mortalite from '../../../../components/Eleveur/Tests/Mortalite';
+import Stereotypies from '../../../../components/Eleveur/Tests/Stereotypies';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
+import * as evalActions from '../../../../store/actions/evaluation';
+import * as sousCategActions from '../../../../store/actions/sousCateg';
 
 
 const TestScreen = props => {
 
     const [infoModalVisible, setInfoModalVisible] = useState(false);
-    const [modalConfirmation, setModalConfirmation,] = useState(false);
+    const [modalConfirmation, setModalConfirmation] = useState(false);
+    const [annulationModal, setAnnulationModal] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
     const selectedEvaluation = selectedEvaluations.map(eva => eva.nomEvaluation)[indexEvaluation];
@@ -34,9 +39,18 @@ const TestScreen = props => {
         setModalConfirmation(false);
         setIndexEvaluation(indexEvaluation + 1);
     };
+    const modalAnnulationTrigger = () => {
+        setAnnulationModal(true);
+    };
+    const modalAnnulationCloser = () => {
+        setAnnulationModal(false);
+    };
     const annulationHandler = async () => {
         await dispatch(testActions.annulerTests());
+        await dispatch(evalActions.supprimerEvalSelection());
+        await dispatch(sousCategActions.supprimerSousCategSelection());
         props.navigation.navigate('CategSelection');
+        setAnnulationModal(false);
     };
 
     const btnSuivant = () => {
@@ -154,16 +168,35 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
+                    {selectedEvaluation == 'Stéréotypies' && <Stereotypies
+                        nbTruies={currentNbTruies}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
                 </View>
             </KeyboardAvoidingView>
 
             <View style={styles.footer}>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => annulationHandler()}
+                    onPress={() => modalAnnulationTrigger()}
                 >
                     <Text style={styles.footerText}>Annuler </Text>
                 </TouchableOpacity>
+                <ModalPopupInfo
+                    visible={annulationModal}
+                    onClose={modalAnnulationCloser}
+                    text="Êtes-vous sûrs de vouloir annuler la série d'évaluations en cours ?"
+                    buttonText='Annuler'
+                    confirmation
+                    onValidation={annulationHandler}
+                />
                 {((indexEvaluation + 1) == (selectedEvaluations.length)) ? btnValider() : btnSuivant()}
             </View>
         </View>

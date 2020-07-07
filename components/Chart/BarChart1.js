@@ -15,13 +15,31 @@ const BarChart1 = props => {
         }      
     })
 
+    function lineBreak(phrase) {
+        var phraseRetour = "";
+        const mots = phrase.split(' ');
+        let nbMots = mots.length;
+        let indexMot=0;
+
+        while (nbMots>indexMot){
+            if((mots[indexMot+1] != undefined) && ((mots[indexMot].length + mots[indexMot+1].length) <= 15)){
+                phraseRetour += mots[indexMot] + " " + mots[indexMot+1]+"\n";
+                indexMot = indexMot + 2;
+            }
+            else{
+                phraseRetour += mots[indexMot] + "\n";
+                indexMot++;
+            }
+        }
+
+        return phraseRetour;
+    }
 
     let bilanEleveurSousCateg = [];
     let bilanEleveurTitreSousCateg = [];
 
     useSelector(state => Object.entries(state.bilan.noteSousCateg)).map(([key, value]) => {
-        if (Object.values(value)=="Bon état général"){
-
+        if (Object.values(value)=="Bon état général"){      
             bilanEleveurTitreSousCateg.push(key);
             bilanEleveurSousCateg.push(Object.keys(value));
         }     
@@ -49,9 +67,10 @@ const BarChart1 = props => {
         i=0;
     }); 
 
+
     return (
         <View style={styles.container}>
-            <VictoryChart>
+            <VictoryChart padding={{ top: 30, bottom: 90, left: 45, right: 30 }}>
             <VictoryAxis
                 style={{
                     tickLabels: {
@@ -68,16 +87,16 @@ const BarChart1 = props => {
                 
                 style={{ tickLabels: { fontSize: 12 } }}
             />
-            <VictoryGroup offset={22}
+            <VictoryGroup offset={24}
                 colorScale={"qualitative"}
             >
                 <VictoryBar
-                style={{ data: { fill: "#2E9BCA" } }}
-                data={[{ x: "Abscence de soif", y: tableauNoteSousCategArranger[0] }, { x: "Abscence de faim", y: tableauNoteSousCategArranger[1] }]}
-                />
+                    style={{ data: { fill: "#2E9BCA" } }}
+                    data={[{ x: lineBreak(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] }, { x: lineBreak(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] }]}
+                    />
                 <VictoryBar
-                style={{ data: { fill: "#FF6666" } }}
-                data={[{ x: "Abscence de soif", y: moyenneGlobaleSousCateg[0] }, { x: "Abscence de faim", y:  moyenneGlobaleSousCateg[1] }]}
+                    style={{ data: { fill: "#FF6666" } }}
+                    data={[{ x: lineBreak(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] }, { x: lineBreak(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }]}
                 />
 
             </VictoryGroup>

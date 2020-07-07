@@ -17,13 +17,31 @@ const BarChart4 = props => {
         }      
     })
 
+    function lineBreak(phrase) {
+        var phraseRetour = "";
+        const mots = phrase.split(' ');
+        let nbMots = mots.length;
+        let indexMot=0;
+
+        while (nbMots>indexMot){
+            if((mots[indexMot+1] != undefined) && ((mots[indexMot].length + mots[indexMot+1].length) <= 15)){
+                phraseRetour += mots[indexMot] + " " + mots[indexMot+1]+"\n";
+                indexMot = indexMot + 2;
+            }
+            else{
+                phraseRetour += mots[indexMot] + "\n";
+                indexMot++;
+            }
+        }
+
+        return phraseRetour;
+    }
 
     let bilanEleveurSousCateg = [];
     let bilanEleveurTitreSousCateg = [];
 
     useSelector(state => Object.entries(state.bilan.noteSousCateg)).map(([key, value]) => {
         if (Object.values(value)=="Santé"){
-
             bilanEleveurTitreSousCateg.push(key);
             bilanEleveurSousCateg.push(Object.keys(value));
         }     
@@ -56,7 +74,7 @@ const BarChart4 = props => {
     return (
         <View style={styles.container}>
             <VictoryChart
-            padding={{ top: 30, bottom: 90, left: 30, right: 30 }}>
+            padding={{ top: 30, bottom: 90, left: 45, right: 30 }}>
                 <VictoryAxis
                     style={{
                         tickLabels: {
@@ -68,16 +86,14 @@ const BarChart4 = props => {
                     dependentAxis        
                     style={{ tickLabels: { fontSize: 12 } }}
                 />
-                <VictoryGroup offset={19}
-                   
-                >
+                <VictoryGroup offset={18}>
                     <VictoryBar
                     style={{ data: { fill: "#2E9BCA" } }}
-                    data={[{ x: "Absence de\n douleur dues\n aux interventions\n de convenance", y: tableauNoteSousCategArranger[0] }, { x: "Absence de\n maladies", y: tableauNoteSousCategArranger[1] }, {  x: "Absence de\n blessures", y: tableauNoteSousCategArranger[2]}]}
+                    data={[{ x: lineBreak(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] }, { x: lineBreak(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] }, {  x: lineBreak(titreGlobaleSousCateg[2]), y: tableauNoteSousCategArranger[2]}]}
                     />
                     <VictoryBar
                     style={{ data: { fill: "#FF6666" } }}
-                    data={[{ x: "Absence de\n douleur dues\n aux interventions\n de convenance", y: moyenneGlobaleSousCateg[0] }, { x: "Absence de\n maladies", y:  moyenneGlobaleSousCateg[1] }, {x: "Absence de\n blessures", y:  moyenneGlobaleSousCateg[2]}]}
+                    data={[{ x: lineBreak(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] }, { x: lineBreak(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }, {x: lineBreak(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2]}]}
                     />
 
                 </VictoryGroup>

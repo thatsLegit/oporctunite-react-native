@@ -21,7 +21,7 @@ const BilanScreen = props => {
                 </View>
             </View>
             <RadarChart />
-            <Button title='Comprendre mon bilan' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
+            <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
         </View>
     );
 };

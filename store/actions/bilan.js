@@ -5,9 +5,12 @@ export const SET_NOTE_GLOBALE_CATEG = 'SET_NOTE_GLOBALE_CATEG';
 export const SET_NOTE_SOUS_CATEG = 'SET_NOTE_SOUS_CATEG';
 export const SET_NOTE_GLOBALE_SOUS_CATEG = 'SET_NOTE_GLOBALE_SOUS_CATEG';
 
+export const SET_NOTE_EVALUATIONS = 'SET_NOTE_EVALUATIONS';
+export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
+
 export const fetchNoteCategories = () => {
     return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR03838/bilans/categorie');
+        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR00000/bilans/categorie');
         const resData = await response.json();
         
         let loadedNoteCategories = {};
@@ -39,7 +42,7 @@ export const fetchNoteGlobaleCategories = () => {
 
 export const fetchNoteSousCategories = () => {
     return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR03838/bilans/sous-categorie');
+        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR00000/bilans/sous-categorie');
         const resData = await response.json();
         
         let loadedNoteSousCategories = {};
@@ -65,5 +68,36 @@ export const fetchNoteGlobaleSousCategories = () => {
         });
 
         dispatch({ type: SET_NOTE_GLOBALE_SOUS_CATEG, bilan: loadedNoteGlobaleSousCategories });
+    };
+};
+
+export const fetchNoteEvaluations = () => {
+    return async (dispatch) => {
+        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR00000/bilans/evaluation');
+        const resData = await response.json();
+        
+        let loadedNoteEvaluations = {};
+        resData.data.forEach(eva => {
+            loadedNoteEvaluations = {
+                ...loadedNoteEvaluations,  [eva.nomEvaluation]: {[eva.valeur]: eva.nomCategorieP}  
+            }
+        });
+
+        dispatch({ type: SET_NOTE_EVALUATIONS, bilan: loadedNoteSousCategories });
+    };
+};
+
+export const fetchNoteGlobaleEvaluations = () => {
+    return async (dispatch) => {
+        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluation');
+        const resData = await response.json();
+        let loadedNoteGlobaleEvaluations = {};
+        resData.data.forEach(eva => {
+            loadedNoteGlobaleEvaluations = {
+                ...loadedNoteGlobaleEvaluations, [eva.nomEvaluation]: {[eva.valeur]: eva.nomCategorieP} 
+            }
+        });
+
+        dispatch({ type: SET_NOTE_GLOBALE_EVALUATIONS, bilan: loadedNoteGlobaleEvaluations });
     };
 };

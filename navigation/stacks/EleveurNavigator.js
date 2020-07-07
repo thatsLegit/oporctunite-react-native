@@ -27,13 +27,6 @@ import TestRecapScreen from '../../screens/eleveur/evaluations/tests/RecapScreen
 import TestRecapInfoScreen from '../../screens/eleveur/evaluations/tests/InformationScreen';
 
 
-const styles = StyleSheet.create({
-    tabBarLabel: {
-        color: 'white',
-        fontSize: 12,
-        textAlign: 'center'
-    }
-});
 
 //Eval selection bottom-tab navigator
 const BilanCategSelectionTabNavigator = createBottomTabNavigator();
@@ -128,7 +121,7 @@ export const CategSelectionNavigator = () => {
                 component={BonEtatGeneral}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Bonne alimentation</Text>;
+                        return <Text style={styles.tabBarLabel}>Bon état{"\n"}général</Text>;
                     }
                 }}
             />
@@ -137,7 +130,7 @@ export const CategSelectionNavigator = () => {
                 component={Sante}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Bonne {"\n"} santé</Text>;
+                        return <Text style={styles.tabBarLabel}>Santé</Text>;
                     }
                 }}
             />
@@ -146,7 +139,7 @@ export const CategSelectionNavigator = () => {
                 component={EnvironnementApproprie}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Bon logement</Text>;
+                        return <Text style={styles.tabBarLabel}>Environnement approprié</Text>;
                     }
                 }}
             />
@@ -155,7 +148,7 @@ export const CategSelectionNavigator = () => {
                 component={ExpressionDesComportements}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Comportement approprié</Text>;
+                        return <Text style={styles.tabBarLabel}>Expression{"\n"}des{"\n"}comportements</Text>;
                     }
                 }}
             />
@@ -164,6 +157,13 @@ export const CategSelectionNavigator = () => {
 };
 
 
+const styles = StyleSheet.create({
+    tabBarLabel: {
+        color: 'white',
+        fontSize: 13,
+        textAlign: 'center'
+    }
+});
 
 //Evaluation stack navigator
 const EvaluationStackNavigator = createStackNavigator();

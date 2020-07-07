@@ -17,15 +17,14 @@ export const soumettreTests = () => {
     return async (dispatch, getState) => {
 
         const tests = Object.values(getState().test.enCours);
-        let resData = [];
+        //let resData = [];
 
         for (const key of tests) {
             const valeur = key.valeur;
             const numEleveur = key.numEleveur;
             const nomEvaluation = key.nomEvaluation;
-            console.log(valeur);
 
-            const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
+            response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,11 +35,9 @@ export const soumettreTests = () => {
                     nomEvaluation
                 })
             });
-            await resData.push(response.json());
+            //await resData.push(response.json());
         };
 
-        console.log(resData);
         dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
-
     };
 };

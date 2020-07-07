@@ -60,7 +60,7 @@ const Counter = props => {
 
 
     return (
-        <SafeAreaView style={styles.mainContainer}>
+        <View style={styles.mainContainer}>
             <View style={styles.rowContainer}>
                 <Icon.Button
                     name="minus"
@@ -88,7 +88,7 @@ const Counter = props => {
                     paddingRight={0}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 }
 

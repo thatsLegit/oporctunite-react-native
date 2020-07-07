@@ -24,7 +24,7 @@ export const soumettreTests = () => {
             const numEleveur = key.numEleveur;
             const nomEvaluation = key.nomEvaluation;
 
-            const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
+            response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ export const soumettreTests = () => {
                     nomEvaluation
                 })
             });
-            //await resData.push(response.json()); Pour plus tard ça
+            //await resData.push(response.json());
         };
 
         dispatch({ type: SUPPRIMER_TESTS_EN_COURS });

@@ -5,6 +5,8 @@ import { EvilIcons } from '@expo/vector-icons';
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel';
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau';
 import Boiterie from '../../../../components/Eleveur/Tests/Boitierie';
+import Bursite from '../../../../components/Eleveur/Tests/Bursite';
+import Mortalite from '../../../../components/Eleveur/Tests/Mortalite';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 
@@ -102,7 +104,7 @@ const TestScreen = props => {
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation='Etat corporel'
+                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
@@ -113,7 +115,7 @@ const TestScreen = props => {
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation='Apport en eau'
+                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
@@ -121,11 +123,32 @@ const TestScreen = props => {
                     />}
                     {selectedEvaluation == 'Boiterie' && <Boiterie
                         nbTruies={currentNbTruies}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == 'Bursite' && <Bursite
+                        nbTruies={currentNbTruies}
                         photo1={currentPhoto1}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation='Boiterie'
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == 'Mortalité' && <Mortalite
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}

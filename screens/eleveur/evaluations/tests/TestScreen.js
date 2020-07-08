@@ -37,19 +37,19 @@ const TestScreen = props => {
     const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
     const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
     const currentPhoto2 = selectedEvaluations.map(eva => eva.photo2)[indexEvaluation];
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
 
     const nextValidationHandler = () => {
         setModalConfirmation(false);
         setIndexEvaluation(indexEvaluation + 1);
     };
-    const modalAnnulationTrigger = () => {
-        setAnnulationModal(true);
-    };
-    const modalAnnulationCloser = () => {
-        setAnnulationModal(false);
-    };
+
+    const modalAnnulationTrigger = () => setAnnulationModal(true);
+    const modalAnnulationCloser = () => setAnnulationModal(false);
+    const modalInfoCloser = () => setInfoModalVisible(false);
+    const modalConfirmationCloser = () => setModalConfirmation(false);
+
     const annulationHandler = async () => {
         await dispatch(testActions.annulerTests());
         await dispatch(evalActions.supprimerEvalSelection());
@@ -79,12 +79,6 @@ const TestScreen = props => {
         );
     };
 
-    const modalInfoCloser = () => {
-        setInfoModalVisible(false);
-    };
-    const modalConfirmationCloser = () => {
-        setModalConfirmation(false);
-    };
 
     if (selectedEvaluations.length == 0) {
         return (

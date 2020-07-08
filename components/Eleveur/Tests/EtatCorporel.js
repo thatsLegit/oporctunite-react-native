@@ -75,21 +75,14 @@ const EtatCorporel = props => {
         }
     };
 
-    const modalInput1Closer = () => {
-        setModalInput1Visible(false);
-    };
-    const modalInput2Closer = () => {
-        setModalInput2Visible(false);
-    };
-    const modalInput3Closer = () => {
-        setModalInput3Visible(false);
-    };
+    const modalInput1Closer = () => setModalInput1Visible(false);
+    const modalInput2Closer = () => setModalInput2Visible(false);
+    const modalInput3Closer = () => setModalInput3Visible(false);
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
-    };
-    const modalEchantillonCloser = () => {
-        setModalEchantillonVisible(false);
     };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component

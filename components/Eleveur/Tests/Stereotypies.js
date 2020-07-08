@@ -58,12 +58,11 @@ const Stereotypies = props => {
         }
     };
 
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalInfoCloser = () => {
-        setModalInfoVisible(false);
-        props.onCloseInfo();
-    };
-    const modalEchantillonCloser = () => {
-        setModalEchantillonVisible(false);
+        setModalInfoVisible(false); //local component
+        props.onCloseInfo(); //parent component
     };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component

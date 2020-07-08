@@ -59,12 +59,12 @@ const Haletement = props => {
     };
 
     const modalInput1Closer = () => setModalInput1Visible(false);
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
-        setModalInfoVisible(false);
-        props.onCloseInfo();
+        setModalInfoVisible(false); //local component
+        props.onCloseInfo();  //parent component
     };
-    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component

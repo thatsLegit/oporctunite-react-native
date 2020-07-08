@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { SafeAreaView, View, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
 
@@ -9,6 +9,7 @@ const Counter = props => {
     const [count, setCount] = useState('0');
     const modifyCounter = useRef('0');
     const { max } = props;
+    const editable = props.disableInput ? false : true
 
     const plus = () => {
         if (max && parseInt(count) + 1 > max) {
@@ -79,6 +80,7 @@ const Counter = props => {
                     autoCorrect={false}
                     keyboardType='number-pad'
                     maxLength={2}
+                    editable={editable}
                 />
                 <Icon.Button
                     name="plus"

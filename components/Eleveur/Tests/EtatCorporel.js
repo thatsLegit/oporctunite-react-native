@@ -25,7 +25,7 @@ const EtatCorporel = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((count2 / nbTruies) * 10 + (count3 / nbTruies) * 5 + Number.EPSILON) * 10)) / 10;
+    const note = Math.round(((count2 / nbTruies) * 10 + (count3 / nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));

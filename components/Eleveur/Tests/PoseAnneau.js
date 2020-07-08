@@ -18,7 +18,7 @@ const PoseAnneau = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((count / globalCount) * 10 + (count2 / globalCount) * 5 + Number.EPSILON) * 10)) / 10;
+    const note = Math.round(((count / globalCount) * 10 + (count2 / globalCount) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));

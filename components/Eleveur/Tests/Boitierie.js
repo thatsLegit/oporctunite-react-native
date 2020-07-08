@@ -21,7 +21,7 @@ const Boiterie = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((count / nbTruies) * 10 + (count2 / nbTruies) * 5 + Number.EPSILON) * 10)) / 10;
+    const note = Math.round(((count / nbTruies) * 10 + (count2 / nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));
@@ -75,9 +75,8 @@ const Boiterie = props => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
-    const modalEchantillonCloser = () => {
-        setModalEchantillonVisible(false);
-    };
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component

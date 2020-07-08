@@ -79,11 +79,11 @@ export const fetchNoteEvaluations = () => {
         let loadedNoteEvaluations = {};
         resData.data.forEach(eva => {
             loadedNoteEvaluations = {
-                ...loadedNoteEvaluations,  [eva.nomEvaluation]: {[eva.valeur]: eva.nomCategorieP}  
+                ...loadedNoteEvaluations,  [eva.nomEvaluation]: {[eva.valeur]: eva.dateT}  
             }
         });
 
-        dispatch({ type: SET_NOTE_EVALUATIONS, bilan: loadedNoteSousCategories });
+        dispatch({ type: SET_NOTE_EVALUATIONS, bilan: loadedNoteEvaluations });
     };
 };
 
@@ -94,7 +94,7 @@ export const fetchNoteGlobaleEvaluations = () => {
         let loadedNoteGlobaleEvaluations = {};
         resData.data.forEach(eva => {
             loadedNoteGlobaleEvaluations = {
-                ...loadedNoteGlobaleEvaluations, [eva.nomEvaluation]: {[eva.valeur]: eva.nomCategorieP} 
+                ...loadedNoteGlobaleEvaluations, [eva.nomEvaluation]: {[eva.valeur]: eva.dateT} 
             }
         });
 

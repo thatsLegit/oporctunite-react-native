@@ -5,14 +5,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, StyleSheet } from 'react-native'
 
+
 import Colors from '../../constants/Colors';
 import defaultNavOptions from '../../components/Navigation/DefaultNavOptions';
 
+
 import BilanScreen, { screenOptions as BilanScreenOptions } from '../../screens/eleveur/bilans/BilanScreen';
+
 import BilanCategorie1Screen from '../../screens/eleveur/bilans/BilanCategorie1Screen';
 import BilanCategorie2Screen from '../../screens/eleveur/bilans/BilanCategorie2Screen';
 import BilanCategorie3Screen from '../../screens/eleveur/bilans/BilanCategorie3Screen';
 import BilanCategorie4Screen from '../../screens/eleveur/bilans/BilanCategorie4Screen';
+
+import BarChart1 from '../../components/Chart/BarChart1';
+import BilanEvaluation1Screen from '../../screens/eleveur/bilans/BilanEvaluation1Screen';
 
 
 import EvalRecapScreen, { screenOptions as EvalOptions } from '../../screens/eleveur/evaluations/EvalRecapScreen';
@@ -27,6 +33,26 @@ import TestRecapScreen from '../../screens/eleveur/evaluations/tests/RecapScreen
 import TestRecapInfoScreen from '../../screens/eleveur/evaluations/tests/InformationScreen';
 
 
+
+//Bilans stack navigator
+const BilanSousCateg1StackNavigator = createStackNavigator();
+export const BilanSousCateg1Navigator = () => {
+    return (
+        <BilanSousCateg1StackNavigator.Navigator screenOptions={defaultNavOptions}>
+            <BilanSousCateg1StackNavigator.Screen
+                name='BilanCategorie1Screen'
+                component={BilanCategorie1Screen}
+                options={BilanScreenOptions}
+            />
+
+            <BilanSousCateg1StackNavigator.Screen
+                name='BilanEvaluation1Screen'
+                component={BilanEvaluation1Screen}
+                options={BilanScreenOptions}
+            />
+        </BilanSousCateg1StackNavigator.Navigator>
+    );
+};
 
 //Eval selection bottom-tab navigator
 const BilanCategSelectionTabNavigator = createBottomTabNavigator();
@@ -43,8 +69,8 @@ export const BilanCategSelectionNavigator = () => {
             }}
         >
             <BilanCategSelectionTabNavigator.Screen
-                name='BilanCategorie1Screen'
-                component={BilanCategorie1Screen}
+                name='BilanCategorie1StackScreen'
+                component={BilanSousCateg1Navigator}
                 options={{
                     tabBarLabel: () => {
                         return <Text style={styles.tabBarLabel}>Bon état général</Text>;

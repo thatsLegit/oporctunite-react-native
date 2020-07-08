@@ -1,31 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Platform, TouchableOpacity } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import BarChart1 from '../../../components/Chart/BarChart1';
+import LineChart1 from '../../../components/Chart/LineChart1';
 import HeaderButton from '../../../components/UI/HeaderButton';
 import Colors from '../../../constants/Colors';
 
 
-
-const BilanCategorie1Screen = props => {
+const BilanEvaluation1Screen = props => {
     return (
         <View style={styles.chartContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate('Bilan') }}>
-                <Text style={styles.buttonText}>Retour catégories</Text>
+            <TouchableOpacity style={styles.button} onPress={() => { props.navigation.goBack() }}>
+                <Text style={styles.buttonText}>Retour sous-catégorie</Text>
             </TouchableOpacity>
-            <View style={styles.chartCaption}>
-                <View style={styles.label1Container}>
-                    <View style={styles.label1}></View>
-                    <Text>Résultats de mon elevage</Text>
-                </View>
-                <View style={styles.label2Container}>
-                    <View style={styles.label2}></View>
-                    <Text>Moyenne des eleveurs</Text>
-                </View>
-            </View>
-            <BarChart1 
-            navigation = {props.navigation}
-            />
+            
+            <LineChart1 />
         </View>
     );
 };
@@ -102,4 +90,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default BilanCategorie1Screen;
+export default BilanEvaluation1Screen;

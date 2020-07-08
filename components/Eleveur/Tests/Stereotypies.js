@@ -20,7 +20,7 @@ const Stereotypies = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((count / globalCount) * 10 + Number.EPSILON) * 10)) / 10;
+    const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));
@@ -58,12 +58,11 @@ const Stereotypies = props => {
         }
     };
 
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalInfoCloser = () => {
-        setModalInfoVisible(false);
-        props.onCloseInfo();
-    };
-    const modalEchantillonCloser = () => {
-        setModalEchantillonVisible(false);
+        setModalInfoVisible(false); //local component
+        props.onCloseInfo(); //parent component
     };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component

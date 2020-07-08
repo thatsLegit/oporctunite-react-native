@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet} from 'react-native';
-import { VictoryTheme, VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
+import { View, StyleSheet } from 'react-native';
+import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 import { useSelector } from 'react-redux';
 
 const RadarChart = props => {
@@ -16,35 +16,35 @@ const RadarChart = props => {
     let bilanEleveurTitreCateg = [];
     useSelector(state => Object.entries(state.bilan.noteCateg)).map(([key, value]) => {
         bilanEleveurTitreCateg.push(key);
-        bilanEleveurCateg.push(value);  
+        bilanEleveurCateg.push(value);
     })
- 
+
     // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
     let tableauNoteCategArranger = [];
-    
+
 
     titreGlobaleCateg.forEach(globalTitre => {
-  
+
         let i = 0;
 
-        while (i<titreGlobaleCateg.length) {
-            if(globalTitre == bilanEleveurTitreCateg[i]){
+        while (i < titreGlobaleCateg.length) {
+            if (globalTitre == bilanEleveurTitreCateg[i]) {
                 tableauNoteCategArranger.push(bilanEleveurCateg[i]);
             }
-            else if (bilanEleveurTitreCateg.indexOf(globalTitre)== -1){
+            else if (bilanEleveurTitreCateg.indexOf(globalTitre) == -1) {
                 tableauNoteCategArranger.push(0);
-                i=titreGlobaleCateg.length; //  Pour sortie de la boucle et pas ajouter trop de 0
+                i = titreGlobaleCateg.length; //  Pour sortie de la boucle et pas ajouter trop de 0
             }
             i++;
         }
-        
-        i=0;
+
+        i = 0;
     });
 
     const UserData = [
         // Ligne 1 = élevage en cours
-        { [titreGlobaleCateg[0]]:tableauNoteCategArranger[0], [titreGlobaleCateg[1]]: tableauNoteCategArranger[1], [titreGlobaleCateg[2]]: tableauNoteCategArranger[2], [titreGlobaleCateg[3]]: tableauNoteCategArranger[3]},
-        { [titreGlobaleCateg[0]]: moyenneGlobaleCateg[0], [titreGlobaleCateg[1]]: moyenneGlobaleCateg[1], [titreGlobaleCateg[2]]: moyenneGlobaleCateg[2], [titreGlobaleCateg[3]]: moyenneGlobaleCateg[3]}
+        { [titreGlobaleCateg[0]]: tableauNoteCategArranger[0], [titreGlobaleCateg[1]]: tableauNoteCategArranger[1], [titreGlobaleCateg[2]]: tableauNoteCategArranger[2], [titreGlobaleCateg[3]]: tableauNoteCategArranger[3] },
+        { [titreGlobaleCateg[0]]: moyenneGlobaleCateg[0], [titreGlobaleCateg[1]]: moyenneGlobaleCateg[1], [titreGlobaleCateg[2]]: moyenneGlobaleCateg[2], [titreGlobaleCateg[3]]: moyenneGlobaleCateg[3] }
     ];
 
     const getMaxima = (data) => {
@@ -78,11 +78,11 @@ const RadarChart = props => {
             <VictoryChart
                 polar
                 //theme={VictoryTheme.material}
-                domain={{ y: [0, 1] }}   
+                domain={{ y: [0, 1] }}
                 height={400}
-                width={400} 
+                width={400}
 
-                
+
             >
                 <VictoryGroup
                     colorScale={["#2E9BCA", "#FF6666"]}
@@ -96,8 +96,8 @@ const RadarChart = props => {
                     Object.keys(maxima).map((key, i) => {
                         return (
                             <VictoryPolarAxis
-                            height={350}
-                            width={350}
+                                height={350}
+                                width={350}
                                 key={i}
                                 dependentAxis
                                 style={{
@@ -124,19 +124,19 @@ const RadarChart = props => {
                         axis: { stroke: "none" },
                         grid: { stroke: "grey", opacity: 0.5 }
                     }}
-                    
+
                 />
             </VictoryChart>
         </View>
-        
+
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 10,
-      justifyContent: 'center',
+        flex: 10,
+        justifyContent: 'center',
     }
-  });
+});
 
-export default RadarChart
+export default RadarChart;

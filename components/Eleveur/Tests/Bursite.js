@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Di
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
@@ -22,7 +21,7 @@ const Bursite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((count / nbTruies) * 10 + (count2 / nbTruies) * 5 + Number.EPSILON) * 10)) / 10;
+    const note = Math.round(((count / nbTruies) * 10 + (count2 / nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));
@@ -76,9 +75,8 @@ const Bursite = props => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
-    const modalEchantillonCloser = () => {
-        setModalEchantillonVisible(false);
-    };
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component

@@ -25,7 +25,7 @@ const EtatCorporel = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((count2 / nbTruies) * 10 + (count3 / nbTruies) * 5 + Number.EPSILON) * 10)) / 10;
+    const note = Math.round(((count2 / nbTruies) * 10 + (count3 / nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));
@@ -75,21 +75,14 @@ const EtatCorporel = props => {
         }
     };
 
-    const modalInput1Closer = () => {
-        setModalInput1Visible(false);
-    };
-    const modalInput2Closer = () => {
-        setModalInput2Visible(false);
-    };
-    const modalInput3Closer = () => {
-        setModalInput3Visible(false);
-    };
+    const modalInput1Closer = () => setModalInput1Visible(false);
+    const modalInput2Closer = () => setModalInput2Visible(false);
+    const modalInput3Closer = () => setModalInput3Visible(false);
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
-    };
-    const modalEchantillonCloser = () => {
-        setModalEchantillonVisible(false);
     };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component

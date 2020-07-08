@@ -10,6 +10,9 @@ import Bursite from '../../../../components/Eleveur/Tests/Bursite';
 import Mortalite from '../../../../components/Eleveur/Tests/Mortalite';
 import Stereotypies from '../../../../components/Eleveur/Tests/Stereotypies';
 import PoseAnneau from '../../../../components/Eleveur/Tests/PoseAnneau';
+import ComportementSocial from '../../../../components/Eleveur/Tests/ComportementSocial';
+import EspaceAlloue from '../../../../components/Eleveur/Tests/EspaceAlloue';
+import Haletement from '../../../../components/Eleveur/Tests/Haletement';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -34,19 +37,19 @@ const TestScreen = props => {
     const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
     const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
     const currentPhoto2 = selectedEvaluations.map(eva => eva.photo2)[indexEvaluation];
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
 
     const nextValidationHandler = () => {
         setModalConfirmation(false);
         setIndexEvaluation(indexEvaluation + 1);
     };
-    const modalAnnulationTrigger = () => {
-        setAnnulationModal(true);
-    };
-    const modalAnnulationCloser = () => {
-        setAnnulationModal(false);
-    };
+
+    const modalAnnulationTrigger = () => setAnnulationModal(true);
+    const modalAnnulationCloser = () => setAnnulationModal(false);
+    const modalInfoCloser = () => setInfoModalVisible(false);
+    const modalConfirmationCloser = () => setModalConfirmation(false);
+
     const annulationHandler = async () => {
         await dispatch(testActions.annulerTests());
         await dispatch(evalActions.supprimerEvalSelection());
@@ -76,12 +79,6 @@ const TestScreen = props => {
         );
     };
 
-    const modalInfoCloser = () => {
-        setInfoModalVisible(false);
-    };
-    const modalConfirmationCloser = () => {
-        setModalConfirmation(false);
-    };
 
     if (selectedEvaluations.length == 0) {
         return (
@@ -193,6 +190,37 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
+                    {selectedEvaluation == 'Comportement social (positif ou négatif)' && <ComportementSocial
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == 'Surface par truie en m2' && <EspaceAlloue
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation == 'Halètement' && <Haletement
+                        nbTruies={currentNbTruies}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
                 </View>
             </KeyboardAvoidingView>
 
@@ -240,6 +268,7 @@ const styles = StyleSheet.create({
         color: 'blue'
     },
     titre2: {
+        textAlign: 'center',
         marginTop: 10,
         fontSize: 20,
         fontFamily: 'open-sans-bold',

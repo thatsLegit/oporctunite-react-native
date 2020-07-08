@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import * as testActions from '../../../../store/actions/test';
@@ -7,12 +7,14 @@ import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
 import * as evalActions from '../../../../store/actions/evaluation';
 import * as sousCategActions from '../../../../store/actions/sousCateg';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const TestRecapScreen = props => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(evalActions.supprimerEvalSelection());
         dispatch(sousCategActions.supprimerSousCategSelection());
@@ -31,9 +33,23 @@ const TestRecapScreen = props => {
     };
 
     const submitHandler = async () => {
+        setIsLoading(true);
         await dispatch(testActions.soumettreTests());
+        setIsLoading(false);
         props.navigation.navigate('TestRecapInfo');
     };
+
+    if (isLoading) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Envoi en cours...'}
+                    textStyle={{ color: '#FFF' }}
+                />
+            </View>
+        );
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -100,7 +116,13 @@ const styles = StyleSheet.create({
     tableText: {
         fontSize: 15,
         fontFamily: 'open-sans'
-    }
+    },
+    spinnerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
+    },
 });
 
 

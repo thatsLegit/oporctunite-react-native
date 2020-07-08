@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { useDispatch } from 'react-redux';
+import * as sousCategActions from '../../store/actions/sousCateg';
 import Colors from '../../constants/Colors';
 import Shadow from '../UI/Shadow';
 
@@ -13,11 +15,15 @@ const TopNavigationForm = props => {
         if (selection != undefined && !isEmpty(selection)) return false;
         if (selection == undefined || isEmpty(selection)) return true;
     }
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.formContainer}>
             <Shadow style={styles.button}>
-                <TouchableOpacity onPress={() => props.navigation.navigate(props.retour)}>
+                <TouchableOpacity onPress={async () => {
+                    props.navigation.navigate(props.retour);
+                    props.retour == 'EvalRecap' && await dispatch(sousCategActions.supprimerSousCategSelection());
+                }}>
                     <Shadow><Text style={styles.buttonText}>{props.textRetour}</Text></Shadow>
                 </TouchableOpacity>
             </Shadow>

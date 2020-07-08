@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
-import { VictoryTheme, VictoryChart, VictoryGroup, VictoryArea, VictoryAxis, VictoryLabel, VictoryBar, VictoryStack } from "victory-native";
+import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryLabel, VictoryBar} from "victory-native";
 import { useSelector } from 'react-redux';
+import Svg from "react-native-svg";
 
 const BarChart2 = props => {
 
@@ -52,7 +53,6 @@ const BarChart2 = props => {
     // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
     let tableauNoteSousCategArranger = [];
     
-
     titreGlobaleSousCateg.forEach(globalTitre => {
   
         let i = 0;
@@ -72,10 +72,27 @@ const BarChart2 = props => {
         i=0;
     }); 
 
+    const dataEleveur = [
+        { x: lineBreak(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
+        { x: lineBreak(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] },
+        { x: lineBreak(titreGlobaleSousCateg[2]), y: tableauNoteSousCategArranger[2] }
+    ];
+
+    const dataGlobale = [
+        { x: lineBreak(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
+        { x: lineBreak(titreGlobaleSousCateg[1]), y: moyenneGlobaleSousCateg[1] },
+        { x: lineBreak(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2] }
+    ];
 
     return (
         <View style={styles.container}>
-            <VictoryChart padding={{ top: 30, bottom: 90, left: 45, right: 30 }}>
+            <Svg width={400} height={400} viewBox="0 0 400 400"
+                     style={{width: "100%", height: "auto"}}>
+            <VictoryChart 
+                padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
+                containerComponent={<VictoryContainer disableContainerEvents />}
+
+            >
                 <VictoryAxis
                     style={{
                         tickLabels: {
@@ -91,16 +108,26 @@ const BarChart2 = props => {
                     colorScale={"qualitative"}
                 >                  
                     <VictoryBar
-                    style={{ data: { fill: "#2E9BCA" } }}
-                    data={[{ x: lineBreak(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] }, { x: lineBreak(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] }, {  x: lineBreak(titreGlobaleSousCateg[2]), y: tableauNoteSousCategArranger[2]}]}
+                        style={{ data: { fill: "#2E9BCA" } }}
+                        data={dataEleveur}
+                        events={[{
+                            target: "data",
+                            eventHandlers: {
+                                onPressOut: (event, data) => {
+                                    (data.key == "chart-group-2-bar-0-data-0")?alert("Redirection "+data.key):alert("Pas dispo "+data.key);
+                                },
+                            }
+                        }]}
                     />
+                
                     <VictoryBar
-                    style={{ data: { fill: "#FF6666" } }}
-                    data={[{ x: lineBreak(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] }, { x: lineBreak(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }, {x: lineBreak(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2]}]}
+                        style={{ data: { fill: "#FF6666" } }}
+                        data={dataGlobale}
                     />
 
                 </VictoryGroup>
             </VictoryChart>
+            </Svg>
         </View>
         
     );

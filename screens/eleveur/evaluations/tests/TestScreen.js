@@ -10,6 +10,7 @@ import Bursite from '../../../../components/Eleveur/Tests/Bursite';
 import Mortalite from '../../../../components/Eleveur/Tests/Mortalite';
 import Stereotypies from '../../../../components/Eleveur/Tests/Stereotypies';
 import PoseAnneau from '../../../../components/Eleveur/Tests/PoseAnneau';
+import ComportementSocial from '../../../../components/Eleveur/Tests/ComportementSocial';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -193,6 +194,16 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
+                    {selectedEvaluation == 'Comportement social (positif ou négatif)' && <ComportementSocial
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        nomEvaluation={selectedEvaluation}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
                 </View>
             </KeyboardAvoidingView>
 
@@ -240,6 +251,7 @@ const styles = StyleSheet.create({
         color: 'blue'
     },
     titre2: {
+        textAlign: 'center',
         marginTop: 10,
         fontSize: 20,
         fontFamily: 'open-sans-bold',

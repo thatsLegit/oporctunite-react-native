@@ -50,13 +50,13 @@ const BarChart1 = props => {
     });
 
     const dataEleveur = [
-        { x: lineBreak(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
-        { x: lineBreak(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] }
+        { x: lineBreaker(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
+        { x: lineBreaker(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] }
     ];
 
     const dataGlobale = [
-        { x: lineBreak(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
-         { x: lineBreak(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }
+        { x: lineBreaker(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
+         { x: lineBreaker(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }
     ];
 
     return (

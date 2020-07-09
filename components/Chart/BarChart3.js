@@ -18,26 +18,6 @@ const BarChart3 = props => {
         }
     })
 
-    function lineBreak(phrase) {
-        var phraseRetour = "";
-        const mots = phrase.split(' ');
-        let nbMots = mots.length;
-        let indexMot = 0;
-
-        while (nbMots > indexMot) {
-            if ((mots[indexMot + 1] != undefined) && ((mots[indexMot].length + mots[indexMot + 1].length) <= 15)) {
-                phraseRetour += mots[indexMot] + " " + mots[indexMot + 1] + "\n";
-                indexMot = indexMot + 2;
-            }
-            else {
-                phraseRetour += mots[indexMot] + "\n";
-                indexMot++;
-            }
-        }
-
-        return phraseRetour;
-    }
-
     let bilanEleveurSousCateg = [];
     let bilanEleveurTitreSousCateg = [];
 
@@ -74,15 +54,15 @@ const BarChart3 = props => {
     });
 
     const dataEleveur = [
-        { x: lineBreak(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
-        { x: lineBreak(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] },
-        { x: lineBreak(titreGlobaleSousCateg[2]), y: tableauNoteSousCategArranger[2] }
+        { x: lineBreaker(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
+        { x: lineBreaker(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] },
+        { x: lineBreaker(titreGlobaleSousCateg[2]), y: tableauNoteSousCategArranger[2] }
     ];
 
     const dataGlobale = [
-        { x: lineBreak(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
-        { x: lineBreak(titreGlobaleSousCateg[1]), y: moyenneGlobaleSousCateg[1] },
-        { x: lineBreak(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2] }
+        { x: lineBreaker(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
+        { x: lineBreaker(titreGlobaleSousCateg[1]), y: moyenneGlobaleSousCateg[1] },
+        { x: lineBreaker(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2] }
     ];
 
     return (

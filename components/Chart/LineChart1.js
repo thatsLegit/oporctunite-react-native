@@ -6,23 +6,29 @@ import Svg from "react-native-svg";
 
 const LineChart1 = props => {
 
-    
-  
-
     let dateTests = [];
     let noteTests = [];
 
-    let i=0;
-    useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, value]) => {
+    let i=1;
+    useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
         
-        if ((key=="Etat corporel") && (i<=6)){
-            i++;
-            dateTests.push(formatDate(Object.values(value)));
-            noteTests.push(Object.keys(value));
-        }      
+        
+        
+        if ((Object.keys(values)=="Etat corporel") && (i<=6)){
+            console.log("Test : "+i);
+            console.log("L'idTest: "+key);
+            i++;      
+            for (const [key, value] of Object.entries(Object.values(values))) {
+                console.log("dateT: "+formatDate(Object.keys(value)));
+                console.log("valeur: "+Object.values(value));
+                dateTests.push(formatDate(Object.keys(value)));
+                noteTests.push(Object.values(value));
+            }
+            console.log("\n"); 
+        } 
+            
     })
 
-    console.log(dateTests[0]);
     function formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -36,33 +42,86 @@ const LineChart1 = props => {
         return [day, month].join('-');
     }
 
-  
-    const data = [
-        { x: 0, y: 0},
-        { x: dateTests[0], y: noteTests[0] },
-        { x: dateTests[0], y: noteTests[0] },
-        { x: dateTests[1], y: noteTests[1] },
-        
-    ];
-
+    var data=[];
+    switch (dateTests.length) {
+        case 1:
+            data=[
+                { x: dateTests[0], y: noteTests[0] },
+            ]
+            
+            break;
+        case 2:
+            data=[
+                { x: dateTests[0], y: noteTests[0] },
+                { x: dateTests[1], y: noteTests[1] }
+            ]
+            break;
+        case 3:
+            data=[
+                { x: dateTests[0], y: noteTests[0] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[2], y: noteTests[2] },
+            ]
+            break;
+        case 4:
+            data=[
+                { x: dateTests[0], y: noteTests[0] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[3], y: noteTests[3] },
+            ]
+            break;
+        case 5:
+            data=[
+                { x: dateTests[0], y: noteTests[0] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[3], y: noteTests[3] },
+                { x: dateTests[4], y: noteTests[4] },
+            ]
+            break;
+        case 6:
+            data=[
+                { x: dateTests[0], y: noteTests[0] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[3], y: noteTests[3] },
+                { x: dateTests[4], y: noteTests[4] },
+                { x: dateTests[5], y: noteTests[5] },
+            ]
+            break;
+        default:
+            break;
+    }
+    console.log(data);
 
     return (
         <View style={styles.container}>
 
-            <Svg width={400} height={400} viewBox="0 0 400 400"
-                     style={{width: "100%", height: "auto"}}>
+         
                 <VictoryChart 
-                    padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
+                    domainPadding={25}
+              
                     containerComponent={<VictoryContainer disableContainerEvents />}
 
                 >
                     <VictoryLine
                     data={data}
                     labels={({ datum }) => datum.y}
-                    labelComponent={<VictoryLabel renderInPortal={false} dy={-20}/>}
+                    style={{
+                        data: {
+                          stroke: "#A8A8A8" ,
+                          strokeWidth: 1
+                        },
+                        labels: {
+                          fontSize: 15,
+                          fill: "#300000"
+                        }
+                    }}
+                  
                     />
                 </VictoryChart>
-            </Svg>
+          
         </View>
         
     );

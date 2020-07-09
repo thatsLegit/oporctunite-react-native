@@ -10,8 +10,15 @@ const BilanEvaluation1Screen = props => {
     return (
         <View style={styles.chartContainer}>
             <TouchableOpacity style={styles.button} onPress={() => { props.navigation.goBack() }}>
-                <Text style={styles.buttonText}>Retour sous-catégorie</Text>
+                <Text style={styles.buttonText}>Retour catégorie</Text>
             </TouchableOpacity>
+            
+            <View style={styles.chartCaption}>
+                <View style={styles.label1Container}>
+                    <View style={styles.label1}></View>
+                    <Text>6 derniers résultats de l'évaluation</Text>
+                </View>
+            </View>
             
             <LineChart1 />
         </View>
@@ -63,16 +70,19 @@ const styles = StyleSheet.create({
 
     },
     label1: {
-        width: 20,
-        height: 15,
+        width: 10,
+        height: 10,
         backgroundColor: '#2E9BCA',
-        marginRight: 10
+        marginRight: 10,
+        borderRadius:100
     },
     label2: {
         width: 20,
         height: 15,
         backgroundColor: '#FF6666',
-        marginRight: 10
+        marginRight: 10,
+        borderRadius:50
+
     },
     chartCaption: {
         flex:1,

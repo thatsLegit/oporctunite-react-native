@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet, Text} from 'react-native';
 import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar} from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
@@ -62,6 +62,7 @@ const BarChart1 = props => {
     return (
         <View style={styles.container}>
 
+            <Text>Bon état général</Text>
             <Svg width={400} height={400} viewBox="0 0 400 400"
                      style={{width: "100%", height: "auto"}}>
                 <VictoryChart 
@@ -90,8 +91,8 @@ const BarChart1 = props => {
                         events={[{
                             target: "data",
                             eventHandlers: {
-                                onPressOut: () => {
-                                    props.navigation.navigate('BilanEvaluation1Screen')
+                                onPressOut: (event, data) => {
+                                    (data.key=="chart-group-2-bar-0-data-0")?props.navigation.navigate('BilanEvaluation1Screen'):alert("Pas de graphique disponible pour cette sous-catégorie.");
                                 },
                             }
                         }]}

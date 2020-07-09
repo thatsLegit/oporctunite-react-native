@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar, VictoryLine, VictoryLabel} from "victory-native";
+import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar, VictoryLine, VictoryLabel,VictoryScatter} from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 
@@ -98,27 +98,60 @@ const LineChart1 = props => {
     return (
         <View style={styles.container}>
 
-         
+
                 <VictoryChart 
                     domainPadding={25}
               
                     containerComponent={<VictoryContainer disableContainerEvents />}
 
                 >
+                    <VictoryAxis
+                        style={{
+                            axis: { 
+                                stroke: "grey",
+                                 opacity: 0.5  
+                            },
+                            grid: { stroke: "grey", opacity: 0.3 
+                            },
+                            tickLabels:{
+                                fill: "black", 
+                                fillOpacity:0.7,
+                            }
+                        }}
+                    />
+                    <VictoryAxis
+                        dependentAxis              
+                        style={{
+                             axis: { 
+                                 stroke: "grey", 
+                                 opacity: 0.5
+                            },
+                            tickLabels:{
+                                fill: "black", 
+                                fillOpacity:0.7,
+                            }
+                     
+                        }}				
+                    />
                     <VictoryLine
+                    interpolation="catmullRom"
                     data={data}
                     labels={({ datum }) => datum.y}
                     style={{
                         data: {
-                          stroke: "#A8A8A8" ,
-                          strokeWidth: 1
+                          stroke: "#2E9BCA" ,
+                          strokeWidth: 1.5
                         },
                         labels: {
                           fontSize: 15,
-                          fill: "#300000"
+                          fill: "black"
                         }
                     }}
                   
+                    />
+                    <VictoryScatter data={data}
+                        size={5}
+                        style={{ data: { fill: "#2E9BCA" } }}
                     />
                 </VictoryChart>
           

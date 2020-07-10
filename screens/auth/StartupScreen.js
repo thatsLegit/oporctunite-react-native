@@ -18,21 +18,16 @@ const StartupScreen = props => {
                 return;
             }
             const transformedData = JSON.parse(userData);
-            const { token, userId, expiryDate } = transformedData;
+            const { token, idutilisateur } = transformedData;
 
             //Checking if the token is valid
-            const expirationDate = new Date(expiryDate);
-
-            if (expirationDate <= new Date() || !token || !userId) {
+            if (Date.now() >= token.exp * 1000) {
                 dispatch(authActions.setDidTryAutoLogin());
                 return;
             }
 
-            const expirationTime = expirationDate.getTime() - new Date().getTime();
-
             //Everything is OK
-            //props.navigation.navigate('Shop');
-            dispatch(authActions.authenticate(userId, token, expirationTime));
+            dispatch(authActions.authenticate(idutilisateur, token));
         };
 
         tryLogin();

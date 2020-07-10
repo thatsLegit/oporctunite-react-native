@@ -6,7 +6,7 @@ export const SUPPRIMER_TESTS_EN_COURS = 'SUPPRIMER_TESTS_EN_COURS';
 
 
 export const ajouterTest = (note, nomEvaluation) => {
-    return { type: AJOUTER_TEST, test: new Test(note, 'FR00000', nomEvaluation) };
+    return { type: AJOUTER_TEST, test: new Test(note, nomEvaluation) };
 };
 
 export const annulerTests = () => {
@@ -21,7 +21,6 @@ export const soumettreTests = () => {
 
         for (const key of tests) {
             const valeur = key.valeur;
-            const numEleveur = key.numEleveur;
             const nomEvaluation = key.nomEvaluation;
 
             response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
@@ -31,7 +30,6 @@ export const soumettreTests = () => {
                 },
                 body: JSON.stringify({
                     valeur,
-                    numEleveur,
                     nomEvaluation
                 })
             });

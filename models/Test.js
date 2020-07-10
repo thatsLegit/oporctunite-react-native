@@ -1,7 +1,7 @@
 class Test {
-    constructor(valeur, numEleveur, nomEvaluation) {
+    constructor(valeur, nomEvaluation) {
         this.valeur = valeur;
-        this.numEleveur = numEleveur;
+        //this.numEleveur = numEleveur;
         this.nomEvaluation = nomEvaluation;
     }
 }

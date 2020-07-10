@@ -30,3 +30,7 @@ Etape 7: Accéder à l'application
         > Sur la page d'accueil (Welcome to Android Studio), cliquer sur Configure (en bas à droite)
         > AVD Manager
         > Create virtual device (en bas à gauche)
+
+
+Environnement:
+    - Expo: 3.21.5

@@ -6,7 +6,7 @@ export const SUPPRIMER_TESTS_EN_COURS = 'SUPPRIMER_TESTS_EN_COURS';
 
 
 export const ajouterTest = (note, nomEvaluation) => {
-    return { type: AJOUTER_TEST, test: new Test(note, 'FR00000', nomEvaluation) };
+    return { type: AJOUTER_TEST, test: new Test(note, nomEvaluation) };
 };
 
 export const annulerTests = () => {
@@ -17,21 +17,23 @@ export const soumettreTests = () => {
     return async (dispatch, getState) => {
 
         const tests = Object.values(getState().test.enCours);
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
+        const bearer = 'Bearer ' + token;
         //let resData = [];
 
         for (const key of tests) {
             const valeur = key.valeur;
-            const numEleveur = key.numEleveur;
             const nomEvaluation = key.nomEvaluation;
 
-            response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/tests`, {
+            response = await fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'authorization': bearer
                 },
                 body: JSON.stringify({
                     valeur,
-                    numEleveur,
                     nomEvaluation
                 })
             });

@@ -1,4 +1,3 @@
-//actions
 export const SET_NOTE_CATEG = 'SET_NOTE_CATEG';
 export const SET_NOTE_GLOBALE_CATEG = 'SET_NOTE_GLOBALE_CATEG';
 
@@ -9,10 +8,20 @@ export const SET_NOTE_EVALUATIONS = 'SET_NOTE_EVALUATIONS';
 export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
 
 export const fetchNoteCategories = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR00000/bilans/categorie');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/categories/elevage";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
         const resData = await response.json();
-        
+
         let loadedNoteCategories = {};
         resData.data.forEach(categ => {
             loadedNoteCategories = {
@@ -25,8 +34,19 @@ export const fetchNoteCategories = () => {
 };
 
 export const fetchNoteGlobaleCategories = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/categorie');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/categories";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
         let loadedNoteGlobaleCategories = {};
         resData.data.forEach(categ => {
@@ -41,14 +61,25 @@ export const fetchNoteGlobaleCategories = () => {
 
 
 export const fetchNoteSousCategories = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR00000/bilans/sous-categorie');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/sous-categories/elevage";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
-        
+
         let loadedNoteSousCategories = {};
         resData.data.forEach(sousCateg => {
             loadedNoteSousCategories = {
-                ...loadedNoteSousCategories,  [sousCateg.nomCategorieP]: {[sousCateg.moyenneP]: sousCateg.nomCategorieG}  
+                ...loadedNoteSousCategories, [sousCateg.nomCategorieP]: { [sousCateg.moyenneP]: sousCateg.nomCategorieG }
             }
         });
 
@@ -57,13 +88,24 @@ export const fetchNoteSousCategories = () => {
 };
 
 export const fetchNoteGlobaleSousCategories = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/sous-categorie');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/sous-categories";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
         let loadedNoteGlobaleSousCategories = {};
         resData.data.forEach(sousCateg => {
             loadedNoteGlobaleSousCategories = {
-                ...loadedNoteGlobaleSousCategories, [sousCateg.nomCategorieP]: {[sousCateg.moyenneP]: sousCateg.nomCategorieG} 
+                ...loadedNoteGlobaleSousCategories, [sousCateg.nomCategorieP]: { [sousCateg.moyenneP]: sousCateg.nomCategorieG }
             }
         });
 
@@ -72,10 +114,21 @@ export const fetchNoteGlobaleSousCategories = () => {
 };
 
 export const fetchNoteEvaluations = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/eleveurs/FR00000/bilans/evaluation');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/elevage";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
-        
+
         let loadedNoteEvaluations = {};
         resData.data.forEach(eva => {
             loadedNoteEvaluations = {
@@ -88,8 +141,19 @@ export const fetchNoteEvaluations = () => {
 };
 
 export const fetchNoteGlobaleEvaluations = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluation');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
         let loadedNoteGlobaleEvaluations = {};
         resData.data.forEach(eva => {

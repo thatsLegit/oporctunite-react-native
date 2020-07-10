@@ -12,17 +12,16 @@ import categReducer from './store/reducers/categ';
 import evalReducer from './store/reducers/evaluation';
 import bilanReducer from './store/reducers/bilan';
 import testReducer from './store/reducers/test';
+import authReducer from './store/reducers/auth';
 
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,
   categ: categReducer,
   eval: evalReducer,
-
   bilan: bilanReducer,
-
-  test: testReducer
-
+  test: testReducer,
+  auth: authReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

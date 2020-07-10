@@ -9,8 +9,19 @@ export const SUPPRIMER_TOUTE_LA_SELECTION = 'SUPPRIMER_TOUTE_LA_SELECTION';
 
 
 export const fetchSousCateg = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
         let loadedSousCategories = {};
         resData.data.forEach(categ => {
@@ -25,6 +36,9 @@ export const fetchSousCateg = () => {
 
 export const fetchEvaluationBySousCateg = () => {
     return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const bearer = 'Bearer ' + token;
+
         let sousCateg = [];
         const categorie_p = getState().sousCateg.sousCategories;
         let sousCategOriginal = [];
@@ -38,8 +52,17 @@ export const fetchEvaluationBySousCateg = () => {
         //Attention, cette fonction envoie plusieurs dispatch vers les reducers (for let..of..)
         let count = 0;
         for (let sousCat of sousCateg) {
-            const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories/${sousCat}/evaluations/sousCategorie`);
+            let url = `https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories/${sousCat}/evaluations/sousCategorie`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'authorization': bearer,
+                    'Content-Type': 'application/json'
+                }
+            });
+
             const resData = await response.json();
+
             let loadedEvaluations = [];
             resData.data.forEach(e => {
                 loadedEvaluations.push(new Evaluation(

@@ -5,10 +5,23 @@ export const SET_CATEG = 'SET_CATEG';
 export const SET_SOUS_CATEG_BY_CATEGORY = 'SET_SOUS_CATEG_BY_CATEGORY';
 
 
+
 export const fetchCateg = () => {
-    return async (dispatch) => {
-        const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/categories');
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/categories";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
         const resData = await response.json();
+
         let loadedCategories = {};
         resData.data.forEach(categ => {
             loadedCategories = {
@@ -22,6 +35,10 @@ export const fetchCateg = () => {
 
 export const fetchSousCategByCateg = () => {
     return async (dispatch, getState) => {
+
+        const token = getState().auth.token;
+        const bearer = 'Bearer ' + token;
+
         let categ = [];
         const categorie_g = getState().categ.categories;
         let categOriginal = [];
@@ -35,7 +52,14 @@ export const fetchSousCategByCateg = () => {
         //Attention, cette fonction envoie plusieurs dispatch vers les reducers (for let..of..)
         let count = 0;
         for (let cat of categ) {
-            const response = await fetch(`https://oporctunite.envt.fr/oporctunite-api/api/v1/categories/${cat}/sousCategories/categorie`);
+            let url = `https://oporctunite.envt.fr/oporctunite-api/api/v1/categories/${cat}/sousCategories/categorie`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'authorization': bearer,
+                    'Content-Type': 'application/json'
+                }
+            });
             const resData = await response.json();
             let loadedSousCategories = {};
             resData.data.forEach(c => {

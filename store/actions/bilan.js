@@ -10,7 +10,7 @@ export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
 export const fetchNoteCategories = () => {
     return async (dispatch, getState) => {
         const token = getState().auth.token;
-        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/categories";
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/categories/elevage";
         const bearer = 'Bearer ' + token;
 
         const response = await fetch(url, {

@@ -16,25 +16,18 @@ const BarChartEvaluations1 = props => {
     useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
              
         if (Object.keys(values)=="Stéréotypies"){
-
-            console.log("L'idTest: "+key);
                 
             for (const [key, value] of Object.entries(Object.values(values))) {
-                console.log("valeur: "+Object.values(value));
-                moyenneEval1 += Object.values(value);
+                moyenneEval1 += parseFloat(Object.values(value));
                 nbTests1++;
             }
-            console.log("\n"); 
         } 
         else if (Object.keys(values)=="Exploration individuelle"){
   
-            console.log("L'idTest: "+key); 
             for (const [key, value] of Object.entries(Object.values(values))) {
-                console.log("valeur: "+Object.values(value));
-                moyenneEval2 += Object.values(value);
+                moyenneEval2 += parseFloat(Object.values(value));
                 nbTests2++;
             }
-            console.log("\n"); 
         }
             
     })
@@ -42,19 +35,15 @@ const BarChartEvaluations1 = props => {
     let moyenneGlobaleEval1 = 0;
     let moyenneGlobaleEval2 = 0;
 
-    useSelector(state => Object.entries(state.bilan.noteGlobaleEvaluations)).map(([key, value]) => {
-             
+    useSelector(state => Object.entries(state.bilan.noteGlobaleEvaluations)).map(([key, value]) => {           
         if (key=="Stéréotypies"){
-
             moyenneGlobaleEval1=value;
         } 
         else if (key=="Exploration individuelle"){
-  
             moyenneGlobaleEval2=value;
-        }
-            
+        }          
     })
-
+ 
     const dataEleveur = [
         { x: "Stéréotypies", y: (moyenneEval1/nbTests1) },
         { x: lineBreaker("Exploration individuelle"), y: (moyenneEval2/nbTests2) }

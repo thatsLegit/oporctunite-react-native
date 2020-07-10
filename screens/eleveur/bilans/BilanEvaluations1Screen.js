@@ -1,12 +1,12 @@
 import React from 'react';
-import BarChart1 from '../../../components/Chart/BarChart1';
+import BarChartEvaluations1 from '../../../components/Chart/BarChartEvaluations1';
 import BilanCategorieScreen from './BilanCategorieScreen';
 
-const BilanCategorie1Screen = props => {
+const BilanEvaluations1Screen = props => {
     return (
         <BilanCategorieScreen
             chart={
-                <BarChart1 
+                <BarChartEvaluations1
                     navigation = {props.navigation}
                 />
             } 
@@ -15,4 +15,4 @@ const BilanCategorie1Screen = props => {
     );
 };
 
-export default BilanCategorie1Screen;
+export default BilanEvaluations1Screen;

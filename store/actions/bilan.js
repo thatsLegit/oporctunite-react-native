@@ -94,7 +94,7 @@ export const fetchNoteGlobaleEvaluations = () => {
         let loadedNoteGlobaleEvaluations = {};
         resData.data.forEach(eva => {
             loadedNoteGlobaleEvaluations = {
-                ...loadedNoteGlobaleEvaluations, [eva.idTest]: {[eva.nomEvaluation]: {[eva.dateT]: eva.valeur}}
+                ...loadedNoteGlobaleEvaluations, [eva.nomEvaluation]: eva.moyenneE
             }
         });
 

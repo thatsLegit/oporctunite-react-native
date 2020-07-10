@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryLabel, VictoryBar} from "victory-native";
+import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar} from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
@@ -45,7 +45,6 @@ const BarChart3 = props => {
             else if (bilanEleveurTitreSousCateg.indexOf(globalTitre) == -1) {
                 tableauNoteSousCategArranger.push(0);
                 i = titreGlobaleSousCateg.length; //  Pour sortie de la boucle et pas ajouter quatre 0
-
             }
             i++;
         }
@@ -95,7 +94,7 @@ const BarChart3 = props => {
                             target: "data",
                             eventHandlers: {
                                 onPressOut: (event, data) => {
-                                    (data.key == "chart-group-2-bar-0-data-0")?alert("Redirection "+data.key):alert("Pas dispo "+data.key);
+                                    (data.key == "chart-group-2-bar-0-data-2")?props.navigation.navigate('BilanEvaluation2Screen'):alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
                                 },
                             }
                         }]}

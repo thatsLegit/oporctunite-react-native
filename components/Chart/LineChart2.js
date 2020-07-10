@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text} from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar, VictoryLine, VictoryLabel,VictoryScatter} from "victory-native";
+import { VictoryContainer, VictoryChart, VictoryAxis, VictoryLine, VictoryScatter} from "victory-native";
 import { useSelector } from 'react-redux';
-import Svg from "react-native-svg";
 
-const LineChart1 = props => {
+const LineChart2 = props => {
 
     let dateTests = [];
     let noteTests = [];
@@ -12,17 +11,12 @@ const LineChart1 = props => {
     let i=1;
     useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
              
-        if ((Object.keys(values)=="Etat corporel") && (i<=6)){
-            console.log("Test : "+i);
-            console.log("L'idTest: "+key);
+        if ((Object.keys(values)=="Stéréotypies") && (i<=6)){
             i++;      
             for (const [key, value] of Object.entries(Object.values(values))) {
-                console.log("dateT: "+formatDate(Object.keys(value)));
-                console.log("valeur: "+Object.values(value));
                 dateTests.push(formatDate(Object.keys(value)));
                 noteTests.push(Object.values(value));
             }
-            console.log("\n"); 
         } 
             
     })
@@ -96,12 +90,10 @@ const LineChart1 = props => {
     return (
         <View style={styles.container}>
 
-
                 <VictoryChart 
                     domainPadding={25}
               
                     containerComponent={<VictoryContainer disableContainerEvents />}
-
                 >
                     <VictoryAxis
                         style={{
@@ -153,7 +145,7 @@ const LineChart1 = props => {
                     />
                 </VictoryChart>
                 <View style={styles.titreContainer}>
-                    <Text style={styles.titre}>Etat corporel</Text>
+                    <Text style={styles.titre}>Stéréotypies</Text>
                 </View>
                 
         </View>
@@ -177,4 +169,4 @@ const styles = StyleSheet.create({
 
   });
 
-export default LineChart1
+export default LineChart2

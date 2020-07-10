@@ -5,58 +5,64 @@ import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
 
-const BarChart1 = props => {
+const BarChartEvaluations1 = props => {
 
-    let titreGlobaleSousCateg = [];
-    let moyenneGlobaleSousCateg = [];
+    let moyenneEval1 = 0;
+    let moyenneEval2 = 0;
 
-    useSelector(state => Object.entries(state.bilan.noteGlobaleSousCateg)).map(([key, value]) => {
-        if (Object.values(value) == "Bon état général") {
-            titreGlobaleSousCateg.push(key);
-            moyenneGlobaleSousCateg.push(Object.keys(value));
+    let nbTests1=1;
+    let nbTests2=1;
+
+    useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
+             
+        if (Object.keys(values)=="Stéréotypies"){
+
+            console.log("L'idTest: "+key);
+                
+            for (const [key, value] of Object.entries(Object.values(values))) {
+                console.log("valeur: "+Object.values(value));
+                moyenneEval1 += Object.values(value);
+                nbTests1++;
+            }
+            console.log("\n"); 
+        } 
+        else if (Object.keys(values)=="Exploration individuelle"){
+  
+            console.log("L'idTest: "+key); 
+            for (const [key, value] of Object.entries(Object.values(values))) {
+                console.log("valeur: "+Object.values(value));
+                moyenneEval2 += Object.values(value);
+                nbTests2++;
+            }
+            console.log("\n"); 
         }
+            
     })
 
-    let bilanEleveurSousCateg = [];
-    let bilanEleveurTitreSousCateg = [];
+    let moyenneGlobaleEval1 = 0;
+    let moyenneGlobaleEval2 = 0;
 
-    useSelector(state => Object.entries(state.bilan.noteSousCateg)).map(([key, value]) => {
-        if (Object.values(value) == "Bon état général") {
-            bilanEleveurTitreSousCateg.push(key);
-            bilanEleveurSousCateg.push(Object.keys(value));
+    useSelector(state => Object.entries(state.bilan.noteGlobaleEvaluations)).map(([key, value]) => {
+             
+        if (key=="Stéréotypies"){
+
+            moyenneGlobaleEval1=value;
+        } 
+        else if (key=="Exploration individuelle"){
+  
+            moyenneGlobaleEval2=value;
         }
+            
     })
-
-    // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
-    let tableauNoteSousCategArranger = [];
-
-
-    titreGlobaleSousCateg.forEach(globalTitre => {
-
-        let i = 0;
-
-        while (i < titreGlobaleSousCateg.length) {
-            if (globalTitre == bilanEleveurTitreSousCateg[i]) {
-                tableauNoteSousCategArranger.push(bilanEleveurSousCateg[i]);
-            }
-            else if (bilanEleveurTitreSousCateg.indexOf(globalTitre) == -1) {
-                tableauNoteSousCategArranger.push(0);
-                i = titreGlobaleSousCateg.length; //  Pour sortie de la boucle et pas ajouter quatre 0
-            }
-            i++;
-        }
-
-        i = 0;
-    });
 
     const dataEleveur = [
-        { x: lineBreaker(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
-        { x: lineBreaker(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] }
+        { x: "Stéréotypies", y: (moyenneEval1/nbTests1) },
+        { x: lineBreaker("Exploration individuelle"), y: (moyenneEval2/nbTests2) }
     ];
 
     const dataGlobale = [
-        { x: lineBreaker(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
-         { x: lineBreaker(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }
+        { x: "Stéréotypies", y: moyenneGlobaleEval1 },
+         { x: lineBreaker("Exploration individuelle"), y:  moyenneGlobaleEval2 }
     ];
 
     return (
@@ -91,7 +97,7 @@ const BarChart1 = props => {
                             target: "data",
                             eventHandlers: {
                                 onPressOut: (event, data) => {
-                                    (data.key=="chart-group-2-bar-0-data-0")?props.navigation.navigate('BilanEvaluation1Screen'):alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
+                                    (data.key=="chart-group-2-bar-0-data-0")?props.navigation.navigate('BilanEvaluation2Screen'):alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
                                 },
                             }
                         }]}
@@ -117,4 +123,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default BarChart1
+export default BarChartEvaluations1

@@ -1,14 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import LineChart1 from '../../../components/Chart/LineChart1';
+import { View, Text, StyleSheet,TouchableOpacity } from 'react-native';
+import LineChart2 from '../../../components/Chart/LineChart2';
 import Colors from '../../../constants/Colors';
 
-
-const BilanEvaluation1Screen = props => {
+const BilanEvaluation2Screen = props => {
     return (
         <View style={styles.chartContainer}>
-            <TouchableOpacity style={styles.button} onPress={() => {  props.navigation.navigate("BilanCategorie1Screen") }}>
-                <Text style={styles.buttonText}>Retour catégorie</Text>
+            <TouchableOpacity style={styles.button} onPress={() => { props.navigation.navigate("BilanEvaluations1Screen") }}>
+                <Text style={styles.buttonText}>Retour évaluations</Text>
             </TouchableOpacity>
             
             <View style={styles.chartCaption}>
@@ -17,7 +16,8 @@ const BilanEvaluation1Screen = props => {
                     <Text>6 derniers résultats de l'évaluation</Text>
                 </View>
             </View>
-            <LineChart1/>
+            
+            <LineChart2/>
         </View>
     );
 };
@@ -31,13 +31,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
         marginRight:"40%",
-        marginTop:10   
+        marginTop:10    
     },
     buttonText: {
         color: 'white',
         fontSize: 15,
         padding: 7,
         fontFamily: 'open-sans-bold'
+    },
+    chartContainer: {
+        flex: 1,
+        alignItems: 'center',
     },
     chartContainer: {
         flex: 1,
@@ -50,6 +54,13 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderRadius:100
     },
+    label2: {
+        width: 20,
+        height: 15,
+        backgroundColor: '#FF6666',
+        marginRight: 10,
+        borderRadius:50
+    },
     chartCaption: {
         flex:1,
         marginTop:100
@@ -59,7 +70,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 15
     },
+    label2Container: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    }
 });
 
-
-export default BilanEvaluation1Screen;
+export default BilanEvaluation2Screen;

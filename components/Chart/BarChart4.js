@@ -70,8 +70,6 @@ const BarChart4 = props => {
                      style={{width: "100%", height: "auto"}}>
             <VictoryChart 
                 padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
-                containerComponent={<VictoryContainer disableContainerEvents />}
-
             >
                 <VictoryAxis
                     style={{
@@ -88,14 +86,6 @@ const BarChart4 = props => {
                     <VictoryBar
                         style={{ data: { fill: "#2E9BCA" } }}
                         data={dataEleveur}
-                        events={[{
-                            target: "data",
-                            eventHandlers: {
-                                onPressOut: (event, data) => {
-                                    (data.key == "chart-group-2-bar-0-data-0")?alert("Redirection "+data.key):alert("Pas dispo "+data.key);
-                                },
-                            }
-                        }]}
                     />
                     
                     <VictoryBar

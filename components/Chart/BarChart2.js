@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryLabel, VictoryBar} from "victory-native";
+import { VictoryChart, VictoryGroup, VictoryAxis, VictoryBar} from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
@@ -70,9 +70,7 @@ const BarChart2 = props => {
             <Svg width={400} height={400} viewBox="0 0 400 400"
                      style={{width: "100%", height: "auto"}}>
             <VictoryChart 
-                padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
-                containerComponent={<VictoryContainer disableContainerEvents />}
-
+                padding={{ top: 50, bottom: 70, left: 55, right: 22 }}              
             >
                 <VictoryAxis
                     style={{
@@ -91,14 +89,6 @@ const BarChart2 = props => {
                     <VictoryBar
                         style={{ data: { fill: "#2E9BCA" } }}
                         data={dataEleveur}
-                        events={[{
-                            target: "data",
-                            eventHandlers: {
-                                onPressOut: (event, data) => {
-                                    (data.key == "chart-group-2-bar-0-data-0")?alert("Redirection "+data.key):alert("Pas dispo "+data.key);
-                                },
-                            }
-                        }]}
                     />
                 
                     <VictoryBar

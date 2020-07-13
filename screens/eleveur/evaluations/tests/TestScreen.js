@@ -13,6 +13,7 @@ import PoseAnneau from '../../../../components/Eleveur/Tests/PoseAnneau';
 import ComportementSocial from '../../../../components/Eleveur/Tests/ComportementSocial';
 import EspaceAlloue from '../../../../components/Eleveur/Tests/EspaceAlloue';
 import Haletement from '../../../../components/Eleveur/Tests/Haletement';
+import BlessuresCorps from '../../../../components/Eleveur/Tests/BlessuresCorps';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -205,6 +206,16 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == 'Halètement' && <Haletement
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Blessures sur le corps' && <BlessuresCorps
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

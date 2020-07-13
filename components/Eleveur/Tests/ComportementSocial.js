@@ -9,7 +9,7 @@ import * as testActions from '../../../store/actions/test';
 
 const ComportementSocial = props => {
 
-    const { modalInfo, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInput2Visible, setModalInput2Visible] = useState(false);
@@ -23,7 +23,7 @@ const ComportementSocial = props => {
     const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -136,7 +136,7 @@ const ComportementSocial = props => {
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
-                text="Les animaux ne présentant pas de comportement social positif ou négatif ou d'exploration sont enregistrés comme étant au repos ou autre (manger, boire, renifler)."
+                text={evaluation.description}
                 buttonText='Fermer'
             />
             {/*Modal pour la confirmation de la validation*/}

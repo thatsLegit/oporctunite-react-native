@@ -8,7 +8,7 @@ import * as testActions from '../../../store/actions/test';
 
 const EspaceAlloue = props => {
 
-    const { modalInfo, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
@@ -20,7 +20,7 @@ const EspaceAlloue = props => {
     const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -102,7 +102,7 @@ const EspaceAlloue = props => {
                     <ModalPopupInfo
                         visible={modalInfoVisible}
                         onClose={modalInfoCloser}
-                        text="Les truies doivent avoir au moins 2,25m² par truie et au moins 1,64 m² par cochette après saillie. Si le groupe comporte moins de 6 femelles, la superficie minimale calculée selon les normes figurant précédemment doit être accrue de 10%. Si le groupe comporte plus de 40 femelles ou plus, la superficie minimale calculée selon les normes figurant précédemment peut être diminuée de 10%."
+                        text={evaluation.description}
                         buttonText='Fermer'
                     />
                     {/*Modal pour la confirmation de la validation*/}

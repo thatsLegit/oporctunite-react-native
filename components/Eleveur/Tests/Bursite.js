@@ -10,7 +10,7 @@ import * as testActions from '../../../store/actions/test';
 
 const Bursite = props => {
 
-    const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
@@ -21,10 +21,10 @@ const Bursite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / nbTruies) * 10 + (count2 / nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -35,8 +35,8 @@ const Bursite = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
@@ -47,8 +47,8 @@ const Bursite = props => {
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
@@ -59,8 +59,8 @@ const Bursite = props => {
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count3);
@@ -84,12 +84,12 @@ const Bursite = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount == nbTruies) {
+        if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
         }
-        if (confirmation && globalCount != nbTruies) {
+        if (confirmation && globalCount != evaluation.nbTruies) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
     }, [modalInfo, confirmation, globalCount]);
 
@@ -97,14 +97,14 @@ const Bursite = props => {
         <View>
             <View style={styles.counterContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.counterText}>   {globalCount} / {nbTruies} </Text>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
-                <ProgressBar progress={globalCount / nbTruies} width={200} />
+                <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
@@ -116,8 +116,8 @@ const Bursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
-                            <Counter onChange={changeHandler} max={nbTruies} />
+                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -129,8 +129,8 @@ const Bursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
-                            <Counter onChange={changeHandler2} max={nbTruies} />
+                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -142,8 +142,8 @@ const Bursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
-                            <Counter onChange={changeHandler3} max={nbTruies} />
+                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
+                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>
                 </ScrollView>
@@ -153,9 +153,7 @@ const Bursite = props => {
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
-                text="La bursite est un sac rempli de liquide résultant d'une blessure d'appui au niveau des points d'appui sur la jambe suite au poids du corps. Elle est prévalente au niveau des jarrets mais elle peut intervenir à d'autres endroits.
-                L'évaluation doit se faire sur les membres antérieurs et postérieurs de l'animal sur un profil et chaque bursite doit être évaluée selon les catégories suivantes:
-                Petite bursite de la taille d'un raisin ( 1,5-2,0 cm de diamètre)."
+                text={evaluation.description}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}

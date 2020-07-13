@@ -12,7 +12,7 @@ import Chrono from '../../UI/Chrono';
 
 const Haletement = props => {
 
-    const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
@@ -22,10 +22,10 @@ const Haletement = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((nbTruies - count) / nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((evaluation.nbTruies - count) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -36,8 +36,8 @@ const Haletement = props => {
     };
 
     const changeHandler = (count, sign) => {
-        if (globalCount + 1 > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
@@ -49,11 +49,11 @@ const Haletement = props => {
     };
 
     const timeCompleteHandler = () => {
-        if (globalCount < nbTruies) {
+        if (globalCount < evaluation.nbTruies) {
             setGlobalCount(globalCount + 1)
         } else {
             return (
-                Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }])
+                Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }])
             );
         }
     };
@@ -73,12 +73,12 @@ const Haletement = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount == nbTruies) {
+        if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
         }
-        if (confirmation && globalCount != nbTruies) {
+        if (confirmation && globalCount != evaluation.nbTruies) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
     }, [modalInfo, confirmation, globalCount]);
 
@@ -87,14 +87,14 @@ const Haletement = props => {
             <View>
                 <View style={styles.counterContainer}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.counterText}>   {globalCount} / {nbTruies} </Text>
+                        <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                         <TouchableWithoutFeedback onPress={() => {
                             setModalEchantillonVisible(true);
                         }}>
                             <EvilIcons name="question" size={30} color="black" />
                         </TouchableWithoutFeedback>
                     </View>
-                    <ProgressBar progress={globalCount / nbTruies} width={200} />
+                    <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                 </View>
                 <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
                     <View style={styles.container}>
@@ -111,7 +111,7 @@ const Haletement = props => {
                                 </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={nbTruies} disableInput />
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} disableInput />
                             </View>
                             <Chrono onTimeComplete={timeCompleteHandler} />
                         </View>
@@ -123,14 +123,14 @@ const Haletement = props => {
             <ModalPopupInfo
                 visible={modalInput1Visible}
                 onClose={modalInput1Closer}
-                text="Respiration rapide, brève et saccadée effectuée par la bouche. Si la fréquence respiratoire est supérieure à 28 mouvements par minute, on consièdre qu'il y a halètement."
+                text="Si la fréquence respiratoire est supérieure à 28 mouvements par minute, on considère qu'il y a halètement."
                 buttonText='Fermer'
             />
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
-                text="A prendre pendant le repos de l'animal (attendre 10 minutes suite à l'arrivée de l'évaluateur)"
+                text="L'halètement correspond à une respiration rapide, brève et saccadée effectuée par la bouche. A prendre pendant le repos de l'animal (attendre 10 minutes suite à l'arrivée de l'évaluateur)"
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}

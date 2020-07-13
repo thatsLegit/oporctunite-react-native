@@ -10,7 +10,7 @@ import * as testActions from '../../../store/actions/test';
 
 const ApportEnEau = props => {
 
-    const { modalInfo, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
@@ -25,7 +25,7 @@ const ApportEnEau = props => {
     const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -91,7 +91,6 @@ const ApportEnEau = props => {
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
                     <View>
-
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -104,7 +103,7 @@ const ApportEnEau = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler} max={null} />
                         </View>
                     </View>
@@ -122,11 +121,10 @@ const ApportEnEau = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: props.photo1 }} />
+                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler2} max={null} />
                         </View>
                     </View>
-
                 </ScrollView>
             </View>
 

@@ -25,18 +25,11 @@ const TestScreen = props => {
     const [modalConfirmation, setModalConfirmation] = useState(false);
     const [annulationModal, setAnnulationModal] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
+
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
-    const selectedEvaluation = selectedEvaluations.map(eva => eva.nomEvaluation)[indexEvaluation];
-    const selectedEvaluationSC = selectedEvaluations.map(eva => eva.nomCategorieP)[indexEvaluation];
+    const selectedEvaluation = selectedEvaluations[indexEvaluation];
+
     let selectedCategorie = useSelector(state => state.categ.categories);
-    for (const key in selectedCategorie) {
-        for (const key2 in selectedCategorie[key]) {
-            if (key2 == selectedEvaluationSC) { selectedCategorie = key }
-        }
-    }
-    const currentNbTruies = selectedEvaluations.map(eva => eva.nbTruies)[indexEvaluation];
-    const currentPhoto1 = selectedEvaluations.map(eva => eva.photo1)[indexEvaluation];
-    const currentPhoto2 = selectedEvaluations.map(eva => eva.photo2)[indexEvaluation];
 
     const dispatch = useDispatch();
 
@@ -79,13 +72,23 @@ const TestScreen = props => {
         );
     };
 
-
     if (selectedEvaluations.length == 0) {
         return (
             <View>
                 <Text>Aucune évaluation séléctionnée</Text>
             </View>
         );
+    }
+
+    loop1:
+    for (const key in selectedCategorie) {
+        loop2:
+        for (const key2 in selectedCategorie[key]) {
+            if (key2 == selectedEvaluation.nomCategorieP) {
+                selectedCategorie = key;
+                break loop1;
+            }
+        }
     }
 
     return (
@@ -98,11 +101,11 @@ const TestScreen = props => {
                         </Text>
 
                         <Text style={styles.titre1}>
-                            {selectedEvaluationSC}
+                            {selectedEvaluation.nomCategorieP}
                         </Text>
 
                         <Text style={styles.titre2}>
-                            {selectedEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
+                            {selectedEvaluation.nomEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
                     <TouchableWithoutFeedback onPress={() => {
                                 setInfoModalVisible(true);
                             }}>
@@ -111,111 +114,101 @@ const TestScreen = props => {
                         </Text>
                     </View>
 
-                    {selectedEvaluation == 'Etat corporel' && <EtatCorporel
-                        nbTruies={currentNbTruies}
-                        photo1={currentPhoto1}
-                        photo2={currentPhoto2}
+                    {selectedEvaluation.nomEvaluation == 'Etat corporel' && <EtatCorporel
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Apport en eau' && <ApportEnEau
-                        photo1={currentPhoto1}
+                    {selectedEvaluation.nomEvaluation == 'Apport en eau' && <ApportEnEau
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Boiterie' && <Boiterie
-                        nbTruies={currentNbTruies}
+                    {selectedEvaluation.nomEvaluation == 'Boiterie' && <Boiterie
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Bursite' && <Bursite
-                        nbTruies={currentNbTruies}
-                        photo1={currentPhoto1}
+                    {selectedEvaluation.nomEvaluation == 'Bursite' && <Bursite
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Mortalité' && <Mortalite
+                    {selectedEvaluation.nomEvaluation == 'Mortalité' && <Mortalite
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Stéréotypies' && <Stereotypies
-                        nbTruies={currentNbTruies}
+                    {selectedEvaluation.nomEvaluation == 'Stéréotypies' && <Stereotypies
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == "Pose d'anneaux nasaux et coupe de queue" && <PoseAnneau
-                        nbTruies={currentNbTruies}
+                    {selectedEvaluation.nomEvaluation == "Pose d'anneaux nasaux et coupe de queue" && <PoseAnneau
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Comportement social (positif ou négatif)' && <ComportementSocial
+                    {selectedEvaluation.nomEvaluation == 'Comportement social (positif ou négatif)' && <ComportementSocial
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Surface par truie en m2' && <EspaceAlloue
+                    {selectedEvaluation.nomEvaluation == 'Surface par truie en m2' && <EspaceAlloue
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation == 'Halètement' && <Haletement
-                        nbTruies={currentNbTruies}
+                    {selectedEvaluation.nomEvaluation == 'Halètement' && <Haletement
+                        evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
-                        nomEvaluation={selectedEvaluation}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
                         onNextValidation={nextValidationHandler}

@@ -5,12 +5,14 @@ import { CheckBox } from "native-base"
 import { Octicons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
 import Shadow from '../../UI/Shadow';
+import ModalPopupInfo from '../../Eleveur/Evaluations/ModalPopupInfo';
 import * as evalActions from '../../../store/actions/evaluation';
 
 
 const CorrespondingEvaluations = props => {
+    const [modalInfoVisible, setModalInfoVisible] = useState(false);
     const { selectAll } = props;
-    const [choix, setChoix] = useState(selectAll);
+    const [choix, setChoix] = useState(selectAll); //selectAll ne doit pas forcément initialiser choix
     const Eval = props.eval;
     const dispatch = useDispatch();
 
@@ -28,6 +30,8 @@ const CorrespondingEvaluations = props => {
         dispatch(evalActions.ajouterALaSelection(Eval));
         setChoix(!choix);
     };
+
+    const modalInfoCloser = () => setModalInfoVisible(false);
 
     let Touchable = TouchableOpacity;
     if (Platform.OS == 'android') {
@@ -49,7 +53,15 @@ const CorrespondingEvaluations = props => {
                             color={Colors.primary}
                             checked={choix}
                         />
-                        <TouchableOpacity><Octicons name="info" size={25} color="black" /></TouchableOpacity>
+                        <TouchableOpacity>
+                            <Octicons name="info" size={25} color="black" onPress={() => setModalInfoVisible(true)} />
+                            <ModalPopupInfo
+                                visible={modalInfoVisible}
+                                onClose={modalInfoCloser}
+                                text={Eval.description}
+                                buttonText='Fermer'
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Shadow>

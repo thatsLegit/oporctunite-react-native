@@ -10,7 +10,7 @@ import Colors from '../../../constants/Colors';
 
 const Mortalite = props => {
 
-    const { modalInfo, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [A, setA] = useState(0);
@@ -21,7 +21,7 @@ const Mortalite = props => {
     const dispatch = useDispatch();
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -141,7 +141,7 @@ const Mortalite = props => {
                                 La mortalité est définie comme la mort incontrôlée des animaux (à différencier de l'abattage/euthanasie).{"\n"}
                                 <AntDesign name="warning" size={30} color="black" />
                                 {"  "}Les morts-nés de doivent pas être pris en compte dans cette évaluation.
-                    </Text>
+                            </Text>
                         }
                         buttonText='Fermer'
                     />

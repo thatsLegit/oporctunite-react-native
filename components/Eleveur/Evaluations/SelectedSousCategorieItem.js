@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import Shadow from '../../UI/Shadow';
+import { lineBreaker } from '../../../helper/LineBreaker';
 
 
 const SelectedSousCategorieItem = props => {
@@ -10,11 +11,7 @@ const SelectedSousCategorieItem = props => {
         <Shadow style={styles.catContainer}>
             <View style={styles.selectedCatInnerContainer}>
                 <Text style={styles.selectedCatText}>
-                    {props.nom.substring(0, 22)}
-                    {props.nom.length > 23 && "\n"}
-                    {props.nom.substring(22, 40)}
-                    {props.nom.length > 41 && "\n"}
-                    {props.nom.substring(40, 65)}
+                    {lineBreaker(props.nom, 20)}
                 </Text>
                 <TouchableOpacity onPress={props.onRemove}>
                     <Entypo name="squared-cross" size={25} color="red" />

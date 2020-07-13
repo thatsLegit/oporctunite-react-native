@@ -10,7 +10,7 @@ import * as testActions from '../../../store/actions/test';
 
 const Boiterie = props => {
 
-    const { modalInfo, nbTruies, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, evaluation, confirmation, navigation, nomEvaluation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
@@ -21,7 +21,7 @@ const Boiterie = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / nbTruies) * 10 + (count2 / nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, nomEvaluation));
@@ -35,8 +35,8 @@ const Boiterie = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
@@ -47,8 +47,8 @@ const Boiterie = props => {
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
@@ -59,8 +59,8 @@ const Boiterie = props => {
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count3);
@@ -84,12 +84,12 @@ const Boiterie = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount == nbTruies) {
+        if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
         }
-        if (confirmation && globalCount != nbTruies) {
+        if (confirmation && globalCount != evaluation.nbTruies) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
     }, [modalInfo, confirmation, globalCount]);
 
@@ -97,14 +97,14 @@ const Boiterie = props => {
         <View>
             <View style={styles.counterContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.counterText}>   {globalCount} / {nbTruies} </Text>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
-                <ProgressBar progress={globalCount / nbTruies} width={200} />
+                <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
@@ -118,7 +118,7 @@ const Boiterie = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler} max={nbTruies} />
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -130,7 +130,7 @@ const Boiterie = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler2} max={nbTruies} />
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -142,7 +142,7 @@ const Boiterie = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={nbTruies} />
+                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>
                 </ScrollView>
@@ -152,7 +152,7 @@ const Boiterie = props => {
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
-                text="S'assurer que la truie a marché sur une certaine distance. La boiterie est définie comme l'incapacité de mobiliser correctement un ou plusieurs membres."
+                text={evaluation.description}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}

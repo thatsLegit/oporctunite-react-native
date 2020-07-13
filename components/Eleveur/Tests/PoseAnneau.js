@@ -8,7 +8,7 @@ import * as testActions from '../../../store/actions/test';
 
 const PoseAnneau = props => {
 
-    const { modalInfo, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
@@ -21,7 +21,7 @@ const PoseAnneau = props => {
     const note = Math.round(((count / globalCount) * 10 + (count2 / globalCount) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -123,7 +123,7 @@ const PoseAnneau = props => {
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
-                text="L'évaluateur enregistre la façon dont les mutilations sont entreprises et si des anesthésiques et analgésiques sont utilisées durant le processus."
+                text={evaluation.description}
                 buttonText='Fermer'
             />
             {/*Modal pour la confirmation de la validation*/}

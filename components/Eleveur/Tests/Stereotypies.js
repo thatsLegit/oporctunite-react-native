@@ -10,7 +10,7 @@ import * as testActions from '../../../store/actions/test';
 
 const Stereotypies = props => {
 
-    const { modalInfo, confirmation, navigation, nomEvaluation, Vtype, nbTruies } = props;
+    const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
@@ -23,7 +23,7 @@ const Stereotypies = props => {
     const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -34,8 +34,8 @@ const Stereotypies = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
@@ -46,8 +46,8 @@ const Stereotypies = props => {
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value > nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
@@ -71,12 +71,12 @@ const Stereotypies = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount == nbTruies) {
+        if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
         }
-        if (confirmation && globalCount != nbTruies) {
+        if (confirmation && globalCount != evaluation.nbTruies) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
     }, [modalInfo, confirmation, globalCount]);
 
@@ -88,14 +88,14 @@ const Stereotypies = props => {
                     <View style={styles.container}>
                         <View style={styles.headerContainer}>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={styles.counterText}>   {globalCount} / {nbTruies} </Text>
+                                <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                                 <TouchableWithoutFeedback onPress={() => {
                                     setModalEchantillonVisible(true);
                                 }}>
                                     <EvilIcons name="question" size={30} color="black" />
                                 </TouchableWithoutFeedback>
                             </View>
-                            <ProgressBar progress={globalCount / nbTruies} width={200} />
+                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                         </View>
 
                         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -107,7 +107,7 @@ const Stereotypies = props => {
                             </Text>
                                 </View>
                                 <View style={styles.content}>
-                                    <Counter onChange={changeHandler} max={nbTruies} />
+                                    <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                                 </View>
                             </View>
 
@@ -119,7 +119,7 @@ const Stereotypies = props => {
                             </Text>
                                 </View>
                                 <View style={styles.content}>
-                                    <Counter onChange={changeHandler2} max={nbTruies} />
+                                    <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                                 </View>
                             </View>
                         </View>
@@ -130,10 +130,13 @@ const Stereotypies = props => {
                     <ModalPopupInfo
                         visible={modalInfoVisible}
                         onClose={modalInfoCloser}
-                        text={<Text>Le comportement de stéréotypie est défini comme la séquence d'actes moteurs invariants qui n'apporte pas de gain évident au but pour l'animal.{"\n"}
-                            les stéréotypies évaluées sont les faux mâchonnements, le roulement de langue, le grincement de dents, les morsures d'abreuvoirs, le lèchement de sol.{"\n"}
-                            Chaque truie doit être observée 15 secondes au minimum.
-                        </Text>}
+                        text={
+                            <Text>
+                                Le comportement de stéréotypie est défini comme la séquence d'actes moteurs invariants qui n'apporte pas de gain évident au but pour l'animal.{"\n"}
+                                les stéréotypies évaluées sont les faux mâchonnements, le roulement de langue, le grincement de dents, les morsures d'abreuvoirs, le lèchement de sol.{"\n"}
+                                Chaque truie doit être observée 15 secondes au minimum.
+                            </Text>
+                        }
                         buttonText='Fermer'
                     />
                     {/*Modal infos sur la composition de l'échantillon*/}

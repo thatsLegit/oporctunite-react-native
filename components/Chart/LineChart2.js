@@ -85,7 +85,6 @@ const LineChart2 = props => {
         default:
             break;
     }
-    console.log(data);
 
     return (
         <View style={styles.container}>
@@ -123,25 +122,11 @@ const LineChart2 = props => {
                      
                         }}				
                     />
-                    <VictoryLine
-                    interpolation="catmullRom"
-                    data={data}
-                    labels={({ datum }) => datum.y}
-                    style={{
-                        data: {
-                          stroke: "#2E9BCA" ,
-                          strokeWidth: 1.5
-                        },
-                        labels: {
-                          fontSize: 15,
-                          fill: "black"
-                        }
-                    }}
-                  
-                    />
+
                     <VictoryScatter data={data}
                         size={5}
                         style={{ data: { fill: "#2E9BCA" } }}
+                        labels={({ datum }) => datum.y}
                     />
                 </VictoryChart>
                 <View style={styles.titreContainer}>

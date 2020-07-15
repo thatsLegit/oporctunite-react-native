@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Platform, Dimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { CheckBox } from "native-base"
+import { CheckBox } from "native-base";
 import { Octicons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
 import Shadow from '../../UI/Shadow';

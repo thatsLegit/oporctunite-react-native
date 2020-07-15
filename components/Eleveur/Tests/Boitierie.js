@@ -122,7 +122,7 @@ const Boiterie = props => {
                         </View>
                     </View>
 
-                    <View style={{ marginVertical: 25 }}>
+                    <View style={{ marginTop: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 20 }}>• {" "}</Text>
@@ -134,7 +134,7 @@ const Boiterie = props => {
                         </View>
                     </View>
 
-                    <View style={{ marginVertical: 25 }}>
+                    <View style={{ marginTop: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 20 }}>• {" "}</Text>

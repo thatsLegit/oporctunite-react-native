@@ -93,7 +93,7 @@ const PoseAnneau = props => {
                         </View>
                     </View>
 
-                    <View style={{ marginVertical: 25 }}>
+                    <View style={{ marginTop: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -105,7 +105,7 @@ const PoseAnneau = props => {
                         </View>
                     </View>
 
-                    <View style={{ marginVertical: 25 }}>
+                    <View style={{ marginTop: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>

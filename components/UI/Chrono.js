@@ -11,7 +11,7 @@ import Colors from '../../constants/Colors';
 const TimerChrono = props => {
 
     const [isTimerStart, setIsTimerStart] = useState();
-    const timerDuration = 5000;
+    const timerDuration = 60000;
     const [resetTimer, setResetTimer] = useState();
 
     const startStopTimer = () => {
@@ -23,7 +23,6 @@ const TimerChrono = props => {
         setResetTimer(true);
     };
     const timerFinishedHanler = () => {
-        props.onTimeComplete();
         setIsTimerStart(false);
         setResetTimer(true);
     };

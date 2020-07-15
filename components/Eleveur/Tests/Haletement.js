@@ -18,11 +18,12 @@ const Haletement = props => {
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
+    const [count2, setCount2] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((evaluation.nbTruies - count) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count2 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -48,15 +49,19 @@ const Haletement = props => {
         }
     };
 
-    const timeCompleteHandler = () => {
-        if (globalCount < evaluation.nbTruies) {
-            setGlobalCount(globalCount + 1)
+    const changeHandler2 = (count, sign) => {
+        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount2(count);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + 1);
         } else {
-            return (
-                Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }])
-            );
+            setGlobalCount(globalCount - 1);
         }
     };
+
 
     const modalInput1Closer = () => setModalInput1Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
@@ -102,7 +107,7 @@ const Haletement = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Nombre de truies présentant des signes d'halètement {" "}
+                                    Truies présentant des signes d'halètement {" "}
                                     <TouchableWithoutFeedback onPress={() => {
                                         setModalInput1Visible(true);
                                     }}>
@@ -113,7 +118,18 @@ const Haletement = props => {
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} disableInput />
                             </View>
-                            <Chrono onTimeComplete={timeCompleteHandler} />
+
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Truies sans aucun signe d'halètement {" "}
+                                </Text>
+                            </View>
+                            <View style={styles.counter}>
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} disableInput />
+                            </View>
+
+                            <Chrono />
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

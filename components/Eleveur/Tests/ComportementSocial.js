@@ -1,29 +1,37 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard, TextInput, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import * as testActions from '../../../store/actions/test';
+import Colors from '../../../constants/Colors';
+import Shadow from '../../../components/UI/Shadow';
 
 
 const ComportementSocial = props => {
 
     const { modalInfo, confirmation, navigation, evaluation, Vtype } = props;
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
+    const [modalGroupeVisible, setModalGroupeVisible] = useState(false);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInput2Visible, setModalInput2Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
+    const [demarrage, setDemarrage] = useState(true);
+    const [page, setPage] = useState(0);
+    const [init, setInit] = useState(false);
+    const [notes, setNotes] = useState([]);
+    const [pageActuelle, setPageActuelle] = useState(1);
+    const [taille, setTaille] = useState(0);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
-    const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
-
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
+        setNotes([...notes, Math.round(((count / count + count2) * 10 + Number.EPSILON) * 10) / 10]);
+        const noteFinale = notes.reduce((sum, n) => sum + n, 0) / notes.length;
+        await dispatch(testActions.ajouterTest(noteFinale, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -33,33 +41,28 @@ const ComportementSocial = props => {
         }
     };
 
-    const changeHandler = (count, sign, value) => {
-        setCount(count);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+    const pageNumberHandler = () => {
+        if (taille >= 40) {
+            setPage(4);
+        } else if (taille <= 15) {
+            setPage(1);
         } else {
-            setGlobalCount(globalCount - value);
-        }
-    };
-    const changeHandler2 = (count2, sign, value) => {
-        setCount2(count2);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
+            setPage(2);
         }
     };
 
-    const modalInput1Closer = () => {
-        setModalInput1Visible(false);
-    };
-    const modalInput2Closer = () => {
-        setModalInput2Visible(false);
-    };
+    const changeHandler = count => setCount(count);
+    const changeHandler2 = count => setCount2(count);
+
+    const modalInput1Closer = () => setModalInput1Visible(false);
+    const modalInput2Closer = () => setModalInput2Visible(false);
+    const modalGroupeCloser = () => setModalGroupeVisible(false);
+
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
+
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -67,15 +70,73 @@ const ComportementSocial = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount > 0) {
+        if (confirmation && pageActuelle == page && (count != 0 || count2 != 0)) {
             setModalConfirmation(confirmation);
-        }
-        if (confirmation && globalCount == 0) {
+            return;
+        } if (confirmation) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Il faut évaluer au moins 1 animal dans cette évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Veuillez évaluer vos ${page} groupes avant de continuer.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, confirmation, pageActuelle, page, count, count2]);
 
+    if (demarrage) {
+        return (
+            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+                <View>
+                    <View style={styles.demarrage}>
+                        <Text style={styles.bigText}>Taille moyenne de vos groupes :{" "}</Text>
+                        <TouchableWithoutFeedback onPress={() => {
+                            setModalGroupeVisible(true);
+                        }}>
+                            <FontAwesome name="question-circle" size={24} color="black" />
+                        </TouchableWithoutFeedback>
+                        <View style={styles.inputBorder}>
+                            <TextInput
+                                style={styles.text}
+                                onBlur={() => {
+                                    if (taille == "") {
+                                        setTaille(0);
+                                    } else {
+                                        pageNumberHandler();
+                                    }
+                                }}
+                                onChangeText={(num) => num.length > 0 ? setTaille(parseInt(num)) : setTaille("")}
+                                value={taille.toString()}
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                keyboardType='number-pad'
+                                maxLength={3}
+                            />
+                        </View>
+                        <Shadow style={styles.button}>
+                            <TouchableOpacity onPress={() => setDemarrage(false)}
+                            >
+                                <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                            </TouchableOpacity>
+                        </Shadow>
+                    </View>
+                    {/*Modal infos sur l'évaluation*/}
+                    <ModalPopupInfo
+                        visible={modalInfoVisible}
+                        onClose={modalInfoCloser}
+                        text={evaluation.description}
+                        buttonText='Fermer'
+                    />
+                    {/*Modal infos sur les groupes*/}
+                    <ModalPopupInfo
+                        visible={modalGroupeVisible}
+                        onClose={modalGroupeCloser}
+                        text={<Text>
+                            Les petits groupes (moins de 15 truies) sont évalués sur 4 cases. {"\n"}{"\n"}
+                                Les grand groupes (plus de 40 truies) sont évalués sur 1 case. {"\n"}{"\n"}
+                                Les groupes intermédiaires sont évalués sur 2 cases.
+                            </Text>}
+                        buttonText='Fermer'
+                    />
+                </View>
+            </TouchableWithoutFeedback>
+        );
+    }
 
     return (
         <View>
@@ -94,7 +155,7 @@ const ComportementSocial = props => {
                             </Text>
                         </View>
                         <View style={styles.counter}>
-                            <Counter onChange={changeHandler} max={null} />
+                            <Counter onChange={changeHandler} max={null} reinitialiser={init} />
                         </View>
                     </View>
 
@@ -111,9 +172,28 @@ const ComportementSocial = props => {
                             </Text>
                         </View>
                         <View style={styles.counter}>
-                            <Counter onChange={changeHandler2} max={null} />
+                            <Counter onChange={changeHandler2} max={null} reinitialiser={init} />
                         </View>
                     </View>
+
+                    {pageActuelle < page &&
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Shadow style={styles.button}>
+                                <TouchableOpacity onPress={() => {
+                                    if (count == 0 && count2 == 0) {
+                                        Alert.alert('Erreur', `Veuillez renseigner tous les champs avant de valider.`, [{ text: 'Compris', style: 'destructive' }]);
+                                        return;
+                                    }
+                                    setPageActuelle(pageActuelle + 1);
+                                    setNotes([...notes, Math.round(((count / (count + count2)) * 10 + Number.EPSILON) * 10) / 10]);
+                                    setCount(0);
+                                    setCount2(0);
+                                    setInit(true);
+                                }}>
+                                    <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                </TouchableOpacity>
+                            </Shadow>
+                        </View>}
                 </View>
             </TouchableWithoutFeedback>
 
@@ -158,6 +238,11 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height / 1.60,
         justifyContent: 'center'
     },
+    demarrage: {
+        height: Dimensions.get('window').height / 1.60,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -166,6 +251,34 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17
+    },
+    bigText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 20,
+        color: Colors.primary
+    },
+    inputBorder: {
+        marginTop: 20,
+        width: "15%",
+        borderColor: Colors.primary,
+        borderWidth: 3,
+        borderRadius: 10,
+        padding: 5
+    },
+    button: {
+        marginTop: 50,
+        width: "35%",
+        height: 35,
+        backgroundColor: Colors.accent,
+        borderRadius: 10,
+        alignItems: "center",
+        borderRadius: 10,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        padding: 4,
+        fontFamily: 'open-sans-bold'
     }
 });
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
@@ -8,8 +8,12 @@ const Counter = props => {
 
     const [count, setCount] = useState('0');
     const modifyCounter = useRef('0');
-    const { max } = props;
-    const editable = props.disableInput ? false : true
+    const { max, reinitialiser } = props;
+    const editable = props.disableInput ? false : true;
+
+    useEffect(() => {
+        reinitialiser && setCount('0');
+    }, [reinitialiser])
 
     const plus = () => {
         if (max && parseInt(count) + 1 > max) {

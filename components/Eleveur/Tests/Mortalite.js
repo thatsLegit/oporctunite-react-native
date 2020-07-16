@@ -6,6 +6,7 @@ import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupIn
 import * as testActions from '../../../store/actions/test';
 import Shadow from '../../../components/UI/Shadow';
 import Colors from '../../../constants/Colors';
+import InputBorder from '../../../components/UI/InputBorder';
 
 
 const Mortalite = props => {
@@ -80,7 +81,7 @@ const Mortalite = props => {
                         <View style={styles.inputsContainer}>
                             <View style={styles.inputContainer}>
                                 <Text style={styles.text}>A = </Text>
-                                <View style={styles.inputBorder}>
+                                <InputBorder>
                                     <TextInput
                                         style={styles.text}
                                         onBlur={() => {
@@ -98,12 +99,12 @@ const Mortalite = props => {
                                         keyboardType='number-pad'
                                         maxLength={5}
                                     />
-                                </View>
+                                </InputBorder>
                             </View>
 
                             <View style={styles.inputContainer}>
                                 <Text style={styles.text}>M = </Text>
-                                <View style={styles.inputBorder}>
+                                <InputBorder>
                                     <TextInput
                                         style={styles.text}
                                         onBlur={() => {
@@ -121,13 +122,13 @@ const Mortalite = props => {
                                         keyboardType='number-pad'
                                         maxLength={5}
                                     />
-                                </View>
+                                </InputBorder>
                             </View>
                             <View style={styles.inputContainer}>
                                 <Text style={styles.text}>Mortalité : </Text>
-                                <View style={styles.inputBorder}>
+                                <InputBorder>
                                     <Text style={styles.text}>{mortalite} %</Text>
-                                </View>
+                                </InputBorder>
                             </View>
 
                         </View>
@@ -188,13 +189,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 15,
         padding: 10
-    },
-    inputBorder: {
-        width: "15%",
-        borderColor: Colors.primary,
-        borderWidth: 3,
-        borderRadius: 10,
-        padding: 5
     }
 });
 

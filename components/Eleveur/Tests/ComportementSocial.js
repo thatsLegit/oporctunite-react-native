@@ -7,6 +7,7 @@ import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupIn
 import * as testActions from '../../../store/actions/test';
 import Colors from '../../../constants/Colors';
 import Shadow from '../../../components/UI/Shadow';
+import InputBorder from '../../../components/UI/InputBorder';
 
 
 const ComportementSocial = props => {
@@ -90,7 +91,7 @@ const ComportementSocial = props => {
                         }}>
                             <FontAwesome name="question-circle" size={24} color="black" />
                         </TouchableWithoutFeedback>
-                        <View style={styles.inputBorder}>
+                        <InputBorder style={{ marginTop: 20 }}>
                             <TextInput
                                 style={styles.text}
                                 onBlur={() => {
@@ -107,7 +108,7 @@ const ComportementSocial = props => {
                                 keyboardType='number-pad'
                                 maxLength={3}
                             />
-                        </View>
+                        </InputBorder>
                         <Shadow style={styles.button}>
                             <TouchableOpacity onPress={() => setDemarrage(false)}>
                                 <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
@@ -259,14 +260,6 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         fontSize: 20,
         color: Colors.primary
-    },
-    inputBorder: {
-        marginTop: 20,
-        width: "15%",
-        borderColor: Colors.primary,
-        borderWidth: 3,
-        borderRadius: 10,
-        padding: 5
     },
     button: {
         marginTop: 50,

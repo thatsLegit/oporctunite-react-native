@@ -6,6 +6,7 @@ import Colors from '../../../constants/Colors';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import Shadow from '../../../components/UI/Shadow';
 import * as testActions from '../../../store/actions/test';
+import InputBorder from '../../../components/UI/InputBorder';
 
 
 const EspaceAlloue = props => {
@@ -115,7 +116,7 @@ const EspaceAlloue = props => {
 
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Nombre d'animaux dans le groupe : </Text>
-                            <View style={styles.inputBorder}>
+                            <InputBorder>
                                 <TextInput
                                     style={styles.text}
                                     onBlur={() => {
@@ -130,12 +131,12 @@ const EspaceAlloue = props => {
                                     keyboardType='number-pad'
                                     maxLength={3}
                                 />
-                            </View>
+                            </InputBorder>
                         </View>
 
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Superficie de la case en m2 : </Text>
-                            <View style={styles.inputBorder}>
+                            <InputBorder>
                                 <TextInput
                                     style={styles.text}
                                     onBlur={() => {
@@ -150,7 +151,7 @@ const EspaceAlloue = props => {
                                     keyboardType='number-pad'
                                     maxLength={3}
                                 />
-                            </View>
+                            </InputBorder>
                         </View>
 
                         {choixCochette &&
@@ -237,13 +238,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         borderRadius: 10,
-    },
-    inputBorder: {
-        width: "15%",
-        borderColor: Colors.primary,
-        borderWidth: 3,
-        borderRadius: 10,
-        padding: 5
     },
     buttonText: {
         color: 'white',

@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet} from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar} from "victory-native";
+import { View, StyleSheet } from 'react-native';
+import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
@@ -56,19 +56,17 @@ const BarChart1 = props => {
 
     const dataGlobale = [
         { x: lineBreaker(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
-         { x: lineBreaker(titreGlobaleSousCateg[1]), y:  moyenneGlobaleSousCateg[1] }
+        { x: lineBreaker(titreGlobaleSousCateg[1]), y: moyenneGlobaleSousCateg[1] }
     ];
 
     return (
         <View style={styles.container}>
 
-            <Svg width={400} height={400} viewBox="0 0 400 400"
-                     style={{width: "100%", height: "auto"}}>
-                <VictoryChart 
-                    padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
-                    containerComponent={<VictoryContainer disableContainerEvents />}
+            <VictoryChart
+                padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
+                containerComponent={<VictoryContainer disableContainerEvents />}
 
-                >
+            >
                 <VictoryAxis
                     style={{
                         tickLabels: {
@@ -77,13 +75,13 @@ const BarChart1 = props => {
                     }}
                 />
                 <VictoryAxis
-                    dependentAxis              
+                    dependentAxis
                     style={{ tickLabels: { fontSize: 12 } }}
                 />
                 <VictoryGroup offset={24}
-                    colorScale={"qualitative"}              
+                    colorScale={"qualitative"}
                 >
-                
+
                     <VictoryBar
                         style={{ data: { fill: "#2E9BCA" } }}
                         data={dataEleveur}
@@ -91,20 +89,19 @@ const BarChart1 = props => {
                             target: "data",
                             eventHandlers: {
                                 onPressOut: (event, data) => {
-                                    (data.key=="chart-group-2-bar-0-data-0")?props.navigation.navigate('BilanEvaluation1Screen'):alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
+                                    (data.key == "chart-group-2-bar-0-data-0") ? props.navigation.navigate('BilanEvaluation1Screen') : alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
                                 },
                             }
                         }]}
                     />
-                    
+
                     <VictoryBar
                         style={{ data: { fill: "#FF6666" } }}
                         data={dataGlobale}
                     />
-                
+
                 </VictoryGroup>
-                </VictoryChart>
-            </Svg>
+            </VictoryChart>
         </View>
 
     );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
@@ -14,6 +14,7 @@ import ComportementSocial from '../../../../components/Eleveur/Tests/Comportemen
 import EspaceAlloue from '../../../../components/Eleveur/Tests/EspaceAlloue';
 import Haletement from '../../../../components/Eleveur/Tests/Haletement';
 import BlessuresCorps from '../../../../components/Eleveur/Tests/BlessuresCorps';
+import DimensionsCases from '../../../../components/Eleveur/Tests/DimensionsCases';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -26,9 +27,16 @@ const TestScreen = props => {
     const [modalConfirmation, setModalConfirmation] = useState(false);
     const [annulationModal, setAnnulationModal] = useState(false);
     const [indexEvaluation, setIndexEvaluation] = useState(0);
+    const [needInfo, setNeedInfo] = useState(true);
 
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
     const selectedEvaluation = selectedEvaluations[indexEvaluation];
+
+    useEffect(() => {
+        if (selectedEvaluation && selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas') {
+            setNeedInfo(false);
+        }
+    }, [selectedEvaluation]);
 
     let selectedCategorie = useSelector(state => state.categ.categories);
 
@@ -107,11 +115,9 @@ const TestScreen = props => {
 
                         <Text style={styles.titre2}>
                             {selectedEvaluation.nomEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
-                    <TouchableWithoutFeedback onPress={() => {
-                                setInfoModalVisible(true);
-                            }}>
+                            {needInfo && <TouchableWithoutFeedback onPress={() => setInfoModalVisible(true)}>
                                 <EvilIcons name="question" size={30} color="black" />
-                            </TouchableWithoutFeedback>
+                            </TouchableWithoutFeedback>}
                         </Text>
                     </View>
 
@@ -219,6 +225,14 @@ const TestScreen = props => {
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas' && <DimensionsCases
+                        evaluation={selectedEvaluation}
                         onCloseConfirmation={modalConfirmationCloser}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}

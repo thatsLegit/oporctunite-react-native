@@ -69,8 +69,9 @@ const PoseAnneau = props => {
         setModalInfoVisible(modalInfo);
         if (confirmation && globalCount > 0) {
             setModalConfirmation(confirmation);
+            return;
         }
-        if (confirmation && globalCount == 0) {
+        if (confirmation) {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Il faut réaliser l'évaluation sur au moins 1 animal.`, [{ text: 'Compris', style: 'destructive' }]);
         }

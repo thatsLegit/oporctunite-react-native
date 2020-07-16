@@ -18,11 +18,10 @@ const ApportEnEau = props => {
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
-    const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / globalCount) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / (count + count2)) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -37,19 +36,9 @@ const ApportEnEau = props => {
 
     const changeHandler = (count, sign, value) => {
         setCount(count);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
     };
     const changeHandler2 = (count2, sign, value) => {
         setCount2(count2);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
     };
 
     const modalInput1Closer = () => setModalInput1Visible(false);
@@ -66,21 +55,22 @@ const ApportEnEau = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount > 0) {
+        if (confirmation && (count != 0 || count2 != 0)) {
             setModalConfirmation(confirmation);
+            return;
         }
-        if (confirmation && globalCount == 0) {
+        if (confirmation) {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Il faut au moins un abreuvoir pour valider cette évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, confirmation, count, count2]);
 
 
     return (
         <View>
             <View style={styles.counterContainer}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.counterText}>   {globalCount} abreuvoirs </Text>
+                    <Text style={styles.counterText}>   {count + count2} abreuvoirs </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>

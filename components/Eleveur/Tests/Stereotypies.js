@@ -73,8 +73,9 @@ const Stereotypies = props => {
         setModalInfoVisible(modalInfo);
         if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
+            return;
         }
-        if (confirmation && globalCount != evaluation.nbTruies) {
+        if (confirmation) {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }

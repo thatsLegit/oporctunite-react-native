@@ -29,8 +29,8 @@ const ComportementSocial = props => {
     const dispatch = useDispatch();
 
     const validationHandler = async () => {
-        setNotes([...notes, Math.round(((count / count + count2) * 10 + Number.EPSILON) * 10) / 10]);
-        const noteFinale = notes.reduce((sum, n) => sum + n, 0) / notes.length;
+        const syncNotes = [...notes, Math.round(((count / (count + count2)) * 10 + Number.EPSILON) * 10) / 10];
+        const noteFinale = syncNotes.reduce((sum, n) => sum + n, 0) / syncNotes.length;
         await dispatch(testActions.ajouterTest(noteFinale, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
@@ -109,8 +109,7 @@ const ComportementSocial = props => {
                             />
                         </View>
                         <Shadow style={styles.button}>
-                            <TouchableOpacity onPress={() => setDemarrage(false)}
-                            >
+                            <TouchableOpacity onPress={() => setDemarrage(false)}>
                                 <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
                             </TouchableOpacity>
                         </Shadow>
@@ -142,7 +141,11 @@ const ComportementSocial = props => {
         <View>
             <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
                 <View style={styles.container}>
-                    <View>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={styles.groupText}>Groupe {pageActuelle} sur {page}</Text>
+                    </View>
+
+                    <View style={{ marginVertical: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -279,6 +282,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 4,
         fontFamily: 'open-sans-bold'
+    },
+    groupText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 18
     }
 });
 

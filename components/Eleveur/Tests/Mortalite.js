@@ -44,8 +44,9 @@ const Mortalite = props => {
         setModalInfoVisible(modalInfo);
         if (confirmation && A > 0 && A > M) {
             setModalConfirmation(confirmation);
+            return;
         }
-        if (confirmation && A == 0 && M > A) {
+        if (confirmation) {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre total d'animaux doit être positif et supérieur au nombre d'animaux morts ou retrouvés morts (A > M).`, [{ text: 'Compris', style: 'destructive' }]);
         }

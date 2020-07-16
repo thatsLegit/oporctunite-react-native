@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from "native-base";
 import Colors from '../../../constants/Colors';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import Shadow from '../../../components/UI/Shadow';
 import * as testActions from '../../../store/actions/test';
 
 
@@ -13,28 +14,26 @@ const EspaceAlloue = props => {
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [choixCochette, setChoixCochette] = useState(false);
-    const [choixTruies, setChoixTruies] = useState(false);
+    const [demarrage, setDemarrage] = useState(true);
+    const [notes, setNotes] = useState([]);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
 
     const dispatch = useDispatch();
 
-    const superficie = Math.round((count / count2) * 10 + Number.EPSILON) / 10;
-
-    const aireParAnimal = Math.round((superficie / count) * 100) / 100
-        ? choixTruies
-        : Math.round((superficie / count2) * 100) / 100;
-
-    const note = () => {
-        if (choixCochette) {
-            return 10 ? aireParAnimal >= 1.64 : 0
-        } else {
-
-        }
-    }
-
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note(), evaluation.nomEvaluation));
+        let coef = 1;
+        if (count <= 6) {
+            coef = 0.9;
+        }
+        if (count >= 40) {
+            coef = 1.1;
+        }
+        const surfaceParAnimal = Math.round((count2 / count) * 100) / 100;
+        const note = surfaceParAnimal >= 2.25 * coef ? 10 : 0;
+        const syncNotes = [...notes, note];
+        const noteFinale = syncNotes.reduce((sum, n) => sum + n, 0) / syncNotes.length;
+        await dispatch(testActions.ajouterTest(noteFinale, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -55,37 +54,63 @@ const EspaceAlloue = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && count > 0 && count2 > 0 && (choixTruies || choixCochette)) {
+        if (confirmation && count > 0 && count2 > 0 && !choixCochette) {
             setModalConfirmation(confirmation);
+            return;
         }
-        if (confirmation && (count == 0 || count2 == 0) && !choixTruies && !choixCochette) {
+        if (confirmation) {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Veuillez renseigner tous les champs requis pour l'évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, choixTruies, choixCochette, count, count2]);
+    }, [modalInfo, confirmation, choixCochette, notes, count, count2]);
 
+
+    if (demarrage) {
+        return (
+            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+                <View>
+                    <View style={styles.demarrage}>
+                        <Text style={styles.bigText}>Votre élevage comprend-t-il des groupes de cochettes ?{"\n"}</Text>
+                        <View style={styles.innerContainer}>
+                            <CheckBox
+                                onPress={() => setChoixCochette(true)}
+                                color={Colors.primary}
+                                checked={choixCochette}
+                            />
+                            <Text style={styles.label}>Oui</Text>
+                            <CheckBox
+                                onPress={() => setChoixCochette(false)}
+                                color={Colors.primary}
+                                checked={!choixCochette}
+                            />
+                            <Text style={styles.label}>Non</Text>
+                        </View>
+                        <Shadow style={styles.button}>
+                            <TouchableOpacity onPress={() => setDemarrage(false)}>
+                                <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                            </TouchableOpacity>
+                        </Shadow>
+                    </View>
+                    {/*Modal infos sur l'évaluation*/}
+                    <ModalPopupInfo
+                        visible={modalInfoVisible}
+                        onClose={modalInfoCloser}
+                        text={evaluation.description}
+                        buttonText='Fermer'
+                    />
+                </View>
+            </TouchableWithoutFeedback>
+        );
+    }
 
     return (
         <View>
             <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
                 <View>
                     <View style={styles.container}>
-
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Type d'animaux : </Text>
-                            <CheckBox
-                                onPress={() => setChoixCochette(!choixCochette)}
-                                color={Colors.primary}
-                                checked={choixCochette}
-                            />
-                            <Text style={styles.label}>Cochettes</Text>
-
-                            <CheckBox
-                                onPress={() => setChoixTruies(!choixTruies)}
-                                color={Colors.primary}
-                                checked={choixTruies}
-                            />
-                            <Text style={styles.label}>Truies</Text>
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            {choixCochette && <Text style={styles.groupText}>Groupe des cochettes </Text>}
+                            {!choixCochette && <Text style={styles.groupText}>Groupe des truies </Text>}
                         </View>
 
                         <View style={styles.innerContainer}>
@@ -109,7 +134,7 @@ const EspaceAlloue = props => {
                         </View>
 
                         <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Superficie de la case en m2 </Text>
+                            <Text style={styles.text}>Superficie de la case en m2 : </Text>
                             <View style={styles.inputBorder}>
                                 <TextInput
                                     style={styles.text}
@@ -127,6 +152,26 @@ const EspaceAlloue = props => {
                                 />
                             </View>
                         </View>
+
+                        {choixCochette &&
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Shadow style={styles.button}>
+                                    <TouchableOpacity onPress={() => {
+                                        if (count == 0 || count2 == 0) {
+                                            Alert.alert('Erreur', `Veuillez renseigner tous les champs de l'évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
+                                            return;
+                                        }
+                                        const surfaceParAnimal = Math.round((count2 / count) * 100) / 100;
+                                        const note = surfaceParAnimal >= 1.64 ? 10 : 0;
+                                        setNotes([note]);
+                                        setCount(0);
+                                        setCount2(0);
+                                        setChoixCochette(false);
+                                    }}>
+                                        <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                    </TouchableOpacity>
+                                </Shadow>
+                            </View>}
 
                     </View>
 
@@ -159,11 +204,16 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').height / 1.60,
         justifyContent: 'center'
     },
+    demarrage: {
+        height: Dimensions.get('window').height / 1.60,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     innerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: 30
     },
     text: {
         fontFamily: 'open-sans',
@@ -174,12 +224,36 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 15
     },
+    bigText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 20,
+        color: Colors.primary
+    },
+    button: {
+        marginTop: 50,
+        width: "35%",
+        height: 35,
+        backgroundColor: Colors.accent,
+        borderRadius: 10,
+        alignItems: "center",
+        borderRadius: 10,
+    },
     inputBorder: {
         width: "15%",
         borderColor: Colors.primary,
         borderWidth: 3,
         borderRadius: 10,
         padding: 5
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        padding: 4,
+        fontFamily: 'open-sans-bold'
+    },
+    groupText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 18
     }
 });
 

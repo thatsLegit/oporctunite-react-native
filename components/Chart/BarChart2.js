@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet} from 'react-native';
-import { VictoryChart, VictoryGroup, VictoryAxis, VictoryBar} from "victory-native";
+import { View, StyleSheet, Platform } from 'react-native';
+import { VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
@@ -31,13 +31,11 @@ const BarChart2 = props => {
         }
     })
 
-    // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
+    // Tableau avec les notes arrangé pour les catégories afin d'avoir un bon ordre et toujours avoir une valeur
     let tableauNoteSousCategArranger = [];
-    
+
     titreGlobaleSousCateg.forEach(globalTitre => {
-
         let i = 0;
-
         while (i < titreGlobaleSousCateg.length) {
             if (globalTitre == bilanEleveurTitreSousCateg[i]) {
                 tableauNoteSousCategArranger.push(bilanEleveurSousCateg[i]);
@@ -49,7 +47,6 @@ const BarChart2 = props => {
             }
             i++;
         }
-
         i = 0;
     });
 
@@ -65,44 +62,78 @@ const BarChart2 = props => {
         { x: lineBreaker(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2] }
     ];
 
-    return (
-        <View style={styles.container}>
-            <Svg width={400} height={400} viewBox="0 0 400 400"
-                     style={{width: "100%", height: "auto"}}>
-            <VictoryChart 
-                padding={{ top: 50, bottom: 70, left: 55, right: 22 }}              
-            >
-                <VictoryAxis
-                    style={{
-                        tickLabels: {
-                            fontSize: 12
-                        }
-                    }}
-                />
-                <VictoryAxis
-                    dependentAxis
-                    style={{ tickLabels: { fontSize: 12 } }}
-                />
-                <VictoryGroup offset={18}
-                    colorScale={"qualitative"}
+    if (Platform.OS == 'android') {
+        return (
+            <View style={styles.container}>
+                <Svg width={400} height={400} viewBox="0 0 400 400"
+                    style={{ width: "100%", height: "auto" }}>
+                    <VictoryChart
+                        padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
+                    >
+                        <VictoryAxis
+                            style={{
+                                tickLabels: {
+                                    fontSize: 12
+                                }
+                            }}
+                        />
+                        <VictoryAxis
+                            dependentAxis
+                            style={{ tickLabels: { fontSize: 12 } }}
+                        />
+                        <VictoryGroup
+                            offset={18}
+                            colorScale={"qualitative"}
+                        >
+                            <VictoryBar
+                                style={{ data: { fill: "#2E9BCA" } }}
+                                data={dataEleveur}
+                            />
+                            <VictoryBar
+                                style={{ data: { fill: "#FF6666" } }}
+                                data={dataGlobale}
+                            />
+                        </VictoryGroup>
+                    </VictoryChart>
+                </Svg>
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                <VictoryChart
+                    padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
                 >
-                    <VictoryBar
-                        style={{ data: { fill: "#2E9BCA" } }}
-                        data={dataEleveur}
+                    <VictoryAxis
+                        style={{
+                            tickLabels: {
+                                fontSize: 12
+                            }
+                        }}
                     />
-                
-                    <VictoryBar
-                        style={{ data: { fill: "#FF6666" } }}
-                        data={dataGlobale}
+                    <VictoryAxis
+                        dependentAxis
+                        style={{ tickLabels: { fontSize: 12 } }}
                     />
+                    <VictoryGroup
+                        offset={18}
+                        colorScale={"qualitative"}
+                    >
+                        <VictoryBar
+                            style={{ data: { fill: "#2E9BCA" } }}
+                            data={dataEleveur}
+                        />
+                        <VictoryBar
+                            style={{ data: { fill: "#FF6666" } }}
+                            data={dataGlobale}
+                        />
+                    </VictoryGroup>
+                </VictoryChart>
+            </View>
+        );
+    }
+};
 
-                </VictoryGroup>
-            </VictoryChart>
-            </Svg>
-        </View>
-
-    );
-}
 
 const styles = StyleSheet.create({
     container: {
@@ -111,4 +142,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default BarChart2
+
+export default BarChart2;

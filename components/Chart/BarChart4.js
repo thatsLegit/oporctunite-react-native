@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet} from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryLabel, VictoryBar} from "victory-native";
+import { View, StyleSheet, Platform } from 'react-native';
+import { VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
@@ -11,13 +11,11 @@ const BarChart4 = props => {
     let moyenneGlobaleSousCateg = [];
 
     useSelector(state => Object.entries(state.bilan.noteGlobaleSousCateg)).map(([key, value]) => {
-
         if (Object.values(value) == "Santé") {
-
             titreGlobaleSousCateg.push(key);
             moyenneGlobaleSousCateg.push(Object.keys(value));
         }
-    })
+    });
 
     let bilanEleveurSousCateg = [];
     let bilanEleveurTitreSousCateg = [];
@@ -27,16 +25,13 @@ const BarChart4 = props => {
             bilanEleveurTitreSousCateg.push(key);
             bilanEleveurSousCateg.push(Object.keys(value));
         }
-    })
+    });
 
     // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
     let tableauNoteSousCategArranger = [];
 
-
     titreGlobaleSousCateg.forEach(globalTitre => {
-
         let i = 0;
-
         while (i < titreGlobaleSousCateg.length) {
             if (globalTitre == bilanEleveurTitreSousCateg[i]) {
                 tableauNoteSousCategArranger.push(bilanEleveurSousCateg[i]);
@@ -48,7 +43,6 @@ const BarChart4 = props => {
             }
             i++;
         }
-
         i = 0;
     });
 
@@ -64,41 +58,70 @@ const BarChart4 = props => {
         { x: lineBreaker(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2] }
     ];
 
-    return (
-        <View style={styles.container}>
-            <Svg width={400} height={400} viewBox="0 0 400 400"
-                     style={{width: "100%", height: "auto"}}>
-            <VictoryChart 
-                padding={{ top: 50, bottom: 70, left: 55, right: 22 }}
-            >
-                <VictoryAxis
-                    style={{
-                        tickLabels: {
-                            fontSize: 12
-                        }
-                    }}
-                />
-                <VictoryAxis
-                    dependentAxis
-                    style={{ tickLabels: { fontSize: 12 } }}
-                />
-                <VictoryGroup offset={18}>
-                    <VictoryBar
-                        style={{ data: { fill: "#2E9BCA" } }}
-                        data={dataEleveur}
-                    />
-                    
-                    <VictoryBar
-                        style={{ data: { fill: "#FF6666" } }}
-                        data={dataGlobale}
-                    />
-                </VictoryGroup>
-            </VictoryChart>
-            </Svg>
-        </View>
+    if (Platform.OS == 'android') {
+        return (
+            <View style={styles.container}>
+                <Svg width={400} height={400} viewBox="0 0 400 400"
+                    style={{ width: "100%", height: "auto" }}>
+                    <VictoryChart padding={{ top: 50, bottom: 70, left: 55, right: 22 }}>
+                        <VictoryAxis
+                            style={{
+                                tickLabels: {
+                                    fontSize: 12
+                                }
+                            }}
+                        />
+                        <VictoryAxis
+                            dependentAxis
+                            style={{ tickLabels: { fontSize: 12 } }}
+                        />
+                        <VictoryGroup offset={18}>
+                            <VictoryBar
+                                style={{ data: { fill: "#2E9BCA" } }}
+                                data={dataEleveur}
+                            />
 
-    );
-}
+                            <VictoryBar
+                                style={{ data: { fill: "#FF6666" } }}
+                                data={dataGlobale}
+                            />
+                        </VictoryGroup>
+                    </VictoryChart>
+                </Svg>
+            </View>
+
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                <VictoryChart padding={{ top: 50, bottom: 70, left: 55, right: 22 }}>
+                    <VictoryAxis
+                        style={{
+                            tickLabels: {
+                                fontSize: 12
+                            }
+                        }}
+                    />
+                    <VictoryAxis
+                        dependentAxis
+                        style={{ tickLabels: { fontSize: 12 } }}
+                    />
+                    <VictoryGroup offset={18}>
+                        <VictoryBar
+                            style={{ data: { fill: "#2E9BCA" } }}
+                            data={dataEleveur}
+                        />
+
+                        <VictoryBar
+                            style={{ data: { fill: "#FF6666" } }}
+                            data={dataGlobale}
+                        />
+                    </VictoryGroup>
+                </VictoryChart>
+            </View>
+        );
+    }
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -107,4 +130,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default BarChart4
+export default BarChart4;

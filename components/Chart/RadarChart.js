@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 import { useSelector } from 'react-redux';
 
+
 const RadarChart = props => {
 
     let titreGlobaleCateg = [];

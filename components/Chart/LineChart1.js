@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar, VictoryLine, VictoryLabel, VictoryScatter } from "victory-native";
+import { VictoryContainer, VictoryChart, VictoryAxis, VictoryScatter } from "victory-native";
 import { useSelector } from 'react-redux';
-import Svg from "react-native-svg";
+
 
 const LineChart1 = props => {
 
@@ -11,21 +11,14 @@ const LineChart1 = props => {
 
     let i = 1;
     useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
-
         if ((Object.keys(values) == "Etat corporel") && (i <= 6)) {
-            console.log("Test : " + i);
-            console.log("L'idTest: " + key);
             i++;
             for (const [key, value] of Object.entries(Object.values(values))) {
-                console.log("dateT: " + formatDate(Object.keys(value)));
-                console.log("valeur: " + Object.values(value));
                 dateTests.push(formatDate(Object.keys(value)));
                 noteTests.push(Object.values(value));
             }
-            console.log("\n");
         }
-
-    })
+    });
 
     function formatDate(date) {
         var d = new Date(date),
@@ -46,7 +39,6 @@ const LineChart1 = props => {
             data = [
                 { x: dateTests[0], y: noteTests[0] },
             ]
-
             break;
         case 2:
             data = [
@@ -90,18 +82,15 @@ const LineChart1 = props => {
             break;
         default:
             break;
-    }
+    };
 
     return (
         <View style={styles.container}>
-
-
             <VictoryChart
                 domainPadding={25}
                 minDomain={{ y: 0 }}
                 maxDomain={{ y: 10 }}
                 containerComponent={<VictoryContainer disableContainerEvents />}
-
             >
                 <VictoryAxis
                     style={{
@@ -129,7 +118,6 @@ const LineChart1 = props => {
                             fill: "black",
                             fillOpacity: 0.7,
                         }
-
                     }}
                 />
 
@@ -160,8 +148,8 @@ const styles = StyleSheet.create({
     titre: {
         width: 100,
         fontSize: 15,
-    },
-
+    }
 });
 
-export default LineChart1
+
+export default LineChart1;

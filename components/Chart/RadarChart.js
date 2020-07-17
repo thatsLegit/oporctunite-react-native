@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 import { useSelector } from 'react-redux';
-
+import { lineBreaker } from '../../helper/LineBreaker';
 
 const RadarChart = props => {
 
@@ -44,8 +44,8 @@ const RadarChart = props => {
 
     const UserData = [
         // Ligne 1 = élevage en cours
-        { [titreGlobaleCateg[0]]: tableauNoteCategArranger[0], [titreGlobaleCateg[1]]: tableauNoteCategArranger[1], [titreGlobaleCateg[2]]: tableauNoteCategArranger[2], [titreGlobaleCateg[3]]: tableauNoteCategArranger[3] },
-        { [titreGlobaleCateg[0]]: moyenneGlobaleCateg[0], [titreGlobaleCateg[1]]: moyenneGlobaleCateg[1], [titreGlobaleCateg[2]]: moyenneGlobaleCateg[2], [titreGlobaleCateg[3]]: moyenneGlobaleCateg[3] }
+        { [lineBreaker(titreGlobaleCateg[0])]: tableauNoteCategArranger[0], [titreGlobaleCateg[1]]: tableauNoteCategArranger[1], [titreGlobaleCateg[3]]: tableauNoteCategArranger[2], [titreGlobaleCateg[2]]: tableauNoteCategArranger[3] },
+        { [lineBreaker(titreGlobaleCateg[0])]: moyenneGlobaleCateg[0], [titreGlobaleCateg[1]]: moyenneGlobaleCateg[1], [titreGlobaleCateg[3]]: moyenneGlobaleCateg[2], [titreGlobaleCateg[2]]: moyenneGlobaleCateg[3] }
     ];
 
     const getMaxima = (data) => {
@@ -54,7 +54,7 @@ const RadarChart = props => {
             return memo;
         }, {});
         return Object.keys(groupedData).reduce((memo, key) => {
-            memo[key] = 13;
+            memo[key] = 10;
             return memo;
         }, {});
     }
@@ -74,14 +74,15 @@ const RadarChart = props => {
     const data = processData(UserData);
     const maxima = getMaxima(UserData);
 
+    const windowWidth = useWindowDimensions().width;
     return (
         <View style={styles.container}>
             <VictoryChart
                 polar
                 //theme={VictoryTheme.material}
                 domain={{ y: [0, 1] }}
-                height={400}
-                width={400}
+                height={windowWidth}
+                width={windowWidth}
 
 
             >
@@ -97,19 +98,19 @@ const RadarChart = props => {
                     Object.keys(maxima).map((key, i) => {
                         return (
                             <VictoryPolarAxis
-                                height={350}
-                                width={350}
+                                height={325}
+                                width={325}
                                 key={i}
                                 dependentAxis
                                 style={{
-                                    axisLabel: { padding: 10 },
-                                    axis: { stroke: "none" },
+                                    axisLabel: { padding: 25 },
+                                    axis: { stroke: "none"},
                                     grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.7 }
                                 }}
                                 tickLabelComponent={
-                                    <VictoryLabel labelPlacement="vertical" />
+                                    <VictoryLabel  />
                                 }
-                                labelPlacement="perpendicular"
+                                labelPlacement="vertical"
                                 axisValue={i + 1} label={key}
                                 tickFormat={(t) => Math.ceil(t * maxima[key])}
                                 tickValues={[0.25, 0.5, 0.75]}
@@ -122,7 +123,7 @@ const RadarChart = props => {
                     labelPlacement="parallel"
                     tickFormat={() => ""}
                     style={{
-                        axis: { stroke: "none" },
+                        axis: { stroke: "grey", opacity: 0.5  },
                         grid: { stroke: "grey", opacity: 0.5 }
                     }}
 

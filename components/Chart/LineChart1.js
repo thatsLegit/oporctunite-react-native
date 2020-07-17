@@ -9,10 +9,12 @@ const LineChart1 = props => {
     let dateTests = [];
     let noteTests = [];
 
-    let i = 1;
-    useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
-        if ((Object.keys(values) == "Etat corporel") && (i <= 6)) {
-            i++;
+    const object = useSelector(state => Object.entries(state.bilan.noteEvaluations)).filter(element => Object.keys(element[1])[0] == "Etat corporel").slice(0, 5);
+    //utilise la fonction sort pour trier par date, par défaut c'est par idTest je crois
+    object.sort((a, b) => a - b);
+
+    object.map(([key, values]) => {
+        if (Object.keys(values) == "Etat corporel") {
             for (const [key, value] of Object.entries(Object.values(values))) {
                 dateTests.push(formatDate(Object.keys(value)));
                 noteTests.push(Object.values(value));

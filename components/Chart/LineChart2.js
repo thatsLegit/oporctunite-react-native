@@ -9,10 +9,12 @@ const LineChart2 = props => {
     let dateTests = [];
     let noteTests = [];
 
-    let i = 1;
-    useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
-        if ((Object.keys(values) == "Stéréotypies") && (i <= 6)) {
-            i++;
+    const object = useSelector(state => Object.entries(state.bilan.noteEvaluations)).filter(element => Object.keys(element[1])[0] == "Stéréotypies").reverse().slice(0, 6);
+    //utilise la fonction sort pour trier par date, par défaut c'est par idTest je crois
+    object.sort((a, b) => a - b);
+
+    object.map(([key, values]) => {
+        if (Object.keys(values) == "Stéréotypies") {
             for (const [key, value] of Object.entries(Object.values(values))) {
                 dateTests.push(formatDate(Object.keys(value)));
                 noteTests.push(Object.values(value));
@@ -42,48 +44,48 @@ const LineChart2 = props => {
             break;
         case 2:
             data = [
-                { x: dateTests[0], y: noteTests[0] },
-                { x: dateTests[1], y: noteTests[1] }
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[0], y: noteTests[0] }
             ]
             break;
         case 3:
             data = [
-                { x: dateTests[0], y: noteTests[0] },
-                { x: dateTests[1], y: noteTests[1] },
                 { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[0], y: noteTests[0] },
             ]
             break;
         case 4:
             data = [
-                { x: dateTests[0], y: noteTests[0] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[2], y: noteTests[2] },
                 { x: dateTests[3], y: noteTests[3] },
+                { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[0], y: noteTests[0] },
             ]
             break;
         case 5:
             data = [
-                { x: dateTests[0], y: noteTests[0] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[2], y: noteTests[2] },
-                { x: dateTests[3], y: noteTests[3] },
                 { x: dateTests[4], y: noteTests[4] },
+                { x: dateTests[3], y: noteTests[3] },
+                { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[0], y: noteTests[0] },
             ]
             break;
         case 6:
             data = [
-                { x: dateTests[0], y: noteTests[0] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[2], y: noteTests[2] },
-                { x: dateTests[3], y: noteTests[3] },
-                { x: dateTests[4], y: noteTests[4] },
                 { x: dateTests[5], y: noteTests[5] },
+                { x: dateTests[4], y: noteTests[4] },
+                { x: dateTests[3], y: noteTests[3] },
+                { x: dateTests[2], y: noteTests[2] },
+                { x: dateTests[1], y: noteTests[1] },
+                { x: dateTests[0], y: noteTests[0] },
             ]
             break;
         default:
             break;
     };
-
+    
     return (
         <View style={styles.container}>
             <VictoryChart

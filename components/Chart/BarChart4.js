@@ -63,7 +63,7 @@ const BarChart4 = props => {
             <View style={styles.container}>
                 <Svg width={400} height={400} viewBox="0 0 400 400"
                     style={{ width: "100%", height: "auto" }}>
-                    <VictoryChart padding={{ top: 50, bottom: 70, left: 55, right: 22 }}>
+                    <VictoryChart padding={{ top: 50, bottom: 110, left: 55, right: 22 }}>
                         <VictoryAxis
                             style={{
                                 tickLabels: {
@@ -125,7 +125,7 @@ const BarChart4 = props => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 10,
+        flex: 20,
         justifyContent: 'center',
     }
 });

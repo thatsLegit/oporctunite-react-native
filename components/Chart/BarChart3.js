@@ -78,7 +78,7 @@ const BarChart3 = props => {
                             style={{ tickLabels: { fontSize: 12 } }}
                         />
                         <VictoryGroup
-                            offset={24}
+                            offset={18}
                             colorScale={"qualitative"}
                         >
                             <VictoryBar

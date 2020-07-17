@@ -232,15 +232,6 @@ export const CategSelectionNavigator = () => {
     );
 };
 
-
-const styles = StyleSheet.create({
-    tabBarLabel: {
-        color: 'white',
-        fontSize: 13,
-        textAlign: 'center'
-    }
-});
-
 //Evaluation stack navigator
 const EvaluationStackNavigator = createStackNavigator();
 export const EvaluationNavigator = () => {
@@ -285,5 +276,13 @@ export const EvaluationNavigator = () => {
     );
 };
 
+
+const styles = StyleSheet.create({
+    tabBarLabel: {
+        color: 'white',
+        fontSize: 13,
+        textAlign: 'center'
+    }
+});
 
 

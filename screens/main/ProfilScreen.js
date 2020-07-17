@@ -7,8 +7,6 @@ import Colors from '../../constants/Colors';
 import HeaderButton from '../../components/UI/HeaderButton';
 import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
-import * as bilanActions from '../../store/actions/bilan';
-import * as authActions from '../../store/actions/auth';
 
 
 const ProfilScreen = props => {
@@ -16,19 +14,11 @@ const ProfilScreen = props => {
     const dispatch = useDispatch();
 
     const categHandler = useCallback(async () => {
-        //Seulement à la 1ère connexion, puis stockage sur sqlite
+        //Seulement à la 1ère connexion, puis stockage sur sqlite :
         await dispatch(categActions.fetchCateg());
         await dispatch(categActions.fetchSousCategByCateg());
         await dispatch(sousCategActions.fetchSousCateg());
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
-        //A chaque connexion
-        await dispatch(bilanActions.fetchNoteCategories());
-        await dispatch(bilanActions.fetchNoteGlobaleCategories());
-        await dispatch(bilanActions.fetchNoteSousCategories());
-        await dispatch(bilanActions.fetchNoteGlobaleSousCategories());
-        await dispatch(bilanActions.fetchNoteEvaluations());
-        await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
-        await dispatch(authActions.setUtilisateur());
         setIsLoading(false);
     }, [dispatch]);
 

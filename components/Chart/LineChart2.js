@@ -13,11 +13,21 @@ const LineChart2 = props => {
     //utilise la fonction sort pour trier par date, par défaut c'est par idTest je crois
     object.sort((a, b) => a - b);
 
+    object.sort((a, b) => a - b);
+    let dateRecente= null;
+    let i =0;
     object.map(([key, values]) => {
         if (Object.keys(values) == "Stéréotypies") {
+            
             for (const [key, value] of Object.entries(Object.values(values))) {
-                dateTests.push(formatDate(Object.keys(value)));
-                noteTests.push(Object.values(value));
+                
+                if(formatDate(Object.keys(value)) != dateRecente && i<6){
+                    i++;
+                    dateRecente=formatDate(Object.keys(value));
+                    dateTests.push(formatDate(Object.keys(value)));
+                    noteTests.push(Object.values(value));
+                }
+                
             }
         }
     });
@@ -85,7 +95,7 @@ const LineChart2 = props => {
         default:
             break;
     };
-    
+
     return (
         <View style={styles.container}>
             <VictoryChart

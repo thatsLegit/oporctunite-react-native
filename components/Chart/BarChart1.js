@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
@@ -55,7 +55,7 @@ const BarChart1 = props => {
         { x: lineBreaker(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
         { x: lineBreaker(titreGlobaleSousCateg[1]), y: moyenneGlobaleSousCateg[1] }
     ];
-
+    const windowWidth = useWindowDimensions().width;
     if (Platform.OS == 'android') {
         return (
             <View style={styles.container}>
@@ -76,7 +76,7 @@ const BarChart1 = props => {
                             style={{ tickLabels: { fontSize: 12 } }}
                         />
                         <VictoryGroup
-                            offset={24}
+                            offset={windowWidth/15}
                             colorScale={"qualitative"}
                         >
                             <VictoryBar
@@ -119,7 +119,7 @@ const BarChart1 = props => {
                         style={{ tickLabels: { fontSize: 12 } }}
                     />
                     <VictoryGroup
-                        offset={24}
+                        offset={windowWidth/15}
                         colorScale={"qualitative"}
                     >
                         <VictoryBar

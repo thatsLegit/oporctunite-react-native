@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from 'react-redux';
-import { View, Text, StyleSheet, Button, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Button, Platform, ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import RadarChart from '../../../components/Chart/RadarChart';
 import HeaderButton from '../../../components/UI/HeaderButton';
@@ -10,20 +10,22 @@ import Colors from '../../../constants/Colors';
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const dispatch = useDispatch();
 
     const notesHandler = useCallback(async () => {
+        setIsRefreshing(true);
         await dispatch(bilanActions.fetchNoteCategories());
         await dispatch(bilanActions.fetchNoteGlobaleCategories());
         await dispatch(bilanActions.fetchNoteSousCategories());
         await dispatch(bilanActions.fetchNoteGlobaleSousCategories());
         await dispatch(bilanActions.fetchNoteEvaluations());
         await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
-        setIsLoading(false);
+        setIsRefreshing(false);
     }, [dispatch]);
 
     useEffect(() => {
-        notesHandler();
+        notesHandler().then(() => setIsLoading(false));;
     }, [notesHandler, dispatch]);
 
 
@@ -39,22 +41,24 @@ const BilanScreen = props => {
     }
 
     return (
-        <View style={styles.chartContainer}>
-            <View style={styles.chartCaption}>
-                <Text style={styles.chartText}>Graphique comparatif</Text>
+        <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={notesHandler} />}>
+            <View style={styles.chartContainer}>
+                <View style={styles.chartCaption}>
+                    <Text style={styles.chartText}>Graphique comparatif</Text>
 
-                <View style={styles.label1Container}>
-                    <View style={styles.label1}></View>
-                    <Text>Résultats de mon elevage</Text>
+                    <View style={styles.label1Container}>
+                        <View style={styles.label1}></View>
+                        <Text>Résultats de mon elevage</Text>
+                    </View>
+                    <View style={styles.label2Container}>
+                        <View style={styles.label2}></View>
+                        <Text>Moyenne des eleveurs</Text>
+                    </View>
                 </View>
-                <View style={styles.label2Container}>
-                    <View style={styles.label2}></View>
-                    <Text>Moyenne des eleveurs</Text>
-                </View>
+                <RadarChart />
+                <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
             </View>
-            <RadarChart />
-            <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
-        </View>
+        </ScrollView>
     );
 };
 

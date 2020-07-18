@@ -3,32 +3,27 @@ import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Di
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
 
 
-const Boiterie = props => {
+const Entassement = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
-    const [modalInput1Visible, setModalInput1Visible] = useState(false);
-    const [modalInput2Visible, setModalInput2Visible] = useState(false);
-    const [modalInput3Visible, setModalInput3Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
-    const [count3, setCount3] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -62,29 +57,13 @@ const Boiterie = props => {
             setGlobalCount(globalCount - value);
         }
     };
-    const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
-        setCount3(count3);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
-    };
 
-    const modalInput1Closer = () => setModalInput1Visible(false);
-    const modalInput2Closer = () => setModalInput2Visible(false);
-    const modalInput3Closer = () => setModalInput3Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
-
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -117,55 +96,32 @@ const Boiterie = props => {
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
-                    <View style={{ marginTop: 30 }}>
+                    <View>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Absence de boiterie à boiterie faible {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                Nombre d'animaux non-entassés
                             </Text>
                         </View>
-                        <View style={styles.content}>
+                        <View style={styles.counter}>
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
-                    <View style={{ marginTop: 50 }}>
+                    <View style={{ marginTop: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Boiterie modérée {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                Nombre d'animaux entassés
                             </Text>
                         </View>
-                        <View style={styles.content}>
+                        <View style={styles.counter}>
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
-                    <View style={{ marginTop: 50 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Boiterie sévère {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput3Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
-                        </View>
+                    <View style={styles.image}>
+                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                     </View>
                 </ScrollView>
             </View>
@@ -177,30 +133,11 @@ const Boiterie = props => {
                 text={evaluation.description}
                 buttonText='Fermer'
             />
-            {/*Modal définition des champs*/}
-            <ModalPopupInfo
-                visible={modalInput1Visible}
-                onClose={modalInput1Closer}
-                text="Démarche normale ou difficultés dans la démarche mais l'animal utilise ses 4 membres. La foulée peut être courte et/ou une démarche mal assurée de la partie postérieure du corps."
-                buttonText='Fermer'
-            />
-            <ModalPopupInfo
-                visible={modalInput2Visible}
-                onClose={modalInput2Closer}
-                text="L'animal présent une boiterie sévère, il met le minimum de poids sur son membre affecté (marche asymétrique)."
-                buttonText='Fermer'
-            />
-            <ModalPopupInfo
-                visible={modalInput3Visible}
-                onClose={modalInput3Closer}
-                text="L'animal ne parvient pas à placer son poids sur le membre affecté ou l'animal n'est pas dans la capacité de marcher."
-                buttonText='Fermer'
-            />
             {/*Modal infos sur la composition de l'échantillon*/}
             <ModalPopupInfo
                 visible={modalEchantillonVisible}
                 onClose={modalEchantillonCloser}
-                text='30 truies (dont 10 en début de gestation, 10 en milieu de gestation et 10 en fin de gestation).'
+                text='30 truies en gestation + 10 truies en lactation.'
                 buttonText='Fermer'
             />
             {/*Modal pour la confirmation de la validation*/}
@@ -222,7 +159,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 35,
     },
-    content: {
+    counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         marginTop: 20
@@ -231,12 +168,21 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         fontSize: 20
     },
+    photo: {
+        marginBottom: 20,
+        height: 200,
+        width: 300
+    },
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
         marginLeft: 20
+    },
+    image: {
+        alignItems: 'center',
+        marginTop: 50
     }
 });
 
 
-export default Boiterie;
+export default Entassement;

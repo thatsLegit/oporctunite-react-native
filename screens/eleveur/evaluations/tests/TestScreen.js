@@ -16,6 +16,7 @@ import Haletement from '../../../../components/Eleveur/Tests/Haletement';
 import BlessuresCorps from '../../../../components/Eleveur/Tests/BlessuresCorps';
 import DimensionsCases from '../../../../components/Eleveur/Tests/DimensionsCases';
 import Entassement from '../../../../components/Eleveur/Tests/Entassement';
+import ExplorationIndividuelle from '../../../../components/Eleveur/Tests/ExplorationIndividuelle';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -241,6 +242,16 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == 'Entassement' && <Entassement
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Exploration individuelle" && <ExplorationIndividuelle
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

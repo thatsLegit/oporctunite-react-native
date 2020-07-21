@@ -18,6 +18,7 @@ import DimensionsCases from '../../../../components/Eleveur/Tests/DimensionsCase
 import Entassement from '../../../../components/Eleveur/Tests/Entassement';
 import ExplorationIndividuelle from '../../../../components/Eleveur/Tests/ExplorationIndividuelle';
 import Hernies from '../../../../components/Eleveur/Tests/Hernies';
+import InfectionsLocales from '../../../../components/Eleveur/Tests/InfectionsLocales';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -263,6 +264,16 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == 'Hernies' && <Hernies
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Infections locales" && <InfectionsLocales
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

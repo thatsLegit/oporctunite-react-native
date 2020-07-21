@@ -20,6 +20,7 @@ import ExplorationIndividuelle from '../../../../components/Eleveur/Tests/Explor
 import Hernies from '../../../../components/Eleveur/Tests/Hernies';
 import InfectionsLocales from '../../../../components/Eleveur/Tests/InfectionsLocales';
 import Mammite from '../../../../components/Eleveur/Tests/Mammite';
+import PeurHommes from '../../../../components/Eleveur/Tests/PeurHommes';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -285,6 +286,16 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == "Mammite" && <Mammite
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "La peur des hommes" && <PeurHommes
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

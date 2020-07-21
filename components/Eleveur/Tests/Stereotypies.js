@@ -88,7 +88,10 @@ const Stereotypies = props => {
                 <View>
                     <View style={styles.container}>
                         <View style={styles.headerContainer}>
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View>
+                                    <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
+                                </View>
                                 <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                                 <TouchableWithoutFeedback onPress={() => {
                                     setModalEchantillonVisible(true);
@@ -96,7 +99,6 @@ const Stereotypies = props => {
                                     <EvilIcons name="question" size={30} color="black" />
                                 </TouchableWithoutFeedback>
                             </View>
-                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                         </View>
 
                         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         alignItems: 'center',
-        marginBottom: 35,
+        marginBottom: 25,
     },
     content: {
         flexDirection: 'row',

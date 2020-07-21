@@ -84,7 +84,10 @@ const Entassement = props => {
     return (
         <View>
             <View style={styles.counterContainer}>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
+                    </View>
                     <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
@@ -92,9 +95,8 @@ const Entassement = props => {
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
-                <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
+            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
                 <ScrollView>
                     <View>
                         <View>
@@ -157,7 +159,7 @@ const Entassement = props => {
 const styles = StyleSheet.create({
     counterContainer: {
         alignItems: 'center',
-        marginBottom: 35,
+        marginBottom: 15,
     },
     counter: {
         flexDirection: 'row',
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
     },
     image: {
         alignItems: 'center',
-        marginTop: 50
+        marginTop: 35
     }
 });
 

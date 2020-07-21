@@ -92,7 +92,10 @@ const Haletement = props => {
         <View>
             <View>
                 <View style={styles.counterContainer}>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View>
+                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
+                        </View>
                         <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                         <TouchableWithoutFeedback onPress={() => {
                             setModalEchantillonVisible(true);
@@ -100,7 +103,6 @@ const Haletement = props => {
                             <EvilIcons name="question" size={30} color="black" />
                         </TouchableWithoutFeedback>
                     </View>
-                    <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                 </View>
                 <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
                     <View style={styles.container}>
@@ -174,7 +176,7 @@ const Haletement = props => {
 const styles = StyleSheet.create({
     counterContainer: {
         alignItems: 'center',
-        marginBottom: 35,
+        marginBottom: 15,
     },
     container: {
         marginTop: 20,

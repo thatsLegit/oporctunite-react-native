@@ -15,8 +15,6 @@ const EtatCorporel = props => {
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
-    const [modalInput2Visible, setModalInput2Visible] = useState(false);
-    const [modalInput3Visible, setModalInput3Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -25,7 +23,7 @@ const EtatCorporel = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count3 / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -76,8 +74,6 @@ const EtatCorporel = props => {
     };
 
     const modalInput1Closer = () => setModalInput1Visible(false);
-    const modalInput2Closer = () => setModalInput2Visible(false);
-    const modalInput3Closer = () => setModalInput3Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
@@ -116,13 +112,13 @@ const EtatCorporel = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
+            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
                     <View>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de truies maigres {" "}
+                                Hernie sévère {" "}
                                 <TouchableWithoutFeedback onPress={() => {
                                     setModalInput1Visible(true);
                                 }}>
@@ -131,7 +127,7 @@ const EtatCorporel = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -140,16 +136,11 @@ const EtatCorporel = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de truies normales {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                Hernie légère {" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -158,16 +149,10 @@ const EtatCorporel = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de truies grasses {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput3Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                Absence d'hernies {" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -178,19 +163,7 @@ const EtatCorporel = props => {
             <ModalPopupInfo
                 visible={modalInput1Visible}
                 onClose={modalInput1Closer}
-                text='Une pression ferme avec la paume de la main permet de ressentir les reliefs osseux de la hanche et du dos.'
-                buttonText='Fermer'
-            />
-            <ModalPopupInfo
-                visible={modalInput2Visible}
-                onClose={modalInput2Closer}
-                text='Les reliefs osseux de la hanche et du dos sont facilement sentis sans aucune pression .'
-                buttonText='Fermer'
-            />
-            <ModalPopupInfo
-                visible={modalInput3Visible}
-                onClose={modalInput3Closer}
-                text='La truie semble très mince visuellement avec des hanches et un dos très proéminent.'
+                text="Très grande rupture ou hernie avec des lésions sanguines qui sont en contact avec le sol quand l'animal est debout ou qui affecte sa locomotion."
                 buttonText='Fermer'
             />
             {/*Modal infos sur l'évaluation*/}

@@ -97,7 +97,10 @@ const Bursite = props => {
     return (
         <View>
             <View style={styles.counterContainer}>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
+                    </View>
                     <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
@@ -105,7 +108,6 @@ const Bursite = props => {
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
-                <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.60 }}>
                 <ScrollView>
@@ -181,7 +183,7 @@ const Bursite = props => {
 const styles = StyleSheet.create({
     counterContainer: {
         alignItems: 'center',
-        marginBottom: 35,
+        marginBottom: 15,
     },
     content: {
         flexDirection: 'row',

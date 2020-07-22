@@ -21,6 +21,8 @@ import Hernies from '../../../../components/Eleveur/Tests/Hernies';
 import InfectionsLocales from '../../../../components/Eleveur/Tests/InfectionsLocales';
 import Mammite from '../../../../components/Eleveur/Tests/Mammite';
 import PeurHommes from '../../../../components/Eleveur/Tests/PeurHommes';
+import PropreteCases from '../../../../components/Eleveur/Tests/PropreteCases';
+import ProlapsusRectal from '../../../../components/Eleveur/Tests/ProlapsusRectal';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -39,7 +41,8 @@ const TestScreen = props => {
     const selectedEvaluation = selectedEvaluations[indexEvaluation];
 
     useEffect(() => {
-        if (selectedEvaluation && selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas') {
+        if (selectedEvaluation && selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas'
+            || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus rectal') {
             setNeedInfo(false);
         }
     }, [selectedEvaluation]);
@@ -298,6 +301,25 @@ const TestScreen = props => {
                     {selectedEvaluation.nomEvaluation == "La peur des hommes" && <PeurHommes
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Propreté des cases" && <PropreteCases
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Prolapsus rectal" && <ProlapsusRectal
+                        evaluation={selectedEvaluation}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
                         confirmation={modalConfirmation}

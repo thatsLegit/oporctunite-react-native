@@ -11,7 +11,14 @@ import Colors from '../../constants/Colors';
 const TimerChrono = props => {
 
     const [isTimerStart, setIsTimerStart] = useState();
-    const timerDuration = 60000;
+    var timerDuration;
+ 
+    if(props.temps != undefined){
+        timerDuration=props.temps*60000;
+    }
+    else{
+        timerDuration=60000;
+    }
     const [resetTimer, setResetTimer] = useState();
 
     const startStopTimer = () => {

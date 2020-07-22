@@ -10,7 +10,7 @@ import * as testActions from '../../../store/actions/test';
 import Chrono from '../../UI/Chrono';
 
 
-const Haletement = props => {
+const Dyspnee = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
@@ -20,7 +20,6 @@ const Haletement = props => {
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
-    
 
     const dispatch = useDispatch();
 
@@ -111,53 +110,44 @@ const Haletement = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Truies présentant des signes d'halètement {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
-                                        <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} disableInput />
-                            </View>
-
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Truies sans aucun signe d'halètement {" "}
+                                    Pas de dyspnée {" "}                                  
                                 </Text>
                             </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} disableInput />
                             </View>
 
-                            <Chrono />
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence de dyspnée {" "}
+                                </Text>
+                            </View>
+                            <View style={styles.counter}>
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} disableInput />
+                            </View>
+
+                            <Chrono 
+                                temps={5}
+                            />
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
 
-            {/*Modal définition des champs*/}
-            <ModalPopupInfo
-                visible={modalInput1Visible}
-                onClose={modalInput1Closer}
-                text="Si la fréquence respiratoire est supérieure à 28 mouvements par minute, on considère qu'il y a halètement."
-                buttonText='Fermer'
-            />
+
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
-                text="L'halètement correspond à une respiration rapide, brève et saccadée effectuée par la bouche. A prendre pendant le repos de l'animal (attendre 10 minutes suite à l'arrivée de l'évaluateur)"
+                text={evaluation.description}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}
             <ModalPopupInfo
                 visible={modalEchantillonVisible}
                 onClose={modalEchantillonCloser}
-                text='40 truies: 30 truies en gestation + 10 truies en lactation'
+                text='30 truies (dont 10 truies en début de gestation, 10 truies en milieu de gestation et 10 truies en fin de gestation) + 10 truies en lactation.'
                 buttonText='Fermer'
             />
             {/*Modal pour la confirmation de la validation*/}
@@ -200,5 +190,4 @@ const styles = StyleSheet.create({
     }
 });
 
-
-export default Haletement;
+export default Dyspnee;

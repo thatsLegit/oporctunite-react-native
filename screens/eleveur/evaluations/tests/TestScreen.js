@@ -18,6 +18,14 @@ import DimensionsCases from '../../../../components/Eleveur/Tests/DimensionsCase
 import Entassement from '../../../../components/Eleveur/Tests/Entassement';
 import ExplorationIndividuelle from '../../../../components/Eleveur/Tests/ExplorationIndividuelle';
 import Hernies from '../../../../components/Eleveur/Tests/Hernies';
+import LesionVulve from '../../../../components/Eleveur/Tests/LesionVulve';
+import Toux from '../../../../components/Eleveur/Tests/Toux';
+import Eternuement from '../../../../components/Eleveur/Tests/Eternuement';
+import Dyspnee from '../../../../components/Eleveur/Tests/Dyspnee';
+import Metrite from '../../../../components/Eleveur/Tests/Metrite';
+import Souillure from '../../../../components/Eleveur/Tests/Souillure';
+import AspectPeau from '../../../../components/Eleveur/Tests/AspectPeau';
+import PlaieEpaule from '../../../../components/Eleveur/Tests/PlaieEpaule';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -263,6 +271,86 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == 'Hernies' && <Hernies
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Lésions de la vulve' && <LesionVulve
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Toux' && <Toux
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Eternuement' && <Eternuement
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Dyspnée' && <Dyspnee
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Métrite' && <Metrite
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Souillure' && <Souillure
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Aspect de la peau' && <AspectPeau
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == 'Plaie à l’épaule' && <PlaieEpaule
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

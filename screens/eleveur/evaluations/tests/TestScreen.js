@@ -25,6 +25,7 @@ import PropreteCases from '../../../../components/Eleveur/Tests/PropreteCases';
 import ProlapsusRectal from '../../../../components/Eleveur/Tests/ProlapsusRectal';
 import ProlapsusUterin from '../../../../components/Eleveur/Tests/ProlapsusUterin';
 import Constipation from '../../../../components/Eleveur/Tests/Constipation';
+import Diarrhee from '../../../../components/Eleveur/Tests/Diarrhee';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -340,6 +341,16 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == "Constipation" && <Constipation
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Diarrhée" && <Diarrhee
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

@@ -23,6 +23,7 @@ import Mammite from '../../../../components/Eleveur/Tests/Mammite';
 import PeurHommes from '../../../../components/Eleveur/Tests/PeurHommes';
 import PropreteCases from '../../../../components/Eleveur/Tests/PropreteCases';
 import ProlapsusRectal from '../../../../components/Eleveur/Tests/ProlapsusRectal';
+import Constipation from '../../../../components/Eleveur/Tests/Constipation';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -320,6 +321,16 @@ const TestScreen = props => {
                     />}
                     {selectedEvaluation.nomEvaluation == "Prolapsus rectal" && <ProlapsusRectal
                         evaluation={selectedEvaluation}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Constipation" && <Constipation
+                        evaluation={selectedEvaluation}
+                        modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}
                         confirmation={modalConfirmation}

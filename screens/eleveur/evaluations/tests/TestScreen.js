@@ -23,6 +23,7 @@ import Mammite from '../../../../components/Eleveur/Tests/Mammite';
 import PeurHommes from '../../../../components/Eleveur/Tests/PeurHommes';
 import PropreteCases from '../../../../components/Eleveur/Tests/PropreteCases';
 import ProlapsusRectal from '../../../../components/Eleveur/Tests/ProlapsusRectal';
+import ProlapsusUterin from '../../../../components/Eleveur/Tests/ProlapsusUterin';
 import Constipation from '../../../../components/Eleveur/Tests/Constipation';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
@@ -43,7 +44,8 @@ const TestScreen = props => {
 
     useEffect(() => {
         if (selectedEvaluation && selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas'
-            || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus rectal') {
+            || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus rectal'
+            || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus utérin') {
             setNeedInfo(false);
         }
     }, [selectedEvaluation]);
@@ -320,6 +322,15 @@ const TestScreen = props => {
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
                     {selectedEvaluation.nomEvaluation == "Prolapsus rectal" && <ProlapsusRectal
+                        evaluation={selectedEvaluation}
+                        onCloseInfo={modalInfoCloser}
+                        onCloseConfirmation={modalConfirmationCloser}
+                        confirmation={modalConfirmation}
+                        navigation={props.navigation}
+                        onNextValidation={nextValidationHandler}
+                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                    />}
+                    {selectedEvaluation.nomEvaluation == "Prolapsus utérin" && <ProlapsusUterin
                         evaluation={selectedEvaluation}
                         onCloseInfo={modalInfoCloser}
                         onCloseConfirmation={modalConfirmationCloser}

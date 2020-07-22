@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { View, Modal, TouchableHighlight, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Modal, TouchableHighlight, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Colors from '../../../constants/Colors';
 
 
 const ModalPopupInfo = props => {
     const { visible, confirmation } = props;
+    const [modalHeight, setModalHeight] = useState(0);
     const [modalVisible, setModalVisible] = useState(visible);
 
     useEffect(() => {
         setModalVisible(visible);
     }, [visible]);
+
+    const modalHeightHandler = useCallback((height) => {
+        setModalHeight(height + 70);
+    }, [modalHeight]);
+
 
     return (
         <View style={styles.centeredView}>
@@ -19,24 +25,31 @@ const ModalPopupInfo = props => {
                 visible={modalVisible}
             >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>
-                            {props.text}
-                        </Text>
-                        <View style={{ flexDirection: confirmation ? 'row' : 'column' }}>
-                            <TouchableHighlight
-                                style={{ ...styles.openButton }}
-                                onPress={props.onClose}
-                            >
-                                <Text style={styles.textStyle}>{props.buttonText}</Text>
-                            </TouchableHighlight>
-                            {confirmation && <TouchableHighlight
-                                style={{ ...styles.openButton, marginLeft: 20, backgroundColor: Colors.primary }}
-                                onPress={props.onValidation}
-                            >
-                                <Text style={styles.textStyle}>Confirmer</Text>
-                            </TouchableHighlight>}
-                        </View>
+                    <View style={{ ...styles.modalView, height: modalHeight, maxHeight: Dimensions.get('window').height / 2 }}>
+                        <ScrollView>
+                            <View onLayout={(event) => {
+                                const { height } = event.nativeEvent.layout;
+                                modalHeightHandler(height);
+                            }}>
+                                <Text style={{ ...styles.modalText, textAlign: props.align ? "auto" : "center" }}>
+                                    {props.text}
+                                </Text>
+                                <View style={{ flexDirection: confirmation ? 'row' : 'column', justifyContent: 'center' }}>
+                                    <TouchableHighlight
+                                        style={{ ...styles.openButton }}
+                                        onPress={props.onClose}
+                                    >
+                                        <Text style={styles.textStyle}>{props.buttonText}</Text>
+                                    </TouchableHighlight>
+                                    {confirmation && <TouchableHighlight
+                                        style={{ ...styles.openButton, marginLeft: 20, backgroundColor: Colors.primary }}
+                                        onPress={props.onValidation}
+                                    >
+                                        <Text style={styles.textStyle}>Confirmer</Text>
+                                    </TouchableHighlight>}
+                                </View>
+                            </View>
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>
@@ -79,7 +92,6 @@ const styles = StyleSheet.create({
     },
     modalText: {
         marginBottom: 15,
-        textAlign: "center",
         fontSize: 16
     }
 });

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
@@ -14,18 +13,14 @@ const Metrite = props => {
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
-    const [modalInput1Visible, setModalInput1Visible] = useState(false);
-    const [modalInput2Visible, setModalInput2Visible] = useState(false);
-    const [modalInput3Visible, setModalInput3Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
-    const [count3, setCount3] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -62,22 +57,7 @@ const Metrite = props => {
             setGlobalCount(globalCount - value);
         }
     };
-    const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
-        setCount3(count3);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
-    };
 
-    const modalInput1Closer = () => setModalInput1Visible(false);
-    const modalInput2Closer = () => setModalInput2Visible(false);
-    const modalInput3Closer = () => setModalInput3Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {

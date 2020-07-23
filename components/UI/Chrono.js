@@ -8,17 +8,10 @@ import Shadow from '../UI/Shadow';
 import Colors from '../../constants/Colors';
 
 
-const TimerChrono = props => {
+const Chrono = props => {
 
     const [isTimerStart, setIsTimerStart] = useState();
-    var timerDuration;
- 
-    if(props.temps != undefined){
-        timerDuration=props.temps*60000;
-    }
-    else{
-        timerDuration=60000;
-    }
+    const timerDuration = props.temps ? props.temps * 60000 : 60000;
     const [resetTimer, setResetTimer] = useState();
 
     const startStopTimer = () => {
@@ -106,4 +99,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default TimerChrono;
+export default Chrono;

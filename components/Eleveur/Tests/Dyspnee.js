@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Ke
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
@@ -14,7 +13,6 @@ const Dyspnee = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
-    const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
@@ -62,8 +60,6 @@ const Dyspnee = props => {
         }
     };
 
-
-    const modalInput1Closer = () => setModalInput1Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
@@ -110,7 +106,7 @@ const Dyspnee = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Pas de dyspnée {" "}                                  
+                                    Pas de dyspnée {" "}
                                 </Text>
                             </View>
                             <View style={styles.counter}>
@@ -127,9 +123,7 @@ const Dyspnee = props => {
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} disableInput />
                             </View>
 
-                            <Chrono 
-                                temps={5}
-                            />
+                            <Chrono temps={5} />
                         </View>
                     </View>
                 </TouchableWithoutFeedback>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -111,6 +111,13 @@ const Souillure = props => {
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.6 }}>
                 <ScrollView>
+                    <View style={styles.intro}>
+                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
+                            10 % correspond à un quart d'une des trois zones {"\n"}
+                            un tiers correspond à une des trois zones
+                        </Text>
+                    </View>
                     <View>
                         <View>
                             <Text style={styles.text}>
@@ -191,11 +198,14 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans-bold',
         fontSize: 15
     },
+    intro: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 25
+    },
     photo: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        width: 250,
+        height: 150
     },
     text: {
         fontFamily: 'open-sans',

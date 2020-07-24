@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -98,6 +98,19 @@ const Metrite = props => {
             </View>
             <View style={{ height: Dimensions.get('window').height / 1.6 }}>
                 <ScrollView>
+                    <View style={{ marginTop: 25 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Mise en évidence d'écoulements de la vulve {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+                    </View>
+
                     <View>
                         <View>
                             <Text style={styles.text}>
@@ -107,18 +120,6 @@ const Metrite = props => {
                         </View>
                         <View style={styles.content}>
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Mise en évidence d'écoulements de la vulve {" "}
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
                 </ScrollView>

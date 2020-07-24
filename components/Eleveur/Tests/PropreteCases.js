@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../Evaluations/ModalPopupInfo';
+import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
 
 
@@ -11,6 +12,7 @@ const PropreteCases = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
+    const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInput2Visible, setModalInput2Visible] = useState(false);
     const [modalInput3Visible, setModalInput3Visible] = useState(false);
@@ -18,11 +20,10 @@ const PropreteCases = props => {
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
     const [count3, setCount3] = useState(0);
-    const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / (count + count2 + count3)) * 10 + (count2 / (count + count2 + count3)) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -36,45 +37,19 @@ const PropreteCases = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
         setCount(count);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
     };
-    const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
-        setCount2(count2);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
+    const changeHandler2 = (count, sign, value) => {
+        setCount2(count);
     };
-    const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
-        setCount3(count3);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
+    const changeHandler3 = (count, sign, value) => {
+        setCount3(count);
     };
 
     const modalInput1Closer = () => setModalInput1Visible(false);
     const modalInput2Closer = () => setModalInput2Visible(false);
     const modalInput3Closer = () => setModalInput3Visible(false);
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
@@ -87,18 +62,28 @@ const PropreteCases = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
-        if (confirmation && globalCount > 0) {
+        if (confirmation && (count != 0 || count2 != 0 || count3 != 0)) {
             setModalConfirmation(confirmation);
             return;
         }
         if (confirmation) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Il faut renseigner au moins un enclos pour valider cette évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, confirmation, count, count2, count3]);
 
     return (
         <View>
+            <View style={styles.counterContainer}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.counterText}>   {count + count2 + count3} enclos </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
+                </View>
+            </View>
             <View style={{ height: Dimensions.get('window').height / 1.6 }}>
                 <ScrollView>
                     <View>
@@ -115,7 +100,7 @@ const PropreteCases = props => {
                         </View>
                         <View style={styles.content}>
                             <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler} max={null} />
                         </View>
                     </View>
 
@@ -133,7 +118,7 @@ const PropreteCases = props => {
                         </View>
                         <View style={styles.content}>
                             <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler2} max={null} />
                         </View>
                     </View>
 
@@ -176,6 +161,13 @@ const PropreteCases = props => {
                 text="Une case très sale correspond à une case dont plus de la moitié de la surface du sol est souillée de fécès avec une absence de séparation entre les zones."
                 buttonText='Fermer'
             />
+            {/*Modal infos sur la composition de l'échantillon*/}
+            <ModalPopupInfo
+                visible={modalEchantillonVisible}
+                onClose={modalEchantillonCloser}
+                text="L'évaluation est réalisée sur l'ensemble de l'élevage."
+                buttonText='Fermer'
+            />
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
@@ -202,6 +194,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         marginTop: 20
+    },
+    counterContainer: {
+        alignItems: 'center',
+        marginBottom: 35,
+    },
+    counterText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 20
     },
     photo: {
         minWidth: 125,

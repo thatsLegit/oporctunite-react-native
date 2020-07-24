@@ -49,7 +49,6 @@ const TestScreen = props => {
     const [needInfo, setNeedInfo] = useState(true);
 
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).sort((a, b) => a.priorite - b.priorite));
-    console.log(selectedEvaluations);
     const selectedEvaluation = selectedEvaluations[indexEvaluation];
 
     useEffect(() => {

@@ -42,7 +42,16 @@ const ComportementSocial = props => {
         }
     };
 
-    const pageNumberHandler = () => {
+    const start = () => {
+        if (taille == "") {
+            setTaille(0);
+            Alert.alert('Erreur', `Veuillez entrer un nombre valide pour la taille de vos groupes.`, [{ text: 'Compris', style: 'destructive' }]);
+            return;
+        }
+        if (taille == 0) {
+            Alert.alert('Erreur', `Veuillez entrer un nombre valide pour la taille de vos groupes.`, [{ text: 'Compris', style: 'destructive' }]);
+            return;
+        }
         if (taille >= 40) {
             setPage(4);
         } else if (taille <= 15) {
@@ -50,6 +59,7 @@ const ComportementSocial = props => {
         } else {
             setPage(2);
         }
+        setDemarrage(false);
     };
 
     const changeHandler = count => setCount(count);
@@ -94,13 +104,7 @@ const ComportementSocial = props => {
                         <InputBorder style={{ marginTop: 20 }}>
                             <TextInput
                                 style={styles.text}
-                                onBlur={() => {
-                                    if (taille == "") {
-                                        setTaille(0);
-                                    } else {
-                                        pageNumberHandler();
-                                    }
-                                }}
+                                onBlur={() => Keyboard.dismiss()}
                                 onChangeText={(num) => num.length > 0 ? setTaille(parseInt(num)) : setTaille("")}
                                 value={taille.toString()}
                                 autoCapitalize='none'
@@ -110,7 +114,7 @@ const ComportementSocial = props => {
                             />
                         </InputBorder>
                         <Shadow style={styles.button}>
-                            <TouchableOpacity onPress={() => setDemarrage(false)}>
+                            <TouchableOpacity onPress={() => start()}>
                                 <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
                             </TouchableOpacity>
                         </Shadow>

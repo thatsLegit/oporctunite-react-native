@@ -67,6 +67,7 @@ export const fetchEvaluationBySousCateg = () => {
             resData.data.forEach(e => {
                 loadedEvaluations.push(new Evaluation(
                     e.nomEvaluation,
+                    e.priorite,
                     e.description,
                     e.nomCategorieP,
                     e.nbTruies,

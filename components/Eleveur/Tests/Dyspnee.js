@@ -110,7 +110,7 @@ const Dyspnee = props => {
                                 </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} disableInput />
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
 
                             <View>
@@ -120,7 +120,7 @@ const Dyspnee = props => {
                                 </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} disableInput />
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
 
                             <Chrono temps={5} />

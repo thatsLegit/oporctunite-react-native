@@ -135,7 +135,7 @@ const Stereotypies = props => {
                         onClose={modalInfoCloser}
                         text={
                             <Text>
-                                Le comportement de stéréotypie est défini comme la séquence d'actes moteurs invariants qui n'apporte pas de gain évident au but pour l'animal.{"\n"}
+                                Le comportement de stéréotypie est défini comme la séquence d'actes moteurs invariants qui n'apporte pas de gain évident ou but pour l'animal.{"\n"}
                                 les stéréotypies évaluées sont les faux mâchonnements, le roulement de langue, le grincement de dents, les morsures d'abreuvoirs, le lèchement de sol.{"\n"}
                                 Chaque truie doit être observée 15 secondes au minimum.
                             </Text>

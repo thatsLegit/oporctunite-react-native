@@ -34,6 +34,7 @@ import ProlapsusRectal from '../../../../components/Eleveur/Tests/ProlapsusRecta
 import ProlapsusUterin from '../../../../components/Eleveur/Tests/ProlapsusUterin';
 import Constipation from '../../../../components/Eleveur/Tests/Constipation';
 import Diarrhee from '../../../../components/Eleveur/Tests/Diarrhee';
+import DyspneeEtHaletement from '../../../../components/Eleveur/Tests/DyspneeEtHaletement';
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';

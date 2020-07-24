@@ -103,7 +103,7 @@ const Diarrhee = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Pas de diarhée
+                                Pas de diarrhée
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -115,7 +115,7 @@ const Diarrhee = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Présence de diarhée dans la case
+                                Présence de diarrhée dans la case
                             </Text>
                         </View>
                         <View style={styles.content}>

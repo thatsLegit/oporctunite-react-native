@@ -9,7 +9,6 @@ const Counter = props => {
     const [count, setCount] = useState('0');
     const modifyCounter = useRef('0');
     const { max, reinitialiser } = props;
-    const editable = props.disableInput ? false : true;
 
     useEffect(() => {
         reinitialiser && setCount('0');
@@ -55,14 +54,8 @@ const Counter = props => {
         }
     };
 
-    const changeTextEventHandler = num => {
-        setCount(num);
-    };
-
-    const saveCountBeforeModify = () => {
-        modifyCounter.current = count
-    }
-
+    const changeTextEventHandler = num => setCount(num);
+    const saveCountBeforeModify = () => modifyCounter.current = count;
 
     return (
         <View style={styles.mainContainer}>
@@ -84,7 +77,6 @@ const Counter = props => {
                     autoCorrect={false}
                     keyboardType='number-pad'
                     maxLength={2}
-                    editable={editable}
                 />
                 <Icon.Button
                     name="plus"

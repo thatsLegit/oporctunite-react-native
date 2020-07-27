@@ -124,17 +124,15 @@ const TestScreen = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={10} behavior={"position"}>
+            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} keyboardVerticalOffset={10} behavior={"position"}>
                 <View>
-                    <View style={styles.header}>
+                    <View style={{ alignItems: "center", height: '15%', paddingVertical: 5 }}>
                         <Text style={styles.titre}>
                             {selectedCategorie}
                         </Text>
-
                         <Text style={styles.titre1}>
                             {selectedEvaluation.nomCategorieP}
                         </Text>
-
                         <Text style={styles.titre2}>
                             {selectedEvaluation.nomEvaluation} ({indexEvaluation + 1} / {selectedEvaluations.length})
                             {needInfo && <TouchableWithoutFeedback onPress={() => setInfoModalVisible(true)}>
@@ -143,319 +141,320 @@ const TestScreen = props => {
                         </Text>
                     </View>
 
-                    {selectedEvaluation.nomEvaluation == 'Etat corporel' && <EtatCorporel
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Apport en eau' && <ApportEnEau
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Boiterie' && <Boiterie
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Bursite' && <Bursite
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Mortalité' && <Mortalite
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Stéréotypies' && <Stereotypies
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == "Pose d'anneaux nasaux et coupe de queue" && <PoseAnneau
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Comportement social (positif ou négatif)' && <ComportementSocial
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Surface par truie en m2' && <EspaceAlloue
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Halètement' && <Haletement
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Blessures sur le corps' && <BlessuresCorps
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas' && <DimensionsCases
-                        evaluation={selectedEvaluation}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Entassement' && <Entassement
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == "Exploration individuelle" && <ExplorationIndividuelle
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Hernies' && <Hernies
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Lésions de la vulve' && <LesionVulve
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Toux' && <Toux
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Eternuement' && <Eternuement
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Dyspnée' && <Dyspnee
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Métrite' && <Metrite
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Souillure' && <Souillure
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Aspect de la peau' && <AspectPeau
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Plaie à l’épaule' && <PlaieEpaule
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Infections locales' && <InfectionsLocales
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Mammite' && <Mammite
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'La peur des hommes' && <PeurHommes
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Propreté des cases' && <PropreteCases
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Prolapsus rectal' && <ProlapsusRectal
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Prolapsus utérin' && <ProlapsusUterin
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Constipation' && <Constipation
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-                    {selectedEvaluation.nomEvaluation == 'Diarrhée' && <Diarrhee
-                        evaluation={selectedEvaluation}
-                        modalInfo={infoModalVisible}
-                        onCloseInfo={modalInfoCloser}
-                        onCloseConfirmation={modalConfirmationCloser}
-                        confirmation={modalConfirmation}
-                        navigation={props.navigation}
-                        onNextValidation={nextValidationHandler}
-                        Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
-                    />}
-
+                    <View style={{ height: '85%' }}>
+                        {selectedEvaluation.nomEvaluation == 'Etat corporel' && <EtatCorporel
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Apport en eau' && <ApportEnEau
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Boiterie' && <Boiterie
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Bursite' && <Bursite
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Mortalité' && <Mortalite
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Stéréotypies' && <Stereotypies
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == "Pose d'anneaux nasaux et coupe de queue" && <PoseAnneau
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Comportement social (positif ou négatif)' && <ComportementSocial
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Surface par truie en m2' && <EspaceAlloue
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Halètement' && <Haletement
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Blessures sur le corps' && <BlessuresCorps
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas' && <DimensionsCases
+                            evaluation={selectedEvaluation}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Entassement' && <Entassement
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == "Exploration individuelle" && <ExplorationIndividuelle
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Hernies' && <Hernies
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Lésions de la vulve' && <LesionVulve
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Toux' && <Toux
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Eternuement' && <Eternuement
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Dyspnée' && <Dyspnee
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Métrite' && <Metrite
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Souillure' && <Souillure
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Aspect de la peau' && <AspectPeau
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Plaie à l’épaule' && <PlaieEpaule
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Infections locales' && <InfectionsLocales
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Mammite' && <Mammite
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'La peur des hommes' && <PeurHommes
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Propreté des cases' && <PropreteCases
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Prolapsus rectal' && <ProlapsusRectal
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Prolapsus utérin' && <ProlapsusUterin
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Constipation' && <Constipation
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                        {selectedEvaluation.nomEvaluation == 'Diarrhée' && <Diarrhee
+                            evaluation={selectedEvaluation}
+                            modalInfo={infoModalVisible}
+                            onCloseInfo={modalInfoCloser}
+                            onCloseConfirmation={modalConfirmationCloser}
+                            confirmation={modalConfirmation}
+                            navigation={props.navigation}
+                            onNextValidation={nextValidationHandler}
+                            Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                        />}
+                    </View>
                 </View>
             </KeyboardAvoidingView>
 
-            <View style={styles.footer}>
+            <View style={{ ...styles.footer, height: '8%' }}>
                 <TouchableOpacity
                     style={styles.footerBtn}
                     onPress={() => modalAnnulationTrigger()}
@@ -483,11 +482,6 @@ export const screenOptions = {
 };
 
 const styles = StyleSheet.create({
-    header: {
-        marginTop: 10,
-        marginBottom: 20,
-        alignItems: "center",
-    },
     titre: {
         fontFamily: 'open-sans',
         fontSize: 14,
@@ -496,18 +490,17 @@ const styles = StyleSheet.create({
     titre1: {
         fontSize: 14,
         fontFamily: 'open-sans',
-        color: 'blue'
+        color: 'blue',
+        textAlign: 'center'
     },
     titre2: {
         textAlign: 'center',
-        marginTop: 10,
         fontSize: 20,
         fontFamily: 'open-sans-bold',
         color: 'green'
     },
     footer: {
         flexDirection: "row",
-        height: '8%',
         position: 'absolute',
         bottom: 0
     },

@@ -98,8 +98,8 @@ const EtatCorporel = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -112,48 +112,50 @@ const EtatCorporel = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
-                <ScrollView>
-                    <View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Hernie sévère {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput1Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Hernie légère {" "}
-                            </Text>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Absence d'hernies {" "}
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -195,29 +197,23 @@ const EtatCorporel = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15
     },
     photo: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 2
     },
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginLeft: 20,
+        paddingVertical: 15
     }
 });
 

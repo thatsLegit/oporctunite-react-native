@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
@@ -14,7 +13,6 @@ const Toux = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
-    const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
@@ -63,7 +61,6 @@ const Toux = props => {
     };
 
 
-    const modalInput1Closer = () => setModalInput1Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
@@ -89,50 +86,48 @@ const Toux = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View>
-                <View style={styles.counterContainer}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View>
-                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
-                        </View>
-                        <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            setModalEchantillonVisible(true);
-                        }}>
-                            <EvilIcons name="question" size={30} color="black" />
-                        </TouchableWithoutFeedback>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                     </View>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
                 </View>
-                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                    <View style={styles.container}>
+            </View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Pas de toux {" "}                                  
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                            </View>
-
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de toux {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                            </View>
-
-                            <Chrono 
-                                temps={5}
-                            />
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Pas de toux {" "}
+                            </Text>
                         </View>
+                        <View style={styles.counter}>
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                        </View>
+
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence de toux {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.counter}>
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+
+                        <Chrono
+                            temps={5}
+                        />
                     </View>
-                </TouchableWithoutFeedback>
+                </ScrollView>
             </View>
 
 
@@ -165,19 +160,9 @@ const Toux = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        alignItems: 'center'
-    },
     counter: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
+        justifyContent: 'space-evenly'
     },
     counterText: {
         fontFamily: 'open-sans-bold',
@@ -186,7 +171,8 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginLeft: 20,
+        paddingVertical: 15
     }
 });
 

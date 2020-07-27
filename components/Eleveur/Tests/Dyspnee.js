@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -85,48 +85,46 @@ const Dyspnee = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View>
-                <View style={styles.counterContainer}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View>
-                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
-                        </View>
-                        <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            setModalEchantillonVisible(true);
-                        }}>
-                            <EvilIcons name="question" size={30} color="black" />
-                        </TouchableWithoutFeedback>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                     </View>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
                 </View>
-                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                    <View style={styles.container}>
+            </View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Pas de dyspnée {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                            </View>
-
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de dyspnée {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                            </View>
-
-                            <Chrono temps={5} />
+                            </Text>
                         </View>
+                        <View style={styles.counter}>
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                        </View>
+
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence de dyspnée {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.counter}>
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+
+                        <Chrono temps={5} />
                     </View>
-                </TouchableWithoutFeedback>
+                </ScrollView>
             </View>
 
 
@@ -159,19 +157,9 @@ const Dyspnee = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        alignItems: 'center'
-    },
     counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
     },
     counterText: {
         fontFamily: 'open-sans-bold',
@@ -180,7 +168,8 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginLeft: 20,
+        paddingVertical: 15
     }
 });
 

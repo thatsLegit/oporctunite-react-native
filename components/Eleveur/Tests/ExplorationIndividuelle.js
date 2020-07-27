@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import { FontAwesome } from '@expo/vector-icons';
@@ -8,7 +8,6 @@ import * as testActions from '../../../store/actions/test';
 import Colors from '../../../constants/Colors';
 import Shadow from '../../../components/UI/Shadow';
 import InputBorder from '../../../components/UI/InputBorder';
-import { ScrollView } from 'react-native-gesture-handler';
 
 
 const ExplorationIndividuelle = props => {
@@ -91,19 +90,20 @@ const ExplorationIndividuelle = props => {
 
     if (demarrage) {
         return (
-            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <View>
+            <View style={{ flex: 1 }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={styles.demarrage}>
-                        <Text style={styles.bigText}>Taille moyenne de vos groupes :{" "}</Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            setModalGroupeVisible(true);
-                        }}>
-                            <FontAwesome name="question-circle" size={24} color="black" />
-                        </TouchableWithoutFeedback>
-                        <InputBorder style={{ marginTop: 20 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <Text style={styles.bigText}>Taille moyenne de vos groupes :{" "}</Text>
+                            <TouchableWithoutFeedback onPress={() => {
+                                setModalGroupeVisible(true);
+                            }}>
+                                <FontAwesome name="question-circle" size={24} color="black" />
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <InputBorder>
                             <TextInput
                                 style={styles.text}
-                                onBlur={() => Keyboard.dismiss()}
                                 onChangeText={(num) => num.length > 0 ? setTaille(parseInt(num)) : setTaille("")}
                                 value={taille.toString()}
                                 autoCapitalize='none'
@@ -136,28 +136,28 @@ const ExplorationIndividuelle = props => {
                             </Text>}
                         buttonText='Fermer'
                     />
-                </View>
-            </TouchableWithoutFeedback>
+                </ScrollView>
+            </View>
         );
     }
 
     return (
-        <View>
-            <View style={styles.container}>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={styles.groupText}>Groupe {pageActuelle} sur {page}</Text>
-                </View>
-                <ScrollView>
-                    <View>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', justifyContent: 'center' }}>
+                <Text style={styles.groupText}>Groupe {pageActuelle} sur {page}</Text>
+            </View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
 
                         <Text style={styles.text}>
-                            Les comportements enregistrés sont :
-                            * investigation de l'enclos (S) est définie comme le renifflement, le bruit, le léchage ou le machônnement de n'importe quel matériel présent dans l'enclos.
-                            * Exploration du matériel d'enrichissement (E) est définie comme le jeu/l'investigation à travers la paille ou autre enrichissement matériel. Ces paramètres sont évalués en même temps que les comportements sociaux.
+                            Les comportements enregistrés sont : {"\n"}{"\n"}
+                            * investigation de l'enclos (S) est définie comme le renifflement, le bruit, le léchage ou le machônnement de n'importe quel matériel présent dans l'enclos.{"\n"}{"\n"}
+                            * Exploration du matériel d'enrichissement (E) est définie comme le jeu/l'investigation à travers la paille ou autre enrichissement matériel. Ces paramètres sont évalués en même temps que les comportements sociaux.{"\n"}{"\n"}
                             * Les animaux ne montrant pas de comportements positifs ou négatifs ou d'exploration devront être enregistrés comme au repos (R ) ou "autre" (O), qui est définit comme "les autres comportements actifs" tel que manger, boire ou reniffler l'air.
-                    </Text>
+                        </Text>
 
-                        <View style={{ marginVertical: 25 }}>
+                        <View>
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -169,7 +169,7 @@ const ExplorationIndividuelle = props => {
                             </View>
                         </View>
 
-                        <View style={{ marginVertical: 25 }}>
+                        <View>
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -181,7 +181,7 @@ const ExplorationIndividuelle = props => {
                             </View>
                         </View>
 
-                        <View style={{ marginVertical: 25 }}>
+                        <View>
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -194,7 +194,7 @@ const ExplorationIndividuelle = props => {
                         </View>
 
                         {pageActuelle < page &&
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30 }}>
                                 <Shadow style={styles.button}>
                                     <TouchableOpacity onPress={() => {
                                         if (count == 0 && count2 == 0) {
@@ -238,23 +238,20 @@ const ExplorationIndividuelle = props => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        height: Dimensions.get('window').height / 1.45,
-        justifyContent: 'center'
-    },
     demarrage: {
-        height: Dimensions.get('window').height / 1.60,
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 80
     },
     counter: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
+        justifyContent: 'space-evenly'
     },
     text: {
         fontFamily: 'open-sans',
-        fontSize: 17
+        fontSize: 17,
+        paddingVertical: 10
     },
     bigText: {
         fontFamily: 'open-sans-bold',
@@ -262,13 +259,13 @@ const styles = StyleSheet.create({
         color: Colors.primary
     },
     button: {
-        marginTop: 50,
         width: "35%",
         height: 35,
         backgroundColor: Colors.accent,
         borderRadius: 10,
         alignItems: "center",
         borderRadius: 10,
+        marginTop: 50
     },
     buttonText: {
         color: 'white',
@@ -278,7 +275,6 @@ const styles = StyleSheet.create({
     },
     groupText: {
         fontFamily: 'open-sans-bold',
-        marginVertical: 25,
         fontSize: 18
     }
 });

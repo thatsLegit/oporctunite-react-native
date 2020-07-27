@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Dimensions, Alert, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Alert, TextInput, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { AntDesign } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
@@ -55,109 +55,111 @@ const Mortalite = props => {
 
 
     return (
-        <View>
-            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                <View>
-                    <View style={styles.container}>
-                        <Shadow style={styles.description}>
-                            <View>
+        <View style={{ flex: 1 }}>
+            <View style={{ height: '90%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
+                        <View style={{ alignItems: 'center' }}>
+                            <Shadow style={styles.description}>
                                 <View>
-                                    <Text style={styles.text}>
-                                        <Text style={{ fontSize: 20 }}>A = </Text>
+                                    <View>
+                                        <Text style={styles.text}>
+                                            <Text style={{ fontSize: 20 }}>A = </Text>
                                     Le nombre total d'animaux placés dans le bâtiment.
                                     </Text>
+                                    </View>
                                 </View>
-                            </View>
-                            <View style={{ marginVertical: 25 }}>
-                                <View>
-                                    <Text style={styles.text}>
-                                        <Text style={{ fontSize: 20 }}>M = </Text>
+                                <View style={{ paddingTop: 20 }}>
+                                    <View>
+                                        <Text style={styles.text}>
+                                            <Text style={{ fontSize: 20 }}>M = </Text>
                                         Nombre total d'animaux qui sont morts ou qui ont été retrouvés morts durant les 12 derniers mois.
                                     </Text>
+                                    </View>
                                 </View>
-                            </View>
-                        </Shadow>
+                            </Shadow>
 
-                        <View style={styles.inputsContainer}>
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.text}>A = </Text>
-                                <InputBorder>
-                                    <TextInput
-                                        style={styles.text}
-                                        onBlur={() => {
-                                            if (A == "") {
-                                                setA(0);
-                                            }
-                                            if (A != 0 && M != 0) {
-                                                setMortalite(Math.round((M / A) * 100));
-                                            }
-                                        }}
-                                        onChangeText={(num) => num.length > 0 ? setA(parseInt(num)) : setA("")}
-                                        value={A.toString()}
-                                        autoCapitalize='none'
-                                        autoCorrect={false}
-                                        keyboardType='number-pad'
-                                        maxLength={5}
-                                    />
-                                </InputBorder>
-                            </View>
+                            <View style={styles.inputsContainer}>
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.text}>A = </Text>
+                                    <InputBorder>
+                                        <TextInput
+                                            style={styles.text}
+                                            onBlur={() => {
+                                                if (A == "") {
+                                                    setA(0);
+                                                }
+                                                if (A != 0 && M != 0) {
+                                                    setMortalite(Math.round((M / A) * 100));
+                                                }
+                                            }}
+                                            onChangeText={(num) => num.length > 0 ? setA(parseInt(num)) : setA("")}
+                                            value={A.toString()}
+                                            autoCapitalize='none'
+                                            autoCorrect={false}
+                                            keyboardType='number-pad'
+                                            maxLength={5}
+                                        />
+                                    </InputBorder>
+                                </View>
 
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.text}>M = </Text>
-                                <InputBorder>
-                                    <TextInput
-                                        style={styles.text}
-                                        onBlur={() => {
-                                            if (M == "") {
-                                                setM(0);
-                                            }
-                                            if (A != 0 && M != 0) {
-                                                setMortalite(Math.round((M / A) * 100));
-                                            }
-                                        }}
-                                        onChangeText={(num) => num.length > 0 ? setM(parseInt(num)) : setM("")}
-                                        value={M.toString()}
-                                        autoCapitalize='none'
-                                        autoCorrect={false}
-                                        keyboardType='number-pad'
-                                        maxLength={5}
-                                    />
-                                </InputBorder>
-                            </View>
-                            <View style={styles.inputContainer}>
-                                <Text style={styles.text}>Mortalité : </Text>
-                                <InputBorder>
-                                    <Text style={styles.text}>{mortalite} %</Text>
-                                </InputBorder>
-                            </View>
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.text}>M = </Text>
+                                    <InputBorder>
+                                        <TextInput
+                                            style={styles.text}
+                                            onBlur={() => {
+                                                if (M == "") {
+                                                    setM(0);
+                                                }
+                                                if (A != 0 && M != 0) {
+                                                    setMortalite(Math.round((M / A) * 100));
+                                                }
+                                            }}
+                                            onChangeText={(num) => num.length > 0 ? setM(parseInt(num)) : setM("")}
+                                            value={M.toString()}
+                                            autoCapitalize='none'
+                                            autoCorrect={false}
+                                            keyboardType='number-pad'
+                                            maxLength={5}
+                                        />
+                                    </InputBorder>
+                                </View>
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.text}>Mortalité : </Text>
+                                    <InputBorder>
+                                        <Text style={styles.text}>{mortalite} %</Text>
+                                    </InputBorder>
+                                </View>
 
+                            </View>
                         </View>
                     </View>
+                </ScrollView>
+            </View>
 
-                    {/*Modal infos sur l'évaluation*/}
-                    <ModalPopupInfo
-                        visible={modalInfoVisible}
-                        onClose={modalInfoCloser}
-                        text={
-                            <Text>
-                                La mortalité est définie comme la mort incontrôlée des animaux (à différencier de l'abattage/euthanasie).{"\n"}
-                                <AntDesign name="warning" size={30} color="black" />
-                                {"  "}Les morts-nés de doivent pas être pris en compte dans cette évaluation.
+            {/*Modal infos sur l'évaluation*/}
+            <ModalPopupInfo
+                visible={modalInfoVisible}
+                onClose={modalInfoCloser}
+                text={
+                    <Text>
+                        La mortalité est définie comme la mort incontrôlée des animaux (à différencier de l'abattage/euthanasie).{"\n"}
+                        <AntDesign name="warning" size={30} color="black" />
+                        {"  "}Les morts-nés de doivent pas être pris en compte dans cette évaluation.
                             </Text>
-                        }
-                        buttonText='Fermer'
-                    />
-                    {/*Modal pour la confirmation de la validation*/}
-                    <ModalPopupInfo
-                        visible={modalConfirmation}
-                        onClose={modalConfirmationCloser}
-                        text='Valider définitivement les données saisies ?'
-                        buttonText='Annuler'
-                        confirmation
-                        onValidation={validationHandler}
-                    />
-                </View>
-            </TouchableWithoutFeedback>
+                }
+                buttonText='Fermer'
+            />
+            {/*Modal pour la confirmation de la validation*/}
+            <ModalPopupInfo
+                visible={modalConfirmation}
+                onClose={modalConfirmationCloser}
+                text='Valider définitivement les données saisies ?'
+                buttonText='Annuler'
+                confirmation
+                onValidation={validationHandler}
+            />
         </View>
     );
 };
@@ -172,12 +174,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
         alignItems: 'center',
-        marginVertical: 15
-    },
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        alignItems: 'center'
+        paddingTop: 30
     },
     text: {
         fontFamily: 'open-sans',

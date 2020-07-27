@@ -67,8 +67,8 @@ const ApportEnEau = props => {
 
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.counterText}>   {count + count2} abreuvoirs </Text>
                     <TouchableWithoutFeedback onPress={() => {
@@ -78,41 +78,43 @@ const ApportEnEau = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
-                <ScrollView>
-                    <View>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Abreuvoir adéquat {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
+            <View style={{ height: '90%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
+                        <View style={{ paddingBottom: 15 }}>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Abreuvoir adéquat {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput1Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Counter onChange={changeHandler} max={null} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
-                            <Counter onChange={changeHandler} max={null} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginVertical: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Abreuvoir inadéquat {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
-                            <Counter onChange={changeHandler2} max={null} />
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Abreuvoir inadéquat {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput2Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Counter onChange={changeHandler2} max={null} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -161,29 +163,23 @@ const ApportEnEau = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 35,
-    },
     content: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
+        justifyContent: 'space-evenly'
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 20
     },
-    photo1: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
-    },
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginLeft: 20,
+        paddingVertical: 5
+    },
+    photo: {
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     }
 });
 

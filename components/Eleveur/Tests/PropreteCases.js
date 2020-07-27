@@ -73,9 +73,9 @@ const PropreteCases = props => {
     }, [modalInfo, confirmation, count, count2, count3]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
-                <View style={{ flexDirection: 'row' }}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={styles.counterText}>   {count + count2 + count3} enclos </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
@@ -84,59 +84,61 @@ const PropreteCases = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
-                <ScrollView>
-                    <View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre de cases propres {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput1Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Counter onChange={changeHandler} max={null} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                            <Counter onChange={changeHandler} max={null} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre de cases sales {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput2Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                                <Counter onChange={changeHandler2} max={null} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
-                            <Counter onChange={changeHandler2} max={null} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre de cases très sales {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput3Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo3 }} />
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput3Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Image style={styles.photo} source={{ uri: evaluation.photo3 }} />
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -192,27 +194,21 @@ const PropreteCases = props => {
 const styles = StyleSheet.create({
     content: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
-    },
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 35,
+        justifyContent: 'space-evenly'
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 20
     },
     photo: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        height: Dimensions.get('window').height / 3,
+        width: Dimensions.get('window').width / 2
     },
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginLeft: 20,
+        paddingVertical: 15
     }
 });
 

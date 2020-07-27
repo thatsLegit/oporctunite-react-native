@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView, Dimensions, Alert, Keyboard } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
@@ -79,46 +79,48 @@ const PoseAnneau = props => {
 
 
     return (
-        <View>
-            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                <View style={styles.container}>
-                    <View>
+        <View style={{ flex: 1 }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', height: '90%', paddingTop: 50 }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Pas de mutilations réalisées
                             </Text>
+                            </View>
+                            <View style={styles.counter}>
+                                <Counter onChange={changeHandler} max={null} />
+                            </View>
                         </View>
-                        <View style={styles.counter}>
-                            <Counter onChange={changeHandler} max={null} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                        <View style={{ marginTop: 25 }}>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Les mutilations sont réalisées avec l'utilisation d'anesthésiques
                             </Text>
+                            </View>
+                            <View style={styles.counter}>
+                                <Counter onChange={changeHandler2} max={null} />
+                            </View>
                         </View>
-                        <View style={styles.counter}>
-                            <Counter onChange={changeHandler2} max={null} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                        <View style={{ marginTop: 25 }}>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Les mutilations sont réalisées sans l'utilisation d'anesthésiques ou anelgésiques
                             </Text>
-                        </View>
-                        <View style={styles.counter}>
-                            <Counter onChange={changeHandler3} max={null} />
+                            </View>
+                            <View style={styles.counter}>
+                                <Counter onChange={changeHandler3} max={null} />
+                            </View>
                         </View>
                     </View>
-                </View>
-            </TouchableWithoutFeedback>
+                </ScrollView>
+            </View>
 
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
@@ -142,10 +144,6 @@ const PoseAnneau = props => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        height: Dimensions.get('window').height / 1.60,
-        justifyContent: 'center'
-    },
     counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',

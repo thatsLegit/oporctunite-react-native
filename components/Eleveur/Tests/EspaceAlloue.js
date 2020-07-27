@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from "native-base";
 import Colors from '../../../constants/Colors';
@@ -68,8 +68,8 @@ const EspaceAlloue = props => {
 
     if (demarrage) {
         return (
-            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                <View>
+            <View style={{ flex: 1 }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={styles.demarrage}>
                         <Text style={styles.bigText}>Votre élevage comprend-t-il des groupes de cochettes ?{"\n"}</Text>
                         <View style={styles.innerContainer}>
@@ -99,116 +99,112 @@ const EspaceAlloue = props => {
                         text={evaluation.description}
                         buttonText='Fermer'
                     />
-                </View>
-            </TouchableWithoutFeedback>
+                </ScrollView>
+            </View>
         );
     }
 
     return (
-        <View>
-            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                <View>
-                    <View style={styles.container}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            {choixCochette && <Text style={styles.groupText}>Groupe des cochettes </Text>}
-                            {!choixCochette && <Text style={styles.groupText}>Groupe des truies </Text>}
-                        </View>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '20%', justifyContent: 'center' }}>
+                {choixCochette && <Text style={styles.groupText}>Groupe des cochettes </Text>}
+                {!choixCochette && <Text style={styles.groupText}>Groupe des truies </Text>}
+            </View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
+                        <View style={styles.container}>
+                            <View style={styles.innerContainer}>
+                                <Text style={styles.text}>Nombre d'animaux dans le groupe : </Text>
+                                <InputBorder>
+                                    <TextInput
+                                        style={styles.text}
+                                        onBlur={() => {
+                                            if (count == "") {
+                                                setCount(0);
+                                            }
+                                        }}
+                                        onChangeText={(num) => num.length > 0 ? setCount(parseInt(num)) : setCount("")}
+                                        value={count.toString()}
+                                        autoCapitalize='none'
+                                        autoCorrect={false}
+                                        keyboardType='number-pad'
+                                        maxLength={3}
+                                    />
+                                </InputBorder>
+                            </View>
 
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Nombre d'animaux dans le groupe : </Text>
-                            <InputBorder>
-                                <TextInput
-                                    style={styles.text}
-                                    onBlur={() => {
-                                        if (count == "") {
+                            <View style={styles.innerContainer}>
+                                <Text style={styles.text}>Superficie de la case en m2 : </Text>
+                                <InputBorder>
+                                    <TextInput
+                                        style={styles.text}
+                                        onBlur={() => {
+                                            if (count2 == "") {
+                                                setCount2(0);
+                                            }
+                                        }}
+                                        onChangeText={(num) => num.length > 0 ? setCount2(parseInt(num)) : setCount2("")}
+                                        value={count2.toString()}
+                                        autoCapitalize='none'
+                                        autoCorrect={false}
+                                        keyboardType='number-pad'
+                                        maxLength={3}
+                                    />
+                                </InputBorder>
+                            </View>
+
+                            {choixCochette &&
+                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <Shadow style={styles.button}>
+                                        <TouchableOpacity onPress={() => {
+                                            if (count == 0 || count2 == 0) {
+                                                Alert.alert('Erreur', `Veuillez renseigner tous les champs de l'évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
+                                                return;
+                                            }
+                                            const surfaceParAnimal = Math.round((count2 / count) * 100) / 100;
+                                            const note = surfaceParAnimal >= 1.64 ? 10 : 0;
+                                            setNotes([note]);
                                             setCount(0);
-                                        }
-                                    }}
-                                    onChangeText={(num) => num.length > 0 ? setCount(parseInt(num)) : setCount("")}
-                                    value={count.toString()}
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    keyboardType='number-pad'
-                                    maxLength={3}
-                                />
-                            </InputBorder>
-                        </View>
-
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Superficie de la case en m2 : </Text>
-                            <InputBorder>
-                                <TextInput
-                                    style={styles.text}
-                                    onBlur={() => {
-                                        if (count2 == "") {
                                             setCount2(0);
-                                        }
-                                    }}
-                                    onChangeText={(num) => num.length > 0 ? setCount2(parseInt(num)) : setCount2("")}
-                                    value={count2.toString()}
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    keyboardType='number-pad'
-                                    maxLength={3}
-                                />
-                            </InputBorder>
+                                            setChoixCochette(false);
+                                        }}>
+                                            <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                        </TouchableOpacity>
+                                    </Shadow>
+                                </View>}
                         </View>
-
-                        {choixCochette &&
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Shadow style={styles.button}>
-                                    <TouchableOpacity onPress={() => {
-                                        if (count == 0 || count2 == 0) {
-                                            Alert.alert('Erreur', `Veuillez renseigner tous les champs de l'évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
-                                            return;
-                                        }
-                                        const surfaceParAnimal = Math.round((count2 / count) * 100) / 100;
-                                        const note = surfaceParAnimal >= 1.64 ? 10 : 0;
-                                        setNotes([note]);
-                                        setCount(0);
-                                        setCount2(0);
-                                        setChoixCochette(false);
-                                    }}>
-                                        <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
-                                    </TouchableOpacity>
-                                </Shadow>
-                            </View>}
-
                     </View>
+                </ScrollView>
+            </View>
 
-                    {/*Modal infos sur l'évaluation*/}
-                    <ModalPopupInfo
-                        visible={modalInfoVisible}
-                        onClose={modalInfoCloser}
-                        text={evaluation.description}
-                        buttonText='Fermer'
-                    />
-                    {/*Modal pour la confirmation de la validation*/}
-                    <ModalPopupInfo
-                        visible={modalConfirmation}
-                        onClose={modalConfirmationCloser}
-                        text='Valider définitivement les données saisies ?'
-                        buttonText='Annuler'
-                        confirmation
-                        onValidation={validationHandler}
-                    />
-                </View>
-            </TouchableWithoutFeedback>
+            {/*Modal infos sur l'évaluation*/}
+            <ModalPopupInfo
+                visible={modalInfoVisible}
+                onClose={modalInfoCloser}
+                text={evaluation.description}
+                buttonText='Fermer'
+            />
+            {/*Modal pour la confirmation de la validation*/}
+            <ModalPopupInfo
+                visible={modalConfirmation}
+                onClose={modalConfirmationCloser}
+                text='Valider définitivement les données saisies ?'
+                buttonText='Annuler'
+                confirmation
+                onValidation={validationHandler}
+            />
         </View>
     );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        justifyContent: 'center'
-    },
     demarrage: {
-        height: Dimensions.get('window').height / 1.60,
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop: 80
     },
     innerContainer: {
         flexDirection: 'row',

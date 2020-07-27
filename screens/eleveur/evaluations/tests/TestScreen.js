@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Key
 import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
+
 import EtatCorporel from '../../../../components/Eleveur/Tests/EtatCorporel';
 import ApportEnEau from '../../../../components/Eleveur/Tests/ApportEnEau';
 import Boiterie from '../../../../components/Eleveur/Tests/Boitierie';
@@ -34,7 +35,16 @@ import ProlapsusRectal from '../../../../components/Eleveur/Tests/ProlapsusRecta
 import ProlapsusUterin from '../../../../components/Eleveur/Tests/ProlapsusUterin';
 import Constipation from '../../../../components/Eleveur/Tests/Constipation';
 import Diarrhee from '../../../../components/Eleveur/Tests/Diarrhee';
+
 import DyspneeEtHaletement from '../../../../components/Eleveur/Tests/DyspneeEtHaletement';
+import SouillureEtAspectPeau from '../../../../components/Eleveur/Tests/SouillureEtAspectPeau';
+import TouxEtEternuement from '../../../../components/Eleveur/Tests/TouxEtEternuement';
+import ProlapsusUterinEtRectal from '../../../../components/Eleveur/Tests/ProlapsusUterinEtRectal';
+import DiarrheeEtConstipation from '../../../../components/Eleveur/Tests/DiarrheeEtConstipation';
+import LesionVulveEtMetrite from '../../../../components/Eleveur/Tests/LesionVulveEtMetrite';
+import EspaceAlloueEtDimensionsCases from '../../../../components/Eleveur/Tests/EspaceAlloueEtDimensionsCases';
+import PlaieEpauleEtBursite from '../../../../components/Eleveur/Tests/PlaieEpauleEtBursite';
+
 import Colors from '../../../../constants/Colors';
 import * as testActions from '../../../../store/actions/test';
 import * as evalActions from '../../../../store/actions/evaluation';
@@ -142,6 +152,8 @@ const TestScreen = props => {
                             </TouchableWithoutFeedback>}
                         </Text>
                     </View>
+
+                    {/* Modification temporaire pour voir les évals doubles: pour voir XxEtYy regarder l'évaluation Xx SAUF pour EspaceAlloueEtDimensionsCases */}
 
                     {selectedEvaluation.nomEvaluation == 'Etat corporel' && <EtatCorporel
                         evaluation={selectedEvaluation}
@@ -253,8 +265,14 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas' && <DimensionsCases
+                    {selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas' && <EspaceAlloueEtDimensionsCases
                         evaluation={selectedEvaluation}
+
+                        // Les 2 lignes sont par rapport à EspaceAlloue
+                        modalInfo={infoModalVisible}
+                        onCloseInfo={modalInfoCloser}
+
+
                         onCloseConfirmation={modalConfirmationCloser}
                         confirmation={modalConfirmation}
                         navigation={props.navigation}
@@ -291,7 +309,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Lésions de la vulve' && <LesionVulve
+                    {selectedEvaluation.nomEvaluation == 'Lésions de la vulve' && <LesionVulveEtMetrite
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
@@ -301,7 +319,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Toux' && <Toux
+                    {selectedEvaluation.nomEvaluation == 'Toux' && <TouxEtEternuement
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
@@ -321,7 +339,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Dyspnée' && <Dyspnee
+                    {selectedEvaluation.nomEvaluation == 'Dyspnée' && <DyspneeEtHaletement
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
@@ -341,7 +359,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Souillure' && <Souillure
+                    {selectedEvaluation.nomEvaluation == 'Souillure' && <SouillureEtAspectPeau
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
@@ -361,7 +379,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Plaie à l’épaule' && <PlaieEpaule
+                    {selectedEvaluation.nomEvaluation == 'Plaie à l’épaule' && <PlaieEpauleEtBursite
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
@@ -421,7 +439,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Prolapsus utérin' && <ProlapsusUterin
+                    {selectedEvaluation.nomEvaluation == 'Prolapsus utérin' && <ProlapsusUterinEtRectal
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}
@@ -441,7 +459,7 @@ const TestScreen = props => {
                         onNextValidation={nextValidationHandler}
                         Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                     />}
-                    {selectedEvaluation.nomEvaluation == 'Diarrhée' && <Diarrhee
+                    {selectedEvaluation.nomEvaluation == 'Diarrhée' && <DiarrheeEtConstipation
                         evaluation={selectedEvaluation}
                         modalInfo={infoModalVisible}
                         onCloseInfo={modalInfoCloser}

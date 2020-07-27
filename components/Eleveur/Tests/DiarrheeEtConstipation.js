@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Di
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import ModalPopupInfo from '../Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
 
 
-const Bursite = props => {
+const DiarrheeEtConstipation = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
@@ -21,11 +21,12 @@ const Bursite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const note2 = Math.round(((count / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-
+        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -58,6 +59,7 @@ const Bursite = props => {
             setGlobalCount(globalCount - value);
         }
     };
+
     const changeHandler3 = (count3, sign, value) => {
         if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
@@ -71,12 +73,12 @@ const Bursite = props => {
         }
     };
 
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
-    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
-
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -109,17 +111,17 @@ const Bursite = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
+
+            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
                 <ScrollView>
                     <View>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Pas de bursite évidente {" "}
+                                Pas de diarrhée, ni déjection solide
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -128,27 +130,31 @@ const Bursite = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Une ou plusieurs petites bursites sur le même membre ou une grosse bursite {" "}
+                                Présence de diarrhée dans la case
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
+                        <View style={styles.image} >
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        </View>
                     </View>
-
                     <View style={{ marginTop: 25 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Plusieurs grosses bursites sur le même membre ou une très grosse bursite, ou toutes bursite erodée {" "}
+                                Présence de fécès solide dans la case
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
+                        <View style={styles.image} >
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        </View>
                     </View>
+
                 </ScrollView>
             </View>
 
@@ -163,7 +169,7 @@ const Bursite = props => {
             <ModalPopupInfo
                 visible={modalEchantillonVisible}
                 onClose={modalEchantillonCloser}
-                text='30 truies en gestation + 10 truies en lactation.'
+                text='30 truies en gestation + truies en lactation.'
                 buttonText='Fermer'
             />
             {/*Modal pour la confirmation de la validation*/}
@@ -192,9 +198,13 @@ const styles = StyleSheet.create({
     },
     counterText: {
         fontFamily: 'open-sans-bold',
-        fontSize: 20
+        fontSize: 15
     },
-    photo1: {
+    image: {
+        alignItems: 'center'
+    },
+    photo: {
+        marginTop: 10,
         minWidth: 125,
         maxWidth: 200,
         maxHeight: 250,
@@ -208,4 +218,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Bursite;
+export default DiarrheeEtConstipation;

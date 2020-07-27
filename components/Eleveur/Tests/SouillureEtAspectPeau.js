@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -8,7 +8,7 @@ import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
 
 
-const Bursite = props => {
+const SouillureEtAspectPeau = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
@@ -17,14 +17,18 @@ const Bursite = props => {
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
     const [count3, setCount3] = useState(0);
+    const [count4, setCount4] = useState(0);
+    const [count5, setCount5] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note2 = Math.round(((count4 / evaluation.nbTruies) * 10 + (count5 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
+        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -70,13 +74,37 @@ const Bursite = props => {
             setGlobalCount(globalCount - value);
         }
     };
+    const changeHandler4 = (count4, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount4(count4);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + value);
+        } else {
+            setGlobalCount(globalCount - value);
+        }
+    };
+    const changeHandler5 = (count5, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount5(count5);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + value);
+        } else {
+            setGlobalCount(globalCount - value);
+        }
+    };
+
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
-    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
-
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -109,30 +137,23 @@ const Bursite = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
+            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
                 <ScrollView>
+                    <View style={styles.intro}>
+                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
+                            10 % correspond à un quart d'une des trois zones {"\n"}
+                            un tiers correspond à une des trois zones
+                        </Text>
+                    </View>
                     <View>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Pas de bursite évidente {" "}
+                                La truie est propre, sans mise en évidence d'inflammation ou décoloration de la peau {" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Une ou plusieurs petites bursites sur le même membre ou une grosse bursite {" "}
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -141,12 +162,46 @@ const Bursite = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Plusieurs grosses bursites sur le même membre ou une très grosse bursite, ou toutes bursite erodée {" "}
+                                La truie présente des souillures sur moins d'un tiers de sa surface corporelle{" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                        </View>
+                    </View>
+
+                    <View style={{ marginTop: 25 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                La truie présente des souillures sur plus d'un tiers de sa surface corporelle {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 25 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Moins de 10% de la peau est inflammée, décolorée ou tachetée{" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
+                        </View>
+                    </View>
+
+                    <View style={{ marginTop: 25 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Plus de 10% de la peau est inflammée, décolorée ou tachetée {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
                         </View>
                     </View>
                 </ScrollView>
@@ -163,7 +218,7 @@ const Bursite = props => {
             <ModalPopupInfo
                 visible={modalEchantillonVisible}
                 onClose={modalEchantillonCloser}
-                text='30 truies en gestation + 10 truies en lactation.'
+                text='30 truies (dont 10 en début de gestation, 10 en milieu de gestation et 10 en fin de gestation) + 10 truies en lactation.'
                 buttonText='Fermer'
             />
             {/*Modal pour la confirmation de la validation*/}
@@ -192,13 +247,16 @@ const styles = StyleSheet.create({
     },
     counterText: {
         fontFamily: 'open-sans-bold',
-        fontSize: 20
+        fontSize: 15
     },
-    photo1: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+    intro: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 25
+    },
+    photo: {
+        width: 250,
+        height: 150
     },
     text: {
         fontFamily: 'open-sans',
@@ -208,4 +266,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Bursite;
+export default SouillureEtAspectPeau;

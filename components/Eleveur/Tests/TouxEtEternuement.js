@@ -3,16 +3,18 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Ke
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
+import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
 import Chrono from '../../UI/Chrono';
 
 
-const DyspneeEtHaletement = props => {
+const TouxEtEternuement = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
+    const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
@@ -26,9 +28,8 @@ const DyspneeEtHaletement = props => {
     const note = Math.round(((count2 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
     const note2 = Math.round(((count3 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
     const validationHandler = async () => {
-        // A modifier selon la manière dont seront stockés les noms des évaluations simples dans l'évaluation composée
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation2));
+        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -62,7 +63,6 @@ const DyspneeEtHaletement = props => {
             setGlobalCount(globalCount - 1);
         }
     };
-
     const changeHandler3 = (count, sign) => {
         if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
@@ -75,7 +75,6 @@ const DyspneeEtHaletement = props => {
             setGlobalCount(globalCount - 1);
         }
     };
-
     const changeHandler4 = (count, sign) => {
         if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
@@ -89,6 +88,8 @@ const DyspneeEtHaletement = props => {
         }
     };
 
+
+    const modalInput1Closer = () => setModalInput1Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
@@ -135,7 +136,7 @@ const DyspneeEtHaletement = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Pas de dyspnée, ni halètement {" "}
+                                    Pas de toux, et pas d'éternuement {" "}                                  
                                 </Text>
                             </View>
                             <View style={styles.counter}>
@@ -145,34 +146,34 @@ const DyspneeEtHaletement = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de dyspnée {" "}
+                                    Présence de toux seule {" "}
                                 </Text>
                             </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
-
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de truies qui halètent {" "}
+                                    Présence d'éternuement seule {" "}
                                 </Text>
                             </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                             </View>
-
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de dyspnée et d'halètement {" "}
+                                    Présence de toux et d'éternuement {" "}
                                 </Text>
                             </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                             </View>
 
-                            <Chrono temps={5} />
+                            <Chrono 
+                                temps={5}
+                            />
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -233,4 +234,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DyspneeEtHaletement;
+export default TouxEtEternuement;

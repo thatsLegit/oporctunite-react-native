@@ -20,7 +20,6 @@ const DimensionsCases = props => {
 
     const validationHandler = async () => {
         const note = adequat ? 10 : 0;
-        console.log(note);
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {

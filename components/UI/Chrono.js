@@ -42,7 +42,7 @@ const Chrono = props => {
                 <View style={styles.bouttons}>
                     <TouchableWithoutFeedback onPress={startStopTimer}>
                         <View style={styles.textControl}>
-                            {!isTimerStart ? <AntDesign name="caretright" size={35} color="black" /> : <FontAwesome name="pause" size={34} color="black" />}
+                            {!isTimerStart ? <AntDesign name="caretright" size={35} color="black" /> : <FontAwesome name="pause" size={40} color="black" />}
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={fResetTimer}>

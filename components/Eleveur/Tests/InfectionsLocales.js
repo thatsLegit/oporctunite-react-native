@@ -95,8 +95,8 @@ const InfectionsLocales = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -109,43 +109,45 @@ const InfectionsLocales = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
-                <ScrollView>
-                    <View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Pas de gonflements ou abcès visibles
                             </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Quelques gonflements visibls mais pas de mise en évidence d'inflammation ou un petit abcès visible
                             </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Plus d'un petit abcès ou n'importe quel abcès ouvert avec exsudation de pus, ou un abcès large fermé (environ 5cm de diamètre soit la taille d'une orange)
                             </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
-                            <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -180,29 +182,23 @@ const InfectionsLocales = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
+        justifyContent: 'space-evenly'
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15
     },
     photo: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        height: Dimensions.get('window').height / 3,
+        width: Dimensions.get('window').width / 2
     },
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginHorizontal: 10,
+        paddingVertical: 15
     }
 });
 

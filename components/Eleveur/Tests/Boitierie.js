@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -103,8 +103,8 @@ const Boiterie = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -117,56 +117,58 @@ const Boiterie = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
-                <ScrollView>
-                    <View style={{ marginTop: 30 }}>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Absence de boiterie à boiterie faible {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Absence de boiterie à boiterie faible {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput1Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 50 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Boiterie modérée {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput2Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 50 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Boiterie sévère {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput3Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput3Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -220,14 +222,9 @@ const Boiterie = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
+        justifyContent: 'space-evenly'
     },
     counterText: {
         fontFamily: 'open-sans-bold',
@@ -236,7 +233,8 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20
+        marginLeft: 20,
+        paddingVertical: 20
     }
 });
 

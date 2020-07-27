@@ -95,8 +95,8 @@ const BlessuresCorps = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -109,50 +109,54 @@ const BlessuresCorps = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.60 }}>
-                <ScrollView>
-                    <View style={styles.image}>
-                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                    </View>
-                    <Text style={styles.text}>
-                        L'évaluateur doit évaluer chaque région de la truie selon l'échelle suivante : {"\n"}
-                    a : pas de blessures visibles, ou moins de quatre lésions visibles {"\n"}
-                    b : 5 à 10 lésions visibles {"\n"}
-                    c : 11 à 15 lésions visibles {"\n"}
-                    </Text>
-                    <View>
-                        <View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
+                        <View style={styles.image}>
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        </View>
+                        <View style={{ paddingTop: 10 }}>
                             <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                L'évaluateur doit évaluer chaque région de la truie selon l'échelle suivante : {"\n"}
+                                a : pas de blessures visibles, ou moins de quatre lésions visibles {"\n"}
+                                b : 5 à 10 lésions visibles {"\n"}
+                                c : 11 à 15 lésions visibles {"\n"}
+                            </Text>
+                        </View>
+                        <View>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Deux régions du corps ou plus présentent un score individuel de "c", ou au plus une région du corps présente plus de 15 lésions.
                             </Text>
+                            </View>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.counter}>
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Les régions du corps ont un score de "b" et/ou moins d'une région du corps avec un score indivuel de "c" {" "}
-                            </Text>
+                                </Text>
+                            </View>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.counter}>
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <View>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Toutes les régions du corps ont un score individuel de "a" {" "}
-                            </Text>
-                        </View>
-                        <View style={styles.counter}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                </Text>
+                            </View>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -187,27 +191,21 @@ const BlessuresCorps = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 20
     },
     photo: {
-        marginBottom: 20,
-        height: 200,
-        width: 300
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     },
     text: {
         fontFamily: 'open-sans',
-        fontSize: 17,
+        fontSize: 15,
         marginLeft: 20
     },
     image: {

@@ -50,72 +50,71 @@ const DimensionsCases = props => {
 
 
     return (
-        <View>
-            <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.innerContainer}>
-                        <View style={{ marginHorizontal: 20 }}>
-                            <CheckBox
-                                onPress={() => setAdequat(true)}
-                                color={Colors.primary}
-                                checked={adequat}
-                            />
+        <View style={{ flex: 1 }}>
+            <View style={{ height: '90%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                        <View style={styles.innerContainer}>
+                            <View style={{ marginHorizontal: 20 }}>
+                                <CheckBox
+                                    onPress={() => setAdequat(true)}
+                                    color={Colors.primary}
+                                    checked={adequat}
+                                />
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.text}>
+                                    La case de mise-bas est de taille adéquate pour la truie {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInputVisible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                            </View>
                         </View>
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.text}>
-                                La case de mise-bas est de taille adéquate pour la truie {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInputVisible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                        </View>
-                    </View>
-                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
 
-                    <View style={styles.innerContainer}>
-                        <View style={{ marginHorizontal: 20 }}>
-                            <CheckBox
-                                onPress={() => setAdequat(false)}
-                                color={Colors.primary}
-                                checked={!adequat}
-                            />
+                        <View style={styles.innerContainer}>
+                            <View style={{ marginHorizontal: 20 }}>
+                                <CheckBox
+                                    onPress={() => setAdequat(false)}
+                                    color={Colors.primary}
+                                    checked={!adequat}
+                                />
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.text}>La case de mise-bas n'est pas adaptée</Text>
+                            </View>
                         </View>
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.text}>La case de mise-bas n'est pas adaptée</Text>
-                        </View>
+                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                     </View>
-                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                </View>
+                </ScrollView>
+            </View>
 
-                {/*Modal infos sur l'évaluation*/}
-                <ModalPopupInfo
-                    visible={modalInputVisible}
-                    onClose={modalInputCloser}
-                    text="La taille de la case est considérée comme adéquate quand les truies ont un espace de confort qui leur permettent de se tenir debout et de s'allonger."
-                    buttonText='Fermer'
-                />
-                {/*Modal pour la confirmation de la validation*/}
-                <ModalPopupInfo
-                    visible={modalConfirmation}
-                    onClose={modalConfirmationCloser}
-                    text='Valider définitivement les données saisies ?'
-                    buttonText='Annuler'
-                    confirmation
-                    onValidation={validationHandler}
-                />
-            </ScrollView>
+            {/*Modal infos sur l'évaluation*/}
+            <ModalPopupInfo
+                visible={modalInputVisible}
+                onClose={modalInputCloser}
+                text="La taille de la case est considérée comme adéquate quand les truies ont un espace de confort qui leur permettent de se tenir debout et de s'allonger."
+                buttonText='Fermer'
+            />
+            {/*Modal pour la confirmation de la validation*/}
+            <ModalPopupInfo
+                visible={modalConfirmation}
+                onClose={modalConfirmationCloser}
+                text='Valider définitivement les données saisies ?'
+                buttonText='Annuler'
+                confirmation
+                onValidation={validationHandler}
+            />
+
         </View >
     );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        height: Dimensions.get('window').height / 1.60,
-        alignItems: 'center'
-    },
     innerContainer: {
         flexDirection: 'row',
         alignItems: 'center',

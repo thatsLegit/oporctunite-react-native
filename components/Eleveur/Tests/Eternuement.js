@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
@@ -89,50 +88,48 @@ const Eternuement = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View>
-                <View style={styles.counterContainer}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View>
-                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
-                        </View>
-                        <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            setModalEchantillonVisible(true);
-                        }}>
-                            <EvilIcons name="question" size={30} color="black" />
-                        </TouchableWithoutFeedback>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                     </View>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
                 </View>
-                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                    <View style={styles.container}>
+            </View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Pas d'éternuement {" "}                                  
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={evaluation.nbTruies}/>
-                            </View>
-
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence d'éternuement {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                            </View>
-
-                            <Chrono 
-                                temps={5}
-                            />
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Pas d'éternuement {" "}
+                            </Text>
                         </View>
+                        <View style={styles.counter}>
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                        </View>
+
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence d'éternuement {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.counter}>
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+
+                        <Chrono
+                            temps={5}
+                        />
                     </View>
-                </TouchableWithoutFeedback>
+                </ScrollView>
             </View>
 
 

@@ -1,9 +1,10 @@
 //actions
-import { SELECTIONNER_EVALUATION, DESELECTIONNER_EVALUATION, SUPPRIMER_SELECTION } from '../actions/evaluation';
+import { SELECTIONNER_EVALUATION, DESELECTIONNER_EVALUATION, SUPPRIMER_SELECTION, SET_LIAISONS } from '../actions/evaluation';
 
 //Etat initial
 const initialState = {
-    evalSelection: {}
+    evalSelection: {},
+    liaisons: {}
 };
 
 export default (state = initialState, action) => {
@@ -24,6 +25,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 evalSelection: new Object()
+            }
+        case SET_LIAISONS:
+            return {
+                ...state,
+                liaisons: action.liaisons
             }
         default:
             return state;

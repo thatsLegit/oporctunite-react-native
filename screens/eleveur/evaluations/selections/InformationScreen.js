@@ -6,6 +6,8 @@ import TopNavigationForm from '../../../../components/Navigation/TopNavigationFo
 
 const EvalInfoScreen = props => {
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    const liaisons = useSelector(state => Object.values(state.eval.liaisons));
+    console.log(liaisons);
 
     const evalInfoHandler = item => {
         return (
@@ -18,7 +20,7 @@ const EvalInfoScreen = props => {
     };
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <TopNavigationForm
                 navigation={props.navigation}
                 retour='EvalSelection'

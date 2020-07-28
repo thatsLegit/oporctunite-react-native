@@ -24,11 +24,11 @@ const SouillureEtAspectPeau = props => {
     const dispatch = useDispatch();
 
     const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
-    const note2 = Math.round(((count4 / evaluation.nbTruies) * 10 + (count5 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const noteAspectPeau = Math.round(((count2 / evaluation.nbTruies) * 10 + (count4 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation));
+        //await dispatch(testActions.ajouterTest(noteAspectPeau, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -123,8 +123,8 @@ const SouillureEtAspectPeau = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -137,71 +137,74 @@ const SouillureEtAspectPeau = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
-                <ScrollView>
-                    <View style={styles.intro}>
-                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                        <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
-                            10 % correspond à un quart d'une des trois zones {"\n"}
-                            un tiers correspond à une des trois zones
-                        </Text>
-                    </View>
-                    <View>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                La truie est propre, sans mise en évidence d'inflammation ou décoloration de la peau {" "}
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>       
+                        <View style={styles.intro}>
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
+                                10 % correspond à un quart d'une des trois zones {"\n"}
+                                un tiers correspond à une des trois zones
                             </Text>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                La truie présente des souillures sur moins d'un tiers de sa surface corporelle{" "}
-                            </Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    La truie est propre, sans mise en évidence d'inflammation ou décoloration de la peau {" "}
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                La truie présente des souillures sur plus d'un tiers de sa surface corporelle {" "}
-                            </Text>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    La truie présente des souillures sur moins d'un tiers de sa surface corporelle{" "}
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
-                    <View style={{ marginTop: 25 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Moins de 10% de la peau est inflammée, décolorée ou tachetée{" "}
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View style={{ marginTop: 25 }}>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Plus de 10% de la peau est inflammée, décolorée ou tachetée {" "}
-                            </Text>
+                        <View >
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    La truie présente des souillures sur plus d'un tiers de sa surface corporelle {" "}
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
+                        <View>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Moins de 10% de la peau est inflammée, décolorée ou tachetée{" "}
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
+                            </View>
+                        </View>
+
+                        <View>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Plus de 10% de la peau est inflammée, décolorée ou tachetée {" "}
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -236,33 +239,29 @@ const SouillureEtAspectPeau = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 15
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15
+    },
+    photo: {
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
+    },
+    text: {
+        fontFamily: 'open-sans',
+        fontSize: 17,
+        marginLeft: 20
     },
     intro: {
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 25
     },
-    photo: {
-        width: 250,
-        height: 150
-    },
-    text: {
-        fontFamily: 'open-sans',
-        fontSize: 17,
-        marginLeft: 20
-    }
 });
 
 

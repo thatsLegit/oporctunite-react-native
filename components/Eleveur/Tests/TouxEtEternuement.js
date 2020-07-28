@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -26,10 +26,10 @@ const TouxEtEternuement = props => {
     const dispatch = useDispatch();
 
     const note = Math.round(((count2 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
-    const note2 = Math.round(((count3 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
+
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation));
+        //await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -117,10 +117,9 @@ const TouxEtEternuement = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View>
-                <View style={styles.counterContainer}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <View>
                             <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                         </View>
@@ -130,58 +129,58 @@ const TouxEtEternuement = props => {
                         }}>
                             <EvilIcons name="question" size={30} color="black" />
                         </TouchableWithoutFeedback>
-                    </View>
+                    
                 </View>
-                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                    <View style={styles.container}>
-                        <View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Pas de toux, et pas d'éternuement {" "}                                  
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                            </View>
-
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de toux seule {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                            </View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence d'éternuement seule {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
-                            </View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Présence de toux et d'éternuement {" "}
-                                </Text>
-                            </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
-                            </View>
-
-                            <Chrono 
-                                temps={5}
-                            />
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
             </View>
+            
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View>
+                        <View>
+                            <Text style={styles.text}>
+                            <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Pas de toux, et pas d'éternuement {" "}                                  
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                        </View>
 
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Présence de toux seule {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Présence d'éternuement seule {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                        </View>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Présence de toux et d'éternuement {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
+                        </View>
 
+                        <Chrono 
+                            temps={5}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
+            
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
@@ -206,24 +205,16 @@ const TouxEtEternuement = props => {
                 onValidation={validationHandler}
             />
         </View>
+    
     );
 };
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        alignItems: 'center'
-    },
-    counter: {
+    content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 15
     },
     counterText: {
         fontFamily: 'open-sans-bold',

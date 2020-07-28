@@ -25,11 +25,10 @@ const ProlapsusUterinEtRectal = props => {
     const dispatch = useDispatch();
 
     const note = Math.round(((count2 / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
-    const note2 = Math.round(((count2 / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation));
+        //await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');

@@ -24,11 +24,11 @@ const DyspneeEtHaletement = props => {
     const dispatch = useDispatch();
 
     const note = Math.round(((count2 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
-    const note2 = Math.round(((count3 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
+
     const validationHandler = async () => {
         // A modifier selon la manière dont seront stockés les noms des évaluations simples dans l'évaluation composée
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation2));
+        //await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation2));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');

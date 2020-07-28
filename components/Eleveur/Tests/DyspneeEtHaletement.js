@@ -177,13 +177,6 @@ const DyspneeEtHaletement = props => {
             </View>
 
 
-            {/*Modal infos sur l'évaluation*/}
-            <ModalPopupInfo
-                visible={modalInfoVisible}
-                onClose={modalInfoCloser}
-                text={evaluation.description}
-                buttonText='Fermer'
-            />
             {/*Modal infos sur la composition de l'échantillon*/}
             <ModalPopupInfo
                 visible={modalEchantillonVisible}

@@ -123,9 +123,7 @@ const Toux = props => {
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
 
-                        <Chrono
-                            temps={5}
-                        />
+                        <View style={{ paddingTop: 40 }}><Chrono temps={5} /></View>
                     </View>
                 </ScrollView>
             </View>

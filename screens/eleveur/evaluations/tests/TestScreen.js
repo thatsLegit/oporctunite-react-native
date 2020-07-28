@@ -66,16 +66,18 @@ const TestScreen = props => {
 
     //Rajouté pour les évals doubles
     const liaisons = useSelector(state => state.eval.liaisons);
-    const idLiaison = selectedEvaluations[indexEvaluation].idLiaison;
-
     let nextSelectedEvaluation;
     let nomEvalDouble;
 
-    if (idLiaison && selectedEvaluations[indexEvaluation + 1].idLiaison == idLiaison) {
-        for (const key in liaisons) {
-            if (key == idLiaison) {
-                nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
-                nextSelectedEvaluation = selectedEvaluations[indexEvaluation + 1];
+    if (selectedEvaluations.length != 0 && selectedEvaluations[indexEvaluation].idLiaison) {
+        const idLiaison = selectedEvaluations[indexEvaluation].idLiaison; //ce truc pose un pb undefined
+
+        if (idLiaison && selectedEvaluations[indexEvaluation + 1].idLiaison == idLiaison) {
+            for (const key in liaisons) {
+                if (key == idLiaison) {
+                    nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
+                    nextSelectedEvaluation = selectedEvaluations[indexEvaluation + 1];
+                }
             }
         }
     }
@@ -101,7 +103,7 @@ const TestScreen = props => {
 
     const nextValidationHandler = () => {
         setModalConfirmation(false);
-        setIndexEvaluation(indexEvaluation + 1);
+        setIndexEvaluation(indexEvaluation + (nomEvalDouble ? 2 : 1));
     };
 
     const modalAnnulationTrigger = () => setAnnulationModal(true);

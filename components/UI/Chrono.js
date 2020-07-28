@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     innerContainer: {
         height: 100,
         alignItems: 'center',
-        marginTop: 50,
         borderColor: 'black',
         borderWidth: 2,
         borderRadius: 10
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 35
     },
     bouttons: {
-        marginTop: 5,
+        paddingTop: 5,
         flexDirection: 'row',
         alignItems: 'center'
     }

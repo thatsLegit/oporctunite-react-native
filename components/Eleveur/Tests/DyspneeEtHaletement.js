@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -11,9 +11,10 @@ import Chrono from '../../UI/Chrono';
 
 const DyspneeEtHaletement = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
+    const { modalInfo, modalInfo2, evaluation, evaluation2, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
+    const [modalInfoVisible2, setModalInfoVisible2] = useState(modalInfo2);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -26,9 +27,8 @@ const DyspneeEtHaletement = props => {
     const note = Math.round(((count2 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
     const note2 = Math.round(((count3 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
     const validationHandler = async () => {
-        // A modifier selon la manière dont seront stockés les noms des évaluations simples dans l'évaluation composée
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note2, evaluation.nomEvaluation2));
+        await dispatch(testActions.ajouterTest(note2, evaluation2.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -94,7 +94,10 @@ const DyspneeEtHaletement = props => {
         setModalInfoVisible(false); //local component
         props.onCloseInfo();  //parent component
     };
-
+    const modalInfoCloser2 = () => {
+        setModalInfoVisible2(false); //local component
+        props.onCloseInfo2();  //parent component
+    };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -102,6 +105,7 @@ const DyspneeEtHaletement = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
+        setModalInfoVisible2(modalInfo2);
         if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
             return;
@@ -110,7 +114,7 @@ const DyspneeEtHaletement = props => {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, modalInfo2, confirmation, globalCount]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -124,13 +128,14 @@ const DyspneeEtHaletement = props => {
                         setModalEchantillonVisible(true);
                     }}>
                         <EvilIcons name="question" size={30} color="black" />
-                    </TouchableWithoutFeedback>            
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
             <View>
-                <View style={{ height: '90%' }}>
+                <View style={{ height: '89%' }}>
                     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                         <View style={{ flex: 1 }}>
+                            <View style={{ paddingBottom: 10 }}><Chrono temps={5} /></View>
                             <View>
                                 <Text style={{ ...styles.text, paddingTop: 15 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -170,13 +175,25 @@ const DyspneeEtHaletement = props => {
                             <View style={{ ...styles.counter, paddingTop: 15 }}>
                                 <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                             </View>
-                            <Chrono temps={5} />
                         </View>
                     </ScrollView>
                 </View>
             </View>
 
-
+            {/*Modal infos sur l'évaluation*/}
+            <ModalPopupInfo
+                visible={modalInfoVisible}
+                onClose={modalInfoCloser}
+                text={evaluation.description}
+                buttonText='Fermer'
+            />
+            {/*Modal infos sur l'évaluation 2*/}
+            <ModalPopupInfo
+                visible={modalInfoVisible2}
+                onClose={modalInfoCloser2}
+                text={evaluation2.description}
+                buttonText='Fermer'
+            />
             {/*Modal infos sur la composition de l'échantillon*/}
             <ModalPopupInfo
                 visible={modalEchantillonVisible}

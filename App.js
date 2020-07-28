@@ -13,7 +13,16 @@ import evalReducer from './store/reducers/evaluation';
 import bilanReducer from './store/reducers/bilan';
 import testReducer from './store/reducers/test';
 import authReducer from './store/reducers/auth';
+import { init } from './helper/db';
 
+
+//Create some tables
+// init().then(() => {
+//   console.log('Initialized database.');
+// }).catch(err => {
+//   console.log('Initializing db failed.');
+//   console.log(err);
+// });
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,

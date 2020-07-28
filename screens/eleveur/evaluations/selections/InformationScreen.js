@@ -18,7 +18,7 @@ const EvalInfoScreen = props => {
     };
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <TopNavigationForm
                 navigation={props.navigation}
                 retour='EvalSelection'

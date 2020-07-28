@@ -68,6 +68,7 @@ export const fetchEvaluationBySousCateg = () => {
                 loadedEvaluations.push(new Evaluation(
                     e.nomEvaluation,
                     e.priorite,
+                    e.idLiaison,
                     e.description,
                     e.nomCategorieP,
                     e.nbTruies,

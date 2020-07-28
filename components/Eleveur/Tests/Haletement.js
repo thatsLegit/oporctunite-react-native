@@ -132,7 +132,7 @@ const Haletement = props => {
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
 
-                        <Chrono />
+                        <View style={{ paddingTop: 40 }}><Chrono /></View>
                     </View>
                 </ScrollView>
             </View>

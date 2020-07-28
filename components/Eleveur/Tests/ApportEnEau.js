@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     },
     photo: {
         height: Dimensions.get('window').height / 5,
-        width: Dimensions.get('window').width / 1.5
+        width: Dimensions.get('window').width / 2
     }
 });
 

@@ -69,15 +69,14 @@ const TestScreen = props => {
     let nextSelectedEvaluation;
     let nomEvalDouble;
 
-    if (selectedEvaluations.length != 0 && selectedEvaluations[indexEvaluation].idLiaison) {
-        const idLiaison = selectedEvaluations[indexEvaluation].idLiaison; //ce truc pose un pb undefined
-
-        if (idLiaison && selectedEvaluations[indexEvaluation + 1].idLiaison == idLiaison) {
-            for (const key in liaisons) {
-                if (key == idLiaison) {
-                    nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
-                    nextSelectedEvaluation = selectedEvaluations[indexEvaluation + 1];
-                }
+    if (selectedEvaluations.length != 0 &&
+        selectedEvaluation.idLiaison != "0" &&
+        selectedEvaluations[indexEvaluation + 1] &&
+        selectedEvaluations[indexEvaluation + 1].idLiaison == selectedEvaluation.idLiaison) {
+        for (const key in liaisons) {
+            if (key == selectedEvaluation.idLiaison) {
+                nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
+                nextSelectedEvaluation = selectedEvaluations[indexEvaluation + 1];
             }
         }
     }

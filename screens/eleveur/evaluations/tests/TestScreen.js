@@ -596,6 +596,19 @@ const TestScreen = props => {
                                 onNextValidation={nextValidationHandler}
                                 Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
                             />}
+                            {nomEvalDouble == "Lésions de la vulve et métrite" && <LesionVulveEtMetrite
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                modalInfo2={infoModalVisible2}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
                         </View>)
                     }
                 </View>

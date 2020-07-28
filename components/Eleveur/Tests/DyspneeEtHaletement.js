@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -37,58 +37,57 @@ const DyspneeEtHaletement = props => {
         }
     };
 
-    const changeHandler = (count, sign) => {
-        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+    const changeHandler = (count, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     };
 
-    const changeHandler2 = (count, sign) => {
-        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+    const changeHandler2 = (count, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     };
 
-    const changeHandler3 = (count, sign) => {
-        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+    const changeHandler3 = (count, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     };
 
-    const changeHandler4 = (count, sign) => {
-        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+    const changeHandler4 = (count, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount4(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     };
-
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
@@ -114,68 +113,67 @@ const DyspneeEtHaletement = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View>
-                <View style={styles.counterContainer}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View>
-                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
-                        </View>
-                        <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            setModalEchantillonVisible(true);
-                        }}>
-                            <EvilIcons name="question" size={30} color="black" />
-                        </TouchableWithoutFeedback>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
                     </View>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>            
                 </View>
-                <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                    <View style={styles.container}>
-                        <View>
+            </View>
+            <View>
+                <View style={{ height: '90%' }}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <View style={{ flex: 1 }}>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Pas de dyspnée, ni halètement {" "}
                                 </Text>
                             </View>
-                            <View style={styles.counter}>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
 
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Présence de dyspnée {" "}
                                 </Text>
                             </View>
-                            <View style={styles.counter}>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
 
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Présence de truies qui halètent {" "}
                                 </Text>
                             </View>
-                            <View style={styles.counter}>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
                                 <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                             </View>
 
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Présence de dyspnée et d'halètement {" "}
                                 </Text>
                             </View>
-                            <View style={styles.counter}>
+                            <View style={{ ...styles.counter, paddingTop: 15 }}>
                                 <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                             </View>
-
                             <Chrono temps={5} />
                         </View>
-                    </View>
-                </TouchableWithoutFeedback>
+                    </ScrollView>
+                </View>
             </View>
 
 
@@ -208,19 +206,9 @@ const DyspneeEtHaletement = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        alignItems: 'center'
-    },
     counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
     },
     counterText: {
         fontFamily: 'open-sans-bold',

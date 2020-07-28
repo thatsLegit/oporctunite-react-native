@@ -97,8 +97,8 @@ const DiarrheeEtConstipation = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -112,49 +112,44 @@ const DiarrheeEtConstipation = props => {
                 </View>
             </View>
 
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
-                <ScrollView>
-                    <View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
-                            <Text style={styles.text}>
+                            <Text style={{ ...styles.text, paddingTop: 15 }}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Pas de diarrhée, ni déjection solide
                             </Text>
                         </View>
-                        <View style={styles.content}>
+                        <View style={{ ...styles.counter, paddingTop: 15 }}>
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
-                    <View style={{ marginTop: 25 }}>
+                    <View style={{ paddingTop: 10 }}>
                         <View>
-                            <Text style={styles.text}>
+                            <Text style={{ ...styles.text, paddingTop: 15 }}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Présence de diarrhée dans la case
                             </Text>
                         </View>
                         <View style={styles.content}>
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
-                        <View style={styles.image} >
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                        </View>
                     </View>
-                    <View style={{ marginTop: 25 }}>
+                    <View style={{ paddingTop: 10 }}>
                         <View>
-                            <Text style={styles.text}>
+                            <Text style={{ ...styles.text, paddingTop: 15 }}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Présence de fécès solide dans la case
                             </Text>
                         </View>
                         <View style={styles.content}>
+                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
-                        <View style={styles.image} >
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                        </View>
                     </View>
-
                 </ScrollView>
             </View>
 
@@ -187,14 +182,10 @@ const DiarrheeEtConstipation = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 15
     },
     counterText: {
         fontFamily: 'open-sans-bold',
@@ -204,11 +195,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     photo: {
-        marginTop: 10,
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     },
     text: {
         fontFamily: 'open-sans',

@@ -125,8 +125,8 @@ const PlaieEpauleEtBursite = props => {
     }, [modalInfo, confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -139,9 +139,9 @@ const PlaieEpauleEtBursite = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
-                <ScrollView>
-                    <View>
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}>
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -184,7 +184,7 @@ const PlaieEpauleEtBursite = props => {
                         </View>
                     </View>
                     
-                    <View style={{ marginTop: 25 }}>
+                    <View >
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -195,7 +195,7 @@ const PlaieEpauleEtBursite = props => {
                             <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                         </View>
                     </View>
-                    <View style={{ marginTop: 25 }}>
+                    <View >
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -245,24 +245,18 @@ const PlaieEpauleEtBursite = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 15
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15
     },
     photo: {
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     },
     text: {
         fontFamily: 'open-sans',

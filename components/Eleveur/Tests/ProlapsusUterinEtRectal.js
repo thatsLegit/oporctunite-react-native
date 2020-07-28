@@ -107,8 +107,8 @@ const ProlapsusUterinEtRectal = props => {
     }, [confirmation, globalCount]);
 
     return (
-        <View>
-            <View style={styles.counterContainer}>
+        <View style={{ flex: 1 }}>
+            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -122,81 +122,77 @@ const ProlapsusUterinEtRectal = props => {
                 </View>
             </View>
 
-            <View style={{ height: Dimensions.get('window').height / 1.6 }}>
-                <ScrollView>
-
-                    <View style={{ marginTop: 25 }}>                        
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Absence de prolapsus rectal ou utérin
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
-
-                    <View>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Présence d'un prolapsus utérin {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                            <View style={styles.image} >
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+            <View style={{ height: '80%' }}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <View style={{ flex: 1 }}> 
+                        <View>                     
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Absence de prolapsus rectal ou utérin
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Présence d'un prolapsus rectal {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                            <View style={styles.image} >
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence d'un prolapsus utérin {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput1Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                                <View style={styles.content}>
+                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                                </View>
                             </View>
+                            
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
 
-                    <View>
                         <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Présence de prolapsus utérin et rectal en même temps {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                            <View style={styles.image} >
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence d'un prolapsus rectal {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput2Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                                <View style={styles.content}>
+                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                </View>
                             </View>
+                            
                         </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
+
+                        <View>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    Présence de prolapsus utérin et rectal en même temps {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                        setModalInput2Visible(true);
+                                    }}>
+                                        <FontAwesome name="question-circle" size={24} color="black" />
+                                    </TouchableWithoutFeedback>
+                                </Text>
+                                <View style={styles.content}>
+                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
+                                </View>
+                            </View>                           
                         </View>
                     </View>
-                
                 </ScrollView>
             </View>
 
@@ -236,28 +232,18 @@ const ProlapsusUterinEtRectal = props => {
 
 
 const styles = StyleSheet.create({
-    counterContainer: {
-        alignItems: 'center',
-        marginBottom: 15,
-    },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 15
     },
     counterText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15
     },
-    image: {
-        alignItems: 'center'
-    },
     photo: {
-        marginBottom: 5,
-        minWidth: 125,
-        maxWidth: 200,
-        maxHeight: 250,
-        minHeight: 150
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     },
     text: {
         fontFamily: 'open-sans',

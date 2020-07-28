@@ -16,14 +16,14 @@ const EspaceAlloueEtDimensionsCases = props => {
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalInputVisible, setModalInputVisible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
-    const [choixCochette, setChoixCochette] = useState(false);
+    const [choixCochette, setChoixCochette] = useState(true);
     const [notes, setNotes] = useState([]);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
     const [adequat, setAdequat] = useState();
     const [count3, setCount3] = useState(0);
     const [count4, setCount4] = useState(0);
-
+    const [globalCount, setGlobalCount] = useState(0);
     const dispatch = useDispatch();
 
     const validationHandler = async () => {
@@ -73,94 +73,87 @@ const EspaceAlloueEtDimensionsCases = props => {
         }
     }, [modalInfo, confirmation, choixCochette, notes, count, count2]);
 
-    const changeHandler = (count3, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
-        setCount3(count3);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
+    const changeHandler = (count, sign, value) => {
+        setCount3(count);
     };
-    const changeHandler2 = (count, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
-            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
-            return 'error';
-        }
-        setCount4(count);
-        if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
-        } else {
-            setGlobalCount(globalCount - value);
-        }
+    const changeHandler2 = (count2, sign, value) => {
+        setCount4(count2);
     };
 
     return (
-        <View>
-            <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+        <View style={{ flex: 1 }}>
+            <View>
                 <View>
-                    <View style={styles.container}>
-                    <ScrollView>
-                        <View style={styles.innerContainer}>
-                        <Text style={styles.label}>Type d'animaux (à cocher) ?{""}</Text>
-                            <CheckBox
-                                onPress={() => setChoixCochette(true)}
-                                color={Colors.primary}
-                                checked={choixCochette}
-                            />
-                            <Text style={styles.label}>cochettes</Text>
-                            <CheckBox
-                                onPress={() => setChoixCochette(false)}
-                                color={Colors.primary}
-                                checked={!choixCochette}
-                            />
-                            <Text style={styles.label}>truies</Text>
-                        </View>
+                    <View style={{ height: '96%' }}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <View style={{ flex: 1 }}>
 
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Nombre d'animaux dans le groupe : </Text>
-                            <InputBorder>
-                                <TextInput
-                                    style={styles.text}
-                                    onBlur={() => {
-                                        if (count == "") {
-                                            setCount(0);
-                                        }
-                                    }}
-                                    onChangeText={(num) => num.length > 0 ? setCount(parseInt(num)) : setCount("")}
-                                    value={count.toString()}
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    keyboardType='number-pad'
-                                    maxLength={3}
-                                />
-                            </InputBorder>
-                        </View>
+                            <View>
+                                <Text style={styles.text}>Type d'animaux (à cocher) ?{""}</Text>
+                                <View style={styles.innerContainer}>
+                                    <CheckBox
+                                        onPress={() => setChoixCochette(true)}
+                                        color={Colors.primary}
+                                        checked={choixCochette}
+                                    />
+                                    <Text style={styles.label}>cochettes</Text>
+                                    <CheckBox
+                                        onPress={() => setChoixCochette(false)}
+                                        color={Colors.primary}
+                                        checked={!choixCochette}
+                                    />
+                                    <Text style={styles.label}>truies</Text>
+                                </View>
+                                
+                            </View>
 
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Superficie de la case en m2 : </Text>
-                            <InputBorder>
-                                <TextInput
-                                    style={styles.text}
-                                    onBlur={() => {
-                                        if (count2 == "") {
-                                            setCount2(0);
-                                        }
-                                    }}
-                                    onChangeText={(num) => num.length > 0 ? setCount2(parseInt(num)) : setCount2("")}
-                                    value={count2.toString()}
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    keyboardType='number-pad'
-                                    maxLength={3}
-                                />
-                            </InputBorder>
-                        </View>
+                            <View style={{ paddingTop: 10 }}>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>Nombre d'animaux dans le groupe : </Text>
+                                <View style={styles.innerContainer}>
+                                    <InputBorder>
+                                        <TextInput
+                                            style={{ ...styles.text, paddingTop: 15 }}
+                                            onBlur={() => {
+                                                if (count == "") {
+                                                    setCount(0);
+                                                }
+                                            }}
+                                            onChangeText={(num) => num.length > 0 ? setCount(parseInt(num)) : setCount("")}
+                                            value={count.toString()}
+                                            autoCapitalize='none'
+                                            autoCorrect={false}
+                                            keyboardType='number-pad'
+                                            maxLength={3}
+                                        />
+                                    </InputBorder>
+                                </View>
+                                
+                            </View>
 
-                        {choixCochette &&
+                            <View style={{ paddingTop: 10 }}>
+                                <Text style={{ ...styles.text, paddingTop: 15 }}>Superficie de la case en m2 : </Text>
+                                <View style={styles.innerContainer}>
+                                    <InputBorder>
+                                        <TextInput
+                                            style={{ ...styles.text, paddingTop: 15 }}
+                                            onBlur={() => {
+                                                if (count2 == "") {
+                                                    setCount2(0);
+                                                }
+                                            }}
+                                            onChangeText={(num) => num.length > 0 ? setCount2(parseInt(num)) : setCount2("")}
+                                            value={count2.toString()}
+                                            autoCapitalize='none'
+                                            autoCorrect={false}
+                                            keyboardType='number-pad'
+                                            maxLength={3}
+                                        />
+                                    </InputBorder>
+                                </View>
+                                
+                            </View>
+
+                            {choixCochette &&
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <Shadow style={styles.button}>
                                     <TouchableOpacity onPress={() => {
@@ -181,33 +174,35 @@ const EspaceAlloueEtDimensionsCases = props => {
                             </View>}
 
 
-                            <View style={styles.innerContainer}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.text}>
-                                La case de mise-bas est de taille adéquate pour la truie {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInputVisible(true);
-                                }}>
-                                    <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
-                            </Text>
-                            <View style={styles.content}>
-                            <Counter onChange={changeHandler}/>
-                        </View>
-                        </View>
-                    </View>
-                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <View style={{ paddingTop: 10 }}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={{ ...styles.text, paddingTop: 15 }}>
+                                        La case de mise-bas est de taille adéquate pour la truie {" "}
+                                    <TouchableWithoutFeedback onPress={() => {
+                                            setModalInputVisible(true);
+                                    }}>
+                                            <FontAwesome name="question-circle" size={24} color="black" />
+                                        </TouchableWithoutFeedback>
+                                    </Text>
+                                    <View style={styles.content}>
+                                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                        <Counter onChange={changeHandler}/>
+                                    </View>
+                                </View>
+                            </View>
+                            
 
-                    <View style={styles.innerContainer}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.text}>La case de mise-bas n'est pas adaptée</Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler2} />
-                        </View>
-                    </View>
-                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
-                        
+                            <View style={{ paddingTop: 10 }}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={{ ...styles.text, paddingTop: 15 }}>La case de mise-bas n'est pas adaptée</Text>
+                                </View>
+                                <View style={styles.content}>
+                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Counter onChange={changeHandler2} />
+                                </View>
+                            </View>
+                            
+                        </View>                 
                     </ScrollView>
                     </View>
 
@@ -236,23 +231,18 @@ const EspaceAlloueEtDimensionsCases = props => {
                     />
                 
                 </View>
-            </TouchableWithoutFeedback>
+            </View>
         </View>
     );
 };
 
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 20,
-        height: Dimensions.get('window').height / 1.60,
-        justifyContent: 'center'
-    },
     innerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 30
+        paddingTop: 15
     },
     text: {
         fontFamily: 'open-sans',
@@ -261,7 +251,7 @@ const styles = StyleSheet.create({
     label: {
         fontFamily: 'open-sans',
         fontSize: 15,
-        marginLeft: 15
+        paddingLeft: 15
     },
     bigText: {
         fontFamily: 'open-sans-bold',
@@ -269,7 +259,7 @@ const styles = StyleSheet.create({
         color: Colors.primary
     },
     button: {
-        marginTop: 50,
+        marginTop: 15,
         width: "35%",
         height: 35,
         backgroundColor: Colors.accent,
@@ -288,13 +278,13 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     photo: {
-        width: 300,
-        height: 200
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     },
     content: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 15
     },
 });
 

@@ -10,10 +10,11 @@ import * as testActions from '../../../store/actions/test';
 
 const PlaieEpauleEtBursite = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
+    const { modalInfo, modalInfo2, evaluation, evaluation2, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
-    const [modalInfo2Visible, setModalInfo2Visible] = useState(modalInfo);
+    const [modalInfoVisible2, setModalInfoVisible2] = useState(modalInfo2);
+    const [modalInput2Visible, setModalInput2Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -29,8 +30,8 @@ const PlaieEpauleEtBursite = props => {
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(noteBursite, evaluation.nomEvaluation));
-        
+        await dispatch(testActions.ajouterTest(noteBursite, evaluation2.nomEvaluation));
+
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -101,13 +102,15 @@ const PlaieEpauleEtBursite = props => {
     };
 
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+    const modalInput2Closer = () => setModalInput2Visible(false);
 
     const modalInfoCloser = () => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
-    const modalInfo2Closer = () => {
-        setModalInfo2Visible(false);
+    const modalInfoCloser2 = () => {
+        setModalInfoVisible2(false);
+        props.onCloseInfo2();
     };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
@@ -116,6 +119,7 @@ const PlaieEpauleEtBursite = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
+        setModalInfoVisible2(modalInfo2);
         if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
             return;
@@ -124,7 +128,7 @@ const PlaieEpauleEtBursite = props => {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, modalInfo2, confirmation, globalCount]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -159,9 +163,9 @@ const PlaieEpauleEtBursite = props => {
                         <View >
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Lésions modérées {" "}
+                                Lésions modérées
                                 <TouchableWithoutFeedback onPress={() => {
-                                    setModalInfo2Visible(true);
+                                    setModalInput2Visible(true);
                                 }}>
                                     <EvilIcons name="question" size={30} color="black" />
                                 </TouchableWithoutFeedback>
@@ -185,7 +189,7 @@ const PlaieEpauleEtBursite = props => {
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
-                    
+
                     <View >
                         <View>
                             <Text style={styles.text}>
@@ -211,18 +215,25 @@ const PlaieEpauleEtBursite = props => {
                 </ScrollView>
             </View>
 
-            
+
             {/*Modal infos sur l'évaluation*/}
-            <ModalPopupInfo
-                visible={modalInfo2Visible}
-                onClose={modalInfo2Closer}
-                text={"Mise en évidence d'une vieille lésion (cicatrice formée) ou d'une récente blessure qui est en voie de guérisson ou rougissante sans pénétration du tissu."}
-                buttonText='Fermer'
-            />
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
                 text={evaluation.description}
+                buttonText='Fermer'
+            />
+            <ModalPopupInfo
+                visible={modalInfoVisible2}
+                onClose={modalInfoCloser2}
+                text={evaluation2.description}
+                buttonText='Fermer'
+            />
+            {/*Modal d'explication des champs*/}
+            <ModalPopupInfo
+                visible={modalInput2Visible}
+                onClose={modalInput2Closer}
+                text={"Mise en évidence d'une vieille lésion (cicatrice formée) ou d'une récente blessure qui est en voie de guérisson ou rougissante sans pénétration du tissu."}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}
@@ -258,7 +269,7 @@ const styles = StyleSheet.create({
     },
     photo: {
         height: Dimensions.get('window').height / 5,
-        width: Dimensions.get('window').width / 1.5
+        width: Dimensions.get('window').width / 2
     },
     text: {
         fontFamily: 'open-sans',

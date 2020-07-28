@@ -58,7 +58,7 @@ const TestRecapScreen = props => {
                     Récapitulatif des évaluations
                 </Text>
             </View>
-            <View style={styles.list}>
+            <View style={{flex: 1}}>
                 <FlatList
                     keyExtractor={item => item.nomEvaluation}
                     data={tests}
@@ -85,9 +85,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontFamily: 'open-sans-bold'
-    },
-    list: {
-        marginVertical: 10
     },
     buttonContainer: {
         flexDirection: 'row',

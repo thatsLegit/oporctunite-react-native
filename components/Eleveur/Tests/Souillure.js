@@ -200,8 +200,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     photo: {
-        height: Dimensions.get('window').height / 3,
-        width: Dimensions.get('window').width / 2
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 1.5
     },
     text: {
         fontFamily: 'open-sans',

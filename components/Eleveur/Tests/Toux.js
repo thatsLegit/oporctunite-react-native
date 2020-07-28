@@ -34,29 +34,29 @@ const Toux = props => {
         }
     };
 
-    const changeHandler = (count, sign) => {
-        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+    const changeHandler = (count, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     };
 
-    const changeHandler2 = (count, sign) => {
-        if (globalCount + 1 > evaluation.nbTruies && sign == 'plus') {
+    const changeHandler2 = (count, sign, value) => {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + 1);
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - 1);
+            setGlobalCount(globalCount - value);
         }
     };
 

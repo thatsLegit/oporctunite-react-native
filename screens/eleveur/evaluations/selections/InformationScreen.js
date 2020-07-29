@@ -1,16 +1,23 @@
 import React, { useRef } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Entypo } from '@expo/vector-icons';
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
+import * as evalActions from '../../../../store/actions/evaluation';
 
 
 const EvalInfoScreen = props => {
     const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat());
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
     const skipped = useRef(false);
+    const dispatch = useDispatch();
+
+    const linkHandler = (evaluation) => {
+        dispatch(evalActions.ajouterALaSelection(evaluation));
+    };
 
     const evalInfoHandler = (item, index) => {
         if (skipped.current) {
@@ -58,7 +65,7 @@ const EvalInfoScreen = props => {
                     <Text style={styles.item}>{item.nomEvaluation}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text>Liaisons possibles : </Text>
-                        <TouchableOpacity onPress={() => { }}>
+                        <TouchableOpacity onPress={() => linkHandler(evalLiee)}>
                             <Shadow style={styles.liaisonButton}>
 
                                 <Entypo name="add-to-list" size={24} color="black" />

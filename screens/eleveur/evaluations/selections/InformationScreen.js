@@ -5,9 +5,23 @@ import TopNavigationForm from '../../../../components/Navigation/TopNavigationFo
 
 
 const EvalInfoScreen = props => {
+    const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories));
+    console.log(evaluations);
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    console.log(selectedEvaluations);
+    const liaisons = useSelector(state => state.eval.liaisons);
 
     const evalInfoHandler = item => {
+        // const idLiaison = item.idLiaison;
+        // let evalLiee;
+        // let alreadySelected;
+        // if (idLiaison != "0") {
+        //     selectedEvaluations.forEach(evaluation => {
+        //         evaluation.idLiaison == idLiaison && alreadySelected == true;
+        //         evalLiee ==
+        //     });
+        // }
+        // if (alreadySelected)
         return (
             <View>
                 <Text style={styles.item}>{item.nomEvaluation}</Text>

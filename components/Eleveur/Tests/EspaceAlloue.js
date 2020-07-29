@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, TextInput, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from "native-base";
 import Colors from '../../../constants/Colors';
@@ -113,7 +113,7 @@ const EspaceAlloue = props => {
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
-                        <View style={styles.container}>
+                        <View>
                             <View style={styles.innerContainer}>
                                 <Text style={styles.text}>Nombre d'animaux dans le groupe : </Text>
                                 <InputBorder>

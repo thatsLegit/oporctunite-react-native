@@ -104,7 +104,7 @@ const Boiterie = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+            <View style={{ alignItems: 'center', height: '7%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />

@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
         fontSize: 17
     },
     photo: {
-        width: 300,
-        height: 200
+        height: Dimensions.get('window').height / 3,
+        width: Dimensions.get('window').width / 1.2
     }
 });
 

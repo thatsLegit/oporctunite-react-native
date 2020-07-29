@@ -562,8 +562,6 @@ const TestScreen = props => {
                             {nomEvalDouble == "Prolapsus utérin et rectal" && <ProlapsusUterinEtRectal
                                 evaluation={selectedEvaluation}
                                 evaluation2={nextSelectedEvaluation}
-                                onCloseInfo={modalInfoCloser}
-                                onCloseInfo2={modalInfoCloser2}
                                 onCloseConfirmation={modalConfirmationCloser}
                                 confirmation={modalConfirmation}
                                 navigation={props.navigation}
@@ -603,6 +601,17 @@ const TestScreen = props => {
                                 modalInfo2={infoModalVisible2}
                                 onCloseInfo={modalInfoCloser}
                                 onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == "Surface par truie en m2 et dimensions de la case de mise-bas" && <EspaceAlloueEtDimensionsCases
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                onCloseInfo={modalInfoCloser}
                                 onCloseConfirmation={modalConfirmationCloser}
                                 confirmation={modalConfirmation}
                                 navigation={props.navigation}
@@ -655,7 +664,7 @@ const styles = StyleSheet.create({
     },
     titre2: {
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18.5,
         fontFamily: 'open-sans-bold',
         color: 'green'
     },

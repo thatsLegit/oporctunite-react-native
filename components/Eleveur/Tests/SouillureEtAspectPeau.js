@@ -40,63 +40,63 @@ const SouillureEtAspectPeau = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value/2));
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - (value/2));
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value/2));
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - (value/2));
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count3);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value/2));
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - (value/2));
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler4 = (count4, sign, value) => {
-        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount4(count4);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value/2));
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - (value/2));
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler5 = (count5, sign, value) => {
-        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount5(count5);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value/2));
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - (value/2));
+            setGlobalCount(globalCount - (value / 2));
         }
     };
 
@@ -130,7 +130,7 @@ const SouillureEtAspectPeau = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+            <View style={{ alignItems: 'center', height: '7%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     counterAttentionText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15,
-        color:"red",
+        color: "red",
     },
     intro: {
         justifyContent: 'center',

@@ -103,7 +103,7 @@ const EtatCorporel = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
+            <View style={{ alignItems: 'center', height: '7%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -116,7 +116,7 @@ const EtatCorporel = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '83%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>

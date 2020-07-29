@@ -1,21 +1,28 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
+import { Entypo } from '@expo/vector-icons';
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
+import Colors from '../../../../constants/Colors';
+import Shadow from '../../../../components/UI/Shadow';
 
 
 const EvalInfoScreen = props => {
-    const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories));
+    const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat());
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    const skipped = useRef(false);
 
     const evalInfoHandler = (item, index) => {
+        if (skipped.current) {
+            skipped.current = false;
+            return;
+        }
         const idLiaison = item.idLiaison;
         let evalLiee;
-        let alreadySelected;
+        let alreadySelected = false;
         if (idLiaison != "0") {
             for (var i = index + 1; i < selectedEvaluations.length; i++) {
                 if (selectedEvaluations[i].idLiaison == idLiaison) {
-                    console.log('entered1');
                     alreadySelected = true;
                     evalLiee = selectedEvaluations[i];
                     break;
@@ -25,17 +32,42 @@ const EvalInfoScreen = props => {
             return (
                 <View>
                     <Text style={styles.item}>{item.nomEvaluation}</Text>
-                    <Text style={styles.temps}>Temps de réalisation estimé : 3 minutes.</Text>
+                    <Text style={styles.temps}>Temps de réalisation estimé : 2 minutes.</Text>
                     <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != null ? item.nbTruies : 'indéfini'}.</Text>
                 </View>
             );
         }
         if (alreadySelected) {
-            console.log('entered2');
+            skipped.current = true;
             return (
                 <View>
                     <Text style={styles.item}>{item.nomEvaluation} et {evalLiee.nomEvaluation}</Text>
                     <Text style={styles.temps}>Temps de réalisation estimé : 3 minutes.</Text>
+                    <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != null ? item.nbTruies : 'indéfini'}.</Text>
+                </View>
+            );
+        } else {
+            for (const evaluation of evaluations) {
+                if (evaluation.idLiaison == idLiaison && evaluation.nomEvaluation != item.nomEvaluation) {
+                    evalLiee = evaluation;
+                    break;
+                }
+            };
+            return (
+                <View>
+                    <Text style={styles.item}>{item.nomEvaluation}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text>Liaisons possibles : </Text>
+                        <TouchableOpacity onPress={() => { }}>
+                            <Shadow style={styles.liaisonButton}>
+
+                                <Entypo name="add-to-list" size={24} color="black" />
+                                <Text style={styles.liaisonText}> {evalLiee.nomEvaluation}</Text>
+
+                            </Shadow>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.temps}>Temps de réalisation estimé : 2 minutes.</Text>
                     <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != null ? item.nbTruies : 'indéfini'}.</Text>
                 </View>
             );
@@ -69,22 +101,33 @@ const EvalInfoScreen = props => {
 
 const styles = StyleSheet.create({
     header: {
-        marginTop: 50,
+        paddingTop: 50,
         alignItems: "center",
         fontFamily: 'open-sans-bold'
     },
     titre1: {
         fontSize: 18,
-        marginBottom: 10,
+        paddingBottom: 10,
         fontFamily: 'open-sans'
     },
     item: {
-        marginVertical: 25,
+        paddingVertical: 25,
         fontSize: 16,
         textDecorationLine: 'underline'
     },
     temps: {
-        marginVertical: 20
+        paddingVertical: 20
+    },
+    liaisonButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: Colors.accent,
+        borderRadius: 20,
+        padding: 5
+    },
+    liaisonText: {
+        fontSize: 15,
+        fontFamily: 'open-sans-bold'
     }
 });
 

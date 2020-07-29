@@ -39,63 +39,63 @@ const SouillureEtAspectPeau = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value/2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value/2));
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value/2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value/2));
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count3);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value/2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value/2));
         }
     };
     const changeHandler4 = (count4, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount4(count4);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value/2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value/2));
         }
     };
     const changeHandler5 = (count5, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value/2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount5(count5);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value/2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value/2));
         }
     };
 
@@ -136,6 +136,7 @@ const SouillureEtAspectPeau = props => {
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
+                <Text style={styles.counterAttentionText}> 2 choix par truie obligatoire </Text>
             </View>
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -256,6 +257,11 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans',
         fontSize: 17,
         marginLeft: 20
+    },
+    counterAttentionText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 15,
+        color:"red",
     },
     intro: {
         justifyContent: 'center',

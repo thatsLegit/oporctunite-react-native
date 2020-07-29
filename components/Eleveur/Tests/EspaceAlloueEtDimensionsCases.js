@@ -40,7 +40,7 @@ const EspaceAlloueEtDimensionsCases = props => {
         const noteFinale = syncNotes.reduce((sum, n) => sum + n, 0) / syncNotes.length;
         await dispatch(testActions.ajouterTest(noteFinale, evaluation.nomEvaluation));
 
-        const noteDimension = adequat ? 10 : 0;
+        const noteDimension = Math.round(((count3 / (count3 + count4)) * 10 + Number.EPSILON) * 10) / 10;
         await dispatch(testActions.ajouterTest(noteDimension, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {

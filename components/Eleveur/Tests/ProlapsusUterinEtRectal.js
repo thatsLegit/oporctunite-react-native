@@ -11,7 +11,7 @@ import * as testActions from '../../../store/actions/test';
 
 const ProlapsusUterinEtRectal = props => {
 
-    const { evaluation, confirmation, navigation, Vtype } = props;
+    const { evaluation, evaluation2, confirmation, navigation, Vtype } = props;
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInput2Visible, setModalInput2Visible] = useState(false);
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
@@ -28,7 +28,7 @@ const ProlapsusUterinEtRectal = props => {
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation2.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -123,8 +123,8 @@ const ProlapsusUterinEtRectal = props => {
 
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{ flex: 1 }}> 
-                        <View>                     
+                    <View style={{ flex: 1 }}>
+                        <View>
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
@@ -152,7 +152,7 @@ const ProlapsusUterinEtRectal = props => {
                                     <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                                 </View>
                             </View>
-                            
+
                         </View>
 
                         <View>
@@ -167,11 +167,11 @@ const ProlapsusUterinEtRectal = props => {
                                     </TouchableWithoutFeedback>
                                 </Text>
                                 <View style={styles.content}>
-                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Image style={styles.photo} source={{ uri: evaluation2.photo1 }} />
                                     <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                                 </View>
                             </View>
-                            
+
                         </View>
 
                         <View>
@@ -189,7 +189,7 @@ const ProlapsusUterinEtRectal = props => {
                                     <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                                     <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                                 </View>
-                            </View>                           
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -208,7 +208,6 @@ const ProlapsusUterinEtRectal = props => {
                 text="Un prolapsus rectal est une extériorisation des tissus internes au niveau du rectum. Enregistrer le nombre de truies qui présentent un prolapsus sachant qu'il est soit présent soit absent. Vérifier la présence de gonflement ou extrusion des tissus au niveau du rectum. Noter que le premier signe visible d'un prolapsus rectal est souvent du sang dans les fécès."
                 buttonText='Fermer'
             />
-
             {/*Modal infos sur la composition de l'échantillon*/}
             <ModalPopupInfo
                 visible={modalEchantillonVisible}

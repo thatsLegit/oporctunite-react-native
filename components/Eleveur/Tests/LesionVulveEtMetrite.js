@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -11,9 +11,10 @@ import * as testActions from '../../../store/actions/test';
 
 const LesionVulveEtMetrite = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
+    const { modalInfo, modalInfo2, evaluation, evaluation2, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
+    const [modalInfoVisible2, setModalInfoVisible2] = useState(modalInfo2);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInput2Visible, setModalInput2Visible] = useState(false);
     const [modalInput3Visible, setModalInput3Visible] = useState(false);
@@ -32,7 +33,7 @@ const LesionVulveEtMetrite = props => {
     const noteMetrite = Math.round(((count5 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(noteMetrite, evaluation.nomEvaluation));
+        await dispatch(testActions.ajouterTest(noteMetrite, evaluation2.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -113,6 +114,10 @@ const LesionVulveEtMetrite = props => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
+    const modalInfoCloser2 = () => {
+        setModalInfoVisible2(false);
+        props.onCloseInfo2();
+    };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -120,6 +125,7 @@ const LesionVulveEtMetrite = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
+        setModalInfoVisible2(modalInfo2);
         if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
             return;
@@ -128,7 +134,7 @@ const LesionVulveEtMetrite = props => {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, modalInfo2, confirmation, globalCount]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -168,7 +174,7 @@ const LesionVulveEtMetrite = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                 Absence de métrite{" "}                  
+                                 Absence de métrite{" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -258,6 +264,12 @@ const LesionVulveEtMetrite = props => {
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
                 text={evaluation.description}
+                buttonText='Fermer'
+            />
+            <ModalPopupInfo
+                visible={modalInfoVisible2}
+                onClose={modalInfoCloser2}
+                text={evaluation2.description}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}

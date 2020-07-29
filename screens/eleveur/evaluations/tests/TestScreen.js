@@ -69,15 +69,14 @@ const TestScreen = props => {
     let nextSelectedEvaluation;
     let nomEvalDouble;
 
-    if (selectedEvaluations.length != 0 && selectedEvaluations[indexEvaluation].idLiaison) {
-        const idLiaison = selectedEvaluations[indexEvaluation].idLiaison; //ce truc pose un pb undefined
-
-        if (idLiaison && selectedEvaluations[indexEvaluation + 1].idLiaison == idLiaison) {
-            for (const key in liaisons) {
-                if (key == idLiaison) {
-                    nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
-                    nextSelectedEvaluation = selectedEvaluations[indexEvaluation + 1];
-                }
+    if (selectedEvaluations.length != 0 &&
+        selectedEvaluation.idLiaison != "0" &&
+        selectedEvaluations[indexEvaluation + 1] &&
+        selectedEvaluations[indexEvaluation + 1].idLiaison == selectedEvaluation.idLiaison) {
+        for (const key in liaisons) {
+            if (key == selectedEvaluation.idLiaison) {
+                nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
+                nextSelectedEvaluation = selectedEvaluations[indexEvaluation + 1];
             }
         }
     }
@@ -185,16 +184,20 @@ const TestScreen = props => {
                     </View>) :
                         (<View style={{ alignItems: "center", height: '15%', paddingVertical: 5 }}>
                             <Text style={styles.titre}>
-                                {selectedCategorie + " et " + selectedCategorie2}
+                                {selectedCategorie != selectedCategorie2 ?
+                                    selectedCategorie + " et " + selectedCategorie2 :
+                                    selectedCategorie}
                             </Text>
                             <Text style={styles.titre1}>
-                                {selectedEvaluation.nomCategorieP + " et " + nextSelectedEvaluation.nomCategorieP}
+                                {selectedEvaluation.nomCategorieP != nextSelectedEvaluation.nomCategorieP ?
+                                    selectedEvaluation.nomCategorieP + " et " + nextSelectedEvaluation.nomCategorieP :
+                                    selectedEvaluation.nomCategorieP}
                             </Text>
                             <Text style={styles.titre2}>
                                 {selectedEvaluation.nomEvaluation}
-                                {needInfo && <TouchableWithoutFeedback onPress={() => setInfoModalVisible(true)}>
+                                {needInfo ? <TouchableWithoutFeedback onPress={() => setInfoModalVisible(true)}>
                                     <EvilIcons name="question" size={30} color="black" />
-                                </TouchableWithoutFeedback>}
+                                </TouchableWithoutFeedback> : " "}
                                 et{" "}
                                 {nextSelectedEvaluation.nomEvaluation}
                                 {needInfo2 && <TouchableWithoutFeedback onPress={() => setInfoModalVisible2(true)}>
@@ -518,6 +521,82 @@ const TestScreen = props => {
                         </View>) :
                         (<View style={{ height: '85%' }}>
                             {nomEvalDouble == 'Dyspnée et halètement' && <DyspneeEtHaletement
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                modalInfo2={infoModalVisible2}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == 'Diarrhée et constipation' && <DiarrheeEtConstipation
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                modalInfo2={infoModalVisible2}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == "Plaie à l'épaule et bursite" && <PlaieEpauleEtBursite
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                modalInfo2={infoModalVisible2}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == "Prolapsus utérin et rectal" && <ProlapsusUterinEtRectal
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == "Toux et éternuement" && <TouxEtEternuement
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                modalInfo2={infoModalVisible2}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == "Souillures et aspect de la peau" && <SouillureEtAspectPeau
+                                evaluation={selectedEvaluation}
+                                evaluation2={nextSelectedEvaluation}
+                                modalInfo={infoModalVisible}
+                                modalInfo2={infoModalVisible2}
+                                onCloseInfo={modalInfoCloser}
+                                onCloseInfo2={modalInfoCloser2}
+                                onCloseConfirmation={modalConfirmationCloser}
+                                confirmation={modalConfirmation}
+                                navigation={props.navigation}
+                                onNextValidation={nextValidationHandler}
+                                Vtype={(indexEvaluation + 2) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                            />}
+                            {nomEvalDouble == "Lésions de la vulve et métrite" && <LesionVulveEtMetrite
                                 evaluation={selectedEvaluation}
                                 evaluation2={nextSelectedEvaluation}
                                 modalInfo={infoModalVisible}

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, Keyboard, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
-import { FontAwesome } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
@@ -12,10 +11,10 @@ import Chrono from '../../UI/Chrono';
 
 const TouxEtEternuement = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
+    const { modalInfo, modalInfo2, evaluation, evaluation2, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
-    const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
+    const [modalInfoVisible2, setModalInfoVisible2] = useState(modalInfo2);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -29,7 +28,7 @@ const TouxEtEternuement = props => {
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation2.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');
@@ -50,7 +49,6 @@ const TouxEtEternuement = props => {
             setGlobalCount(globalCount - value);
         }
     };
-
     const changeHandler2 = (count, sign, value) => {
         if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
@@ -63,7 +61,6 @@ const TouxEtEternuement = props => {
             setGlobalCount(globalCount - value);
         }
     };
-
     const changeHandler3 = (count, sign, value) => {
         if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
@@ -76,7 +73,6 @@ const TouxEtEternuement = props => {
             setGlobalCount(globalCount - value);
         }
     };
-
     const changeHandler4 = (count, sign, value) => {
         if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
@@ -90,13 +86,15 @@ const TouxEtEternuement = props => {
         }
     };
 
-
-    const modalInput1Closer = () => setModalInput1Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
         setModalInfoVisible(false); //local component
         props.onCloseInfo();  //parent component
+    };
+    const modalInfoCloser2 = () => {
+        setModalInfoVisible2(false); //local component
+        props.onCloseInfo2();  //parent component
     };
 
     const modalConfirmationCloser = useCallback(() => {
@@ -106,6 +104,7 @@ const TouxEtEternuement = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
+        setModalInfoVisible2(modalInfo2);
         if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
             return;
@@ -114,32 +113,31 @@ const TouxEtEternuement = props => {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, modalInfo2, confirmation, globalCount]);
 
     return (
         <View style={{ flex: 1 }}>
             <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View>
-                            <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
-                        </View>
-                        <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
-                        <TouchableWithoutFeedback onPress={() => {
-                            setModalEchantillonVisible(true);
-                        }}>
-                            <EvilIcons name="question" size={30} color="black" />
-                        </TouchableWithoutFeedback>
-                    
+                    <View>
+                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
+                    </View>
+                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                        setModalEchantillonVisible(true);
+                    }}>
+                        <EvilIcons name="question" size={30} color="black" />
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
-            
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View>
+                    <View style={{ flex: 1 }}>
+                        <View style={{ paddingTop: 10 }}><Chrono temps={5} /></View>
                         <View>
                             <Text style={styles.text}>
-                            <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Pas de toux, et pas d'éternuement {" "}                                  
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Pas de toux, et pas d'éternuement {" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -173,19 +171,21 @@ const TouxEtEternuement = props => {
                         <View style={styles.content}>
                             <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                         </View>
-
-                        <Chrono 
-                            temps={5}
-                        />
                     </View>
                 </ScrollView>
             </View>
-            
+
             {/*Modal infos sur l'évaluation*/}
             <ModalPopupInfo
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
                 text={evaluation.description}
+                buttonText='Fermer'
+            />
+            <ModalPopupInfo
+                visible={modalInfoVisible2}
+                onClose={modalInfoCloser2}
+                text={evaluation2.description}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}
@@ -205,7 +205,6 @@ const TouxEtEternuement = props => {
                 onValidation={validationHandler}
             />
         </View>
-    
     );
 };
 
@@ -226,5 +225,6 @@ const styles = StyleSheet.create({
         marginLeft: 20
     }
 });
+
 
 export default TouxEtEternuement;

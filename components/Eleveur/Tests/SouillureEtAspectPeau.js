@@ -10,9 +10,10 @@ import * as testActions from '../../../store/actions/test';
 
 const SouillureEtAspectPeau = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
+    const { modalInfo, modalInfo2, evaluation, evaluation2, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
+    const [modalInfoVisible2, setModalInfoVisible2] = useState(modalInfo2);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
     const [count2, setCount2] = useState(0);
@@ -28,7 +29,7 @@ const SouillureEtAspectPeau = props => {
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        //await dispatch(testActions.ajouterTest(noteAspectPeau, evaluation.nomEvaluation));
+        await dispatch(testActions.ajouterTest(noteAspectPeau, evaluation2.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -105,6 +106,10 @@ const SouillureEtAspectPeau = props => {
         setModalInfoVisible(false);
         props.onCloseInfo();
     };
+    const modalInfoCloser2 = () => {
+        setModalInfoVisible2(false);
+        props.onCloseInfo2();
+    };
     const modalConfirmationCloser = useCallback(() => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
@@ -112,6 +117,7 @@ const SouillureEtAspectPeau = props => {
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
+        setModalInfoVisible2(modalInfo2);
         if (confirmation && globalCount == evaluation.nbTruies) {
             setModalConfirmation(confirmation);
             return;
@@ -120,7 +126,7 @@ const SouillureEtAspectPeau = props => {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
         }
-    }, [modalInfo, confirmation, globalCount]);
+    }, [modalInfo, modalInfo2, confirmation, globalCount]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -140,7 +146,7 @@ const SouillureEtAspectPeau = props => {
             </View>
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{ flex: 1 }}>       
+                    <View style={{ flex: 1 }}>
                         <View style={styles.intro}>
                             <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
                             <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
@@ -216,6 +222,12 @@ const SouillureEtAspectPeau = props => {
                 visible={modalInfoVisible}
                 onClose={modalInfoCloser}
                 text={evaluation.description}
+                buttonText='Fermer'
+            />
+            <ModalPopupInfo
+                visible={modalInfoVisible2}
+                onClose={modalInfoCloser2}
+                text={evaluation2.description}
                 buttonText='Fermer'
             />
             {/*Modal infos sur la composition de l'échantillon*/}

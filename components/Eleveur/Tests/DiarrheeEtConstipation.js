@@ -139,7 +139,7 @@ const DiarrheeEtConstipation = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Diarrhée-photo1.png')} />
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -151,7 +151,7 @@ const DiarrheeEtConstipation = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Constipation-photo1.png')} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>

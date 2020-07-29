@@ -132,7 +132,7 @@ const EtatCorporel = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Etat-corporel-photo1.png')} />
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
                         </View>
@@ -150,7 +150,7 @@ const EtatCorporel = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Etat-corporel-photo2.png')} />
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
                         </View>

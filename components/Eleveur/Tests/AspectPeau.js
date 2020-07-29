@@ -113,7 +113,7 @@ const AspectPeau = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.intro}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Aspect-de-la-peau-photo1.png')} />
                             <Text style={{ fontStyle: 'italic', fontSize: 15, paddingTop: 6 }}>
                                 10 % correspond à un quart d'une des trois zones {"\n"}
                                 un tiers correspond à une des trois zones

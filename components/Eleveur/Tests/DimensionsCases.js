@@ -73,7 +73,7 @@ const DimensionsCases = props => {
                                 </Text>
                             </View>
                         </View>
-                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        <Image style={styles.photo} source={require('../../../assets/img/evaluations/Dimensions-des-cases-de-mise-bas-photo1.png')} />
 
                         <View style={styles.innerContainer}>
                             <View style={{ marginHorizontal: 20 }}>
@@ -87,7 +87,7 @@ const DimensionsCases = props => {
                                 <Text style={styles.text}>La case de mise-bas n'est pas adaptée</Text>
                             </View>
                         </View>
-                        <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                        <Image style={styles.photo} source={require('../../../assets/img/evaluations/Dimensions-des-cases-de-mise-bas-photo1.png')} />
                     </View>
                 </ScrollView>
             </View>

@@ -94,7 +94,7 @@ const ApportEnEau = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Proprete-de-la-case-photo1.png')} />
                                 <Counter onChange={changeHandler} max={null} />
                             </View>
                         </View>
@@ -112,7 +112,7 @@ const ApportEnEau = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Proprete-de-la-case-photo1.png')} />
                                 <Counter onChange={changeHandler2} max={null} />
                             </View>
                         </View>

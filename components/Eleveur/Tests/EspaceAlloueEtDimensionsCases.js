@@ -188,7 +188,7 @@ const EspaceAlloueEtDimensionsCases = props => {
                                 </View>
                             </View>
                             <View style={styles.image}>
-                                <Image style={styles.photo} source={{ uri: evaluation2.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Dimensions-des-cases-de-mise-bas-photo1.png')} />
                             </View>
 
                             <View style={styles.innerDimensionCases}>
@@ -204,7 +204,7 @@ const EspaceAlloueEtDimensionsCases = props => {
                                 </View>
                             </View>
                             <View style={styles.image}>
-                                <Image style={styles.photo} source={{ uri: evaluation2.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Dimensions-des-cases-de-mise-bas-photo1.png')} />
                             </View>
                         </View>
 

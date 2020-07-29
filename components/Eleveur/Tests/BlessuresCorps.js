@@ -113,7 +113,7 @@ const BlessuresCorps = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.image}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Blessures-sur-le-corps-photo1.png')} />
                         </View>
                         <View style={{ paddingTop: 10 }}>
                             <Text style={styles.text}>

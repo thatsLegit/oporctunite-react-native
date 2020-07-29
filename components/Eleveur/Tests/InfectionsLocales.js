@@ -128,12 +128,12 @@ const InfectionsLocales = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Quelques gonflements visibls mais pas de mise en évidence d'inflammation ou un petit abcès visible
+                                Quelques gonflements visibles mais pas de mise en évidence d'inflammation ou un petit abcès visible
                             </Text>
                             </View>
                             <View style={styles.content}>
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Infections-locales-photo1.png')} />
                             </View>
                         </View>
 
@@ -146,7 +146,7 @@ const InfectionsLocales = props => {
                             </View>
                             <View style={styles.content}>
                                 <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
-                                <Image style={styles.photo} source={{ uri: evaluation.photo2 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Infections-locales-photo2.png')} />
                             </View>
                         </View>
                     </View>

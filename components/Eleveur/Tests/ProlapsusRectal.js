@@ -116,7 +116,7 @@ const ProlapsusRectal = props => {
 
                         <View>
                             <View style={styles.image} >
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-rectal-photo1.png')} />
                             </View>
                             <View>
                                 <Text style={styles.text}>

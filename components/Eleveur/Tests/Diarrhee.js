@@ -123,7 +123,7 @@ const Diarrhee = props => {
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
                             <View style={styles.image} >
-                                <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Diarrhée-photo1.png')} />
                             </View>
                         </View>
                     </View>

@@ -148,7 +148,7 @@ const ProlapsusUterinEtRectal = props => {
                                     </TouchableWithoutFeedback>
                                 </Text>
                                 <View style={styles.content}>
-                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-utérin-photo1.png')} />
                                     <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                                 </View>
                             </View>
@@ -167,7 +167,7 @@ const ProlapsusUterinEtRectal = props => {
                                     </TouchableWithoutFeedback>
                                 </Text>
                                 <View style={styles.content}>
-                                    <Image style={styles.photo} source={{ uri: evaluation2.photo1 }} />
+                                    <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-rectal-photo1.png')} />
                                     <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                                 </View>
                             </View>
@@ -186,7 +186,7 @@ const ProlapsusUterinEtRectal = props => {
                                     </TouchableWithoutFeedback>
                                 </Text>
                                 <View style={styles.content}>
-                                    <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                                    <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-rectal-photo1.png')} />
                                     <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                                 </View>
                             </View>

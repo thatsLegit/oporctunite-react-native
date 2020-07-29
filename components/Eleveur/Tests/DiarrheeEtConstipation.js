@@ -139,7 +139,7 @@ const DiarrheeEtConstipation = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Diarrhée-photo1.png')} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Diarrhee-photo1.png')} />
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>

@@ -107,7 +107,7 @@ const Metrite = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Métrite-photo1.png')} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Metrite-photo1.png')} />
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
                         </View>

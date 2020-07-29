@@ -116,7 +116,7 @@ const ProlapsusUterin = props => {
 
                         <View>
                             <View style={styles.image} >
-                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-utérin-photo1.png')} />
+                                <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-uterin-photo1.png')} />
                             </View>
                             <View>
                                 <Text style={styles.text}>

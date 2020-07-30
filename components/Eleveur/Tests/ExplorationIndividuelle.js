@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import * as testActions from '../../../store/actions/test';
 import Colors from '../../../constants/Colors';
@@ -114,7 +115,12 @@ const ExplorationIndividuelle = props => {
                         </InputBorder>
                         <Shadow style={styles.button}>
                             <TouchableOpacity onPress={() => start()}>
-                                <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                <Shadow>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
+                                        <Text style={styles.buttonText}>Suite</Text>
+                                        <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
+                                    </View>
+                                </Shadow>
                             </TouchableOpacity>
                         </Shadow>
                     </View>
@@ -208,7 +214,12 @@ const ExplorationIndividuelle = props => {
                                         setCount3(0);
                                         setInit(true);
                                     }}>
-                                        <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                        <Shadow>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
+                                                <Text style={styles.buttonText}>Suite</Text>
+                                                <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
+                                            </View>
+                                        </Shadow>
                                     </TouchableOpacity>
                                 </Shadow>
                             </View>}

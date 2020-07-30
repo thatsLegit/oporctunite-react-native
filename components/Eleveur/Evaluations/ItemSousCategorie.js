@@ -10,14 +10,14 @@ import * as sousCategActions from '../../../store/actions/sousCateg';
 const ItemSousCategorie = props => {
 
     const { selectAll } = props;
-    const [choix, setChoix] = useState(selectAll);
+    const [choix, setChoix] = useState(false);
     const { data } = props;
-    //Cas ou la sous-cat est supprimée via les filtres,choix et sousCatPresenteDsLeStoreOuPas vont alors diverger
-    let sousCatPresenteDsLeStoreOuPas = useSelector(state => state.sousCateg.sousCategSelection);
-    if (sousCatPresenteDsLeStoreOuPas !== undefined) {
-        sousCatPresenteDsLeStoreOuPas = Object.values(sousCatPresenteDsLeStoreOuPas).some(e => e.nomSousCateg == data.nomSousCateg);
-        sousCatPresenteDsLeStoreOuPas != choix && setChoix(false);
-    }
+
+    const sousCatSelection = useSelector(state => state.sousCateg.sousCategSelection);
+
+    useEffect(() => {
+        setChoix(sousCatSelection ? Object.values(sousCatSelection).some(e => e.nomSousCateg == data.nomSousCateg) : false)
+    }, [sousCatSelection]);
 
     const dispatch = useDispatch();
 

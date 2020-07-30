@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert, TextInput, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from "native-base";
+import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 import Shadow from '../../../components/UI/Shadow';
@@ -88,7 +89,12 @@ const EspaceAlloue = props => {
                         </View>
                         <Shadow style={styles.button}>
                             <TouchableOpacity onPress={() => setDemarrage(false)}>
-                                <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                <Shadow>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
+                                        <Text style={styles.buttonText}>Suite</Text>
+                                        <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
+                                    </View>
+                                </Shadow>
                             </TouchableOpacity>
                         </Shadow>
                     </View>
@@ -169,7 +175,12 @@ const EspaceAlloue = props => {
                                             setCount2(0);
                                             setChoixCochette(false);
                                         }}>
-                                            <Shadow><Text style={styles.buttonText}>Suivant</Text></Shadow>
+                                            <Shadow>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
+                                                    <Text style={styles.buttonText}>Suite</Text>
+                                                    <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
+                                                </View>
+                                            </Shadow>
                                         </TouchableOpacity>
                                     </Shadow>
                                 </View>}
@@ -238,7 +249,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontSize: 18,
-        padding: 4,
         fontFamily: 'open-sans-bold'
     },
     groupText: {

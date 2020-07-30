@@ -80,40 +80,34 @@ const PoseAnneau = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ justifyContent: 'center', alignItems: 'center', height: '90%', paddingTop: 50 }}>
+            <View style={{ height: '90%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                            <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Pas de mutilations réalisées
                             </Text>
-                            </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler} max={null} />
                             </View>
                         </View>
 
-                        <View style={{ marginTop: 25 }}>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                        <View>
+                            <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Les mutilations sont réalisées avec l'utilisation d'anesthésiques
                             </Text>
-                            </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler2} max={null} />
                             </View>
                         </View>
 
-                        <View style={{ marginTop: 25 }}>
-                            <View>
-                                <Text style={styles.text}>
-                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                        <View>
+                            <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Les mutilations sont réalisées sans l'utilisation d'anesthésiques ou anelgésiques
                             </Text>
-                            </View>
                             <View style={styles.counter}>
                                 <Counter onChange={changeHandler3} max={null} />
                             </View>
@@ -147,7 +141,7 @@ const styles = StyleSheet.create({
     counter: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        marginTop: 20
+        paddingTop: 20
     },
     text: {
         fontFamily: 'open-sans',

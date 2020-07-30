@@ -6,7 +6,8 @@ import { Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons'
 
 import { MainNavigator } from '../stacks/MainNavigator';
 import { FichesNavigator } from '../stacks/FichesNavigator';
-import { BilanNavigator, EvaluationNavigator } from '../stacks/EleveurNavigator';
+import { EvaluationNavigator } from '../stacks/EleveurNavigator';
+import { BilanNavigator } from '../stacks/BilansNavigator';
 import Colors from '../../constants/Colors';
 import * as authActions from '../../store/actions/auth';
 

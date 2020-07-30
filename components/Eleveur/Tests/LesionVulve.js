@@ -118,10 +118,10 @@ const LesionVulve = props => {
             </View>
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                  Absence/légère lésions sur la vulve{" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -138,7 +138,7 @@ const LesionVulve = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                  Lésions modérées{" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -155,7 +155,7 @@ const LesionVulve = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Lésions sévères {" "}
                                     <TouchableWithoutFeedback onPress={() => {

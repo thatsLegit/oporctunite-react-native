@@ -119,10 +119,10 @@ const Boiterie = props => {
             </View>
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Absence de boiterie à boiterie faible {" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -139,7 +139,7 @@ const Boiterie = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Boiterie modérée {" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -156,7 +156,7 @@ const Boiterie = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Boiterie sévère {" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -233,8 +233,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20,
-        paddingVertical: 20
+        marginLeft: 20
     }
 });
 

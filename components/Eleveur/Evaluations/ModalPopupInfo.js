@@ -13,7 +13,7 @@ const ModalPopupInfo = props => {
     }, [visible]);
 
     const modalHeightHandler = useCallback((height) => {
-        setModalHeight(height + 70);
+        modalHeight == 0 && setModalHeight(height + 70);
     }, [modalHeight]);
 
 
@@ -61,9 +61,10 @@ const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     modalView: {
+        maxWidth: Dimensions.get('window').width > 600 && Dimensions.get('window').width * (2 / 3),
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Dimensions, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import Colors from '../../constants/Colors';
@@ -44,13 +44,14 @@ const TopNavigationForm = props => {
 
 const styles = StyleSheet.create({
     formContainer: {
+        flex: 1,
+        maxHeight: "20%",
         flexDirection: "row",
-        marginVertical: 30,
-        marginHorizontal: 20,
-        justifyContent: 'space-between'
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
     },
     button: {
-        width: "47%",
+        width: Dimensions.get('window').width < 600 ? "40%" : "20%",
         height: 40,
         backgroundColor: Colors.accent,
         borderRadius: 10,

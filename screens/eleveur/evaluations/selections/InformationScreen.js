@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -7,17 +7,21 @@ import TopNavigationForm from '../../../../components/Navigation/TopNavigationFo
 import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
 import * as evalActions from '../../../../store/actions/evaluation';
+import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
 const EvalInfoScreen = props => {
     const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat());
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    const [modal, setModal] = useState(true);
     const skipped = useRef(false);
     const dispatch = useDispatch();
 
     const linkHandler = (evaluation) => {
         dispatch(evalActions.ajouterALaSelection(evaluation));
     };
+
+    const modalCloser = () => setModal(false);
 
     const evalInfoHandler = (item, index) => {
         if (skipped.current) {
@@ -64,7 +68,7 @@ const EvalInfoScreen = props => {
                 <View>
                     <Text style={styles.item}>{item.nomEvaluation}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text>Liaisons possibles : </Text>
+                        <Text style={{ paddingLeft: 5 }}>Liaisons possibles : </Text>
                         <TouchableOpacity onPress={() => linkHandler(evalLiee)}>
                             <Shadow style={styles.liaisonButton}>
 
@@ -101,6 +105,16 @@ const EvalInfoScreen = props => {
                 data={selectedEvaluations}
                 renderItem={(itemData) => evalInfoHandler(itemData.item, itemData.index)}
             />
+            <ModalPopupInfo
+                visible={modal}
+                onClose={modalCloser}
+                text={<Text>Certaines évaluations peuvent apparaître avec un symbole {" "}
+                    <Entypo name="add-to-list" size={24} color="black" />
+                    . {" "}Cela signifie que l'évaluation peut être réalisée en même temps qu'une autre pour gagner du temps !
+                    </Text>}
+                buttonText='Compris'
+                align
+            />
         </View>
     );
 };
@@ -108,7 +122,7 @@ const EvalInfoScreen = props => {
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop: 50,
+        paddingTop: 20,
         alignItems: "center",
         fontFamily: 'open-sans-bold'
     },
@@ -120,10 +134,12 @@ const styles = StyleSheet.create({
     item: {
         paddingVertical: 25,
         fontSize: 16,
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        paddingLeft: 5
     },
     temps: {
-        paddingVertical: 20
+        paddingVertical: 20,
+        paddingLeft: 5
     },
     liaisonButton: {
         flexDirection: 'row',

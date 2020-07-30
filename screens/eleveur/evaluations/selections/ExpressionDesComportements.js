@@ -8,7 +8,7 @@ import TopNavigationForm from '../../../../components/Navigation/TopNavigationFo
 const ExpressionDesComportementsScreen = props => {
     const emptySelectionOrNot = useSelector(state => state.sousCateg.sousCategSelection);
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <TopNavigationForm
                 navigation={props.navigation}
                 retour='EvalRecap'

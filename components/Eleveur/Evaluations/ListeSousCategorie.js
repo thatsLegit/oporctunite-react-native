@@ -35,17 +35,20 @@ const ListeSousCategorie = props => {
 
 const styles = StyleSheet.create({
     superContainer: {
-        alignItems: 'center'
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 50
     },
     listContainer: {
+        flex: 1,
+        width: (Dimensions.get('window').width / 4) * 3,
         backgroundColor: "#fff",
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 10,
         padding: 15,
         borderRadius: 10,
-        height: (Dimensions.get('window').height / 3) * 2,
-        minWidth: 300
     },
     checkBoxAll: {
         flexDirection: "row",

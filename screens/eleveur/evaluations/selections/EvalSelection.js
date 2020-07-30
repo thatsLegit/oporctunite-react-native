@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { CheckBox } from "native-base"
@@ -14,12 +14,12 @@ import Shadow from '../../../../components/UI/Shadow';
 
 const EvalSelectionScreen = props => {
 
+    const [filtersHeight, setFiltersHeight] = useState(0);
+
     const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection));
     const selectedSousCatNames = selectedSousCat.map(sousCat => sousCat.nomSousCateg);
 
-    let evaluations = [];
-    useSelector(state => Object.values(state.sousCateg.sousCategories).forEach(scateg => scateg.forEach(e => evaluations.push(e))));
-    evaluations = evaluations.filter(e => selectedSousCatNames.includes(e.nomCategorieP));
+    const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat().filter(e => selectedSousCatNames.includes(e.nomCategorieP)));
 
     const emptySelectionOrNot = useSelector(state => state.eval.evalSelection);
 
@@ -32,8 +32,12 @@ const EvalSelectionScreen = props => {
         dispatch(evalActions.supprimerDeLaSelection(nomEval[0]));
     };
 
+    const filtersHeightHandler = useCallback((height) => {
+        filtersHeight == 0 && setFiltersHeight(height + 70);
+    }, [filtersHeight]);
+
     return (
-        <View >
+        <View style={{ flex: 1 }} >
             <TopNavigationForm
                 navigation={props.navigation}
                 retour='CategSelection'
@@ -44,10 +48,17 @@ const EvalSelectionScreen = props => {
                 type='evaluation'
                 check={true}
             />
-            <View style={{ maxHeight: (Dimensions.get('window').height / 5.5) }}>
+            <View
+                style={{ flex: 1, height: filtersHeight, maxHeight: Dimensions.get('window').height > 1000 ? '15%' : '25%' }}
+                onLayout={(event) => {
+                    const { height } = event.nativeEvent.layout;
+                    filtersHeightHandler(height);
+                }}>
                 <FlatList
+                    columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
+                    horizontal={false}
                     data={selectedSousCat}
-                    numColumns={2}
+                    numColumns={Math.trunc(Dimensions.get('window').width / 120)}
                     renderItem={itemData => (
                         <SelectedSousCategorieItem
                             nom={itemData.item.nomSousCateg}
@@ -56,8 +67,7 @@ const EvalSelectionScreen = props => {
                     keyExtractor={item => item.nomSousCateg}
                 />
             </View>
-            <View style={{ marginVertical: 10 }}></View>
-            <View style={{ maxHeight: (Dimensions.get('window').height / 2) * 1.17, minHeight: (Dimensions.get('window').height / 2) * 1.1 }}>
+            <View style={{ paddingVertical: 10, height: '70%' }}>
                 <FlatList
                     ListHeaderComponent={(
                         <View>
@@ -66,7 +76,7 @@ const EvalSelectionScreen = props => {
                                     <Text style={styles.title}>Evaluations disponibles ({evaluations.length})</Text>
                                 </Shadow>
                             </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 5 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingVertical: 5 }}>
                                 <CheckBox style={{ marginRight: 15 }} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                                 <TouchableOpacity onPress={() => setSelectAll(!selectAll)}>
                                     <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout selectionner</Text>
@@ -75,7 +85,9 @@ const EvalSelectionScreen = props => {
                         </View>
                     )}
                     data={evaluations}
-                    numColumns={2}
+                    columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
+                    horizontal={false}
+                    numColumns={Math.trunc(Dimensions.get('window').width / 180)}
                     renderItem={itemData => (
                         <CorrespondingEvaluations
                             eval={itemData.item}
@@ -90,11 +102,11 @@ const EvalSelectionScreen = props => {
 
 const styles = StyleSheet.create({
     titleContainer: {
-        marginBottom: 10,
+        paddingBottom: 10,
         alignItems: 'center'
     },
     title: {
-        marginBottom: 5,
+        paddingBottom: 5,
         fontFamily: 'open-sans-bold',
         fontSize: 20
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, Dimensions } from 'react-native'
 
 import Colors from '../../constants/Colors';
 import defaultNavOptions from '../../components/Navigation/DefaultNavOptions';
@@ -42,20 +42,11 @@ export const CategSelectionNavigator = () => {
                 }}
             />
             <CategSelectionTabNavigator.Screen
-                name='Sante'
-                component={Sante}
-                options={{
-                    tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Santé</Text>;
-                    }
-                }}
-            />
-            <CategSelectionTabNavigator.Screen
                 name='EnvironnementApproprie'
                 component={EnvironnementApproprie}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Environnement approprié</Text>;
+                        return <Text style={styles.tabBarLabel}>Environnement {"\n"} approprié</Text>;
                     }
                 }}
             />
@@ -65,6 +56,15 @@ export const CategSelectionNavigator = () => {
                 options={{
                     tabBarLabel: () => {
                         return <Text style={styles.tabBarLabel}>Expression{"\n"}des{"\n"}comportements</Text>;
+                    }
+                }}
+            />
+            <CategSelectionTabNavigator.Screen
+                name='Sante'
+                component={Sante}
+                options={{
+                    tabBarLabel: () => {
+                        return <Text style={styles.tabBarLabel}>Santé</Text>;
                     }
                 }}
             />
@@ -119,7 +119,7 @@ export const EvaluationNavigator = () => {
 const styles = StyleSheet.create({
     tabBarLabel: {
         color: 'white',
-        fontSize: 13,
+        fontSize: Dimensions.get('window').width <= 360 ? 12.5 : 13,
         textAlign: 'center'
     }
 });

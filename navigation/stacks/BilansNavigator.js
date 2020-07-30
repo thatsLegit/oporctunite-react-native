@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, StyleSheet } from 'react-native'
+import { Text, StyleSheet, Dimensions } from 'react-native'
 
 import Colors from '../../constants/Colors';
 import defaultNavOptions from '../../components/Navigation/DefaultNavOptions';
@@ -38,7 +38,7 @@ export const BilanCategSelectionNavigator = () => {
                 component={BilanSousCateg1Navigator}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Bon état général</Text>;
+                        return <Text style={styles.tabBarLabel}>Bon état{"\n"}général</Text>;
                     }
                 }}
             />
@@ -47,7 +47,7 @@ export const BilanCategSelectionNavigator = () => {
                 component={BilanCategorie2Screen}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Environnement approprié</Text>;
+                        return <Text style={styles.tabBarLabel}>Environnement{"\n"}approprié</Text>;
                     }
                 }}
             />
@@ -56,7 +56,7 @@ export const BilanCategSelectionNavigator = () => {
                 component={BilanSousCateg3Navigator}
                 options={{
                     tabBarLabel: () => {
-                        return <Text style={styles.tabBarLabel}>Expression des comportements</Text>;
+                        return <Text style={styles.tabBarLabel}>Expression{"\n"}des{"\n"}comportements</Text>;
                     }
                 }}
             />
@@ -163,7 +163,7 @@ export const BilanNavigator = () => {
 const styles = StyleSheet.create({
     tabBarLabel: {
         color: 'white',
-        fontSize: 13,
+        fontSize: Dimensions.get('window').width <= 360 ? 12.5 : 13,
         textAlign: 'center'
     }
 });

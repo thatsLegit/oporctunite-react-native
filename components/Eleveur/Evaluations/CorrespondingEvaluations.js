@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Platform, Dimensions } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CheckBox } from "native-base";
 import { Octicons } from '@expo/vector-icons';
 import Colors from '../../../constants/Colors';
@@ -12,8 +12,14 @@ import * as evalActions from '../../../store/actions/evaluation';
 const CorrespondingEvaluations = props => {
     const [modalInfoVisible, setModalInfoVisible] = useState(false);
     const { selectAll } = props;
-    const [choix, setChoix] = useState(selectAll); //selectAll ne doit pas forcément initialiser choix
-    const Eval = props.eval;
+    const Eval = props.eval
+    const [choix, setChoix] = useState(false);
+    const evalSelection = useSelector(state => state.eval.evalSelection);
+
+    useEffect(() => {
+        setChoix(evalSelection && Object.values(evalSelection).some(e => e.nomEvaluation == Eval.nomEvaluation));
+    }, [evalSelection]);
+
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -16,7 +16,7 @@ const ItemSousCategorie = props => {
     const sousCatSelection = useSelector(state => state.sousCateg.sousCategSelection);
 
     useEffect(() => {
-        setChoix(sousCatSelection ? Object.values(sousCatSelection).some(e => e.nomSousCateg == data.nomSousCateg) : false)
+        setChoix(sousCatSelection && Object.values(sousCatSelection).some(e => e.nomSousCateg == data.nomSousCateg));
     }, [sousCatSelection]);
 
     const dispatch = useDispatch();

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     },
     evalContainer: {
         minWidth: 100,
-        maxWidth: 179,
+        maxWidth: Dimensions.get('window').width < 500 ? 150 : 200,
         minHeight: 80,
         borderColor: 'black',
         borderWidth: 1,

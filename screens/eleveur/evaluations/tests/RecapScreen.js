@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import * as testActions from '../../../../store/actions/test';
 import { FlatList } from 'react-native-gesture-handler';
 import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
+import Table from '../../../../components/UI/Table';
 import * as evalActions from '../../../../store/actions/evaluation';
 import * as sousCategActions from '../../../../store/actions/sousCateg';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -13,24 +14,14 @@ import Spinner from 'react-native-loading-spinner-overlay';
 const TestRecapScreen = props => {
 
     const [isLoading, setIsLoading] = useState(false);
+    const tests = useSelector(state => Object.values(state.test.enCours));
+
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(evalActions.supprimerEvalSelection());
         dispatch(sousCategActions.supprimerSousCategSelection());
     }, []);
-
-    const tests = useSelector(state => Object.values(state.test.enCours));
-
-    const resultTable = item => {
-        return (
-            <View style={styles.tableContainer}>
-                <Text style={styles.tableText}>
-                    {item.nomEvaluation} {':'} {item.valeur} {'/10'}
-                </Text>
-            </View>
-        );
-    };
 
     const submitHandler = async () => {
         setIsLoading(true);
@@ -53,19 +44,28 @@ const TestRecapScreen = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>
-                    Récapitulatif des évaluations
-                </Text>
-            </View>
-            <View style={{flex: 1}}>
+            <Table style={{ flex: 0.9, paddingTop: 25 }}>
                 <FlatList
+                    ListHeaderComponent={(
+                        <View style={styles.header}>
+                            <Text style={styles.titre}>
+                                Récapitulatif des évaluations
+                            </Text>
+                        </View>
+                    )}
                     keyExtractor={item => item.nomEvaluation}
                     data={tests}
-                    renderItem={itemData => resultTable(itemData.item)}
+                    renderItem={itemData => (
+                        <View style={styles.textContainer}>
+                            <Text style={styles.text}>
+                                {itemData.item.nomEvaluation} : {itemData.item.valeur} /10
+                        </Text>
+                        </View>
+                    )}
+                    ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
                 />
-            </View>
-            <View style={styles.buttonContainer}>
+            </Table>
+            <View style={styles.footer}>
                 <View style={styles.button}>
                     <TouchableOpacity onPress={() => submitHandler()}>
                         <Shadow><Text style={styles.buttonText}>Valider</Text></Shadow>
@@ -78,18 +78,30 @@ const TestRecapScreen = props => {
 
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        alignItems: 'center',
-        marginVertical: 40
-    },
-    title: {
-        fontSize: 20,
+    header: {
+        backgroundColor: Colors.accent,
+        borderRadius: 10,
+        alignItems: "center",
         fontFamily: 'open-sans-bold'
     },
-    buttonContainer: {
+    titre: {
+        fontSize: 18,
+        paddingBottom: 10,
+        fontFamily: 'open-sans',
+        paddingTop: 10
+    },
+    text: {
+        fontSize: 16,
+        fontFamily: 'open-sans'
+    },
+    textContainer: {
+        paddingVertical: 15
+    },
+    footer: {
+        flex: 0.1,
         flexDirection: 'row',
         justifyContent: 'center',
-        marginVertical: 30
+        paddingBottom: 40
     },
     button: {
         width: "40%",
@@ -101,18 +113,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontSize: 15,
-        padding: 7,
+        paddingTop: 5,
+        fontSize: 17,
         fontFamily: 'open-sans-bold'
-    },
-    tableContainer: {
-        width: '80%',
-        borderColor: 'grey',
-        borderWidth: 1
-    },
-    tableText: {
-        fontSize: 15,
-        fontFamily: 'open-sans'
     },
     spinnerContainer: {
         flex: 1,
@@ -120,6 +123,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
     },
+    itemSeparator: {
+        height: StyleSheet.hairlineWidth,
+        width: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+    }
 });
 
 

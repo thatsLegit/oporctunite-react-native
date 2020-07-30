@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
 import * as evalActions from '../../../../store/actions/evaluation';
 import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import Table from '../../../../components/UI/Table';
 
 
 const EvalInfoScreen = props => {
@@ -17,9 +18,7 @@ const EvalInfoScreen = props => {
     const skipped = useRef(false);
     const dispatch = useDispatch();
 
-    const linkHandler = (evaluation) => {
-        dispatch(evalActions.ajouterALaSelection(evaluation));
-    };
+    const linkHandler = (evaluation) => dispatch(evalActions.ajouterALaSelection(evaluation));
 
     const modalCloser = () => setModal(false);
 
@@ -68,13 +67,10 @@ const EvalInfoScreen = props => {
                 <View>
                     <Text style={styles.item}>{item.nomEvaluation}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ paddingLeft: 5 }}>Liaisons possibles : </Text>
                         <TouchableOpacity onPress={() => linkHandler(evalLiee)}>
                             <Shadow style={styles.liaisonButton}>
-
                                 <Entypo name="add-to-list" size={24} color="black" />
                                 <Text style={styles.liaisonText}> {evalLiee.nomEvaluation}</Text>
-
                             </Shadow>
                         </TouchableOpacity>
                     </View>
@@ -95,26 +91,31 @@ const EvalInfoScreen = props => {
                 textValider='Commencer'
                 check={false}
             />
-            <View style={styles.header}>
-                <Text style={styles.titre1}>
-                    Evaluations séléctionnées
-                </Text>
-            </View>
-            <FlatList
-                keyExtractor={item => item.nomEvaluation}
-                data={selectedEvaluations}
-                renderItem={(itemData) => evalInfoHandler(itemData.item, itemData.index)}
-            />
-            <ModalPopupInfo
-                visible={modal}
-                onClose={modalCloser}
-                text={<Text>Certaines évaluations peuvent apparaître avec un symbole {" "}
-                    <Entypo name="add-to-list" size={24} color="black" />
+            <Table style={{ flex: 1 }}>
+                <FlatList
+                    ListHeaderComponent={(
+                        <View style={styles.header}>
+                            <Text style={styles.titre}>
+                                Evaluations séléctionnées
+                            </Text>
+                        </View>
+                    )}
+                    keyExtractor={item => item.nomEvaluation}
+                    data={selectedEvaluations}
+                    ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+                    renderItem={(itemData) => evalInfoHandler(itemData.item, itemData.index)}
+                />
+                <ModalPopupInfo
+                    visible={modal}
+                    onClose={modalCloser}
+                    text={<Text>Certaines évaluations peuvent apparaître avec un symbole {" "}
+                        <Entypo name="add-to-list" size={24} color="black" />
                     . {" "}Cela signifie que l'évaluation peut être réalisée en même temps qu'une autre pour gagner du temps !
                     </Text>}
-                buttonText='Compris'
-                align
-            />
+                    buttonText='Compris'
+                    align
+                />
+            </Table>
         </View>
     );
 };
@@ -122,14 +123,16 @@ const EvalInfoScreen = props => {
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop: 20,
+        backgroundColor: Colors.accent,
+        borderRadius: 10,
         alignItems: "center",
         fontFamily: 'open-sans-bold'
     },
-    titre1: {
+    titre: {
         fontSize: 18,
         paddingBottom: 10,
-        fontFamily: 'open-sans'
+        fontFamily: 'open-sans',
+        paddingTop: 10
     },
     item: {
         paddingVertical: 25,
@@ -138,19 +141,25 @@ const styles = StyleSheet.create({
         paddingLeft: 5
     },
     temps: {
-        paddingVertical: 20,
+        paddingVertical: 10,
         paddingLeft: 5
     },
     liaisonButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: Colors.accent,
+        backgroundColor: Colors.primary,
         borderRadius: 20,
         padding: 5
     },
     liaisonText: {
         fontSize: 15,
-        fontFamily: 'open-sans-bold'
+        fontFamily: 'open-sans-bold',
+        paddingHorizontal: 10
+    },
+    itemSeparator: {
+        height: StyleSheet.hairlineWidth,
+        width: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
     }
 });
 

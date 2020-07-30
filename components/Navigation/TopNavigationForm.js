@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Dimensions, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import Colors from '../../constants/Colors';
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     button: {
-        width: Dimensions.get('window').width < 600 ? "40%" : "20%",
         height: 40,
+        paddingHorizontal: 5,
         backgroundColor: Colors.accent,
         borderRadius: 10,
         alignItems: "center",

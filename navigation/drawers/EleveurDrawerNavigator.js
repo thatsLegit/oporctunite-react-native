@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Platform, SafeAreaView, Button, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Platform, SafeAreaView, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import { Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 
@@ -22,7 +22,7 @@ export const EleveurDrawerNav = () => {
                     <DrawerItemList {...props} />
                     <View style={styles.LogoutContainer}>
                         <View >
-                            <TouchableOpacity style={styles.logout}  onPress={() => {
+                            <TouchableOpacity style={styles.logout} onPress={() => {
                                 dispatch(authActions.logout());
                             }}>
                                 <Text style={styles.logoutText}>Se déconnecter</Text>
@@ -100,11 +100,11 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     logout: {
-        backgroundColor: 'red', 
-        padding:10,
-        borderRadius:50
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 50
     },
-    logoutText:{
-        color:'white'
+    logoutText: {
+        color: 'white'
     }
 });

@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
         margin: 2,
         borderColor: 'black',
         borderWidth: 1,
-        borderRadius: 8,
-        elevation: 5
+        borderRadius: 8
     },
     selectedCatText: {
         margin: 3

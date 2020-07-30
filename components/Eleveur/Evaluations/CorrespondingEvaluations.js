@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     },
     evalContainer: {
         minWidth: 100,
-        maxWidth: 180,
+        maxWidth: 179,
         minHeight: 80,
         borderColor: 'black',
         borderWidth: 1,

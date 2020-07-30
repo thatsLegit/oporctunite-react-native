@@ -86,7 +86,6 @@ const EvalSelectionScreen = props => {
                     )}
                     data={evaluations}
                     columnWrapperStyle={{ flexWrap: 'wrap', flex: 1 }}
-                    horizontal={false}
                     numColumns={Math.trunc(Dimensions.get('window').width / 180)}
                     renderItem={itemData => (
                         <CorrespondingEvaluations

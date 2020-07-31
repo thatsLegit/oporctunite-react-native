@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from 'react-redux';
-import { View, Text, StyleSheet, Button, Platform, ActivityIndicator, RefreshControl, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Button, Platform, RefreshControl, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import RadarChart from '../../../components/Chart/RadarChart';
 import HeaderButton from '../../../components/UI/HeaderButton';
 import * as bilanActions from '../../../store/actions/bilan';
-import Colors from '../../../constants/Colors';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const BilanScreen = props => {
@@ -31,10 +31,11 @@ const BilanScreen = props => {
 
     if (isLoading) {
         return (
-            <View style={styles.centered}>
-                <ActivityIndicator
-                    size='large'
-                    color={Colors.primary}
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Chargement'}
+                    textStyle={{ color: '#FFF' }}
                 />
             </View>
         );
@@ -116,6 +117,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    spinnerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
     }
 });
 

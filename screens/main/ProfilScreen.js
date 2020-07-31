@@ -1,24 +1,21 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from 'react-redux';
-import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
 
-import Colors from '../../constants/Colors';
+import Spinner from 'react-native-loading-spinner-overlay';
 import HeaderButton from '../../components/UI/HeaderButton';
 import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
+import { dropTests, fetchAllTests } from '../../helper/db/requetes';
 
 
 const ProfilScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isConnected, setIsConnected] = useState(true);
     const dispatch = useDispatch();
-
-    NetInfo.fetch().then(state => {
-        console.log('Connection type', state.type);
-        console.log('Is connected?', state.isConnected);
-    });
 
     const categHandler = useCallback(async () => {
         //Seulement à la 1ère connexion, puis stockage sur sqlite :
@@ -31,17 +28,28 @@ const ProfilScreen = props => {
     }, [dispatch]);
 
     useEffect(() => {
-        setIsLoading(true);
-        categHandler();
-    }, [dispatch, categHandler]);
+        NetInfo.fetch().then(state => {
+            if (!state.isConnected) {
+                setIsConnected(false);
+                return Alert.alert('Hors-ligne', `Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.`, [{ text: 'Compris', style: 'destructive' }]);
+            }
+        });
+        if (isConnected) {
+            fetchAllTests().then(result => console.log(result.rows._array));
+            dropTests();
+            setIsLoading(true);
+            categHandler();
+        }
+    }, [dispatch, categHandler, isConnected]);
 
 
     if (isLoading) {
         return (
-            <View style={styles.centered}>
-                <ActivityIndicator
-                    size='large'
-                    color={Colors.primary}
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Chargement'}
+                    textStyle={{ color: '#FFF' }}
                 />
             </View>
         );
@@ -78,6 +86,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    spinnerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
     }
 });
 

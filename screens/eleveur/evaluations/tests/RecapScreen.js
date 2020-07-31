@@ -27,7 +27,7 @@ const TestRecapScreen = props => {
         setIsLoading(true);
         await dispatch(testActions.soumettreTests());
         setIsLoading(false);
-        props.navigation.navigate('TestRecapInfo');
+        props.navigation.navigate('EvalRecap');
     };
 
     if (isLoading) {

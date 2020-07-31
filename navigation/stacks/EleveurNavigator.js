@@ -15,7 +15,6 @@ import EvalSelectionScreen from '../../screens/eleveur/evaluations/selections/Ev
 import EvalInfoScreen from '../../screens/eleveur/evaluations/selections/InformationScreen';
 import TestScreen, { screenOptions as TestScreenOptions } from '../../screens/eleveur/evaluations/tests/TestScreen';
 import TestRecapScreen from '../../screens/eleveur/evaluations/tests/RecapScreen';
-import TestRecapInfoScreen from '../../screens/eleveur/evaluations/tests/InformationScreen';
 
 
 //Eval selection bottom-tab navigator
@@ -105,11 +104,6 @@ export const EvaluationNavigator = () => {
             <EvaluationStackNavigator.Screen
                 name='TestRecap'
                 component={TestRecapScreen}
-                options={TestScreenOptions}
-            />
-            <EvaluationStackNavigator.Screen
-                name='TestRecapInfo'
-                component={TestRecapInfoScreen}
                 options={TestScreenOptions}
             />
         </EvaluationStackNavigator.Navigator>

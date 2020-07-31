@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 
-const db = SQLite.openDatabase('places.db');
+const db = SQLite.openDatabase('OPORCTUNITE.db');
 
 //Creation de la tables places dans la bd places
 export const init = () => {
@@ -131,12 +131,45 @@ export const insertNoteGlobaleEvaluations = (title, imageUri, address, lat, lng)
     return promise;
 };
 
+*/
+export const insertNoteGlobaleEvaluations = () => {
+    
+    let data = [{ "nomCategorieP": "categP1", "nomCategorieG": "categG1"}, { "nomCategorieP": "categP2", "nomCategorieG": "categG2" }];
+    let query = "INSERT INTO Categorie_P (nomCategorieP , nomCategorieG) VALUES";
+    for (let i = 0; i < data.length; ++i) {
+      query = query + "('"
+        + data[i].nomCategorieP //id
+        + "','"
+        + data[i].nomCategorieG //first_name
+        + "')";
+      if (i != data.length - 1) {
+        query = query + ",";
+      }
+    }
+    query = query + ";";
+    console.log(query);
 
-export const fetchCategories = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'SELECT nomCategorieG FROM Categorie_G;',
+                query,[],
+                (_, result) => { //sucess fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchBilan = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT nomCategorieP, nomCategorieG FROM Categorie_P;',
                 [], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);
@@ -149,4 +182,3 @@ export const fetchCategories = () => {
     });
     return promise;
 };
- */

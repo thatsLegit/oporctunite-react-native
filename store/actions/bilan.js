@@ -6,7 +6,8 @@ export const SET_NOTE_GLOBALE_SOUS_CATEG = 'SET_NOTE_GLOBALE_SOUS_CATEG';
 
 export const SET_NOTE_EVALUATIONS = 'SET_NOTE_EVALUATIONS';
 export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
-//import { fetchCategories } from '../../helper/db'
+import { insertNoteGlobaleEvaluations, fetchBilan } from '../../helper/db'
+import test from '../reducers/test';
 
 export const fetchNoteCategories = () => {
     return async (dispatch, getState) => {
@@ -36,8 +37,9 @@ export const fetchNoteCategories = () => {
 
 export const fetchNoteGlobaleCategories = () => {
     return async (dispatch, getState) => {
-        /* const dbResult = await fetchCategories();
-        console.log(dbResult); */
+        insertNoteGlobaleEvaluations();
+        const dbResult = await fetchBilan();
+        console.log(dbResult); 
         const token = getState().auth.token;
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/categories";
         const bearer = 'Bearer ' + token;
@@ -165,6 +167,35 @@ export const fetchNoteGlobaleEvaluations = () => {
             }
         });
 
+        dispatch({ type: SET_NOTE_GLOBALE_EVALUATIONS, bilan: loadedNoteGlobaleEvaluations });
+    };
+};
+
+
+export const fetchBilan = () => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const resData = await response.json();
+        let data;
+        let i =0;
+        let loadedNoteGlobaleEvaluations = {};
+        resData.data.forEach(test => {
+            data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];
+            i++;
+        });
+
+            
         dispatch({ type: SET_NOTE_GLOBALE_EVALUATIONS, bilan: loadedNoteGlobaleEvaluations });
     };
 };

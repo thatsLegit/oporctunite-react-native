@@ -17,12 +17,12 @@ import { init } from './helper/db';
 
 
 //Create some tables
-// init().then(() => {
-//   console.log('Initialized database.');
-// }).catch(err => {
-//   console.log('Initializing db failed.');
-//   console.log(err);
-// });
+init().then(() => {
+  console.log('Initialized database.');
+}).catch(err => {
+  console.log('Initializing db failed.');
+  console.log(err);
+});
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,

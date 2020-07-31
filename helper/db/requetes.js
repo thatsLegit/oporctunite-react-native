@@ -168,9 +168,9 @@ export const insertNoteGlobaleEvaluations = (title, imageUri, address, lat, lng)
 };
 
 */
-export const insertNoteGlobaleEvaluations = () => {
+export const insertNoteGlobaleEvaluations = (data) => {
     
-    let data = [{ "nomCategorieP": "categP1", "nomCategorieG": "categG1"}, { "nomCategorieP": "categP2", "nomCategorieG": "categG2" }];
+    
     let query = "INSERT INTO Categorie_P (nomCategorieP , nomCategorieG) VALUES";
     for (let i = 0; i < data.length; ++i) {
       query = query + "('"

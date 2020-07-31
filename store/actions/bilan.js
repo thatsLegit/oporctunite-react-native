@@ -6,7 +6,7 @@ export const SET_NOTE_GLOBALE_SOUS_CATEG = 'SET_NOTE_GLOBALE_SOUS_CATEG';
 
 export const SET_NOTE_EVALUATIONS = 'SET_NOTE_EVALUATIONS';
 export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
-import { insertNoteGlobaleEvaluations, fetchBilan } from '../../helper/db'
+import { insertNoteGlobaleEvaluations, fetchBilan } from '../../helper/db/requetes'
 import test from '../reducers/test';
 
 export const fetchNoteCategories = () => {
@@ -172,7 +172,7 @@ export const fetchNoteGlobaleEvaluations = () => {
 };
 
 
-export const fetchBilan = () => {
+export const fetchBilanDatabase = () => {
     return async (dispatch, getState) => {
         const token = getState().auth.token;
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";

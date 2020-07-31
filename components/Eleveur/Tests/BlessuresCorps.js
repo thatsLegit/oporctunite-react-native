@@ -130,31 +130,31 @@ const BlessuresCorps = props => {
                                 Deux régions du corps ou plus présentent un score individuel de "c", ou au plus une région du corps présente plus de 15 lésions.
                             </Text>
                             </View>
-                            <View style={{ ...styles.counter, paddingTop: 15 }}>
+                            <View style={styles.counter}>
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
                         </View>
 
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingTop: 15 }}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Les régions du corps ont un score de "b" et/ou moins d'une région du corps avec un score indivuel de "c" {" "}
                                 </Text>
                             </View>
-                            <View style={{ ...styles.counter, paddingTop: 15 }}>
+                            <View style={styles.counter}>
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
                         </View>
 
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingTop: 15 }}>
+                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Toutes les régions du corps ont un score individuel de "a" {" "}
                                 </Text>
                             </View>
-                            <View style={{ ...styles.counter, paddingTop: 15 }}>
+                            <View style={styles.counter}>
                                 <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                             </View>
                         </View>

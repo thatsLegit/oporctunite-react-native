@@ -13,7 +13,7 @@ const ModalPopupInfo = props => {
     }, [visible]);
 
     const modalHeightHandler = useCallback((height) => {
-        modalHeight == 0 && setModalHeight(height + 70);
+        setModalHeight(height + 70);
     }, [modalHeight]);
 
 

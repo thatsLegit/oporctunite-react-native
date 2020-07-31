@@ -4,13 +4,11 @@ import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('OPORCTUNITE.db');
 
 export const insertTest = (nomEvaluation, noteEval) => {
-    const dateT = new Date(Date.now().toLocaleString('fr-FR'));
-    console.log(dateT);
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO Test(dateT, nomEvaluation, noteEval) VALUES (?, ?, ?);',
-                [dateT, nomEvaluation, noteEval], //prepared statement to avoid sql injections.
+                'INSERT INTO Test(nomEvaluation, noteEval) VALUES (?, ?);',
+                [nomEvaluation, noteEval], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);
                 },

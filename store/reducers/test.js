@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
             const newTest = action.test;
             return {
                 ...state,
-                enCours: { ...state.enCours, [newTest.nomEvaluation]: newTest.valeur }
+                enCours: { ...state.enCours, newTest }
             };
         case SUPPRIMER_TESTS_EN_COURS:
             return {

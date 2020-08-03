@@ -169,19 +169,7 @@ const LesionVulveEtMetrite = props => {
                         <View style={styles.content}>
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
-                    </View>
-                    <View>
-                        <View>
-                            <Text style={styles.text}>
-                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                 Absence de métrite{" "}
-                            </Text>
-                        </View>
-                        <View style={styles.content}>
-                            <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
-                        </View>
-                    </View>
-
+                    </View>                    
                     <View >
                         <View>
                             <Text style={styles.text}>
@@ -198,7 +186,6 @@ const LesionVulveEtMetrite = props => {
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>
-
                     <View >
                         <View>
                             <Text style={styles.text}>
@@ -213,6 +200,17 @@ const LesionVulveEtMetrite = props => {
                         </View>
                         <View style={styles.content}>
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+                    </View>
+                    <View>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                 Absence de métrite{" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
                         </View>
                     </View>
                     <View>

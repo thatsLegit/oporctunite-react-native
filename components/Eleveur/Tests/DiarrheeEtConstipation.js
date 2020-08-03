@@ -22,11 +22,11 @@ const DiarrheeEtConstipation = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
-
+    const note = Math.round((((evaluation.nbTruies-count2) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const noteConstipation = Math.round((((evaluation.nbTruies-count3) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        await dispatch(testActions.ajouterTest(note, evaluation2.nomEvaluation));
+        await dispatch(testActions.ajouterTest(noteConstipation, evaluation2.nomEvaluation));
         if (Vtype == 'valider') {
             modalConfirmationCloser();
             navigation.navigate('TestRecap');

@@ -47,9 +47,9 @@ const PlaieEpauleEtBursite = props => {
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler2 = (count2, sign, value) => {
@@ -59,9 +59,9 @@ const PlaieEpauleEtBursite = props => {
         }
         setCount2(count2);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler3 = (count3, sign, value) => {
@@ -71,9 +71,9 @@ const PlaieEpauleEtBursite = props => {
         }
         setCount3(count3);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler4 = (count, sign, value) => {
@@ -83,9 +83,9 @@ const PlaieEpauleEtBursite = props => {
         }
         setCount4(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value / 2));
         }
     };
     const changeHandler5 = (count, sign, value) => {
@@ -95,9 +95,9 @@ const PlaieEpauleEtBursite = props => {
         }
         setCount5(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value);
+            setGlobalCount(globalCount + (value / 2));
         } else {
-            setGlobalCount(globalCount - value);
+            setGlobalCount(globalCount - (value / 2));
         }
     };
 

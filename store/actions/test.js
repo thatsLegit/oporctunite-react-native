@@ -28,24 +28,23 @@ export const soumettreTests = () => {
             if (!connection.isConnected) {
                 await insertTest(test.nomEvaluation, test.valeur);
             } else {
-                for (const test of tests) {
-                    const valeur = test.valeur;
-                    const nomEvaluation = test.nomEvaluation;
+                const valeur = test.valeur;
+                const nomEvaluation = test.nomEvaluation;
 
-                    await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'authorization': bearer
-                        },
-                        body: JSON.stringify({
-                            nomEvaluation,
-                            valeur
-                        })
-                    });
-                };
+                await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': bearer
+                    },
+                    body: JSON.stringify({
+                        nomEvaluation,
+                        valeur
+                    })
+                });
             }
-            dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
         };
+
+        dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
     };
 };

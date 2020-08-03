@@ -25,8 +25,8 @@ const PlaieEpauleEtBursite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
-    const noteBursite = Math.round(((count4 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((((evaluation.nbTruies-count)/evaluation.nbTruies) * 10 + ((evaluation.nbTruies-count3) / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10)/15)*10;
+    const noteBursite = Math.round((((evaluation.nbTruies-count5)/evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -41,7 +41,7 @@ const PlaieEpauleEtBursite = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -53,7 +53,7 @@ const PlaieEpauleEtBursite = props => {
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -65,7 +65,7 @@ const PlaieEpauleEtBursite = props => {
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -77,7 +77,7 @@ const PlaieEpauleEtBursite = props => {
         }
     };
     const changeHandler4 = (count, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
@@ -89,7 +89,7 @@ const PlaieEpauleEtBursite = props => {
         }
     };
     const changeHandler5 = (count, sign, value) => {
-        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }

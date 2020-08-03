@@ -3,7 +3,7 @@ import { AJOUTER_TEST, SUPPRIMER_TESTS_EN_COURS } from '../actions/test';
 
 //Etat initial
 const initialState = {
-    enCours: {}
+    enCours: []
 };
 
 export default (state = initialState, action) => {
@@ -12,13 +12,10 @@ export default (state = initialState, action) => {
             const newTest = action.test;
             return {
                 ...state,
-                enCours: { ...state.enCours, newTest }
+                enCours: state.enCours.concat(newTest)
             };
         case SUPPRIMER_TESTS_EN_COURS:
-            return {
-                ...state,
-                enCours: new Object()
-            };
+            return initialState;
         default:
             return state;
     }

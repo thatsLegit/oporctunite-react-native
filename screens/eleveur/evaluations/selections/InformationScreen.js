@@ -13,7 +13,7 @@ import Table from '../../../../components/UI/Table';
 
 const EvalInfoScreen = props => {
     const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat());
-    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection));
+    const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).sort((a, b) => a.priorite - b.priorite));
     const [modal, setModal] = useState(true);
     const skipped = useRef(false);
     const dispatch = useDispatch();

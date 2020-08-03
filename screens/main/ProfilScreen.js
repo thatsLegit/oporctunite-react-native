@@ -13,7 +13,7 @@ import { dropTests, fetchAllTests } from '../../helper/db/requetes';
 
 
 const ProfilScreen = props => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isConnected, setIsConnected] = useState(true);
     const dispatch = useDispatch();
 
@@ -37,7 +37,6 @@ const ProfilScreen = props => {
         if (isConnected) {
             fetchAllTests().then(result => console.log(result.rows._array));
             dropTests();
-            setIsLoading(true);
             categHandler();
         }
     }, [dispatch, categHandler, isConnected]);

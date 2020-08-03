@@ -7,8 +7,8 @@ export const AJOUTER_TEST = 'AJOUTER_TEST';
 export const SUPPRIMER_TESTS_EN_COURS = 'SUPPRIMER_TESTS_EN_COURS';
 
 
-export const ajouterTest = (note, nomEvaluation) => {
-    return { type: AJOUTER_TEST, test: new Test(note, nomEvaluation) };
+export const ajouterTest = (valeur, nomEvaluation) => {
+    return { type: AJOUTER_TEST, test: new Test(valeur, nomEvaluation) };
 };
 
 export const annulerTests = () => {
@@ -17,36 +17,35 @@ export const annulerTests = () => {
 
 export const soumettreTests = () => {
     return async (dispatch, getState) => {
-        const tests = Object.values(getState().test.enCours);
+        const tests = getState().test.enCours;
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
+        const bearer = 'Bearer ' + token;
 
-        const connection = await NetInfo.fetch();
-        if (!connection.isConnected) {
-            for (const key of tests) {
-                await insertTest(key, key.valeur);
+        for (const test of tests) {
+            const connection = await NetInfo.fetch();
+
+            if (!connection.isConnected) {
+                await insertTest(test.nomEvaluation, test.valeur);
+            } else {
+                for (const test of tests) {
+                    const valeur = test.valeur;
+                    const nomEvaluation = test.nomEvaluation;
+
+                    await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'authorization': bearer
+                        },
+                        body: JSON.stringify({
+                            nomEvaluation,
+                            valeur
+                        })
+                    });
+                };
             }
-        } else {
-            const token = getState().auth.token;
-            const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
-            const bearer = 'Bearer ' + token;
-
-            for (const key of tests) {
-                const valeur = key.valeur;
-                const nomEvaluation = key;
-
-                response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'authorization': bearer
-                    },
-                    body: JSON.stringify({
-                        valeur,
-                        nomEvaluation
-                    })
-                });
-            };
-        }
-
-        dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
+            dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
+        };
     };
 };

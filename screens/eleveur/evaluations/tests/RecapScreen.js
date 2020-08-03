@@ -14,7 +14,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 const TestRecapScreen = props => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const tests = useSelector(state => Object.values(state.test.enCours));
+    const tests = useSelector(state => state.test.enCours);
 
     const dispatch = useDispatch();
 
@@ -59,7 +59,7 @@ const TestRecapScreen = props => {
                         <View style={styles.textContainer}>
                             <Text style={styles.text}>
                                 {itemData.item.nomEvaluation} : {itemData.item.valeur} /10
-                        </Text>
+                            </Text>
                         </View>
                     )}
                     ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}

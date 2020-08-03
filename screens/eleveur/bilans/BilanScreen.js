@@ -6,7 +6,7 @@ import RadarChart from '../../../components/Chart/RadarChart';
 import HeaderButton from '../../../components/UI/HeaderButton';
 import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import { fetchBilan, dropBilan } from '../../../helper/db/requetes'
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +21,9 @@ const BilanScreen = props => {
         await dispatch(bilanActions.fetchNoteGlobaleSousCategories());
         await dispatch(bilanActions.fetchNoteEvaluations());
         await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
+        dropBilan();
+        await dispatch(bilanActions.fetchBilanDatabase());      
+        fetchBilan().then(result => console.log(result.rows));
         setIsRefreshing(false);
     }, [dispatch]);
 

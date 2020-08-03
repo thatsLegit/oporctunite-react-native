@@ -6,7 +6,7 @@ export const SET_NOTE_GLOBALE_SOUS_CATEG = 'SET_NOTE_GLOBALE_SOUS_CATEG';
 
 export const SET_NOTE_EVALUATIONS = 'SET_NOTE_EVALUATIONS';
 export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
-import { insertNoteGlobaleEvaluations, fetchBilan } from '../../helper/db/requetes'
+import { insertNoteGlobaleEvaluations } from '../../helper/db/requetes'
 import test from '../reducers/test';
 
 export const fetchNoteCategories = () => {
@@ -37,9 +37,6 @@ export const fetchNoteCategories = () => {
 
 export const fetchNoteGlobaleCategories = () => {
     return async (dispatch, getState) => {
-        insertNoteGlobaleEvaluations();
-        const dbResult = await fetchBilan();
-        console.log(dbResult); 
         const token = getState().auth.token;
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/categories";
         const bearer = 'Bearer ' + token;
@@ -187,15 +184,14 @@ export const fetchBilanDatabase = () => {
         });
         
         const resData = await response.json();
-        let data;
+        let Data=[];
         let i =0;
         let loadedNoteGlobaleEvaluations = {};
         resData.data.forEach(test => {
-            data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];
+            Data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];
             i++;
         });
-
-            
+        insertNoteGlobaleEvaluations(Data);
         dispatch({ type: SET_NOTE_GLOBALE_EVALUATIONS, bilan: loadedNoteGlobaleEvaluations });
     };
 };

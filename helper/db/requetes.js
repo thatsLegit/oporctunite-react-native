@@ -166,22 +166,38 @@ export const insertNoteGlobaleEvaluations = (title, imageUri, address, lat, lng)
 };
 
 */
-export const insertNoteGlobaleEvaluations = (data) => {
+export const insertNoteGlobaleEvaluations = (Data) => {
     
-    
-    let query = "INSERT INTO Categorie_P (nomCategorieP , nomCategorieG) VALUES";
-    for (let i = 0; i < data.length; ++i) {
-      query = query + "('"
-        + data[i].nomCategorieP //id
-        + "','"
-        + data[i].nomCategorieG //first_name
-        + "')";
-      if (i != data.length - 1) {
-        query = query + ",";
+    let query = "INSERT INTO Bilan(idTest, nomEvaluation, moyenneGlobaleEval, noteEval,dateTest, moyenneGlobaleSousCateg, moyenneSousCateg, nomCateg, nomSousCateg, moyenneGlobaleCateg, moyenneCateg) VALUES";
+    for (let i = 0; i < Data.length; ++i) {
+      query = query + '("'
+        + Data[i][0].idTest 
+        + '","'
+        + Data[i][0].nomEvaluation 
+        + '","'
+        + Data[i][0].moyenneGlobaleEval 
+        + '","'
+        + Data[i][0].noteEval 
+        + '","'
+        + Data[i][0].dateTest 
+        + '","'
+        + Data[i][0].nomSousCateg 
+        + '","'
+        + Data[i][0].moyenneGlobaleSousCateg 
+        + '","'
+        + Data[i][0].moyenneSousCateg 
+        + '","'
+        + Data[i][0].nomCateg 
+        + '","'
+        + Data[i][0].moyenneGlobaleCateg 
+        + '","'
+        + Data[i][0].moyenneCateg 
+        + '")';
+      if (i != Data.length - 1) {
+        query = query + ',';
       }
     }
-    query = query + ";";
-    console.log(query);
+    query = query + ';';
 
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
@@ -203,8 +219,27 @@ export const fetchBilan = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'SELECT nomCategorieP, nomCategorieG FROM Categorie_P;',
+                'SELECT idTest, nomEvaluation, moyenneGlobaleEval, noteEval,dateTest, moyenneGlobaleSousCateg, moyenneSousCateg, nomCateg, nomSousCateg, moyenneGlobaleCateg, moyenneCateg FROM Bilan;',
                 [], //prepared statement to avoid sql injections.
+                (_, result) => { //sucess fonction
+                    resolve(result);
+                    
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropBilan = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Bilan;',
+                [],
                 (_, result) => { //sucess fonction
                     resolve(result);
                 },

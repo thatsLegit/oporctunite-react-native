@@ -25,7 +25,7 @@ const PlaieEpauleEtBursite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((((evaluation.nbTruies-count)/evaluation.nbTruies) * 10 + ((evaluation.nbTruies-count3) / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10)/15)*10;
+    const note = Math.round((((evaluation.nbTruies-((count)+(count3*(1/2))))/evaluation.nbTruies) *10 + Number.EPSILON) * 10) /10;
     const noteBursite = Math.round((((evaluation.nbTruies-count5)/evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
@@ -144,6 +144,7 @@ const PlaieEpauleEtBursite = props => {
                         <EvilIcons name="question" size={30} color="black" />
                     </TouchableWithoutFeedback>
                 </View>
+                <Text style={styles.counterAttentionText}> 2 choix par truie obligatoire </Text>
             </View>
             <View style={{ height: '80%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -275,7 +276,12 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans',
         fontSize: 17,
         marginLeft: 20
-    }
+    },
+    counterAttentionText: {
+        fontFamily: 'open-sans-bold',
+        fontSize: 15,
+        color: "red",
+    },
 });
 
 

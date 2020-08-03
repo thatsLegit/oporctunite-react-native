@@ -29,8 +29,9 @@ const LesionVulveEtMetrite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
-    const noteMetrite = Math.round(((count5 / globalCount) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((evaluation.nbTruies-((count)+(count3*(1/2))))/evaluation.nbTruies) *10 + Number.EPSILON) * 10) /10;
+    const noteMetrite = Math.round((((evaluation.nbTruies-count4)/evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
         await dispatch(testActions.ajouterTest(noteMetrite, evaluation2.nomEvaluation));

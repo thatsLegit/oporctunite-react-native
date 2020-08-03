@@ -20,16 +20,17 @@ const SouillureEtAspectPeau = props => {
     const [count3, setCount3] = useState(0);
     const [count4, setCount4] = useState(0);
     const [count5, setCount5] = useState(0);
+    const [count6, setCount6] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
-    const noteAspectPeau = Math.round(((count2 / evaluation.nbTruies) * 10 + (count4 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((evaluation.nbTruies-((count)+(count3*(1/2))))/(evaluation.nbTruies)) *10 + Number.EPSILON) * 10) /10;
+    const noteAspectPeau = Math.round((((evaluation.nbTruies-((count5)+(count4*(1/2))))/evaluation.nbTruies) *10 + Number.EPSILON) * 10) /10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
-        await dispatch(testActions.ajouterTest(noteAspectPeau, evaluation2.nomEvaluation));
+        await dispatch(testActions.ajouterTest(noteAspectPeau, evaluation.nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation2.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();
@@ -99,6 +100,18 @@ const SouillureEtAspectPeau = props => {
             setGlobalCount(globalCount - (value / 2));
         }
     };
+    const changeHandler6 = (count6, sign, value) => {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount6(count6);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + (value / 2));
+        } else {
+            setGlobalCount(globalCount - (value / 2));
+        }
+    };
 
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
@@ -130,7 +143,7 @@ const SouillureEtAspectPeau = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: '7%' }}>
+            <View style={{ alignItems: 'center', height: '8%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -148,7 +161,7 @@ const SouillureEtAspectPeau = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.intro}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={{ uri: evaluation2.photo1 }} />
                             <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
                                 10 % correspond à un quart d'une des trois zones {"\n"}
                                 un tiers correspond à une des trois zones
@@ -159,14 +172,13 @@ const SouillureEtAspectPeau = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    La truie est propre, sans mise en évidence d'inflammation ou décoloration de la peau {" "}
+                                    La truie est propre {" "}
                                 </Text>
                             </View>
                             <View style={styles.content}>
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
                         </View>
-
                         <View>
                             <View>
                                 <Text style={styles.text}>
@@ -188,6 +200,18 @@ const SouillureEtAspectPeau = props => {
                             </View>
                             <View style={styles.content}>
                                 <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            </View>
+                        </View>
+
+                        <View>
+                            <View>
+                                <Text style={styles.text}>
+                                    <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                    La truie ne présente pas de signe d’inflammation ou décoloration de la peau {" "}
+                                </Text>
+                            </View>
+                            <View style={styles.content}>
+                                <Counter onChange={changeHandler6} max={evaluation.nbTruies} />
                             </View>
                         </View>
                         <View>
@@ -273,7 +297,7 @@ const styles = StyleSheet.create({
     counterAttentionText: {
         fontFamily: 'open-sans-bold',
         fontSize: 15,
-        color: "red",
+        color: "red"
     },
     intro: {
         justifyContent: 'center',

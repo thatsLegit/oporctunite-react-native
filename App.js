@@ -17,6 +17,7 @@ import { Test, Evaluation, Bilan, Fiche, Liaisons, Categorie_P, Categorie_G } fr
 
 
 //Create some tables
+//dropDB();
 Categorie_G(); Categorie_P(); Liaisons(); Fiche(); Bilan(); Evaluation(); Test();
 
 const rootReducer = combineReducers({

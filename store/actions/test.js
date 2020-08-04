@@ -1,7 +1,7 @@
 import NetInfo from '@react-native-community/netinfo';
+import { insertTest } from '../../helper/db/requetes';
 //Models
 import Test from '../../models/Test';
-import { insertTest } from '../../helper/db/requetes';
 //Actions
 export const AJOUTER_TEST = 'AJOUTER_TEST';
 export const SUPPRIMER_TESTS_EN_COURS = 'SUPPRIMER_TESTS_EN_COURS';
@@ -21,12 +21,14 @@ export const soumettreTests = () => {
         const token = getState().auth.token;
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
         const bearer = 'Bearer ' + token;
+        let sentToApi = true;
 
         for (const test of tests) {
             const connection = await NetInfo.fetch();
 
             if (!connection.isConnected) {
                 await insertTest(test.nomEvaluation, test.valeur);
+                sentToApi = false;
             } else {
                 const valeur = test.valeur;
                 const nomEvaluation = test.nomEvaluation;
@@ -45,6 +47,6 @@ export const soumettreTests = () => {
             }
         };
 
-        dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
+        dispatch({ type: SUPPRIMER_TESTS_EN_COURS, sentToApi });
     };
 };

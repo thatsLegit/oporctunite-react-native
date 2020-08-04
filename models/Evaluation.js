@@ -6,9 +6,6 @@ class Evaluation {
         this.description = description;
         this.nomCategorieP = nomCategorieP;
         this.nbTruies = nbTruies;
-        this.photo1 = photo1;
-        this.photo2 = photo2;
-        this.photo3 = photo3;
     };
 }
 

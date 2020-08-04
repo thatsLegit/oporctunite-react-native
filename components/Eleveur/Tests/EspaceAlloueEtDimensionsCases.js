@@ -40,10 +40,14 @@ const EspaceAlloueEtDimensionsCases = props => {
         const syncNotes = [...notes, note];
         const noteFinale = syncNotes.reduce((sum, n) => sum + n, 0) / syncNotes.length;
         await dispatch(testActions.ajouterTest(noteFinale, evaluation.nomEvaluation));
-
+        
         const noteDimensionCase = adequat ? 10 : 0;
+        console.log(noteDimensionCase);
         const syncNotes2 = [...notes2, noteDimensionCase];
-        const noteFinaleDim = syncNotes.reduce((sum, n) => sum + n, 0) / syncNotes2.length;
+        console.log(notes2);
+        console.log(syncNotes2);
+        const noteFinaleDim = syncNotes2[1]!=undefined?(syncNotes2[0] + syncNotes2[1]) / syncNotes2.length:syncNotes2[0];
+        console.log(noteFinaleDim);
         await dispatch(testActions.ajouterTest(noteFinaleDim, evaluation2.nomEvaluation));
 
         if (Vtype == 'valider') {
@@ -122,7 +126,7 @@ const EspaceAlloueEtDimensionsCases = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: '10%', justifyContent: 'center', paddingTop: 10 }}>
+            <View style={{ alignItems: 'center', height: '10%', justifyContent: 'center', paddingTop: 20 }}>
                 {choixCochette && <Text style={styles.groupText}>Groupe des cochettes </Text>}
                 {!choixCochette && <Text style={styles.groupText}>Groupe des truies </Text>}
             </View>

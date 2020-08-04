@@ -3,12 +3,31 @@ import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('OPORCTUNITE.db');
 
+// export const dropDB = () => {
+//     const promise = new Promise((resolve, reject) => {
+//         //Wrap the query around a transaction to avoid data corruption.
+//         db.transaction((tx) => {
+//             tx.executeSql(
+//                 'DROP TABLE IF EXISTS Test;',
+//                 [],
+//                 () => { //sucess fonction
+//                     resolve();
+//                 },
+//                 (_, err) => { //error function: first arg: query, by putting _ we basically mean that we don't care about this arg
+//                     reject(err);
+//                 }
+//             );
+//         });
+//     });
+//     return promise;
+// };
+
 export const Test = () => {
     const promise = new Promise((resolve, reject) => {
         //Wrap the query around a transaction to avoid data corruption.
         db.transaction((tx) => {
             tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS Test(dateTest DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,nomEvaluation VARCHAR(100) NOT NULL,noteEval DECIMAL(3,1) NOT NULL,PRIMARY KEY(dateTest),FOREIGN KEY(nomEvaluation) REFERENCES Evaluation(nomEvaluation));',
+                "CREATE TABLE IF NOT EXISTS Test(dateTest DATETIME NOT NULL DEFAULT (datetime('now','localtime')),nomEvaluation VARCHAR(100) NOT NULL,noteEval DECIMAL(3,1) NOT NULL,PRIMARY KEY(dateTest, nomEvaluation),FOREIGN KEY(nomEvaluation) REFERENCES Evaluation(nomEvaluation));",
                 [],
                 () => { //sucess fonction
                     resolve();

@@ -3,13 +3,14 @@ import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabase('OPORCTUNITE.db');
 
+//Test
 export const insertTest = (nomEvaluation, noteEval) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
                 'INSERT INTO Test(nomEvaluation, noteEval) VALUES (?, ?);',
                 [nomEvaluation, noteEval], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
+                (_, result) => { //success fonction
                     resolve(result);
                 },
                 (_, err) => { //error function
@@ -27,7 +28,7 @@ export const dropTests = () => {
             tx.executeSql(
                 'DELETE FROM Test;',
                 [],
-                (_, result) => { //sucess fonction
+                (_, result) => { //success fonction
                     resolve(result);
                 },
                 (_, err) => { //error function
@@ -45,7 +46,231 @@ export const fetchAllTests = () => {
             tx.executeSql(
                 'SELECT * FROM Test;',
                 [], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+
+//Categorie_G
+export const insertCategorieG = nomCategorieG => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'INSERT INTO Categorie_G(nomCategorieG) VALUES (?);',
+                [nomCategorieG], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropCategorieG = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Categorie_G;',
+                [],
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchAllCategoriesG = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Categorie_G;',
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+
+//Categorie_P
+export const insertCategorieP = (nomCategorieP, nomCategorieG) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'INSERT INTO Categorie_P(nomCategorieP, nomCategorieG) VALUES (?,?);',
+                [nomCategorieP, nomCategorieG], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropCategorieP = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Categorie_P;',
+                [],
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchAllCategoriesP = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Categorie_P;',
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+
+//Evaluation
+export const insertEvaluation = (nomEvaluation, description, nbTruies, priorite, idLiaison, nomCategorieP) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'INSERT INTO Evaluation(nomEvaluation, description, nbTruies, priorite, idLiaison, nomCategorieP) VALUES (?,?,?,?,?,?);',
+                [nomEvaluation, description, nbTruies, priorite, idLiaison, nomCategorieP], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropEvaluation = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Evaluation;',
+                [],
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchAllEvaluations = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Evaluation;',
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+
+//Liaisons
+export const insertLiaisons = (idLiaison, nomEvalDouble) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'INSERT INTO Liaisons(idLiaison, nomEvalDouble) VALUES (?,?);',
+                [idLiaison, nomEvalDouble], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropLiaisons = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Liaisons;',
+                [],
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchAllLiaisons = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Liaisons;',
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
                     resolve(result);
                 },
                 (_, err) => { //error function
@@ -167,42 +392,42 @@ export const insertNoteGlobaleEvaluations = (title, imageUri, address, lat, lng)
 
 */
 export const insertNoteGlobaleEvaluations = (Data) => {
-    
+
     let query = "INSERT INTO Bilan(idTest, nomEvaluation, moyenneGlobaleEval, noteEval,dateTest, moyenneGlobaleSousCateg, moyenneSousCateg, nomCateg, nomSousCateg, moyenneGlobaleCateg, moyenneCateg) VALUES";
     for (let i = 0; i < Data.length; ++i) {
-      query = query + '("'
-        + Data[i][0].idTest 
-        + '","'
-        + Data[i][0].nomEvaluation 
-        + '","'
-        + Data[i][0].moyenneGlobaleEval 
-        + '","'
-        + Data[i][0].noteEval 
-        + '","'
-        + Data[i][0].dateTest 
-        + '","'
-        + Data[i][0].nomSousCateg 
-        + '","'
-        + Data[i][0].moyenneGlobaleSousCateg 
-        + '","'
-        + Data[i][0].moyenneSousCateg 
-        + '","'
-        + Data[i][0].nomCateg 
-        + '","'
-        + Data[i][0].moyenneGlobaleCateg 
-        + '","'
-        + Data[i][0].moyenneCateg 
-        + '")';
-      if (i != Data.length - 1) {
-        query = query + ',';
-      }
+        query = query + '("'
+            + Data[i][0].idTest
+            + '","'
+            + Data[i][0].nomEvaluation
+            + '","'
+            + Data[i][0].moyenneGlobaleEval
+            + '","'
+            + Data[i][0].noteEval
+            + '","'
+            + Data[i][0].dateTest
+            + '","'
+            + Data[i][0].nomSousCateg
+            + '","'
+            + Data[i][0].moyenneGlobaleSousCateg
+            + '","'
+            + Data[i][0].moyenneSousCateg
+            + '","'
+            + Data[i][0].nomCateg
+            + '","'
+            + Data[i][0].moyenneGlobaleCateg
+            + '","'
+            + Data[i][0].moyenneCateg
+            + '")';
+        if (i != Data.length - 1) {
+            query = query + ',';
+        }
     }
     query = query + ';';
 
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                query,[],
+                query, [],
                 (_, result) => { //sucess fonction
                     resolve(result);
                 },
@@ -223,7 +448,7 @@ export const fetchBilan = () => {
                 [], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);
-                    
+
                 },
                 (_, err) => { //error function
                     reject(err);

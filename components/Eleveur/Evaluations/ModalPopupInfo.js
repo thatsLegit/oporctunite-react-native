@@ -16,6 +16,17 @@ const ModalPopupInfo = props => {
         setModalHeight(height + 70);
     }, [modalHeight]);
 
+    const style = {
+        ...styles.modalView,
+        borderColor: props.type == 'success' ? 'green' : (props.type == 'danger' ? 'red' : null),
+        borderWidth: (props.type == 'success' || props.type == 'danger') ? 1 : 0,
+        height: modalHeight,
+        maxHeight: Dimensions.get('window').height / 2,
+        maxWidth: Dimensions.get('window').width > 600
+            ? Dimensions.get('window').width * (2 / 3)
+            : Dimensions.get('window').width
+    };
+
 
     return (
         <View style={styles.centeredView}>
@@ -25,7 +36,7 @@ const ModalPopupInfo = props => {
                 visible={modalVisible}
             >
                 <View style={styles.centeredView}>
-                    <View style={{ ...styles.modalView, height: modalHeight, maxHeight: Dimensions.get('window').height / 2, maxWidth: Dimensions.get('window').width > 600 ? Dimensions.get('window').width * (2 / 3) : Dimensions.get('window').width }}>
+                    <View style={style}>
                         <ScrollView>
                             <View onLayout={(event) => {
                                 const { height } = event.nativeEvent.layout;

@@ -71,10 +71,7 @@ export const fetchEvaluationBySousCateg = () => {
                     e.idLiaison,
                     e.description,
                     e.nomCategorieP,
-                    e.nbTruies,
-                    e.photo1,
-                    e.photo2,
-                    e.photo3
+                    e.nbTruies
                 ))
             });
 

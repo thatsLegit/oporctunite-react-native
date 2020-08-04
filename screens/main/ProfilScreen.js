@@ -56,8 +56,8 @@ const ProfilScreen = props => {
 
     return (
         <View>
-            <Text>
-                Profil
+            <Text style={{textAlign:"center", paddingVertical:10}}>
+                Mardi 4 août à 12:00
             </Text>
             <Button title='Paramètres' onPress={() => { props.navigation.navigate('Parametre') }} />
         </View>

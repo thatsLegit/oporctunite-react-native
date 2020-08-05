@@ -170,6 +170,24 @@ export const fetchAllCategoriesP = () => {
     return promise;
 };
 
+export const getSousCategoriesGivenCateg = categ => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Categorie_P where nomCategorieG = ?;',
+                [categ], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
 
 //Evaluation
 export const insertEvaluation = (nomEvaluation, description, nbTruies, priorite, idLiaison, nomCategorieP) => {
@@ -214,6 +232,24 @@ export const fetchAllEvaluations = () => {
             tx.executeSql(
                 'SELECT * FROM Evaluation;',
                 [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const getEvaluationGivenSousCateg = sCateg => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Evaluation where nomCategorieP = ?;',
+                [sCateg], //prepared statement to avoid sql injections.
                 (_, result) => { //success fonction
                     resolve(result);
                 },

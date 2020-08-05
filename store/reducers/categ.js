@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
         case SET_SOUS_CATEG_BY_CATEGORY:
             return {
                 ...state,
-                categories: { ...state.categories, [action.categG]: action.sousCateg }
+                categories: { ...state.categories, [action.cat]: action.sousCateg }
             };
         default:
             return state;

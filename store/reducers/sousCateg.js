@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
         case SET_EVALUATION_BY_SOUS_CATEGORY:
             return {
                 ...state,
-                sousCategories: { ...state.sousCategories, [action.categP]: action.evaluation }
+                sousCategories: { ...state.sousCategories, [action.sousCat]: action.evaluation }
             };
         case SELECTIONNER_SOUS_CATEG:
             const { nom_sous_categ, nom_categ } = action.categ;

@@ -12,6 +12,7 @@ const ListeSousCategorie = props => {
     const [selectAll, setSelectAll] = useState(false);
     const sousCategorie = props.nomSCateg.toString();
     const categoriesData = useSelector(state => Object.values(state.categ.categories[sousCategorie]));
+    console.log(categoriesData);
 
     return (
         <Table style={{ flex: 1 }}>

@@ -1,53 +1,64 @@
-import React from 'react';
+import React, { useCallback, useEffect,useState} from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
-import { useSelector } from 'react-redux';
 import { lineBreaker } from '../../helper/LineBreaker';
+import { fetchMoyenneCategorieBilan } from "../../helper/db/requetes"
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const RadarChart = props => {
 
-    let titreGlobaleCateg = [];
-    let moyenneGlobaleCateg = [];
-    useSelector(state => Object.entries(state.bilan.noteGlobaleCateg)).map(([key, value]) => {
-        titreGlobaleCateg.push(key);
-        moyenneGlobaleCateg.push(value);
-    })
+    const [categories, setCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    let bilanEleveurCateg = [];
-    let bilanEleveurTitreCateg = [];
-    useSelector(state => Object.entries(state.bilan.noteCateg)).map(([key, value]) => {
-        bilanEleveurTitreCateg.push(key);
-        bilanEleveurCateg.push(value);
-    })
+    const majCategories = useCallback(async () => {       
+        const result = await fetchMoyenneCategorieBilan();
 
-    // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
-    let tableauNoteCategArranger = [];
-
-
-    titreGlobaleCateg.forEach(globalTitre => {
-
-        let i = 0;
-
-        while (i < titreGlobaleCateg.length) {
-            if (globalTitre == bilanEleveurTitreCateg[i]) {
-                tableauNoteCategArranger.push(bilanEleveurCateg[i]);
-            }
-            else if (bilanEleveurTitreCateg.indexOf(globalTitre) == -1) {
-                tableauNoteCategArranger.push(0);
-                i = titreGlobaleCateg.length; //  Pour sortie de la boucle et pas ajouter trop de 0
-            }
-            i++;
+        if (!result.rows._array || !result.rows._array.length) {
+            return;
         }
+        setCategories(result.rows._array);  
+        setIsLoading(false);    
+    }, []);
 
-        i = 0;
-    });
+    useEffect(() => {
 
-    const UserData = [
-        // Ligne 1 = élevage en cours
-        { [lineBreaker(titreGlobaleCateg[0])]: tableauNoteCategArranger[0], [titreGlobaleCateg[1]]: tableauNoteCategArranger[1], [titreGlobaleCateg[3]]: tableauNoteCategArranger[2], [titreGlobaleCateg[2]]: tableauNoteCategArranger[3] },
-        { [lineBreaker(titreGlobaleCateg[0])]: moyenneGlobaleCateg[0], [titreGlobaleCateg[1]]: moyenneGlobaleCateg[1], [titreGlobaleCateg[3]]: moyenneGlobaleCateg[2], [titreGlobaleCateg[2]]: moyenneGlobaleCateg[3] }
-    ];
+        majCategories();
 
+    }, []);
+
+
+    var UserData = [];
+
+    switch (categories.length) {
+        case 1:
+        UserData = [
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg},
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg}
+        ]
+        break;
+        case 2:
+        UserData = [
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg},
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg}
+        ]
+        break;
+        case 3:
+        UserData = [
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg, [categories[2].nomCateg]: categories[2].moyenneCateg},
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg, [categories[2].nomCateg]: categories[2].moyenneGlobaleCateg}
+        ]
+        break;
+        case 4:
+        UserData = [
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg, [categories[3].nomCateg]: categories[3].moyenneCateg, [categories[2].nomCateg]: categories[2].moyenneCateg},
+            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg, [categories[3].nomCateg]: categories[3].moyenneGlobaleCateg, [categories[2].nomCateg]: categories[2].moyenneGlobaleCateg}
+        ]
+        break;
+        default:
+            console.log("Erreur switch");
+        break;
+    };
+    
     const getMaxima = (data) => {
         const groupedData = Object.keys(data[0]).reduce((memo, key) => {
             memo[key] = data.map((d) => d[key]);
@@ -61,20 +72,37 @@ const RadarChart = props => {
 
     const processData = (data) => {
         const maxByGroup = getMaxima(data);
-
+        
         const makeDataArray = (d) => {
             return Object.keys(d).map((key) => {
                 return { x: key, y: d[key] / maxByGroup[key] };
             });
         };
-
+        
         return data.map((datum) => makeDataArray(datum));
     }
 
-    const data = processData(UserData);
-    const maxima = getMaxima(UserData);
+    var data =[];
+    var maxima =[];
+    if (categories.length>0) {
+        data = processData(UserData);
+        maxima = getMaxima(UserData);
+    }
 
     const windowWidth = useWindowDimensions().width;
+
+    if (isLoading) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Chargement'}
+                    textStyle={{ color: '#FFF' }}
+                />
+            </View>
+        );
+    }
+    
     return (
         <View style={styles.container}>
             <VictoryChart
@@ -83,8 +111,6 @@ const RadarChart = props => {
                 domain={{ y: [0, 1] }}
                 height={windowWidth}
                 width={windowWidth}
-
-
             >
                 <VictoryGroup
                     colorScale={["#2E9BCA", "#FF6666"]}

@@ -8,11 +8,15 @@ import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { fetchBilan, dropBilan, fetchMoyenneCategorieBilan } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
+import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [message, setMessage] = useState({});
+    const [modal, setModal] = useState(false);
     const dispatch = useDispatch();
+    
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
@@ -35,13 +39,16 @@ const BilanScreen = props => {
         setIsRefreshing(false);
     }, [dispatch]);
 
+    const modalCloser = () => setModal(false);
+
     useEffect(() => {
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
                 setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
+                setModal(true);
                 horsLigneHandler().then(() => setIsLoading(false));;
             } else {
-                notesHandler().then(() => setIsLoading(false));
+                notesHandler().then(() => setIsLoading(false)); // Vide et remplie la table Bilan
             }
         });
     }, [notesHandler, dispatch]);
@@ -77,6 +84,14 @@ const BilanScreen = props => {
                 <RadarChart />
                 <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
             </View>
+            <ModalPopupInfo
+                visible={modal}
+                onClose={modalCloser}
+                text={message.text}
+                buttonText='Fermer'
+                type={message.type}
+                align={message.type == 'success' ? true : false}
+            />
         </ScrollView>
     );
 };

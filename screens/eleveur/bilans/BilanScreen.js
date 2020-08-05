@@ -6,7 +6,7 @@ import RadarChart from '../../../components/Chart/RadarChart';
 import HeaderButton from '../../../components/UI/HeaderButton';
 import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { fetchBilan, dropBilan, fetchMoyenneCategorieBilan } from '../../../helper/db/requetes'
+import { fetchBilan, dropBilan, fetchMoyenneSousCategorieBilan } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
@@ -29,7 +29,6 @@ const BilanScreen = props => {
         dropBilan();
         await dispatch(bilanActions.fetchBilanDatabase());      
         fetchBilan();
-        await fetchMoyenneCategorieBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 

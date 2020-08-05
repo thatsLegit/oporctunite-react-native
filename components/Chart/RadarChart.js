@@ -55,7 +55,6 @@ const RadarChart = props => {
         ]
         break;
         default:
-            console.log("Erreur switch");
         break;
     };
     

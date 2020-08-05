@@ -7,7 +7,6 @@ import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupIn
 import { EvilIcons } from '@expo/vector-icons';
 import * as testActions from '../../../store/actions/test';
 
-
 const PlaieEpauleEtBursite = props => {
 
     const { modalInfo, modalInfo2, evaluation, evaluation2, confirmation, navigation, Vtype } = props;
@@ -21,6 +20,7 @@ const PlaieEpauleEtBursite = props => {
     const [count3, setCount3] = useState(0);
     const [count4, setCount4] = useState(0);
     const [count5, setCount5] = useState(0);
+    const [count6, setCount6] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
 
     const dispatch = useDispatch();
@@ -100,6 +100,18 @@ const PlaieEpauleEtBursite = props => {
             setGlobalCount(globalCount - (value / 2));
         }
     };
+    const changeHandler6 = (count, sign, value) => {
+        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+            Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
+            return 'error';
+        }
+        setCount6(count);
+        if (sign == 'plus') {
+            setGlobalCount(globalCount + (value / 2));
+        } else {
+            setGlobalCount(globalCount - (value / 2));
+        }
+    };
 
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
     const modalInput2Closer = () => setModalInput2Visible(false);
@@ -152,7 +164,7 @@ const PlaieEpauleEtBursite = props => {
                         <View>
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Pas de lésions sur les épaules observées {" "}
+                                Pas de plaie à l’épaule {" "}
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -173,7 +185,7 @@ const PlaieEpauleEtBursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content} >
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Bursite-photo1.png')} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>
@@ -186,8 +198,20 @@ const PlaieEpauleEtBursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo} source={{ uri: evaluation.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Bursite-photo1.png')} />
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 1 }}>
+                        <View>
+                            <Text style={styles.text}>
+                                <Text style={{ fontSize: 25 }}>• {" "}</Text>
+                                Pas de bursite  {" "}
+                            </Text>
+                        </View>
+                        <View style={styles.content}>
+                            <Counter onChange={changeHandler6} max={evaluation.nbTruies} />
                         </View>
                     </View>
 

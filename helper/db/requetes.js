@@ -393,7 +393,7 @@ export const insertNoteGlobaleEvaluations = (title, imageUri, address, lat, lng)
 */
 export const insertNoteGlobaleEvaluations = (Data) => {
 
-    let query = "INSERT INTO Bilan(idTest, nomEvaluation, moyenneGlobaleEval, noteEval,dateTest, moyenneGlobaleSousCateg, moyenneSousCateg, nomCateg, nomSousCateg, moyenneGlobaleCateg, moyenneCateg) VALUES";
+    let query = "INSERT INTO Bilan(idTest, nomEvaluation, moyenneGlobaleEval, noteEval, dateTest, nomSousCateg, moyenneGlobaleSousCateg, moyenneSousCateg, nomCateg, moyenneGlobaleCateg, moyenneCateg) VALUES";
     for (let i = 0; i < Data.length; ++i) {
         query = query + '("'
             + Data[i][0].idTest
@@ -423,7 +423,6 @@ export const insertNoteGlobaleEvaluations = (Data) => {
         }
     }
     query = query + ';';
-
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
@@ -467,6 +466,27 @@ export const dropBilan = () => {
                 [],
                 (_, result) => { //sucess fonction
                     resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+
+export const fetchMoyenneCategorieBilan = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                // NE SURTOUT PAS ENLEVER LA CONDITION DANS LE WHERE 
+                'SELECT DISTINCT nomCateg, moyenneGlobaleCateg, moyenneCateg FROM Bilan WHERE moyenneCateg!="null" GROUP BY nomCateg;',
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //sucess fonction
+                    resolve(result);
+
                 },
                 (_, err) => { //error function
                     reject(err);

@@ -99,7 +99,7 @@ const ProfilScreen = props => {
     return (
         <View>
             <Text style={{textAlign:"center", paddingVertical:10}}>
-                Mardi 4 août à 12:00
+                Mercredi 5 août à 11:20, modif concernant "Plaie épaule et bursite", graphique mode hors ligne non fonctionnel
             </Text>
             <Button title='Paramètres' onPress={() => { props.navigation.navigate('Parametre') }} />
             <ModalPopupInfo

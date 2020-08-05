@@ -6,7 +6,8 @@ import RadarChart from '../../../components/Chart/RadarChart';
 import HeaderButton from '../../../components/UI/HeaderButton';
 import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { fetchBilan, dropBilan } from '../../../helper/db/requetes'
+import { fetchBilan, dropBilan, fetchMoyenneCategorieBilan } from '../../../helper/db/requetes'
+import NetInfo from '@react-native-community/netinfo';
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
@@ -23,12 +24,26 @@ const BilanScreen = props => {
         await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
         dropBilan();
         await dispatch(bilanActions.fetchBilanDatabase());      
-        fetchBilan().then(result => console.log(result.rows));
+        fetchBilan();
+        await fetchMoyenneCategorieBilan();
+        setIsRefreshing(false);
+    }, [dispatch]);
+
+    const horsLigneHandler = useCallback(async () => {
+        setIsRefreshing(true);     
+        fetchBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 
     useEffect(() => {
-        notesHandler().then(() => setIsLoading(false));;
+        NetInfo.fetch().then(state => {
+            if (!state.isConnected) {
+                setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
+                horsLigneHandler().then(() => setIsLoading(false));;
+            } else {
+                notesHandler().then(() => setIsLoading(false));
+            }
+        });
     }, [notesHandler, dispatch]);
 
 

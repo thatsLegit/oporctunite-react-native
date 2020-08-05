@@ -532,3 +532,44 @@ export const fetchMoyenneCategorieBilan = () => {
     });
     return promise;
 };
+
+export const fetchMoyenneSousCategorieBilan = nomCategorie => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                // NE SURTOUT PAS ENLEVER LA CONDITION DANS LE WHERE 
+                'SELECT DISTINCT nomSousCateg, moyenneGlobaleSousCateg, moyenneSousCateg FROM Bilan WHERE nomCateg==? GROUP BY nomSousCateg;',
+                [nomCategorie], //prepared statement to avoid sql injections.
+                (_, result) => { //sucess fonction
+                    resolve(result);
+
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+// Elle peut servir pour 2 types de graphiques, batons et points
+export const fetchMoyenneEvaluationBilan = nomEval => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+     
+                'SELECT nomEvaluation, moyenneGlobaleEval, noteEval FROM Bilan WHERE nomEvaluation = ? AND noteEval != null;',
+                [nomEval], //prepared statement to avoid sql injections.
+                (_, result) => { //sucess fonction
+                    resolve(result);
+
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};

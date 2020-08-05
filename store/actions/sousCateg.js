@@ -1,3 +1,4 @@
+import { fetchAllCategoriesP, dropCategorieP, insertCategorieP, getEvaluationGivenSousCateg, fetchAllEvaluations } from '../../helper/db/requetes';
 //models
 import Evaluation from '../../models/Evaluation';
 //actions
@@ -8,51 +9,17 @@ export const SET_EVALUATION_BY_SOUS_CATEGORY = 'SET_EVALUATION_BY_SOUS_CATEGORY'
 export const SUPPRIMER_TOUTE_LA_SELECTION = 'SUPPRIMER_TOUTE_LA_SELECTION';
 
 
-export const fetchSousCateg = () => {
+export const fetchSousCateg = isConnected => {
     return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories";
-        const bearer = 'Bearer ' + token;
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'authorization': bearer,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const resData = await response.json();
+        const maj = getState().auth.maj;
         let loadedSousCategories = {};
-        resData.data.forEach(categ => {
-            loadedSousCategories = {
-                ...loadedSousCategories, [categ.nomCategorieP]: []
-            }
-        });
 
-        dispatch({ type: SET_SOUS_CATEG, sousCateg: loadedSousCategories });
-    };
-};
+        if (isConnected && maj) {
+            const token = getState().auth.token;
+            const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories";
+            const bearer = 'Bearer ' + token;
 
-export const fetchEvaluationBySousCateg = () => {
-    return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        const bearer = 'Bearer ' + token;
-
-        let sousCateg = [];
-        const categorie_p = getState().sousCateg.sousCategories;
-        let sousCategOriginal = [];
-
-        for (const key in categorie_p) {
-            sousCategOriginal.push(key);
-            const sousCategModified = key.replace('é', 'e');
-            sousCateg.push(sousCategModified);
-        }
-
-        //Attention, cette fonction envoie plusieurs dispatch vers les reducers (for let..of..)
-        let count = 0;
-        for (let sousCat of sousCateg) {
-            let url = `https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories/${sousCat}/evaluations/sousCategorie`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -62,9 +29,46 @@ export const fetchEvaluationBySousCateg = () => {
             });
 
             const resData = await response.json();
+            await dropCategorieP();
+
+            for (const sCateg of resData.data) {
+                await insertCategorieP(sCateg.nomCategorieP, sCateg.nomCategorieG);
+                loadedSousCategories = {
+                    ...loadedSousCategories, [sCateg.nomCategorieP]: []
+                }
+            }
+
+        } else {
+            const sousCategories = await fetchAllCategoriesP();
+
+            for (const sCateg of sousCategories.rows._array) {
+                loadedSousCategories = {
+                    ...loadedSousCategories, [sCateg.nomCategorieP]: []
+                }
+            }
+        }
+
+        dispatch({ type: SET_SOUS_CATEG, sousCateg: loadedSousCategories });
+    };
+};
+
+export const fetchEvaluationBySousCateg = () => {
+    return async (dispatch, getState) => {
+
+        let sousCateg = [];
+        const categorie_p = getState().sousCateg.sousCategories;
+
+        for (const key in categorie_p) {
+            sousCateg.push(key);
+        }
+
+        //Cette fonction envoie plusieurs dispatch vers les reducers
+        for (let sousCat of sousCateg) {
+            const evaluations = await getEvaluationGivenSousCateg(sousCat);
 
             let loadedEvaluations = [];
-            resData.data.forEach(e => {
+
+            for (const e of evaluations.rows._array) {
                 loadedEvaluations.push(new Evaluation(
                     e.nomEvaluation,
                     e.priorite,
@@ -72,12 +76,10 @@ export const fetchEvaluationBySousCateg = () => {
                     e.description,
                     e.nomCategorieP,
                     e.nbTruies
-                ))
-            });
+                ));
+            }
 
-            const categP = sousCategOriginal[count];
-            count++;
-            dispatch({ type: SET_EVALUATION_BY_SOUS_CATEGORY, evaluation: loadedEvaluations, categP });
+            dispatch({ type: SET_EVALUATION_BY_SOUS_CATEGORY, evaluation: loadedEvaluations, sousCat });
         }
     };
 };

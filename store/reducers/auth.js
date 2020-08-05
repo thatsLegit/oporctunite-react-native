@@ -5,7 +5,8 @@ const initialState = {
     idutilisateur: null,
     utilisateur: null,
     elevage: null,
-    didTryAutoLogin: false
+    didTryAutoLogin: false,
+    maj: false
 };
 
 export default (state = initialState, action) => {
@@ -19,7 +20,8 @@ export default (state = initialState, action) => {
             return {
                 token: action.token,
                 idutilisateur: action.idutilisateur,
-                didTryAutoLogin: true
+                didTryAutoLogin: true,
+                maj: action.maj
             };
         case SET_UTILISATEUR:
             return {

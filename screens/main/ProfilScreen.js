@@ -17,17 +17,16 @@ const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [message, setMessage] = useState({});
-    const token = useSelector(state => state.auth.token);
+    const { token, maj } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
-    const categHandler = useCallback(async () => {
-        //Une fois tous les 7j :
-        await dispatch(categActions.fetchCateg());
+    const categHandler = useCallback(async (isConnected) => {
+        await dispatch(categActions.fetchCateg(isConnected));
         await dispatch(categActions.fetchSousCategByCateg());
-        await dispatch(sousCategActions.fetchSousCateg());
+        await dispatch(sousCategActions.fetchSousCateg(isConnected));
+        await evalActions.fetchEvaluations(token, maj, isConnected);
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
-        await dispatch(evalActions.fetchLiaisons());
-        //Sur sqlite le reste du temps :
+        await dispatch(evalActions.fetchLiaisons(isConnected));
         setIsLoading(false);
     }, []);
 
@@ -78,8 +77,8 @@ const ProfilScreen = props => {
             } else {
                 majTests();
                 dropTests();
-                categHandler();
             }
+            categHandler(state.isConnected);
         });
     }, []);
 

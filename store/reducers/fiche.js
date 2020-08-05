@@ -1,11 +1,10 @@
 //actions
-import { SET_RECOMMANDATIONS, SET_FICHES } from '../actions/fiche';
+import { SET_FICHES } from '../actions/fiche';
 
 
 //Etat initial
 const initialState = {
-    fiches: {},
-    fichesRecommandees: {}
+    fiches: {}
 };
 
 

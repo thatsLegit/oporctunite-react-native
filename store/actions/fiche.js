@@ -1,8 +1,7 @@
-import { insertFiche, dropFiches, getFichesGivenCateg, fetchAllFiches } from '../../helper/db/requetes';
+import { insertFiche, dropFiches, fetchAllFiches } from '../../helper/db/requetes';
 //Models
 import Fiche from '../../models/Fiche';
 //Actions
-export const SET_RECOMMANDATIONS = 'SET_RECOMMANDATIONS';
 export const SET_FICHES = 'SET_FICHES';
 
 

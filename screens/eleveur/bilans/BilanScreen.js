@@ -16,7 +16,7 @@ const BilanScreen = props => {
     const [message, setMessage] = useState({});
     const [modal, setModal] = useState(false);
     const dispatch = useDispatch();
-    
+
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
@@ -27,13 +27,13 @@ const BilanScreen = props => {
         await dispatch(bilanActions.fetchNoteEvaluations());
         await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
         dropBilan();
-        await dispatch(bilanActions.fetchBilanDatabase());      
+        await dispatch(bilanActions.fetchBilanDatabase());
         fetchBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 
     const horsLigneHandler = useCallback(async () => {
-        setIsRefreshing(true);     
+        setIsRefreshing(true);
         fetchBilan();
         setIsRefreshing(false);
     }, [dispatch]);

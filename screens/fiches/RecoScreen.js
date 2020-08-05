@@ -5,11 +5,11 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/UI/HeaderButton';
 
 
-const FavScreen = props => {
+const RecoScreen = props => {
     return (
         <View>
             <Text>
-                Favoris
+                Recommandations
             </Text>
             <Button title='Fiche' onPress={() => { props.navigation.navigate('Fiche') }} />
         </View>
@@ -19,7 +19,7 @@ const FavScreen = props => {
 
 export const screenOptions = (navData) => {
     return {
-        headerTitle: 'Favoris',
+        headerTitle: 'Recommandations',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default FavScreen;
+export default RecoScreen;

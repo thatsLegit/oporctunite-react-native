@@ -5,7 +5,7 @@ import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer'
 import { Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 
 import { MainNavigator } from '../stacks/MainNavigator';
-import { FichesNavigator } from '../stacks/FichesNavigator';
+import { FichesTabNavigator } from '../stacks/FichesNavigator';
 import { EvaluationNavigator } from '../stacks/EleveurNavigator';
 import { BilanNavigator } from '../stacks/BilansNavigator';
 import Colors from '../../constants/Colors';
@@ -51,7 +51,7 @@ export const EleveurDrawerNav = () => {
             />
             <EleveurDrawerNavigator.Screen
                 name='Fiches'
-                component={FichesNavigator}
+                component={FichesTabNavigator}
                 options={{
                     drawerIcon: drawerConfig => (
                         <Ionicons

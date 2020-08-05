@@ -1,6 +1,6 @@
 import {
     insertLiaisons, dropLiaisons, fetchAllLiaisons,
-    insertEvaluation, dropEvaluation, fetchAllEvaluations
+    insertEvaluation, dropEvaluation
 } from '../../helper/db/requetes';
 import Liaison from '../../models/Liaison';
 

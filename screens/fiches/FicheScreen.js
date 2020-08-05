@@ -11,7 +11,7 @@ const FicheScreen = props => {
             <Text>
                 Fiche ...
             </Text>
-            <Button title='Favoris' onPress={() => { props.navigation.navigate('Favoris') }} />
+            <Button title='Retour' onPress={() => { props.navigation.goBack() }} />
         </View>
     );
 };

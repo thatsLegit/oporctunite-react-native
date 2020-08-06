@@ -38,9 +38,9 @@ const BilanScreen = props => {
             if (!state.isConnected) {
                 setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
                 setModal(true);
-                horsLigneHandler().then(() => setIsLoading(false));;
+                horsLigneHandler().then(() => setIsLoading(false));
             } else {
-                notesHandler().then(() => setIsLoading(false)); // Vide et remplie la table Bilan
+                notesHandler().then(() => setIsLoading(false));
             }
         });
     }, [notesHandler, dispatch]);

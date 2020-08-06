@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect,useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 import { lineBreaker } from '../../helper/LineBreaker';
@@ -10,14 +10,14 @@ const RadarChart = props => {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const majCategories = useCallback(async () => {       
+    const majCategories = useCallback(async () => {
         const result = await fetchMoyenneCategorieBilan();
 
         if (!result.rows._array || !result.rows._array.length) {
             return;
         }
-        setCategories(result.rows._array);  
-        setIsLoading(false);    
+        setCategories(result.rows._array);
+        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -31,33 +31,33 @@ const RadarChart = props => {
 
     switch (categories.length) {
         case 1:
-        UserData = [
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg},
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg}
-        ]
-        break;
+            UserData = [
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg },
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg }
+            ]
+            break;
         case 2:
-        UserData = [
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg},
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg}
-        ]
-        break;
+            UserData = [
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg },
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg }
+            ]
+            break;
         case 3:
-        UserData = [
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg, [categories[2].nomCateg]: categories[2].moyenneCateg},
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg, [categories[2].nomCateg]: categories[2].moyenneGlobaleCateg}
-        ]
-        break;
+            UserData = [
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg, [categories[2].nomCateg]: categories[2].moyenneCateg },
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg, [categories[2].nomCateg]: categories[2].moyenneGlobaleCateg }
+            ]
+            break;
         case 4:
-        UserData = [
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg, [categories[3].nomCateg]: categories[3].moyenneCateg, [categories[2].nomCateg]: categories[2].moyenneCateg},
-            { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg, [categories[3].nomCateg]: categories[3].moyenneGlobaleCateg, [categories[2].nomCateg]: categories[2].moyenneGlobaleCateg}
-        ]
-        break;
+            UserData = [
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneCateg, [categories[1].nomCateg]: categories[1].moyenneCateg, [categories[3].nomCateg]: categories[3].moyenneCateg, [categories[2].nomCateg]: categories[2].moyenneCateg },
+                { [lineBreaker(categories[0].nomCateg)]: categories[0].moyenneGlobaleCateg, [categories[1].nomCateg]: categories[1].moyenneGlobaleCateg, [categories[3].nomCateg]: categories[3].moyenneGlobaleCateg, [categories[2].nomCateg]: categories[2].moyenneGlobaleCateg }
+            ]
+            break;
         default:
-        break;
+            break;
     };
-    
+
     const getMaxima = (data) => {
         const groupedData = Object.keys(data[0]).reduce((memo, key) => {
             memo[key] = data.map((d) => d[key]);
@@ -71,19 +71,19 @@ const RadarChart = props => {
 
     const processData = (data) => {
         const maxByGroup = getMaxima(data);
-        
+
         const makeDataArray = (d) => {
             return Object.keys(d).map((key) => {
                 return { x: key, y: d[key] / maxByGroup[key] };
             });
         };
-        
+
         return data.map((datum) => makeDataArray(datum));
     }
 
-    var data =[];
-    var maxima =[];
-    if (categories.length>0) {
+    var data = [];
+    var maxima = [];
+    if (categories.length > 0) {
         data = processData(UserData);
         maxima = getMaxima(UserData);
     }
@@ -101,7 +101,7 @@ const RadarChart = props => {
             </View>
         );
     }
-    
+
     return (
         <View style={styles.container}>
             <VictoryChart

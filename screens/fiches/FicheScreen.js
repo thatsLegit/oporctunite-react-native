@@ -8,7 +8,7 @@ const FicheScreen = props => {
     return (
         <PDFReader
             source={{
-                uri: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf',
+                uri: props.route.params.fiche.urlImage,
             }}
         />
     );

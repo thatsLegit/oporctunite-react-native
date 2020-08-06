@@ -6,13 +6,13 @@ import RadarChart from '../../../components/Chart/RadarChart';
 import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
 import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { fetchBilan, dropBilan } from '../../../helper/db/requetes'
+import { dropBilan } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
-    const [isConnected, setIsConnected] = useState(true);
+    const [isConnected] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [message, setMessage] = useState({});
     const [modal, setModal] = useState(false);
@@ -21,21 +21,13 @@ const BilanScreen = props => {
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
-        await dispatch(bilanActions.fetchNoteCategories());
-        await dispatch(bilanActions.fetchNoteGlobaleCategories());
-        await dispatch(bilanActions.fetchNoteSousCategories());
-        await dispatch(bilanActions.fetchNoteGlobaleSousCategories());
-        await dispatch(bilanActions.fetchNoteEvaluations());
-        await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
         dropBilan();
         await dispatch(bilanActions.fetchBilanDatabase());
-        fetchBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 
     const horsLigneHandler = useCallback(async () => {
         setIsRefreshing(true);
-        fetchBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 

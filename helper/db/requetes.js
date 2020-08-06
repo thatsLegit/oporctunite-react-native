@@ -633,7 +633,7 @@ export const fetchMoyenneEvaluationBilan = nomEval => {
         db.transaction((tx) => {
             tx.executeSql(
      
-                'SELECT nomEvaluation, moyenneGlobaleEval, noteEval FROM Bilan WHERE nomEvaluation = ?;',
+                "SELECT dateTest, noteEval FROM Bilan WHERE nomEvaluation = ? AND noteEval <> 'null'  GROUP BY dateTest ORDER BY dateTest DESC;",
                 [nomEval], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);

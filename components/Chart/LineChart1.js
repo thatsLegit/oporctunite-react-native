@@ -1,34 +1,42 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState} from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { VictoryContainer, VictoryChart, VictoryAxis, VictoryScatter } from "victory-native";
-import { useSelector } from 'react-redux';
-
+import { fetchMoyenneEvaluationBilan } from "../../helper/db/requetes"
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const LineChart1 = props => {
 
-    let dateTests = [];
-    let noteTests = [];
+    const [evaluation, setEvaluation] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const object = useSelector(state => Object.entries(state.bilan.noteEvaluations)).filter(element => Object.keys(element[1])[0] == "Etat corporel").reverse();
-    //utilise la fonction sort pour trier par date, par défaut c'est par idTest je crois
-    object.sort((a, b) => a - b);
-    let dateRecente= null;
-    let i =0;
-    object.map(([key, values]) => {
-        if (Object.keys(values) == "Etat corporel") {
-            
-            for (const [key, value] of Object.entries(Object.values(values))) {
-                
-                if(formatDate(Object.keys(value)) != dateRecente && i<6){
-                    i++;
-                    dateRecente=formatDate(Object.keys(value));
-                    dateTests.push(formatDate(Object.keys(value)));
-                    noteTests.push(Object.values(value));
-                }
-                
-            }
+    const majevaluation = useCallback(async () => {       
+        const result = await fetchMoyenneEvaluationBilan("Etat corporel");
+        
+        if (!result.rows._array || !result.rows._array.length) {
+            return;
         }
-    });
+        var resultAvecDate=[];
+        let jour="";
+        let nbJour=0;
+        result.rows._array.forEach(element => {
+            if(jour!=formatDate(element.dateTest) && nbJour<6){
+                resultAvecDate.push({"dateTest" : formatDate(element.dateTest),"noteEval" : element.noteEval});
+        
+                nbJour++;
+            }
+            jour=formatDate(element.dateTest);
+            
+        });
+        setEvaluation(resultAvecDate);  
+        setIsLoading(false);    
+    }, []);
+
+    useEffect(() => {
+
+        majevaluation();
+
+    }, []);
+ 
 
     function formatDate(date) {
         var d = new Date(date),
@@ -44,56 +52,69 @@ const LineChart1 = props => {
     }
 
     var data = [];
-    switch (dateTests.length) {
+
+    switch (evaluation.length) {
         case 1:
             data = [
-                { x: dateTests[0], y: noteTests[0] },
+                { x: evaluation[0].dateTest, y: evaluation[0].noteEval },
             ]
             break;
         case 2:
             data = [
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[0], y: noteTests[0] }
+                { x: evaluation[1].dateTest, y: evaluation[1].noteEval },
+                { x: evaluation[0].dateTest, y: evaluation[0].noteEval }
             ]
             break;
         case 3:
             data = [
-                { x: dateTests[2], y: noteTests[2] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[0], y: noteTests[0] },
+                { x: evaluation[2].dateTest, y: evaluation[2].noteEval },
+                { x: evaluation[1].dateTest, y: evaluation[1].noteEval },
+                { x: evaluation[0].dateTest, y: evaluation[0].noteEval },
             ]
             break;
         case 4:
             data = [
-                { x: dateTests[3], y: noteTests[3] },
-                { x: dateTests[2], y: noteTests[2] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[0], y: noteTests[0] },
+                { x: evaluation[3].dateTest, y: evaluation[3].noteEval },
+                { x: evaluation[2].dateTest, y: evaluation[2].noteEval },
+                { x: evaluation[1].dateTest, y: evaluation[1].noteEval },
+                { x: evaluation[0].dateTest, y: evaluation[0].noteEval },
             ]
             break;
         case 5:
             data = [
-                { x: dateTests[4], y: noteTests[4] },
-                { x: dateTests[3], y: noteTests[3] },
-                { x: dateTests[2], y: noteTests[2] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[0], y: noteTests[0] },
+                { x: evaluation[4].dateTest, y: evaluation[4].noteEval },
+                { x: evaluation[3].dateTest, y: evaluation[3].noteEval },
+                { x: evaluation[2].dateTest, y: evaluation[2].noteEval },
+                { x: evaluation[1].dateTest, y: evaluation[1].noteEval },
+                { x: evaluation[0].dateTest, y: evaluation[0].noteEval },
             ]
             break;
         case 6:
             data = [
-                { x: dateTests[5], y: noteTests[5] },
-                { x: dateTests[4], y: noteTests[4] },
-                { x: dateTests[3], y: noteTests[3] },
-                { x: dateTests[2], y: noteTests[2] },
-                { x: dateTests[1], y: noteTests[1] },
-                { x: dateTests[0], y: noteTests[0] },
+                { x: evaluation[5].dateTest, y: evaluation[5].noteEval },
+                { x: evaluation[4].dateTest, y: evaluation[4].noteEval },
+                { x: evaluation[3].dateTest, y: evaluation[3].noteEval },
+                { x: evaluation[2].dateTest, y: evaluation[2].noteEval },
+                { x: evaluation[1].dateTest, y: evaluation[1].noteEval },
+                { x: evaluation[0].dateTest, y: evaluation[0].noteEval },
             ]
             break;
         default:
             break;
     };
 
+
+    if (isLoading) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Chargement'}
+                    textStyle={{ color: '#FFF' }}
+                />
+            </View>
+        );
+    }
     return (
         <View style={styles.container}>
             <VictoryChart

@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, StyleSheet, Button, Platform, RefreshControl, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import RadarChart from '../../../components/Chart/RadarChart';
 import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
-import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { dropBilan } from '../../../helper/db/requetes'
+import { dropBilan, insertNoteGlobaleEvaluations } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
@@ -17,14 +16,38 @@ const BilanScreen = props => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [message, setMessage] = useState({});
     const [modal, setModal] = useState(false);
+    const { token, maj } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     const modalCloser = () => setModal(false);
 
+    const majBilan = useCallback(async () => {
+
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const resData = await response.json();
+        let Data = [];
+        let i = 0;
+        resData.data.forEach(test => {
+            Data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];
+            i++;
+        });
+        insertNoteGlobaleEvaluations(Data);
+    }, []);
+
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
         await dropBilan();
-        await dispatch(bilanActions.fetchBilanDatabase());
+        await majBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 

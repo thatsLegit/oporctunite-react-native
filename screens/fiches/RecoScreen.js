@@ -4,9 +4,8 @@ import { View, Text, StyleSheet, Platform, FlatList, TouchableOpacity } from 're
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
-import * as bilanActions from '../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { dropBilan, fetchMoyenneCategorieBilan } from '../../helper/db/requetes';
+import { dropBilan, fetchMoyenneCategorieBilan, insertNoteGlobaleEvaluations } from '../../helper/db/requetes';
 import NetInfo from '@react-native-community/netinfo';
 
 
@@ -15,6 +14,7 @@ const RecoScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [categReco, setCategReco] = useState([]);
+    const { token, maj } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     const fichesReco = useSelector(state => Object.values(state.fiche.fiches).filter(fiche => categReco.includes(fiche.nomCategorieG)));
@@ -33,9 +33,34 @@ const RecoScreen = props => {
         });
     }, []);
 
+    const majBilan = useCallback(async () => {
+
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const resData = await response.json();
+        let Data = [];
+        let i = 0;
+        resData.data.forEach(test => {
+            Data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];
+            i++;
+        });
+        insertNoteGlobaleEvaluations(Data);
+
+    }, []);
+
+
     const notesHandler = useCallback(async () => {
         await dropBilan();
-        await dispatch(bilanActions.fetchBilanDatabase());
+        await majBilan();
     }, [dispatch]);
 
     const refreshHandler = () => {

@@ -10,7 +10,6 @@ import AppNavigator from './navigation/AppNavigator';
 import sousCategReducer from './store/reducers/sousCateg';
 import categReducer from './store/reducers/categ';
 import evalReducer from './store/reducers/evaluation';
-import bilanReducer from './store/reducers/bilan';
 import testReducer from './store/reducers/test';
 import authReducer from './store/reducers/auth';
 import ficheReducer from './store/reducers/fiche';
@@ -25,7 +24,6 @@ const rootReducer = combineReducers({
   sousCateg: sousCategReducer,
   categ: categReducer,
   eval: evalReducer,
-  bilan: bilanReducer,
   test: testReducer,
   auth: authReducer,
   fiche: ficheReducer

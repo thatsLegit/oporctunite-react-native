@@ -7,46 +7,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 const RadarChart = props => {
 
-<<<<<<< HEAD
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-=======
-    let titreGlobaleCateg = [];
-    let moyenneGlobaleCateg = [];
-    useSelector(state => Object.entries(state.bilan.noteGlobaleCateg)).map(([key, value]) => {
-        titreGlobaleCateg.push(key);
-        moyenneGlobaleCateg.push(value);
-    });
-
-    let bilanEleveurCateg = [];
-    let bilanEleveurTitreCateg = [];
-    useSelector(state => Object.entries(state.bilan.noteCateg)).map(([key, value]) => {
-        bilanEleveurTitreCateg.push(key);
-        bilanEleveurCateg.push(value);
-    });
-
-    // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
-    let tableauNoteCategArranger = [];
-
-
-    titreGlobaleCateg.forEach(globalTitre => {
-
-        let i = 0;
-
-        while (i < titreGlobaleCateg.length) {
-            if (globalTitre == bilanEleveurTitreCateg[i]) {
-                tableauNoteCategArranger.push(bilanEleveurCateg[i]);
-            }
-            else if (bilanEleveurTitreCateg.indexOf(globalTitre) == -1) {
-                tableauNoteCategArranger.push(0);
-                i = titreGlobaleCateg.length; //  Pour sortie de la boucle et pas ajouter trop de 0
-            }
-            i++;
-        }
-
-        i = 0;
-    });
->>>>>>> recommandations de fiches fonctionnelles et ecran de visualisation des fiches
 
     const majCategories = useCallback(async () => {       
         const result = await fetchMoyenneCategorieBilan();

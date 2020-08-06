@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { View, Text, StyleSheet, Button, Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { FontAwesome, FontAwesome5, AntDesign } from '@expo/vector-icons';
-import HeaderButton from '../../../components/UI/HeaderButton';
+import {CustomHeaderButton} from '../../../components/UI/HeaderButton';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
@@ -61,7 +61,7 @@ export const screenOptions = (navData) => {
     return {
         headerTitle: 'Evaluations',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Menu'
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}

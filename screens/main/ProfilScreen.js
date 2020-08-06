@@ -5,10 +5,11 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import HeaderButton from '../../components/UI/HeaderButton';
+import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
+import * as ficheActions from '../../store/actions/fiche';
 import { dropTests, fetchAllTests } from '../../helper/db/requetes';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 
@@ -20,6 +21,7 @@ const ProfilScreen = props => {
     const { token, maj } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
+
     const categHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
         await dispatch(categActions.fetchSousCategByCateg());
@@ -27,6 +29,7 @@ const ProfilScreen = props => {
         await evalActions.fetchEvaluations(token, maj, isConnected);
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
         await dispatch(evalActions.fetchLiaisons(isConnected));
+        await dispatch(ficheActions.fetchFiches(isConnected));
         setIsLoading(false);
     }, []);
 
@@ -97,7 +100,7 @@ const ProfilScreen = props => {
 
     return (
         <View>
-            <Text style={{textAlign:"center", paddingVertical:10}}>
+            <Text style={{ textAlign: "center", paddingVertical: 10 }}>
                 Mercredi 5 août à 11:20, modif concernant "Plaie épaule et bursite", graphique mode hors ligne non fonctionnel
             </Text>
             <Button title='Paramètres' onPress={() => { props.navigation.navigate('Parametre') }} />
@@ -118,7 +121,7 @@ export const screenOptions = (navData) => {
     return {
         headerTitle: 'Profil',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Menu'
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}

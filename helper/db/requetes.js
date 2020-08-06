@@ -318,6 +318,61 @@ export const fetchAllLiaisons = () => {
     return promise;
 };
 
+//Fiche
+export const insertFiche = (titreFiche, urlImage, nomCategorieG) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'INSERT INTO Fiche(titreFiche, urlImage, nomCategorieG) VALUES (?, ?, ?);',
+                [titreFiche, urlImage, nomCategorieG], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropFiches = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'DELETE FROM Fiche;',
+                [],
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchAllFiches = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Fiche;',
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
 /* export const insertNoteCategories = (title, imageUri, address, lat, lng) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {

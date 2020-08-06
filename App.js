@@ -13,6 +13,7 @@ import evalReducer from './store/reducers/evaluation';
 import bilanReducer from './store/reducers/bilan';
 import testReducer from './store/reducers/test';
 import authReducer from './store/reducers/auth';
+import ficheReducer from './store/reducers/fiche';
 import { Test, Evaluation, Bilan, Fiche, Liaisons, Categorie_P, Categorie_G } from './helper/db/init';
 
 
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   eval: evalReducer,
   bilan: bilanReducer,
   test: testReducer,
-  auth: authReducer
+  auth: authReducer,
+  fiche: ficheReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

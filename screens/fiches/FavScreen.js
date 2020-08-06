@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Button, Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import HeaderButton from '../../components/UI/HeaderButton';
+import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 
 
 const FavScreen = props => {
@@ -11,7 +11,7 @@ const FavScreen = props => {
             <Text>
                 Favoris
             </Text>
-            <Button title='Recherche de fiches' onPress={() => { props.navigation.navigate('Search') }} />
+            <Button title='Fiche' onPress={() => { props.navigation.navigate('Fiche') }} />
         </View>
     );
 };
@@ -21,7 +21,7 @@ export const screenOptions = (navData) => {
     return {
         headerTitle: 'Favoris',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Menu'
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}

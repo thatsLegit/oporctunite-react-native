@@ -44,14 +44,9 @@ const BilanScreen = props => {
     useEffect(() => {
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
-<<<<<<< HEAD
                 setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
                 setModal(true);
                 horsLigneHandler().then(() => setIsLoading(false));;
-=======
-                horsLigneHandler().then(() => setIsLoading(false));
-                setIsConnected(false);
->>>>>>> recommandations de fiches fonctionnelles et ecran de visualisation des fiches
             } else {
                 notesHandler().then(() => setIsLoading(false)); // Vide et remplie la table Bilan
             }

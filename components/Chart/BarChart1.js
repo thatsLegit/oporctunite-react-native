@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect,useState} from 'react';
+import React, { useCallback, useEffect, useState} from 'react';
 import { View, StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
-import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
 import { fetchMoyenneSousCategorieBilan } from "../../helper/db/requetes"

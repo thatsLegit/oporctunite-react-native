@@ -1,63 +1,87 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState} from 'react';
 import { View, StyleSheet, Platform, useWindowDimensions } from 'react-native';
 import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
-import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
+import { fetchMoyenneSousCategorieBilan } from "../../helper/db/requetes"
+import Spinner from 'react-native-loading-spinner-overlay';
+
 
 const BarChart3 = props => {
 
-    let titreGlobaleSousCateg = [];
-    let moyenneGlobaleSousCateg = [];
+    const [sousCategories, setSousCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    useSelector(state => Object.entries(state.bilan.noteGlobaleSousCateg)).map(([key, value]) => {
-        if (Object.values(value) == "Expression des comportements") {
-            titreGlobaleSousCateg.push(key);
-            moyenneGlobaleSousCateg.push(Object.keys(value));
+    const majSousCategories = useCallback(async () => {       
+        const result = await fetchMoyenneSousCategorieBilan("Expression des comportements");
+        if (!result.rows._array || !result.rows._array.length) {
+            return;
         }
-    });
+        setSousCategories(result.rows._array);  
+        setIsLoading(false);    
+    }, []);
 
-    let bilanEleveurSousCateg = [];
-    let bilanEleveurTitreSousCateg = [];
+    useEffect(() => {
 
-    useSelector(state => Object.entries(state.bilan.noteSousCateg)).map(([key, value]) => {
-        if (Object.values(value) == "Expression des comportements") {
-            bilanEleveurTitreSousCateg.push(key);
-            bilanEleveurSousCateg.push(Object.keys(value));
-        }
-    });
+        majSousCategories();
 
-    // Tableau avec les notes arranger pour les catégories afin d'avoir un bonne ordre et toujours avoir une valeur
-    let tableauNoteSousCategArranger = [];
+    }, []);
 
+    var dataEleveur = [];
+    var dataGlobale = [];
 
-    titreGlobaleSousCateg.forEach(globalTitre => {
-        let i = 0;
-        while (i < titreGlobaleSousCateg.length) {
-            if (globalTitre == bilanEleveurTitreSousCateg[i]) {
-                tableauNoteSousCategArranger.push(bilanEleveurSousCateg[i]);
-            }
-            else if (bilanEleveurTitreSousCateg.indexOf(globalTitre) == -1) {
-                tableauNoteSousCategArranger.push(0);
-                i = titreGlobaleSousCateg.length; //  Pour sortie de la boucle et pas ajouter quatre 0
-            }
-            i++;
-        }
-        i = 0;
-    });
-
-    const dataEleveur = [
-        { x: lineBreaker(titreGlobaleSousCateg[0]), y: tableauNoteSousCategArranger[0] },
-        { x: lineBreaker(titreGlobaleSousCateg[1]), y: tableauNoteSousCategArranger[1] },
-        { x: lineBreaker(titreGlobaleSousCateg[2]), y: tableauNoteSousCategArranger[2] }
-    ];
-
-    const dataGlobale = [
-        { x: lineBreaker(titreGlobaleSousCateg[0]), y: moyenneGlobaleSousCateg[0] },
-        { x: lineBreaker(titreGlobaleSousCateg[1]), y: moyenneGlobaleSousCateg[1] },
-        { x: lineBreaker(titreGlobaleSousCateg[2]), y: moyenneGlobaleSousCateg[2] }
-    ];
+    switch (sousCategories.length) {
+        case 1:
+            dataEleveur = [
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg }
+            ];
+        
+            dataGlobale = [
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg }
+            ];
+        break;
+        case 2:
+            dataEleveur = [
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg }
+            ];
+        
+            dataGlobale = [
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg }
+            ];
+        break;
+        case 3:
+            dataEleveur = [
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg },
+                { x: lineBreaker(sousCategories[2].nomSousCateg), y: sousCategories[2].moyenneSousCateg }
+            ];
+        
+            dataGlobale = [
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg },
+                { x: lineBreaker(sousCategories[2].nomSousCateg), y: sousCategories[2].moyenneSousCateg }
+            ];
+        break;
+        default:
+        break;
+    };
+    
     const windowWidth = useWindowDimensions().width;
+
+    if (isLoading) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Chargement'}
+                    textStyle={{ color: '#FFF' }}
+                />
+            </View>
+        );
+    }
+
     if (Platform.OS == 'android') {
         return (
             <View style={styles.container}>

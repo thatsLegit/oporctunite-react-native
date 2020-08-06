@@ -13,12 +13,20 @@ import evalReducer from './store/reducers/evaluation';
 import testReducer from './store/reducers/test';
 import authReducer from './store/reducers/auth';
 import ficheReducer from './store/reducers/fiche';
-import { Test, Evaluation, Bilan, Fiche, Liaisons, Categorie_P, Categorie_G } from './helper/db/init';
+
+import { createDB } from './helper/db/init';
+import { dropTests, dropEvaluation, dropBilan, dropFiches, dropLiaisons, dropCategorieP, dropCategorieG } from './helper/db/requetes';
 
 
-//Create some tables
-//dropDB();
-Categorie_G(); Categorie_P(); Liaisons(); Fiche(); Bilan(); Evaluation(); Test();
+createDB().then(() => {
+  console.log('Initialized database.');
+}).catch(err => {
+  console.log('Initializing db failed.');
+  console.log(err);
+});
+
+//Delete if needed :
+//dropTests(); dropEvaluation(); dropBilan(); dropFiches(); dropLiaisons(); dropCategorieP(); dropCategorieG();
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,

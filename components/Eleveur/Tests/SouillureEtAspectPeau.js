@@ -25,8 +25,8 @@ const SouillureEtAspectPeau = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((evaluation.nbTruies-((count)+(count3*(1/2))))/(evaluation.nbTruies)) *10 + Number.EPSILON) * 10) /10;
-    const noteAspectPeau = Math.round((((evaluation.nbTruies-((count5)+(count4*(1/2))))/evaluation.nbTruies) *10 + Number.EPSILON) * 10) /10;
+    const note = Math.round((((evaluation.nbTruies - ((count) + (count3 * (1 / 2)))) / (evaluation.nbTruies)) * 10 + Number.EPSILON) * 10) / 10;
+    const noteAspectPeau = Math.round((((evaluation.nbTruies - ((count5) + (count4 * (1 / 2)))) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(noteAspectPeau, evaluation.nomEvaluation));
@@ -143,7 +143,7 @@ const SouillureEtAspectPeau = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ alignItems: 'center', height: '8%' }}>
+            <View style={{ alignItems: 'center', height: '10%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
                         <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
@@ -161,7 +161,7 @@ const SouillureEtAspectPeau = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.intro}>
-                            <Image style={styles.photo} source={{ uri: evaluation2.photo1 }} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Souillure-photo1.png')} />
                             <Text style={{ fontStyle: 'italic', fontSize: 15 }}>
                                 10 % correspond à un quart d'une des trois zones {"\n"}
                                 un tiers correspond à une des trois zones

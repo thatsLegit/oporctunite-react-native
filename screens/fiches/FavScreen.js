@@ -11,7 +11,6 @@ const FavScreen = props => {
             <Text>
                 Favoris
             </Text>
-            <Button title='Fiche' onPress={() => { props.navigation.navigate('Fiche') }} />
         </View>
     );
 };

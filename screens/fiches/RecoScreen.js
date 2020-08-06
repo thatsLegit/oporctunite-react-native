@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { View, Text, StyleSheet, Platform, FlatList, TouchableOpacity } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
@@ -74,18 +74,12 @@ const RecoScreen = props => {
             );
         }
         return (
-            <ButtonComponent onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
                 <Text style={styles.titre}>{item.titreFiche}</Text>
                 <Text style={styles.categorie}>{item.nomCategorieG}</Text>
-            </ButtonComponent>
+            </TouchableOpacity>
         );
     };
-
-    let ButtonComponent = TouchableOpacity;
-
-    if (Platform.OS === 'android' && Platform.Version >= 21) {
-        ButtonComponent = TouchableNativeFeedback;
-    }
 
     if (isLoading) {
         return (

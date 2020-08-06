@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
@@ -11,7 +11,6 @@ const SearchScreen = props => {
             <Text>
                 Rechercher une fiche
             </Text>
-            <Button title='Fiche' onPress={() => { props.navigation.navigate('Fiche') }} />
         </View>
     );
 };

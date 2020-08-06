@@ -1,54 +1,72 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState} from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { VictoryContainer, VictoryChart, VictoryGroup, VictoryAxis, VictoryBar } from "victory-native";
 import { useSelector } from 'react-redux';
 import Svg from "react-native-svg";
 import { lineBreaker } from '../../helper/LineBreaker';
+import { fetchMoyenneEvaluationParSousCategorieBilan } from "../../helper/db/requetes"
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const BarChartEvaluations1 = props => {
 
-    let moyenneEval1 = 0;
-    let moyenneEval2 = 0;
+    const [sousCategories, setSousCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    let nbTests1 = 1;
-    let nbTests2 = 1;
-
-    useSelector(state => Object.entries(state.bilan.noteEvaluations)).map(([key, values]) => {
-        if (Object.keys(values) == "Stéréotypies") {
-            for (const [key, value] of Object.entries(Object.values(values))) {
-                moyenneEval1 += parseFloat(Object.values(value));
-                nbTests1++;
-            }
+    const majSousCategories = useCallback(async () => {       
+        const result = await fetchMoyenneEvaluationParSousCategorieBilan("Expression des autres comportements");
+        if (!result.rows._array || !result.rows._array.length) {
+            return;
         }
-        else if (Object.keys(values) == "Exploration individuelle") {
-            for (const [key, value] of Object.entries(Object.values(values))) {
-                moyenneEval2 += parseFloat(Object.values(value));
-                nbTests2++;
-            }
-        }
-    });
+        setSousCategories(result.rows._array);  
+        setIsLoading(false);    
+    }, []);
 
-    let moyenneGlobaleEval1 = 0;
-    let moyenneGlobaleEval2 = 0;
+    useEffect(() => {
 
-    useSelector(state => Object.entries(state.bilan.noteGlobaleEvaluations)).map(([key, value]) => {
-        if (key == "Stéréotypies") {
-            moyenneGlobaleEval1 = value;
-        }
-        else if (key == "Exploration individuelle") {
-            moyenneGlobaleEval2 = value;
-        }
-    })
+        majSousCategories();
 
-    const dataEleveur = [
-        { x: "Stéréotypies", y: (moyenneEval1 / nbTests1) },
-        { x: lineBreaker("Exploration individuelle"), y: (moyenneEval2 / nbTests2) }
-    ];
+    }, []);
 
-    const dataGlobale = [
-        { x: "Stéréotypies", y: moyenneGlobaleEval1 },
-        { x: lineBreaker("Exploration individuelle"), y: moyenneGlobaleEval2 }
-    ];
+    var dataEleveur = [];
+    var dataGlobale = [];
+
+    switch (sousCategories.length) {
+        case 1:
+            dataEleveur = [
+                { x: lineBreaker(sousCategories[0].nomEvaluation), y: sousCategories[0].moyenneEval }
+            ];
+        
+            dataGlobale = [
+                { x: lineBreaker(sousCategories[0].nomEvaluation), y: sousCategories[0].moyenneGlobaleEval }
+            ];
+        break;
+        case 2:
+            dataEleveur = [
+                { x: lineBreaker(sousCategories[0].nomEvaluation), y: sousCategories[0].moyenneEval },
+                { x: lineBreaker(sousCategories[1].nomEvaluation), y: sousCategories[1].moyenneEval }
+            ];
+        
+            dataGlobale = [
+                { x: lineBreaker(sousCategories[0].nomEvaluation), y: sousCategories[0].moyenneGlobaleEval },
+                { x: lineBreaker(sousCategories[1].nomEvaluation), y: sousCategories[1].moyenneGlobaleEval }
+            ];
+        break;
+        case 3:
+            dataEleveur = [
+                { x: lineBreaker(sousCategories[0].nomEvaluation), y: sousCategories[0].moyenneEval },
+                { x: lineBreaker(sousCategories[1].nomEvaluation), y: sousCategories[1].moyenneEval },
+                { x: lineBreaker(sousCategories[2].nomEvaluation), y: sousCategories[2].moyenneEval }
+            ];
+        
+            dataGlobale = [
+                { x: lineBreaker(sousCategories[0].nomEvaluation), y: sousCategories[0].moyenneGlobaleEval },
+                { x: lineBreaker(sousCategories[1].nomEvaluation), y: sousCategories[1].moyenneGlobaleEval },
+                { x: lineBreaker(sousCategories[2].nomEvaluation), y: sousCategories[2].moyenneGlobaleEval }
+            ];
+        break;
+        default:
+        break;
+    };
 
     if (Platform.OS == 'android') {
         return (

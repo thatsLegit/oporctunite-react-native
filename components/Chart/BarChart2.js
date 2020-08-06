@@ -36,7 +36,7 @@ const BarChart2 = props => {
             ];
         
             dataGlobale = [
-                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg }
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneGlobaleSousCateg }
             ];
         break;
         case 2:
@@ -46,8 +46,8 @@ const BarChart2 = props => {
             ];
         
             dataGlobale = [
-                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
-                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg }
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneGlobaleSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneGlobaleSousCateg }
             ];
         break;
         case 3:
@@ -58,9 +58,9 @@ const BarChart2 = props => {
             ];
         
             dataGlobale = [
-                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
-                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg },
-                { x: lineBreaker(sousCategories[2].nomSousCateg), y: sousCategories[2].moyenneSousCateg }
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneGlobaleSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneGlobaleSousCateg },
+                { x: lineBreaker(sousCategories[2].nomSousCateg), y: sousCategories[2].moyenneGlobaleSousCateg }
             ];
         break;
         default:

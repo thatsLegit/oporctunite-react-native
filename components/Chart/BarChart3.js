@@ -37,7 +37,7 @@ const BarChart3 = props => {
             ];
         
             dataGlobale = [
-                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg }
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneGlobaleSousCateg }
             ];
         break;
         case 2:
@@ -47,8 +47,8 @@ const BarChart3 = props => {
             ];
         
             dataGlobale = [
-                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
-                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg }
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneGlobaleSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneGlobaleSousCateg }
             ];
         break;
         case 3:
@@ -59,9 +59,9 @@ const BarChart3 = props => {
             ];
         
             dataGlobale = [
-                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneSousCateg },
-                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneSousCateg },
-                { x: lineBreaker(sousCategories[2].nomSousCateg), y: sousCategories[2].moyenneSousCateg }
+                { x: lineBreaker(sousCategories[0].nomSousCateg), y: sousCategories[0].moyenneGlobaleSousCateg },
+                { x: lineBreaker(sousCategories[1].nomSousCateg), y: sousCategories[1].moyenneGlobaleSousCateg },
+                { x: lineBreaker(sousCategories[2].nomSousCateg), y: sousCategories[2].moyenneGlobaleSousCateg }
             ];
         break;
         default:
@@ -112,7 +112,7 @@ const BarChart3 = props => {
                                     target: "data",
                                     eventHandlers: {
                                         onPressOut: (event, data) => {
-                                            (data.key == "chart-group-2-bar-0-data-0") ? props.navigation.navigate('BilanEvaluation2Screen') : alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
+                                            (data.key == "chart-group-2-bar-0-data-1") ? props.navigation.navigate('BilanEvaluation2Screen') : alert("Pas de graphique disponible pour les évaluations de cette sous-catégorie.");
                                         },
                                     }
                                 }]}

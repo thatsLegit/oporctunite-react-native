@@ -145,7 +145,7 @@ const Bursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Image style={styles.photo1} source={require('../../../assets/img/evaluations/Bursite-photo1.png')} />
+                            <Image style={styles.photo} source={require('../../../assets/img/evaluations/Bursite-photo1.png')} />
                             <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>

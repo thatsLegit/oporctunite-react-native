@@ -24,8 +24,8 @@ const ProfilScreen = props => {
 
     const categHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
-        await dispatch(categActions.fetchSousCategByCateg());
         await dispatch(sousCategActions.fetchSousCateg(isConnected));
+        await dispatch(categActions.fetchSousCategByCateg());
         await evalActions.fetchEvaluations(token, maj, isConnected);
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
         await dispatch(evalActions.fetchLiaisons(isConnected));

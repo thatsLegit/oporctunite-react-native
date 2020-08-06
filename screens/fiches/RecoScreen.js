@@ -6,7 +6,7 @@ import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
 import * as bilanActions from '../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { dropBilan } from '../../helper/db/requetes';
+import { dropBilan, fetchMoyenneCategorieBilan } from '../../helper/db/requetes';
 import NetInfo from '@react-native-community/netinfo';
 
 
@@ -14,23 +14,25 @@ const RecoScreen = props => {
     const [isConnected, setIsConnected] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [categReco, setCategReco] = useState([]);
     const dispatch = useDispatch();
 
-    let categReco = [];
-    const noteCateg = useSelector(state => state.bilan.noteCateg);
-    const noteGlobaleCateg = useSelector(state => state.bilan.noteGlobaleCateg);
-
-    if (Object.keys(noteCateg).length == 4) {
-        for (const categ of Object.keys(noteCateg)) {
-            if (noteCateg[categ] < noteGlobaleCateg[categ]) {
-                categReco.push(categ);
-            }
-        }
-    }
-
-    console.log(noteCateg);
-
     const fichesReco = useSelector(state => Object.values(state.fiche.fiches).filter(fiche => categReco.includes(fiche.nomCategorieG)));
+
+    const recoHandler = useCallback(async () => {
+        await fetchMoyenneCategorieBilan().then(result => {
+            console.log(result.rows._array);
+            if (result.rows._array.length == 4) {
+                let liste = [];
+                for (const element of result.rows._array) {
+                    if (element.moyenneCateg < element.moyenneGlobaleCateg) {
+                        liste.push(element.nomCateg);
+                    }
+                }
+                setCategReco(liste);
+            }
+        });
+    }, []);
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
@@ -49,6 +51,10 @@ const RecoScreen = props => {
             }
         });
     }, [notesHandler, dispatch]);
+
+    useEffect(() => {
+        recoHandler();
+    }, [dispatch]);
 
 
     const fichesHandler = item => {

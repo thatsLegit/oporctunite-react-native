@@ -14,6 +14,7 @@ const RecoScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [categReco, setCategReco] = useState([]);
+    const [noReco, setNoReco] = useState(false);
     const { token, maj } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
@@ -29,6 +30,7 @@ const RecoScreen = props => {
                     }
                 }
                 setCategReco(liste);
+                liste.length == 0 ? setNoReco(true) : setNoReco(false);
             }
         });
     }, []);
@@ -118,7 +120,7 @@ const RecoScreen = props => {
         );
     }
 
-    if (!isConnected && categReco.length) {
+    if (!isConnected && !noReco && categReco.length != 0) {
         return (
             <View style={{ flex: 1 }}>
                 <View style={{ paddingVertical: 25, marginHorizontal: 5 }}>
@@ -136,7 +138,7 @@ const RecoScreen = props => {
         );
     }
 
-    if (isConnected && categReco.length) {
+    if (isConnected && !noReco && categReco.length != 0) {
         return (
             <View style={{ flex: 1 }}>
                 <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
@@ -156,18 +158,36 @@ const RecoScreen = props => {
         );
     }
 
-    return (
-        <View style={{ flex: 1 }}>
-            <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
-                <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
+    if (noReco) {
+        return (
+            <View style={{ flex: 1 }}>
+                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
+                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.commentaire}>
+                        Il semblerait que nous n'ayons pas de fiches à vous recommander pour le moment !
+                </Text>
+                </View>
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={styles.commentaire}>
-                    Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
-            </Text>
+        );
+    }
+
+    if (categReco.length == 0 && !noReco) {
+        return (
+            <View style={{ flex: 1 }}>
+                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
+                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.commentaire}>
+                        Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
+                </Text>
+                </View>
             </View>
-        </View>
-    )
+        );
+    }
+
 };
 
 

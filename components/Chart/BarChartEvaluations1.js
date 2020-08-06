@@ -68,6 +68,18 @@ const BarChartEvaluations1 = props => {
         break;
     };
 
+    if (isLoading) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner
+                    visible={isLoading}
+                    textContent={'Chargement'}
+                    textStyle={{ color: '#FFF' }}
+                />
+            </View>
+        );
+    }
+    
     if (Platform.OS == 'android') {
         return (
             <View style={styles.container}>

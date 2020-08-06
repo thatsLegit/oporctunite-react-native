@@ -5,9 +5,17 @@ import Colors from '../../../constants/Colors';
 const BilanCategorieScreen = props => {
     return (
         <View style={style.chartContainer}  >
-            <TouchableOpacity style={style.button} onPress={() => { props.navigation.navigate('Bilan') }}>
-                <Text style={style.buttonText}>Retour catégories</Text>
-            </TouchableOpacity>
+            
+            {props.retourCategorie==true
+                ? 
+                <TouchableOpacity style={style.button} onPress={() => {  props.navigation.navigate("BilanCategorie3Screen") }}>
+                    <Text style={style.buttonText}>Retour catégorie</Text>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity style={style.button} onPress={() => { props.navigation.navigate('Bilan') }}>
+                    <Text style={style.buttonText}>Retour catégories</Text>
+                </TouchableOpacity>
+            }
 
             <View style={style.chartCaption}>
                 <View style={style.label1Container}>

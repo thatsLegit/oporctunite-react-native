@@ -10,6 +10,7 @@ const BilanEvaluations1Screen = props => {
                     navigation = {props.navigation}
                 />
             } 
+            retourCategorie={true}
             navigation = {props.navigation}
         />
     );

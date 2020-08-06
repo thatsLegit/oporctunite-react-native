@@ -21,7 +21,6 @@ const RecoScreen = props => {
 
     const recoHandler = useCallback(async () => {
         await fetchMoyenneCategorieBilan().then(result => {
-            console.log(result.rows._array);
             if (result.rows._array.length == 4) {
                 let liste = [];
                 for (const element of result.rows._array) {
@@ -35,11 +34,16 @@ const RecoScreen = props => {
     }, []);
 
     const notesHandler = useCallback(async () => {
-        setIsRefreshing(true);
         await dropBilan();
         await dispatch(bilanActions.fetchBilanDatabase());
-        setIsRefreshing(false);
     }, [dispatch]);
+
+    const refreshHandler = () => {
+        setIsRefreshing(true);
+        notesHandler();
+        recoHandler();
+        setIsRefreshing(false);
+    };
 
     useEffect(() => {
         NetInfo.fetch().then(state => {
@@ -47,7 +51,10 @@ const RecoScreen = props => {
                 setIsLoading(false);
                 setIsConnected(false);
             } else {
-                notesHandler().then(() => setIsLoading(false));
+                setIsRefreshing(true);
+                notesHandler();
+                setIsLoading(false);
+                setIsRefreshing(false);
             }
         });
     }, [notesHandler, dispatch]);
@@ -119,7 +126,7 @@ const RecoScreen = props => {
                 <Table style={{ flex: 1 }}>
                     <FlatList
                         refreshing={isRefreshing}
-                        onRefresh={notesHandler}
+                        onRefresh={refreshHandler}
                         keyExtractor={item => item.titreFiche}
                         data={fichesReco}
                         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}

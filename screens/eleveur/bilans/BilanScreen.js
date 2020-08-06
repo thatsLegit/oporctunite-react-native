@@ -10,35 +10,31 @@ import { dropBilan } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
 import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
+
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
-    const [isConnected] = useState(true);
+    const [isConnected, setIsConnected] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [message, setMessage] = useState({});
     const [modal, setModal] = useState(false);
     const dispatch = useDispatch();
 
+    const modalCloser = () => setModal(false);
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
-        dropBilan();
+        await dropBilan();
         await dispatch(bilanActions.fetchBilanDatabase());
         setIsRefreshing(false);
     }, [dispatch]);
 
-    const horsLigneHandler = useCallback(async () => {
-        setIsRefreshing(true);
-        setIsRefreshing(false);
-    }, [dispatch]);
-
-    const modalCloser = () => setModal(false);
-
     useEffect(() => {
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
+                setIsConnected(false);
                 setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
                 setModal(true);
-                horsLigneHandler().then(() => setIsLoading(false));
+                setIsLoading(false);
             } else {
                 notesHandler().then(() => setIsLoading(false));
             }
@@ -77,6 +73,14 @@ const BilanScreen = props => {
                     <RadarChart />
                     <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
                 </View>
+                <ModalPopupInfo
+                    visible={modal}
+                    onClose={modalCloser}
+                    text={message.text}
+                    buttonText='Fermer'
+                    type={message.type}
+                    align={message.type == 'success' ? true : false}
+                />
             </ScrollView>
         );
     }
@@ -99,14 +103,6 @@ const BilanScreen = props => {
                 <RadarChart />
                 <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
             </View>
-            <ModalPopupInfo
-                visible={modal}
-                onClose={modalCloser}
-                text={message.text}
-                buttonText='Fermer'
-                type={message.type}
-                align={message.type == 'success' ? true : false}
-            />
         </ScrollView>
     );
 };

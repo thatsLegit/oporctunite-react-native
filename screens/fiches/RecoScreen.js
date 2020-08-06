@@ -6,7 +6,7 @@ import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
 import * as bilanActions from '../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { fetchBilan, dropBilan, fetchMoyenneCategorieBilan } from '../../helper/db/requetes';
+import { dropBilan } from '../../helper/db/requetes';
 import NetInfo from '@react-native-community/netinfo';
 
 
@@ -28,33 +28,21 @@ const RecoScreen = props => {
         }
     }
 
+    console.log(noteCateg);
+
     const fichesReco = useSelector(state => Object.values(state.fiche.fiches).filter(fiche => categReco.includes(fiche.nomCategorieG)));
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
-        await dispatch(bilanActions.fetchNoteCategories());
-        await dispatch(bilanActions.fetchNoteGlobaleCategories());
-        await dispatch(bilanActions.fetchNoteSousCategories());
-        await dispatch(bilanActions.fetchNoteGlobaleSousCategories());
-        await dispatch(bilanActions.fetchNoteEvaluations());
-        await dispatch(bilanActions.fetchNoteGlobaleEvaluations());
-        dropBilan();
+        await dropBilan();
         await dispatch(bilanActions.fetchBilanDatabase());
-        fetchBilan();
-        await fetchMoyenneCategorieBilan();
-        setIsRefreshing(false);
-    }, [dispatch]);
-
-    const horsLigneHandler = useCallback(async () => {
-        setIsRefreshing(true);
-        fetchBilan();
         setIsRefreshing(false);
     }, [dispatch]);
 
     useEffect(() => {
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
-                horsLigneHandler().then(() => setIsLoading(false));
+                setIsLoading(false);
                 setIsConnected(false);
             } else {
                 notesHandler().then(() => setIsLoading(false));

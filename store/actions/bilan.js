@@ -7,7 +7,7 @@ export const SET_NOTE_GLOBALE_SOUS_CATEG = 'SET_NOTE_GLOBALE_SOUS_CATEG';
 export const SET_NOTE_EVALUATIONS = 'SET_NOTE_EVALUATIONS';
 export const SET_NOTE_GLOBALE_EVALUATIONS = 'SET_NOTE_GLOBALE_EVALUATIONS';
 import { insertNoteGlobaleEvaluations } from '../../helper/db/requetes'
-import test from '../reducers/test';
+
 
 export const fetchNoteCategories = () => {
     return async (dispatch, getState) => {
@@ -134,7 +134,7 @@ export const fetchNoteEvaluations = () => {
         let loadedNoteEvaluations = {};
         resData.data.forEach(eva => {
             loadedNoteEvaluations = {
-                ...loadedNoteEvaluations,  [eva.idTest]: {[eva.nomEvaluation]: {[eva.dateT]: eva.valeur}}
+                ...loadedNoteEvaluations, [eva.idTest]: { [eva.nomEvaluation]: { [eva.dateT]: eva.valeur } }
             }
         });
 
@@ -182,10 +182,10 @@ export const fetchBilanDatabase = () => {
                 'Content-Type': 'application/json'
             }
         });
-        
+
         const resData = await response.json();
-        let Data=[];
-        let i =0;
+        let Data = [];
+        let i = 0;
         let loadedNoteGlobaleEvaluations = {};
         resData.data.forEach(test => {
             Data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];

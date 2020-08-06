@@ -5,7 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import HeaderButton from '../../components/UI/HeaderButton';
+import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
@@ -121,7 +121,7 @@ export const screenOptions = (navData) => {
     return {
         headerTitle: 'Profil',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Menu'
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}

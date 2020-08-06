@@ -1,39 +1,43 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
-import HeaderButton from '../../components/UI/HeaderButton';
+import PDFReader from 'rn-pdf-reader-js'
+import { CustomBackHeaderButton } from '../../components/UI/HeaderButton';
 
 
 const FicheScreen = props => {
     return (
-        <View>
-            <Text>
-                Fiche ...
-            </Text>
-            <Button title='Retour' onPress={() => { props.navigation.goBack() }} />
-        </View>
+        <PDFReader
+            source={{
+                uri: 'http://gahp.net/wp-content/uploads/2017/09/sample.pdf',
+            }}
+        />
     );
 };
 
 
-export const screenOptions = (navData) => {
+export const screenOptions = navData => {
     return {
-        headerTitle: 'Rechercher une fiche',
+        headerTitle: navData.route.params.fiche.titreFiche,
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomBackHeaderButton}>
                 <Item
-                    title='Menu'
-                    iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
-                    onPress={() => navData.navigation.toggleDrawer()}
+                    title='Retour'
+                    iconName='back'
+                    onPress={() => navData.navigation.goBack()}
+                />
+            </HeaderButtons>
+        ),
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomBackHeaderButton}>
+                <Item
+                    title='favoris'
+                    iconName='heart-outlined'
+                    onPress={() => { }}
                 />
             </HeaderButtons>
         )
     };
 };
-
-const styles = StyleSheet.create({
-});
 
 
 export default FicheScreen;

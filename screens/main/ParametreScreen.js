@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import HeaderButton from '../../components/UI/HeaderButton';
+import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import * as authActions from '../../store/actions/auth';
 import Colors from '../../constants/Colors';
 
@@ -46,7 +46,7 @@ export const screenOptions = (navData) => {
     return {
         headerTitle: 'Paramètres',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Menu'
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}

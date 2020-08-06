@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, Button, Platform, RefreshControl, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import RadarChart from '../../../components/Chart/RadarChart';
-import HeaderButton from '../../../components/UI/HeaderButton';
+import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
 import * as bilanActions from '../../../store/actions/bilan';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { fetchBilan, dropBilan, fetchMoyenneSousCategorieBilan } from '../../../helper/db/requetes'
@@ -12,6 +12,7 @@ import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupIn
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
+    const [isConnected, setIsConnected] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [message, setMessage] = useState({});
     const [modal, setModal] = useState(false);
@@ -43,9 +44,14 @@ const BilanScreen = props => {
     useEffect(() => {
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
+<<<<<<< HEAD
                 setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
                 setModal(true);
                 horsLigneHandler().then(() => setIsLoading(false));;
+=======
+                horsLigneHandler().then(() => setIsLoading(false));
+                setIsConnected(false);
+>>>>>>> recommandations de fiches fonctionnelles et ecran de visualisation des fiches
             } else {
                 notesHandler().then(() => setIsLoading(false)); // Vide et remplie la table Bilan
             }
@@ -62,6 +68,29 @@ const BilanScreen = props => {
                     textStyle={{ color: '#FFF' }}
                 />
             </View>
+        );
+    }
+
+    if (!isConnected) {
+        return (
+            <ScrollView>
+                <View style={styles.chartContainer}>
+                    <View style={styles.chartCaption}>
+                        <Text style={styles.chartText}>Graphique comparatif</Text>
+
+                        <View style={styles.label1Container}>
+                            <View style={styles.label1}></View>
+                            <Text>Résultats de mon elevage</Text>
+                        </View>
+                        <View style={styles.label2Container}>
+                            <View style={styles.label2}></View>
+                            <Text>Moyenne des eleveurs</Text>
+                        </View>
+                    </View>
+                    <RadarChart />
+                    <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
+                </View>
+            </ScrollView>
         );
     }
 
@@ -100,7 +129,7 @@ export const screenOptions = (navData) => {
     return {
         headerTitle: 'Bilan',
         headerLeft: () => (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
                     title='Menu'
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}

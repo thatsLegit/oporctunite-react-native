@@ -159,7 +159,7 @@ const ComportementSocial = props => {
                     <View style={{ flex: 1 }}>
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingBottom: 15 }}>
+                                <Text style={{ ...styles.text, paddingBottom: 15, left: 5 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Nombre d'animaux montrant un comportement social positif {" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -176,7 +176,7 @@ const ComportementSocial = props => {
 
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingVertical: 15 }}>
+                                <Text style={{ ...styles.text, paddingVertical: 15, left: 5 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Nombre d'animaux montrant un comportement social négatif {" "}
                                     <TouchableWithoutFeedback onPress={() => {
@@ -192,7 +192,7 @@ const ComportementSocial = props => {
                         </View>
 
                         {pageActuelle < page &&
-                            <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
                                 <Shadow style={styles.button}>
                                     <TouchableOpacity onPress={() => {
                                         if (count == 0 && count2 == 0) {
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         borderRadius: 10,
-        marginTop: 50
+        marginTop: 40
     },
     buttonText: {
         color: 'white',

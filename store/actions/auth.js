@@ -1,6 +1,7 @@
 var jwtDecode = require('jwt-decode');
 import { AsyncStorage } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
+import { dropTests, dropEvaluation, dropBilan, dropFiches, dropLiaisons, dropCategorieP, dropCategorieG } from '../../helper/db/requetes';
 
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
@@ -39,6 +40,8 @@ export const authenticate = (idutilisateur, token, forceUpdate) => {
 };
 
 export const logout = () => {
+    //creat sqlite
+    dropTests(); dropEvaluation(); dropBilan(); dropFiches(); dropLiaisons(); dropCategorieP(); dropCategorieG();
     AsyncStorage.removeItem('userData'); //clear local storage token
     return { type: LOGOUT }; //clear redux state
 };

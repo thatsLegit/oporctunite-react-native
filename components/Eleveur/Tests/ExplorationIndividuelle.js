@@ -165,7 +165,7 @@ const ExplorationIndividuelle = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre total d'animaux dans l'enclos
                             </Text>
@@ -177,7 +177,7 @@ const ExplorationIndividuelle = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre d'animaux explorant l'enclos (S)
                             </Text>
@@ -189,7 +189,7 @@ const ExplorationIndividuelle = props => {
 
                         <View>
                             <View>
-                                <Text style={styles.text}>
+                                <Text style={{ ...styles.text, paddingTop: 10 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre d'animaux explorant le matériel (E)
                             </Text>
@@ -200,7 +200,7 @@ const ExplorationIndividuelle = props => {
                         </View>
 
                         {pageActuelle < page &&
-                            <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 30 }}>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
                                 <Shadow style={styles.button}>
                                     <TouchableOpacity onPress={() => {
                                         if (count == 0 && count2 == 0) {
@@ -261,8 +261,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'open-sans',
-        fontSize: 17,
-        paddingVertical: 10
+        fontSize: 17
     },
     bigText: {
         fontFamily: 'open-sans-bold',

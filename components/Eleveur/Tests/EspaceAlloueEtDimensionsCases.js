@@ -40,13 +40,13 @@ const EspaceAlloueEtDimensionsCases = props => {
         const syncNotes = [...notes, note];
         const noteFinale = syncNotes.reduce((sum, n) => sum + n, 0) / syncNotes.length;
         await dispatch(testActions.ajouterTest(noteFinale, evaluation.nomEvaluation));
-        
+
         const noteDimensionCase = adequat ? 10 : 0;
         console.log(noteDimensionCase);
         const syncNotes2 = [...notes2, noteDimensionCase];
         console.log(notes2);
         console.log(syncNotes2);
-        const noteFinaleDim = syncNotes2[1]!=undefined?(syncNotes2[0] + syncNotes2[1]) / syncNotes2.length:syncNotes2[0];
+        const noteFinaleDim = syncNotes2[1] != undefined ? (syncNotes2[0] + syncNotes2[1]) / syncNotes2.length : syncNotes2[0];
         console.log(noteFinaleDim);
         await dispatch(testActions.ajouterTest(noteFinaleDim, evaluation2.nomEvaluation));
 
@@ -282,11 +282,17 @@ const styles = StyleSheet.create({
     dimensionCases: {
         alignItems: 'center'
     },
+    demarrage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 80
+    },
     innerDemarrage: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        paddingBottom: 50
+        justifyContent: 'center'
     },
     innerEspaceAlloue: {
         flexDirection: 'row',
@@ -310,12 +316,6 @@ const styles = StyleSheet.create({
     photo: {
         height: Dimensions.get('window').height / 4,
         width: Dimensions.get('window').width / 1.3
-    },
-    demarrage: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 80
     },
     text: {
         fontFamily: 'open-sans',

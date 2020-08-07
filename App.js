@@ -15,7 +15,6 @@ import authReducer from './store/reducers/auth';
 import ficheReducer from './store/reducers/fiche';
 
 import { createDB } from './helper/db/init';
-import { dropTests, dropEvaluation, dropBilan, dropFiches, dropLiaisons, dropCategorieP, dropCategorieG } from './helper/db/requetes';
 
 
 createDB().then(() => {
@@ -24,9 +23,6 @@ createDB().then(() => {
   console.log('Initializing db failed.');
   console.log(err);
 });
-
-//Delete if needed :
-//dropTests(); dropEvaluation(); dropBilan(); dropFiches(); dropLiaisons(); dropCategorieP(); dropCategorieG();
 
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,

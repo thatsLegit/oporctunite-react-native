@@ -85,7 +85,7 @@ export const fetchLiaisons = isConnected => {
                 loadedLiaisons = {
                     ...loadedLiaisons, [liaison.idLiaison]: new Liaison(
                         liaison.idLiaison,
-                        liaison.NomEvalDouble
+                        liaison.nomEvalDouble
                     )
                 }
             }

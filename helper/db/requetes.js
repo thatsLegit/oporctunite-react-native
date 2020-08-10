@@ -609,8 +609,8 @@ export const fetchMoyenneEvaluationParSousCategorieBilan = nomSousCateg => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-     
-                'SELECT nomEvaluation, moyenneGlobaleEval, moyenneEval FROM Bilan WHERE nomSousCateg = ? AND moyenneEval<>"null" GROUP BY nomEvaluation;',
+
+                'SELECT nomEvaluation, moyenneGlobaleEval, CASE WHEN AVG(noteEval) == "null" THEN 0 ELSE AVG(noteEval) END AS moyenneEval FROM Bilan WHERE nomSousCateg = ? GROUP BY nomEvaluation;',
                 [nomSousCateg], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);

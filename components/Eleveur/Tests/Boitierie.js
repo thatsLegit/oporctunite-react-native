@@ -11,7 +11,7 @@ import * as testActions from '../../../store/actions/test';
 
 const Boiterie = props => {
 
-    const { modalInfo, evaluation, confirmation, navigation, nomEvaluation, Vtype } = props;
+    const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
@@ -28,7 +28,7 @@ const Boiterie = props => {
     const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, nomEvaluation));
+        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
 
         if (Vtype == 'valider') {
             modalConfirmationCloser();

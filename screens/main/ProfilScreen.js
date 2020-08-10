@@ -101,7 +101,7 @@ const ProfilScreen = props => {
     return (
         <View>
             <Text style={{ textAlign: "center", paddingVertical: 10 }}>
-                Jeudi 6 août, mode hors ligne
+                Vendredi 7 août 14H00, mode hors ligne corrigé
             </Text>
             <Button title='Paramètres' onPress={() => { props.navigation.navigate('Parametre') }} />
             <ModalPopupInfo

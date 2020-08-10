@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, useWindowDimensions, Text, Button} from 'react-native';
 import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 import { lineBreaker } from '../../helper/LineBreaker';
 import { fetchMoyenneCategorieBilan } from "../../helper/db/requetes"
@@ -9,15 +9,22 @@ const RadarChart = props => {
 
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isNull, setIsNull] = useState(false);
 
     const majCategories = useCallback(async () => {
         const result = await fetchMoyenneCategorieBilan();
-
         if (!result.rows._array || !result.rows._array.length) {
             return;
         }
-        setCategories(result.rows._array);
-        setIsLoading(false);
+        if (result.rows._array.length != 4) {
+            setIsNull(true);
+            setIsLoading(false);
+        }else{
+            setCategories(result.rows._array);
+            setIsLoading(false);
+        }
+   
+        
     }, []);
 
     useEffect(() => {
@@ -102,6 +109,21 @@ const RadarChart = props => {
         );
     }
 
+    if (isNull) {
+        return (
+            <View style={{ flex: 1 }}>
+                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
+                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={styles.commentaire}>
+                        Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
+                </Text>
+                </View>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <VictoryChart
@@ -154,12 +176,19 @@ const RadarChart = props => {
 
                 />
             </VictoryChart>
+
+            <Button title='Plus de détails' onPress={ ()=>{props.navigation()}} />
         </View>
 
     );
 }
 
 const styles = StyleSheet.create({
+    commentaire: {
+        textAlign: 'center',
+        fontSize: 14,
+        fontFamily: 'open-sans'
+    },
     container: {
         flex: 10,
         justifyContent: 'center',

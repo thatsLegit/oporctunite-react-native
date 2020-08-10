@@ -123,8 +123,10 @@ const BilanScreen = props => {
                         <Text>Moyenne des eleveurs</Text>
                     </View>
                 </View>
-                <RadarChart />
-                <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
+                <RadarChart 
+                    navigation= {() => props.navigation.navigate('BilanCategorieScreen')}
+                />              
+                
             </View>
         </ScrollView>
     );

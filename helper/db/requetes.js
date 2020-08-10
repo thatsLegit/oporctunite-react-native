@@ -571,7 +571,7 @@ export const fetchMoyenneCategorieBilan = () => {
         db.transaction((tx) => {
             tx.executeSql(
                 // Attention bien "null" et pas null
-                'SELECT DISTINCT nomCateg, moyenneGlobaleCateg, CASE WHEN moyenneCateg == "null" THEN 0 ELSE moyenneCateg END AS moyenneCateg FROM Bilan GROUP BY nomCateg;',
+                'SELECT DISTINCT nomCateg, moyenneGlobaleCateg, moyenneCateg FROM Bilan WHERE moyenneCateg<>"null" GROUP BY nomCateg;',
                 [], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);
@@ -590,7 +590,7 @@ export const fetchMoyenneSousCategorieBilan = nomCategorie => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'SELECT DISTINCT nomSousCateg, moyenneGlobaleSousCateg, CASE WHEN moyenneSousCateg == "null" THEN 0 ELSE moyenneSousCateg END AS moyenneSousCateg FROM Bilan WHERE nomCateg==? GROUP BY nomSousCateg;',
+                'SELECT DISTINCT nomSousCateg, moyenneGlobaleSousCateg, moyenneSousCateg FROM Bilan WHERE nomCateg==? AND moyenneSousCateg<>"null" GROUP BY nomSousCateg;',
                 [nomCategorie], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);
@@ -610,7 +610,7 @@ export const fetchMoyenneEvaluationParSousCategorieBilan = nomSousCateg => {
         db.transaction((tx) => {
             tx.executeSql(
      
-                'SELECT nomEvaluation, moyenneGlobaleEval, CASE WHEN AVG(noteEval) == "null" THEN 0 ELSE AVG(noteEval) END AS moyenneEval FROM Bilan WHERE nomSousCateg = ? GROUP BY nomEvaluation;',
+                'SELECT nomEvaluation, moyenneGlobaleEval, moyenneEval FROM Bilan WHERE nomSousCateg = ? AND moyenneEval<>"null" GROUP BY nomEvaluation;',
                 [nomSousCateg], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);

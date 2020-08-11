@@ -86,12 +86,16 @@ const TestScreen = props => {
             || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus rectal'
             || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus utérin') {
             setNeedInfo(false);
+        } else {
+            if (!needInfo) { setNeedInfo(true) }
         }
         //Rajouté pour les évals doubles
         if (nextSelectedEvaluation && nextSelectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas'
             || nextSelectedEvaluation && nextSelectedEvaluation.nomEvaluation == 'Prolapsus rectal'
             || nextSelectedEvaluation && nextSelectedEvaluation.nomEvaluation == 'Prolapsus utérin') {
             setNeedInfo2(false);
+        } else {
+            if (!needInfo2) { setNeedInfo(true) }
         }
     }, [selectedEvaluation]);
 

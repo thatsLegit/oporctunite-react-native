@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Platform, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Platform, FlatList, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { dropBilan, fetchMoyenneCategorieBilan, insertNoteGlobaleEvaluations } from '../../helper/db/requetes';
 import NetInfo from '@react-native-community/netinfo';
+import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
 const RecoScreen = props => {
@@ -14,9 +15,13 @@ const RecoScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [categReco, setCategReco] = useState([]);
+    const [modal, setModal] = useState(false);
+    const [message, setMessage] = useState({});
     const [noReco, setNoReco] = useState(false);
-    const { token, maj } = useSelector(state => state.auth);
+    const { token } = useSelector(state => state.auth);
     const dispatch = useDispatch();
+
+    const modalCloser = () => setModal(false);
 
     const fichesReco = useSelector(state => Object.values(state.fiche.fiches).filter(fiche => categReco.includes(fiche.nomCategorieG)));
 
@@ -36,7 +41,6 @@ const RecoScreen = props => {
     }, []);
 
     const majBilan = useCallback(async () => {
-
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
         const bearer = 'Bearer ' + token;
 
@@ -56,7 +60,6 @@ const RecoScreen = props => {
             i++;
         });
         insertNoteGlobaleEvaluations(Data);
-
     }, []);
 
 
@@ -65,10 +68,20 @@ const RecoScreen = props => {
         await majBilan();
     }, [dispatch]);
 
-    const refreshHandler = () => {
+    const refreshHandler = async () => {
         setIsRefreshing(true);
-        notesHandler();
-        recoHandler();
+
+        const connect = await NetInfo.fetch();
+        if (!connect.isConnected) {
+            setIsConnected(false);
+            setMessage({ text: 'Aucune connexion', type: 'danger' });
+            setModal(true);
+        } else {
+            await dropBilan();
+            await majBilan();
+            setIsConnected(true);
+        }
+
         setIsRefreshing(false);
     };
 
@@ -120,30 +133,14 @@ const RecoScreen = props => {
         );
     }
 
-    if (!isConnected && !noReco && categReco.length != 0) {
-        return (
-            <View style={{ flex: 1 }}>
-                <View style={{ paddingVertical: 25, marginHorizontal: 5 }}>
-                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
-                </View>
-                <Table style={{ flex: 1 }}>
-                    <FlatList
-                        keyExtractor={item => item.titreFiche}
-                        data={fichesReco}
-                        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-                        renderItem={(itemData) => fichesHandler(itemData.item)}
-                    />
-                </Table>
+    //Pas connecté
+    return (
+        <View style={{ flex: 1 }}>
+            <View style={{ paddingVertical: 25, marginHorizontal: 5 }}>
+                <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
             </View>
-        );
-    }
-
-    if (isConnected && !noReco && categReco.length != 0) {
-        return (
-            <View style={{ flex: 1 }}>
-                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
-                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
-                </View>
+            {/* Toutes les notes et y'a des recommandations */}
+            {categReco.length == 4 && !noReco && (
                 <Table style={{ flex: 1 }}>
                     <FlatList
                         refreshing={isRefreshing}
@@ -154,39 +151,36 @@ const RecoScreen = props => {
                         renderItem={(itemData) => fichesHandler(itemData.item)}
                     />
                 </Table>
-            </View>
-        );
-    }
-
-    if (noReco) {
-        return (
-            <View style={{ flex: 1 }}>
-                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
-                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
-                </View>
+            )}
+            {/* Pas toutes les notes */}
+            {categReco.length == 0 && !noReco && (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={styles.commentaire}>
-                        Il semblerait que nous n'ayons pas de fiches à vous recommander pour le moment !
-                </Text>
+                    <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
+                        <Text style={styles.commentaire}>
+                            Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
+                        </Text>
+                    </ScrollView>
                 </View>
-            </View>
-        );
-    }
-
-    if (categReco.length == 0 && !noReco) {
-        return (
-            <View style={{ flex: 1 }}>
-                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
-                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
-                </View>
+            )}
+            {/* Y'a toutes les notes mais pas de recommandations (notes trop elevées) */}
+            {noReco && (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={styles.commentaire}>
-                        Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
-                </Text>
+                    <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
+                        <Text style={styles.commentaire}>
+                            Il semblerait que nous n'ayons pas de fiches à vous recommander pour le moment !
+                        </Text>
+                    </ScrollView>
                 </View>
-            </View>
-        );
-    }
+            )}
+            <ModalPopupInfo
+                visible={modal}
+                onClose={modalCloser}
+                text={message.text}
+                buttonText='Fermer'
+                type={message.type}
+            />
+        </View>
+    );
 
 };
 

@@ -11,14 +11,13 @@ const RadarChart = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isNull, setIsNull] = useState(false);
     const { isRefreshing } = props;
-    
+
     const majCategories = useCallback(async () => {
-        
+
         const result = await fetchMoyenneCategorieBilan();
-        console.log(result.rows._array);
         if (result.rows._array.length != 4) {
             setIsNull(true);
-            setIsLoading(false);         
+            setIsLoading(false);
         } else {
             setIsNull(false);
             setCategories(result.rows._array);
@@ -109,12 +108,9 @@ const RadarChart = props => {
     if (isNull) {
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ paddingVertical: 30, marginHorizontal: 5 }}>
-                    <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
-                </View>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={styles.commentaire}>
-                        Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
+                        Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des graphiques personnalisées !
                 </Text>
                 </View>
             </View>

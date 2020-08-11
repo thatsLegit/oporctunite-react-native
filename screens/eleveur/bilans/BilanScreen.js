@@ -1,25 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Platform, RefreshControl, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Platform, RefreshControl, ScrollView, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import RadarChart from '../../../components/Chart/RadarChart';
 import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { dropBilan, insertNoteGlobaleEvaluations } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
-import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
 const BilanScreen = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isConnected, setIsConnected] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const [message, setMessage] = useState({});
-    const [modal, setModal] = useState(false);
     const { token } = useSelector(state => state.auth);
     const dispatch = useDispatch();
-
-    const modalCloser = () => setModal(false);
 
     const majBilan = useCallback(async () => {
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
@@ -45,22 +40,28 @@ const BilanScreen = props => {
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
-        await dropBilan();
-        await majBilan();
-        setIsRefreshing(false);
-    }, [dispatch]);
-
-    useEffect(() => {
+        
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
                 setIsConnected(false);
-                setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
-                setModal(true);
-                setIsLoading(false);
+                Alert.alert("Attention", "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.")
             } else {
-                notesHandler().then(() => setIsLoading(false));
+                setIsConnected(true);
             }
         });
+        if (isConnected) {
+            await dropBilan();
+            await majBilan();
+        }
+        
+        setIsRefreshing(false);
+        
+    }, [dispatch]);
+
+    useEffect(() => {
+        
+        notesHandler().then(() => setIsLoading(false));
+           
     }, [notesHandler, dispatch]);
 
 
@@ -96,14 +97,6 @@ const BilanScreen = props => {
                         navigation={() => props.navigation.navigate('BilanCategorieScreen')}
                     />
                 </View>
-                <ModalPopupInfo
-                    visible={modal}
-                    onClose={modalCloser}
-                    text={message.text}
-                    buttonText='Fermer'
-                    type={message.type}
-                    align={message.type == 'success' ? true : false}
-                />
             </ScrollView>
         );
     }

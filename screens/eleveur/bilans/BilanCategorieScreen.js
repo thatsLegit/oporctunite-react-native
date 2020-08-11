@@ -1,8 +1,12 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React,{useState} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Colors from '../../../constants/Colors';
-
+import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import { EvilIcons } from '@expo/vector-icons';
 const BilanCategorieScreen = props => {
+
+    const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
+    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
     return (
         <View style={style.chartContainer}  >
             
@@ -18,9 +22,15 @@ const BilanCategorieScreen = props => {
             }
 
             <View style={style.chartCaption}>
+                
                 <View style={style.label1Container}>
                     <View style={style.label1}></View>
                     <Text>Résultats de mon elevage</Text>
+                    <TouchableWithoutFeedback onPress={() => {
+                    setModalEchantillonVisible(true);
+                }}>
+                    <EvilIcons name="question" size={30} color="black" />
+                </TouchableWithoutFeedback>
                 </View>
                 <View style={style.label2Container}>
                     <View style={style.label2}></View>
@@ -28,6 +38,12 @@ const BilanCategorieScreen = props => {
                 </View>
             </View>
             {props.chart}
+            <ModalPopupInfo
+                visible={modalEchantillonVisible}
+                onClose={modalEchantillonCloser}
+                text="Cliquer sur la barre bleue d'une sous catégorie ou évaluation pour voir plus de détails."
+                buttonText='Fermer'
+            />
         </View>
     );
 };

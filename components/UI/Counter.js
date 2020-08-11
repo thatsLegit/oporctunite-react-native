@@ -11,8 +11,8 @@ const Counter = props => {
     const { max, reinitialiser } = props;
 
     useEffect(() => {
-        reinitialiser && setCount('0');
-    }, [reinitialiser])
+        setCount('0');
+    }, [reinitialiser]);
 
     const plus = () => {
         if (max && parseInt(count) + 1 > max) {

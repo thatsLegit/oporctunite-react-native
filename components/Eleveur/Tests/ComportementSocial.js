@@ -203,7 +203,7 @@ const ComportementSocial = props => {
                                         setNotes([...notes, Math.round(((count / (count + count2)) * 10 + Number.EPSILON) * 10) / 10]);
                                         setCount(0);
                                         setCount2(0);
-                                        setInit(true);
+                                        setInit(!init);
                                     }}>
                                         <Shadow>
                                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>

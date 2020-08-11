@@ -212,7 +212,7 @@ const ExplorationIndividuelle = props => {
                                         setCount(0);
                                         setCount2(0);
                                         setCount3(0);
-                                        setInit(true);
+                                        setInit(!init);
                                     }}>
                                         <Shadow>
                                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>

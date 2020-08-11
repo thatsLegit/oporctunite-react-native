@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button, Platform, RefreshControl, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Platform, RefreshControl, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import RadarChart from '../../../components/Chart/RadarChart';
 import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
@@ -16,13 +16,12 @@ const BilanScreen = props => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [message, setMessage] = useState({});
     const [modal, setModal] = useState(false);
-    const { token, maj } = useSelector(state => state.auth);
+    const { token } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     const modalCloser = () => setModal(false);
 
     const majBilan = useCallback(async () => {
-
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
         const bearer = 'Bearer ' + token;
 
@@ -42,7 +41,7 @@ const BilanScreen = props => {
             i++;
         });
         insertNoteGlobaleEvaluations(Data);
-    }, []);
+    }, [dispatch]);
 
     const notesHandler = useCallback(async () => {
         setIsRefreshing(true);
@@ -83,7 +82,6 @@ const BilanScreen = props => {
                 <View style={styles.chartContainer}>
                     <View style={styles.chartCaption}>
                         <Text style={styles.chartText}>Graphique comparatif</Text>
-
                         <View style={styles.label1Container}>
                             <View style={styles.label1}></View>
                             <Text>Résultats de mon elevage</Text>
@@ -93,8 +91,10 @@ const BilanScreen = props => {
                             <Text>Moyenne des eleveurs</Text>
                         </View>
                     </View>
-                    <RadarChart />
-                    <Button title='Plus de détails' onPress={() => { props.navigation.navigate('BilanCategorieScreen') }} />
+                    <RadarChart
+                        isRefreshing={isRefreshing}
+                        navigation={() => props.navigation.navigate('BilanCategorieScreen')}
+                    />
                 </View>
                 <ModalPopupInfo
                     visible={modal}
@@ -113,7 +113,6 @@ const BilanScreen = props => {
             <View style={styles.chartContainer}>
                 <View style={styles.chartCaption}>
                     <Text style={styles.chartText}>Graphique comparatif</Text>
-
                     <View style={styles.label1Container}>
                         <View style={styles.label1}></View>
                         <Text>Résultats de mon elevage</Text>
@@ -123,10 +122,10 @@ const BilanScreen = props => {
                         <Text>Moyenne des eleveurs</Text>
                     </View>
                 </View>
-                <RadarChart 
-                    navigation= {() => props.navigation.navigate('BilanCategorieScreen')}
-                />              
-                
+                <RadarChart
+                    isRefreshing={isRefreshing}
+                    navigation={() => props.navigation.navigate('BilanCategorieScreen')}
+                />
             </View>
         </ScrollView>
     );

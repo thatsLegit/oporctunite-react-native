@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, StyleSheet, useWindowDimensions, Text, Button} from 'react-native';
+import { View, StyleSheet, useWindowDimensions, Text, Button } from 'react-native';
 import { VictoryChart, VictoryGroup, VictoryArea, VictoryPolarAxis, VictoryLabel } from "victory-native";
 import { lineBreaker } from '../../helper/LineBreaker';
 import { fetchMoyenneCategorieBilan } from "../../helper/db/requetes"
@@ -10,6 +10,7 @@ const RadarChart = props => {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isNull, setIsNull] = useState(false);
+    const { isRefreshing } = props;
 
     const majCategories = useCallback(async () => {
         const result = await fetchMoyenneCategorieBilan();
@@ -19,19 +20,15 @@ const RadarChart = props => {
         if (result.rows._array.length != 4) {
             setIsNull(true);
             setIsLoading(false);
-        }else{
+        } else {
             setCategories(result.rows._array);
             setIsLoading(false);
         }
-   
-        
     }, []);
 
     useEffect(() => {
-
         majCategories();
-
-    }, []);
+    }, [isRefreshing]);
 
 
     var UserData = [];
@@ -177,7 +174,7 @@ const RadarChart = props => {
                 />
             </VictoryChart>
 
-            <Button title='Plus de détails' onPress={ ()=>{props.navigation()}} />
+            <Button title='Plus de détails' onPress={() => { props.navigation() }} />
         </View>
 
     );

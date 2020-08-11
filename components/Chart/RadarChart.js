@@ -11,16 +11,16 @@ const RadarChart = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [isNull, setIsNull] = useState(false);
     const { isRefreshing } = props;
-
+    
     const majCategories = useCallback(async () => {
+        
         const result = await fetchMoyenneCategorieBilan();
-        if (!result.rows._array || !result.rows._array.length) {
-            return;
-        }
+        console.log(result.rows._array);
         if (result.rows._array.length != 4) {
             setIsNull(true);
-            setIsLoading(false);
+            setIsLoading(false);         
         } else {
+            setIsNull(false);
             setCategories(result.rows._array);
             setIsLoading(false);
         }

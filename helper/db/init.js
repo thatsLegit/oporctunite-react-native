@@ -11,10 +11,6 @@ export const createDB = async () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                `CREATE TABLE IF NOT EXISTS Test_${idutilisateur}(dateTest DATETIME NOT NULL DEFAULT (datetime('now','localtime')),nomEvaluation VARCHAR(100) NOT NULL,noteEval DECIMAL(3,1) NOT NULL,PRIMARY KEY(dateTest, nomEvaluation),FOREIGN KEY(nomEvaluation) REFERENCES Evaluation(nomEvaluation));`,
-                []
-            );
-            tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS Evaluation(nomEvaluation VARCHAR(50),description TEXT,nbTruies INT,priorite INT NOT NULL,idLiaison INT NOT NULL,nomCategorieP VARCHAR(50) NOT NULL,PRIMARY KEY(nomEvaluation),FOREIGN KEY(idLiaison) REFERENCES Liaisons(idLiaison),FOREIGN KEY(nomCategorieP) REFERENCES Categorie_P(nomCategorieP));',
                 []
             );

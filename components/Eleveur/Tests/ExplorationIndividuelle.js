@@ -84,11 +84,19 @@ const ExplorationIndividuelle = props => {
     }
 
     useEffect(() => {
+        //Tout est OK.
         setModalInfoVisible(modalInfo);
-        if (confirmation && pageActuelle == page && count3 != 0) {
+        if (confirmation && pageActuelle == page && count != 0 && count >= (count2 + count3)) {
             setModalConfirmation(confirmation);
             return;
-        } if (confirmation) {
+        }
+        //Faire validation des inputs ici pour le dernier groupe
+        if (confirmation && (count == 0 || count < (count2 + count3))) {
+            modalConfirmationCloser();
+            return Alert.alert('Erreur', `Veuillez renseigner tous les champs avant de valider.`, [{ text: 'Compris', style: 'destructive' }]);
+        }
+        //Cas foireux
+        if (confirmation) {
             modalConfirmationCloser();
             Alert.alert('Erreur', `Veuillez évaluer vos ${page} groupes avant de continuer.`, [{ text: 'Compris', style: 'destructive' }]);
         }
@@ -120,6 +128,7 @@ const ExplorationIndividuelle = props => {
                                 maxLength={3}
                             />
                         </InputBorder>
+                        <View style={{ marginBottom: 50 }}></View>
                         {(Platform.OS == 'android' ? noKeyboard : true) && (
                             <Shadow style={styles.button}>
                                 <TouchableOpacity onPress={() => start()}>
@@ -174,45 +183,60 @@ const ExplorationIndividuelle = props => {
 
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingTop: 10 }}>
+                                <Text style={{ ...styles.text, paddingTop: 25, paddingBottom: 5 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre total d'animaux dans l'enclos
                             </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={null} reinitialiser={init} />
+                                <Counter
+                                    onChange={changeHandler}
+                                    max={null}
+                                    reinitialiser={init}
+                                    onKeyboardChange={keyboardHandler}
+                                />
                             </View>
                         </View>
 
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingTop: 10 }}>
+                                <Text style={{ ...styles.text, paddingTop: 10, paddingBottom: 5 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre d'animaux explorant l'enclos (S)
                             </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={null} reinitialiser={init} />
+                                <Counter
+                                    onChange={changeHandler2}
+                                    max={null}
+                                    reinitialiser={init}
+                                    onKeyboardChange={keyboardHandler}
+                                />
                             </View>
                         </View>
 
                         <View>
                             <View>
-                                <Text style={{ ...styles.text, paddingTop: 10 }}>
+                                <Text style={{ ...styles.text, paddingTop: 10, paddingBottom: 5 }}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Nombre d'animaux explorant le matériel (E)
                             </Text>
                             </View>
-                            <View style={styles.counter}>
-                                <Counter onChange={changeHandler3} max={null} reinitialiser={init} />
+                            <View style={{ ...styles.counter, paddingBottom: 40 }}>
+                                <Counter
+                                    onChange={changeHandler3}
+                                    max={null}
+                                    reinitialiser={init}
+                                    onKeyboardChange={keyboardHandler}
+                                />
                             </View>
                         </View>
 
-                        {pageActuelle < page &&
+                        {(Platform.OS == 'android' ? noKeyboard : true) && pageActuelle < page &&
                             <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
                                 <Shadow style={styles.button}>
                                     <TouchableOpacity onPress={() => {
-                                        if (count == 0 && count2 == 0) {
+                                        if (count == 0 || count < (count2 + count3)) {
                                             Alert.alert('Erreur', `Veuillez renseigner tous les champs avant de valider.`, [{ text: 'Compris', style: 'destructive' }]);
                                             return;
                                         }
@@ -270,7 +294,8 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'open-sans',
-        fontSize: 17
+        fontSize: 17,
+        paddingHorizontal: 10
     },
     bigText: {
         fontFamily: 'open-sans-bold',
@@ -284,7 +309,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         borderRadius: 10,
-        marginTop: 50
+        marginBottom: 30
     },
     buttonText: {
         color: 'white',

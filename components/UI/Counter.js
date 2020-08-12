@@ -31,6 +31,7 @@ const Counter = props => {
     };
 
     const numberInputHandler = () => {
+        props.onKeyboardChange(true);
         if (max && parseInt(count) > max) {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
             setCount(modifyCounter.current);
@@ -55,7 +56,10 @@ const Counter = props => {
     };
 
     const changeTextEventHandler = num => setCount(num);
-    const saveCountBeforeModify = () => modifyCounter.current = count;
+    const saveCountBeforeModify = () => {
+        props.onKeyboardChange(false);
+        modifyCounter.current = count;
+    }
 
     return (
         <View style={styles.mainContainer}>
@@ -76,7 +80,7 @@ const Counter = props => {
                     autoCapitalize='none'
                     autoCorrect={false}
                     keyboardType='number-pad'
-                    maxLength={2}
+                    maxLength={3}
                 />
                 <Icon.Button
                     name="plus"

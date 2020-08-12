@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
@@ -169,7 +169,7 @@ const TestScreen = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} keyboardVerticalOffset={10} behavior={"position"}>
+            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} behavior={Platform.OS == 'ios' ? 'position' : 'height'}>
                 <View>
                     {!nomEvalDouble ? (<View style={{ alignItems: "center", height: '15%', paddingVertical: 5 }}>
                         <Text style={styles.titre}>

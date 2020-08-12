@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView, Alert, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, ScrollView, Alert, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import { FontAwesome } from '@expo/vector-icons';
@@ -19,6 +19,7 @@ const ComportementSocial = props => {
     const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInput2Visible, setModalInput2Visible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
+    const [noKeyboard, setNokeyboard] = useState(true);
     const [demarrage, setDemarrage] = useState(true);
     const [page, setPage] = useState(0);
     const [init, setInit] = useState(false);
@@ -80,6 +81,10 @@ const ComportementSocial = props => {
         props.onCloseConfirmation(); //parent component
     });
 
+    const keyboardHandler = pol => {
+        setNokeyboard(pol);
+    }
+
     useEffect(() => {
         setModalInfoVisible(modalInfo);
         if (confirmation && pageActuelle == page && (count != 0 || count2 != 0)) {
@@ -106,6 +111,8 @@ const ComportementSocial = props => {
                         </View>
                         <InputBorder>
                             <TextInput
+                                onFocus={() => keyboardHandler(false)}
+                                onBlur={() => keyboardHandler(true)}
                                 style={styles.text}
                                 onChangeText={(num) => num.length > 0 ? setTaille(parseInt(num)) : setTaille("")}
                                 value={taille.toString()}
@@ -115,7 +122,7 @@ const ComportementSocial = props => {
                                 maxLength={3}
                             />
                         </InputBorder>
-                        <Shadow style={styles.button}>
+                        {(Platform.OS == 'android' ? noKeyboard : true) && <Shadow style={styles.button}>
                             <TouchableOpacity onPress={() => start()}>
                                 <Shadow>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
@@ -124,7 +131,7 @@ const ComportementSocial = props => {
                                     </View>
                                 </Shadow>
                             </TouchableOpacity>
-                        </Shadow>
+                        </Shadow>}
                     </View>
                     {/*Modal infos sur l'évaluation*/}
                     <ModalPopupInfo
@@ -170,7 +177,12 @@ const ComportementSocial = props => {
                                 </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler} max={null} reinitialiser={init} />
+                                <Counter
+                                    onChange={changeHandler}
+                                    max={null}
+                                    reinitialiser={init}
+                                    onKeyboardChange={keyboardHandler}
+                                />
                             </View>
                         </View>
 
@@ -187,11 +199,16 @@ const ComportementSocial = props => {
                                 </Text>
                             </View>
                             <View style={styles.counter}>
-                                <Counter onChange={changeHandler2} max={null} reinitialiser={init} />
+                                <Counter
+                                    onChange={changeHandler2}
+                                    max={null}
+                                    reinitialiser={init}
+                                    onKeyboardChange={keyboardHandler}
+                                />
                             </View>
                         </View>
 
-                        {pageActuelle < page &&
+                        {pageActuelle < page && (Platform.OS == 'android' ? noKeyboard : true) &&
                             <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
                                 <Shadow style={styles.button}>
                                     <TouchableOpacity onPress={() => {

@@ -169,7 +169,7 @@ const TestScreen = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} behavior={Platform.OS == 'ios' ? 'position' : 'height'}>
+            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} behavior={Platform.OS == 'ios' ? 'position' : 'padding'}  keyboardVerticalOffset = {Platform.OS == 'ios' ? 0 : -250} >
                 <View>
                     {!nomEvalDouble ? (<View style={{ alignItems: "center", height: '15%', paddingVertical: 5 }}>
                         <Text style={styles.titre}>

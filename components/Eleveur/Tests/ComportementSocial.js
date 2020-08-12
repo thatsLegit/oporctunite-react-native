@@ -122,16 +122,18 @@ const ComportementSocial = props => {
                                 maxLength={3}
                             />
                         </InputBorder>
-                        {(Platform.OS == 'android' ? noKeyboard : true) && <Shadow style={styles.button}>
-                            <TouchableOpacity onPress={() => start()}>
-                                <Shadow>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
-                                        <Text style={styles.buttonText}>Suite</Text>
-                                        <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
-                                    </View>
-                                </Shadow>
-                            </TouchableOpacity>
-                        </Shadow>}
+                        {(Platform.OS == 'android' ? noKeyboard : true) && (
+                            <Shadow style={styles.button}>
+                                <TouchableOpacity onPress={() => start()}>
+                                    <Shadow>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
+                                            <Text style={styles.buttonText}>Suite</Text>
+                                            <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
+                                        </View>
+                                    </Shadow>
+                                </TouchableOpacity>
+                            </Shadow>
+                        )}
                     </View>
                     {/*Modal infos sur l'évaluation*/}
                     <ModalPopupInfo

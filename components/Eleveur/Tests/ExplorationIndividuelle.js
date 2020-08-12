@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, TextInput, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import { FontAwesome } from '@expo/vector-icons';
@@ -18,6 +18,7 @@ const ExplorationIndividuelle = props => {
     const [modalGroupeVisible, setModalGroupeVisible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [demarrage, setDemarrage] = useState(true);
+    const [noKeyboard, setNokeyboard] = useState(true);
     const [page, setPage] = useState(0);
     const [init, setInit] = useState(false);
     const [notes, setNotes] = useState([]);
@@ -78,6 +79,10 @@ const ExplorationIndividuelle = props => {
         props.onCloseConfirmation(); //parent component
     });
 
+    const keyboardHandler = pol => {
+        setNokeyboard(pol);
+    }
+
     useEffect(() => {
         setModalInfoVisible(modalInfo);
         if (confirmation && pageActuelle == page && count3 != 0) {
@@ -104,6 +109,8 @@ const ExplorationIndividuelle = props => {
                         </View>
                         <InputBorder>
                             <TextInput
+                                onFocus={() => keyboardHandler(false)}
+                                onBlur={() => keyboardHandler(true)}
                                 style={styles.text}
                                 onChangeText={(num) => num.length > 0 ? setTaille(parseInt(num)) : setTaille("")}
                                 value={taille.toString()}
@@ -113,16 +120,18 @@ const ExplorationIndividuelle = props => {
                                 maxLength={3}
                             />
                         </InputBorder>
-                        <Shadow style={styles.button}>
-                            <TouchableOpacity onPress={() => start()}>
-                                <Shadow>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
-                                        <Text style={styles.buttonText}>Suite</Text>
-                                        <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
-                                    </View>
-                                </Shadow>
-                            </TouchableOpacity>
-                        </Shadow>
+                        {(Platform.OS == 'android' ? noKeyboard : true) && (
+                            <Shadow style={styles.button}>
+                                <TouchableOpacity onPress={() => start()}>
+                                    <Shadow>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 5 }}>
+                                            <Text style={styles.buttonText}>Suite</Text>
+                                            <MaterialIcons style={{ paddingTop: 3 }} name="navigate-next" size={31} color="white" />
+                                        </View>
+                                    </Shadow>
+                                </TouchableOpacity>
+                            </Shadow>
+                        )}
                     </View>
                     {/*Modal infos sur l'évaluation*/}
                     <ModalPopupInfo

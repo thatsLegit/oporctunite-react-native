@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { CheckBox } from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ const EspaceAlloue = props => {
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [choixCochette, setChoixCochette] = useState(false);
+    const [noKeyboard, setNokeyboard] = useState(true);
     const [demarrage, setDemarrage] = useState(true);
     const [notes, setNotes] = useState([]);
     const [count, setCount] = useState(0);
@@ -53,6 +54,10 @@ const EspaceAlloue = props => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
     });
+
+    const keyboardHandler = pol => {
+        setNokeyboard(pol);
+    }
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
@@ -125,7 +130,9 @@ const EspaceAlloue = props => {
                                 <InputBorder>
                                     <TextInput
                                         style={styles.text}
+                                        onFocus={() => keyboardHandler(false)}
                                         onBlur={() => {
+                                            keyboardHandler(true);
                                             if (count == "") {
                                                 setCount(0);
                                             }
@@ -145,7 +152,9 @@ const EspaceAlloue = props => {
                                 <InputBorder>
                                     <TextInput
                                         style={styles.text}
+                                        onFocus={() => keyboardHandler(false)}
                                         onBlur={() => {
+                                            keyboardHandler(true);
                                             if (count2 == "") {
                                                 setCount2(0);
                                             }
@@ -160,7 +169,7 @@ const EspaceAlloue = props => {
                                 </InputBorder>
                             </View>
 
-                            {choixCochette &&
+                            {(Platform.OS == 'android' ? noKeyboard : true) && choixCochette &&
                                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                     <Shadow style={styles.button}>
                                         <TouchableOpacity onPress={() => {

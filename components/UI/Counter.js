@@ -31,7 +31,7 @@ const Counter = props => {
     };
 
     const numberInputHandler = () => {
-        props.onKeyboardChange(true);
+        props.onKeyboardChange && props.onKeyboardChange(true);
         if (max && parseInt(count) > max) {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${max}.`, [{ text: 'Compris', style: 'destructive' }]);
             setCount(modifyCounter.current);
@@ -57,7 +57,7 @@ const Counter = props => {
 
     const changeTextEventHandler = num => setCount(num);
     const saveCountBeforeModify = () => {
-        props.onKeyboardChange(false);
+        props.onKeyboardChange && props.onKeyboardChange(false);
         modifyCounter.current = count;
     }
 

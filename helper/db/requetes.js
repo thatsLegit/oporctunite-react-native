@@ -1,12 +1,18 @@
 import { db } from './init';
+import { AsyncStorage } from 'react-native';
+
 
 
 //Test
-export const insertTest = (nomEvaluation, noteEval) => {
+export const insertTest = async (nomEvaluation, noteEval) => {
+    const userData = await AsyncStorage.getItem('userData');
+    const transformedData = JSON.parse(userData);
+    const {idutilisateur} = transformedData;
+
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO Test(nomEvaluation, noteEval) VALUES (?, ?);',
+                `INSERT INTO Test_${idutilisateur}(nomEvaluation, noteEval) VALUES (?, ?);`,
                 [nomEvaluation, noteEval], //prepared statement to avoid sql injections.
                 (_, result) => { //success fonction
                     resolve(result);
@@ -20,11 +26,15 @@ export const insertTest = (nomEvaluation, noteEval) => {
     return promise;
 };
 
-export const dropTests = () => {
+export const dropTests = async () => {
+    const userData = await AsyncStorage.getItem('userData');
+    const transformedData = JSON.parse(userData);
+    const {idutilisateur} = transformedData;
+
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'DELETE FROM Test;',
+                `DELETE FROM Test_${idutilisateur};`,
                 [],
                 (_, result) => { //success fonction
                     resolve(result);
@@ -38,11 +48,15 @@ export const dropTests = () => {
     return promise;
 };
 
-export const fetchAllTests = () => {
+export const fetchAllTests = async () => {
+    const userData = await AsyncStorage.getItem('userData');
+    const transformedData = JSON.parse(userData);
+    const {idutilisateur} = transformedData;
+
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM Test;',
+                `SELECT * FROM Test_${idutilisateur};`,
                 [], //prepared statement to avoid sql injections.
                 (_, result) => { //success fonction
                     resolve(result);

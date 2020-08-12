@@ -1,14 +1,17 @@
 import * as SQLite from 'expo-sqlite';
-
-
+import { AsyncStorage } from 'react-native';
 export const db = SQLite.openDatabase('OPORCTUNITE.db');
 
 
-export const createDB = () => {
+export const createDB = async () => {
+    const userData = await AsyncStorage.getItem('userData');
+    const transformedData = JSON.parse(userData);
+    const {idutilisateur} = transformedData;
+
     const promise = new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                "CREATE TABLE IF NOT EXISTS Test(dateTest DATETIME NOT NULL DEFAULT (datetime('now','localtime')),nomEvaluation VARCHAR(100) NOT NULL,noteEval DECIMAL(3,1) NOT NULL,PRIMARY KEY(dateTest, nomEvaluation),FOREIGN KEY(nomEvaluation) REFERENCES Evaluation(nomEvaluation));",
+                `CREATE TABLE IF NOT EXISTS Test_${idutilisateur}(dateTest DATETIME NOT NULL DEFAULT (datetime('now','localtime')),nomEvaluation VARCHAR(100) NOT NULL,noteEval DECIMAL(3,1) NOT NULL,PRIMARY KEY(dateTest, nomEvaluation),FOREIGN KEY(nomEvaluation) REFERENCES Evaluation(nomEvaluation));`,
                 []
             );
             tx.executeSql(

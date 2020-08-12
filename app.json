@@ -28,6 +28,7 @@
     },
     "android": {
       "package": "com.yourcompany.yourappname",
+      "softwareKeyboardLayoutMode": "pan",
       "versionCode": 1
     }
   }

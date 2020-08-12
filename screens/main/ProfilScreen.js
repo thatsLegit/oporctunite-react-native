@@ -11,6 +11,7 @@ import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
 import * as ficheActions from '../../store/actions/fiche';
 import { dropTests, fetchAllTests } from '../../helper/db/requetes';
+import { dropBilan, insertNoteGlobaleEvaluations } from '../../helper/db/requetes'
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
@@ -34,6 +35,28 @@ const ProfilScreen = props => {
     }, []);
 
     const modalCloser = () => setModal(false);
+
+    const majBilan = useCallback(async () => {
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
+        const bearer = 'Bearer ' + token;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const resData = await response.json();
+        let Data = [];
+        let i = 0;
+        resData.data.forEach(test => {
+            Data[i] = [{ "idTest": test.idTest, "nomEvaluation": test.nomEvaluation, "moyenneGlobaleEval": test.moyenneGlobaleEval, "noteEval": test.noteEval, "dateTest": test.dateTest, "nomSousCateg": test.nomSousCateg, "moyenneGlobaleSousCateg": test.moyenneGlobaleSousCateg, "moyenneSousCateg": test.moyenneSousCateg, "nomCateg": test.nomCateg, "moyenneGlobaleCateg": test.moyenneGlobaleCateg, "moyenneCateg": test.moyenneCateg }];
+            i++;
+        });
+        insertNoteGlobaleEvaluations(Data);
+    }, [dispatch]);
 
     const majTests = useCallback(async () => {
         const result = await fetchAllTests();
@@ -80,6 +103,8 @@ const ProfilScreen = props => {
             } else {
                 majTests();
                 dropTests();
+                dropBilan();
+                majBilan();
             }
             categHandler(state.isConnected);
         });

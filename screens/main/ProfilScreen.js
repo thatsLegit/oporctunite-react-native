@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -10,34 +10,22 @@ import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
 import * as ficheActions from '../../store/actions/fiche';
-import { dropTests, fetchAllTests } from '../../helper/db/requetes';
-import { dropBilan, insertNoteGlobaleEvaluations } from '../../helper/db/requetes'
+
+import {
+    dropTests, fetchAllTests,
+    dropBilan, insertNoteGlobaleEvaluations
+} from '../../helper/db/requetes';
+import { createTableTest } from '../../helper/db/init';
+
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
-import { db } from '../../helper/db/init'
 
 
 const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [message, setMessage] = useState({});
-    const { token, maj } = useSelector(state => state.auth);
+    const { token, maj, idutilisateur } = useSelector(state => state.auth);
     const dispatch = useDispatch();
-
-    const createTableTest = useCallback(async () => {
-        const userData = await AsyncStorage.getItem('userData');
-        const transformedData = JSON.parse(userData);
-        const {idutilisateur} = transformedData;
-
-        const promise = new Promise((resolve, reject) => {
-            db.transaction(tx => {
-                tx.executeSql(
-                    `CREATE TABLE IF NOT EXISTS Test_${idutilisateur}(dateTest DATETIME NOT NULL DEFAULT (datetime('now','localtime')),nomEvaluation VARCHAR(100) NOT NULL,noteEval DECIMAL(3,1) NOT NULL,PRIMARY KEY(dateTest, nomEvaluation),FOREIGN KEY(nomEvaluation) REFERENCES Evaluation(nomEvaluation));`,
-                    []
-                );
-            });
-        });
-        return promise;
-    }, [dispatch]);
 
     const categHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
@@ -75,7 +63,7 @@ const ProfilScreen = props => {
     }, [dispatch]);
 
     const majTests = useCallback(async () => {
-        const result = await fetchAllTests();
+        const result = await fetchAllTests(idutilisateur);
 
         if (!result.rows._array || !result.rows._array.length) {
             return;
@@ -111,15 +99,15 @@ const ProfilScreen = props => {
     }, []);
 
     useEffect(() => {
+        createTableTest(idutilisateur);
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
                 setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
                 setModal(true);
                 setIsLoading(false);
             } else {
-                createTableTest();
                 majTests();
-                dropTests();
+                dropTests(idutilisateur);
                 dropBilan();
                 majBilan();
             }

@@ -19,6 +19,7 @@ export const soumettreTests = () => {
     return async (dispatch, getState) => {
         const tests = getState().test.enCours;
         const token = getState().auth.token;
+        const idutilisateur = getState().auth.idutilisateur;
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
         const bearer = 'Bearer ' + token;
         let sentToApi = true;
@@ -27,7 +28,7 @@ export const soumettreTests = () => {
             const connection = await NetInfo.fetch();
 
             if (!connection.isConnected) {
-                await insertTest(test.nomEvaluation, test.valeur);
+                await insertTest(test.nomEvaluation, test.valeur, idutilisateur);
                 sentToApi = false;
             } else {
                 const valeur = test.valeur;

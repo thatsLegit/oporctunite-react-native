@@ -2,13 +2,8 @@ import { db } from './init';
 import { AsyncStorage } from 'react-native';
 
 
-
 //Test
-export const insertTest = async (nomEvaluation, noteEval) => {
-    const userData = await AsyncStorage.getItem('userData');
-    const transformedData = JSON.parse(userData);
-    const {idutilisateur} = transformedData;
-
+export const insertTest = async (nomEvaluation, noteEval, idutilisateur) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
@@ -26,11 +21,7 @@ export const insertTest = async (nomEvaluation, noteEval) => {
     return promise;
 };
 
-export const dropTests = async () => {
-    const userData = await AsyncStorage.getItem('userData');
-    const transformedData = JSON.parse(userData);
-    const {idutilisateur} = transformedData;
-
+export const dropTests = async idutilisateur => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
@@ -48,11 +39,7 @@ export const dropTests = async () => {
     return promise;
 };
 
-export const fetchAllTests = async () => {
-    const userData = await AsyncStorage.getItem('userData');
-    const transformedData = JSON.parse(userData);
-    const {idutilisateur} = transformedData;
-
+export const fetchAllTests = async idutilisateur => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(

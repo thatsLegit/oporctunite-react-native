@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, Alert, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, Alert, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -18,6 +18,7 @@ const EspaceAlloueEtDimensionsCases = props => {
     const [modalInputVisible, setModalInputVisible] = useState(false);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [choixCochette, setChoixCochette] = useState(true);
+    const [noKeyboard, setNokeyboard] = useState(true);
     const [demarrage, setDemarrage] = useState(true);
     const [notes, setNotes] = useState([]);
     const [notes2, setNotes2] = useState([]);
@@ -67,6 +68,10 @@ const EspaceAlloueEtDimensionsCases = props => {
         setModalConfirmation(false); //local component
         props.onCloseConfirmation(); //parent component
     });
+
+    const keyboardHandler = pol => {
+        setNokeyboard(pol);
+    }
 
     useEffect(() => {
         setModalInfoVisible(modalInfo);
@@ -139,7 +144,9 @@ const EspaceAlloueEtDimensionsCases = props => {
                                 <InputBorder>
                                     <TextInput
                                         style={styles.text}
+                                        onFocus={() => keyboardHandler(false)}
                                         onBlur={() => {
+                                            keyboardHandler(true);
                                             if (count == "") {
                                                 setCount(0);
                                             }
@@ -216,7 +223,7 @@ const EspaceAlloueEtDimensionsCases = props => {
                             </View>
                         </View>
 
-                        {choixCochette &&
+                        {(Platform.OS == 'android' ? noKeyboard : true) && choixCochette &&
                             <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 10 }}>
                                 <Shadow style={{ ...styles.button, marginBottom: 30 }}>
                                     <TouchableOpacity onPress={() => {

@@ -30,8 +30,8 @@ const LesionVulveEtMetrite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((evaluation.nbTruies-((count)+(count3*(1/2))))/evaluation.nbTruies) *10 + Number.EPSILON) * 10) /10;
-    const noteMetrite = Math.round((((evaluation.nbTruies-count4)/evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((evaluation.nbTruies - ((count) + (count3 * (1 / 2)))) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const noteMetrite = Math.round((((evaluation.nbTruies - count4) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -143,9 +143,9 @@ const LesionVulveEtMetrite = props => {
             <View style={{ alignItems: 'center', height: '7%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
-                        <ProgressBar progress={((globalCount+globalCount2)/2) / evaluation.nbTruies} width={200} />
+                        <ProgressBar progress={((globalCount + globalCount2) / 2) / evaluation.nbTruies} width={200} />
                     </View>
-                    <Text style={styles.counterText}>   {(globalCount+globalCount2)/2} / {evaluation.nbTruies} </Text>
+                    <Text style={styles.counterText}>   {(globalCount + globalCount2) / 2} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>
@@ -154,7 +154,7 @@ const LesionVulveEtMetrite = props => {
                 </View>
                 <Text style={styles.counterAttentionText}> 2 choix par truie obligatoire </Text>
             </View>
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '82%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>
@@ -171,7 +171,7 @@ const LesionVulveEtMetrite = props => {
                         <View style={styles.content}>
                             <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
-                    </View>                    
+                    </View>
                     <View >
                         <View>
                             <Text style={styles.text}>

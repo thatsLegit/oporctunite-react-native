@@ -24,8 +24,8 @@ const ProlapsusUterinEtRectal = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((evaluation.nbTruies-(count+count4)) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
-    const noteRectal = Math.round((((evaluation.nbTruies-(count3+count4)) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((evaluation.nbTruies - (count + count4)) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const noteRectal = Math.round((((evaluation.nbTruies - (count3 + count4)) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -122,7 +122,7 @@ const ProlapsusUterinEtRectal = props => {
                 </View>
             </View>
 
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '82%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>

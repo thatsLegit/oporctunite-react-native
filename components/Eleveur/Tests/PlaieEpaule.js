@@ -21,7 +21,7 @@ const PlaieEpaule = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round(((count2 / evaluation.nbTruies) * 10 + (count3 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const note = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
@@ -120,7 +120,7 @@ const PlaieEpaule = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                             </View>
                         </View>
 
@@ -132,7 +132,7 @@ const PlaieEpaule = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                                <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                             </View>
                         </View>
 
@@ -144,7 +144,7 @@ const PlaieEpaule = props => {
                                 </Text>
                             </View>
                             <View style={styles.content}>
-                                <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                                <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                             </View>
                         </View>
                     </View>

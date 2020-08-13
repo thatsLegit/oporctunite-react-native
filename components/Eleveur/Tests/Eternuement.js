@@ -102,7 +102,7 @@ const Eternuement = props => {
                     </TouchableWithoutFeedback>
                 </View>
             </View>
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '82%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>

@@ -10,22 +10,32 @@ import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
 import * as ficheActions from '../../store/actions/fiche';
-
 import {
     dropTests, fetchAllTests,
     dropBilan, insertNoteGlobaleEvaluations
 } from '../../helper/db/requetes';
 import { createTableTest } from '../../helper/db/init';
-
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
 const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [isConnected, setIsConnected] = useState(true);
     const [message, setMessage] = useState({});
     const { token, maj, idutilisateur } = useSelector(state => state.auth);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        const unsubscribe = NetInfo.addEventListener(state => {
+            if (!state.isConnected) {
+                setIsConnected(false);
+            }
+        });
+        return () => {
+            unsubscribe();
+        }
+    });
 
     const categHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
@@ -133,7 +143,8 @@ const ProfilScreen = props => {
             <Text style={{ textAlign: "center", paddingVertical: 10 }}>
                 Vendredi 7 août 14H00, mode hors ligne corrigé
             </Text>
-            <Button title='Paramètres' onPress={() => { props.navigation.navigate('Parametre') }} />
+            <Button title='test connection' onPress={() => console.log(isConnected)} />
+            <Button title='Paramètres' onPress={() => props.navigation.navigate('Parametre')} />
             <ModalPopupInfo
                 visible={modal}
                 onClose={modalCloser}

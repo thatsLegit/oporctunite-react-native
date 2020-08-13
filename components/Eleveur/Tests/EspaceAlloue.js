@@ -121,7 +121,7 @@ const EspaceAlloue = props => {
                 {choixCochette && <Text style={styles.groupText}>Groupe des cochettes </Text>}
                 {!choixCochette && <Text style={styles.groupText}>Groupe des truies </Text>}
             </View>
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '82%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>

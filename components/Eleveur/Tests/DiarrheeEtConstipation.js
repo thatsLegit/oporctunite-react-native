@@ -22,8 +22,8 @@ const DiarrheeEtConstipation = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((evaluation.nbTruies-count2) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
-    const noteConstipation = Math.round((((evaluation.nbTruies-count3) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const note = Math.round((((evaluation.nbTruies - count2) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const noteConstipation = Math.round((((evaluation.nbTruies - count3) / evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
     const validationHandler = async () => {
         await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
         await dispatch(testActions.ajouterTest(noteConstipation, evaluation2.nomEvaluation));
@@ -117,7 +117,7 @@ const DiarrheeEtConstipation = props => {
                 </View>
             </View>
 
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '82%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>

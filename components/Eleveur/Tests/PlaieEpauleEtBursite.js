@@ -26,11 +26,11 @@ const PlaieEpauleEtBursite = props => {
 
     const dispatch = useDispatch();
 
-    const note = Math.round((((evaluation.nbTruies-((count)+(count3*(1/2))))/evaluation.nbTruies) *10 + Number.EPSILON) * 10) /10;
-    const noteBursite = Math.round((((evaluation.nbTruies-count5)/evaluation.nbTruies) * 10 + Number.EPSILON) * 10) / 10;
+    const notePlaie = Math.round(((count / evaluation.nbTruies) * 10 + (count2 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
+    const noteBursite = Math.round(((count4 / evaluation.nbTruies) * 10 + (count5 / evaluation.nbTruies) * 5 + Number.EPSILON) * 10) / 10;
 
     const validationHandler = async () => {
-        await dispatch(testActions.ajouterTest(note, evaluation.nomEvaluation));
+        await dispatch(testActions.ajouterTest(notePlaie, evaluation.nomEvaluation));
         await dispatch(testActions.ajouterTest(noteBursite, evaluation2.nomEvaluation));
 
         if (Vtype == 'valider') {
@@ -42,75 +42,75 @@ const PlaieEpauleEtBursite = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + value  > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value );
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - value );
+            setGlobalCount(globalCount - value);
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + value  > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value );
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - value );
+            setGlobalCount(globalCount - value);
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + value  > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count3);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + value );
+            setGlobalCount(globalCount + value);
         } else {
-            setGlobalCount(globalCount - value );
+            setGlobalCount(globalCount - value);
         }
     };
     const changeHandler4 = (count, sign, value) => {
-        if (globalCount2 + value  > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount2 + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount4(count);
         if (sign == 'plus') {
-            setGlobalCount2(globalCount2 + value );
+            setGlobalCount2(globalCount2 + value);
         } else {
-            setGlobalCount2(globalCount2 - value );
+            setGlobalCount2(globalCount2 - value);
         }
     };
     const changeHandler5 = (count, sign, value) => {
-        if (globalCount2 + value  > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount2 + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount5(count);
         if (sign == 'plus') {
-            setGlobalCount2(globalCount2 + value );
+            setGlobalCount2(globalCount2 + value);
         } else {
-            setGlobalCount2(globalCount2 - value );
+            setGlobalCount2(globalCount2 - value);
         }
     };
     const changeHandler6 = (count, sign, value) => {
-        if (globalCount2 + value  > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount2 + value > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount6(count);
         if (sign == 'plus') {
-            setGlobalCount2(globalCount2 + value );
+            setGlobalCount2(globalCount2 + value);
         } else {
-            setGlobalCount2(globalCount2 - value );
+            setGlobalCount2(globalCount2 - value);
         }
     };
 
@@ -148,9 +148,9 @@ const PlaieEpauleEtBursite = props => {
             <View style={{ alignItems: 'center', height: '7%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
-                        <ProgressBar progress={((globalCount+globalCount2)/2) / evaluation.nbTruies} width={200} />
+                        <ProgressBar progress={((globalCount + globalCount2) / 2) / evaluation.nbTruies} width={200} />
                     </View>
-                    <Text style={styles.counterText}>   {(globalCount+globalCount2)/2} / {evaluation.nbTruies} </Text>
+                    <Text style={styles.counterText}>   {(globalCount + globalCount2) / 2} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>
@@ -159,7 +159,7 @@ const PlaieEpauleEtBursite = props => {
                 </View>
                 <Text style={styles.counterAttentionText}> 2 choix par truie obligatoire </Text>
             </View>
-            <View style={{ height: '80%' }}>
+            <View style={{ height: '82%' }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>
@@ -169,7 +169,7 @@ const PlaieEpauleEtBursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -187,7 +187,7 @@ const PlaieEpauleEtBursite = props => {
                         </View>
                         <View style={styles.content} >
                             <Image style={styles.photo} source={require('../../../assets/img/evaluations/Bursite-photo1.png')} />
-                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -200,7 +200,7 @@ const PlaieEpauleEtBursite = props => {
                         </View>
                         <View style={styles.content}>
                             <Image style={styles.photo} source={require('../../../assets/img/evaluations/Bursite-photo1.png')} />
-                            <Counter onChange={changeHandler} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler3} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -212,7 +212,7 @@ const PlaieEpauleEtBursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler6} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
                         </View>
                     </View>
 
@@ -224,7 +224,7 @@ const PlaieEpauleEtBursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler4} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
                         </View>
                     </View>
                     <View >
@@ -235,7 +235,7 @@ const PlaieEpauleEtBursite = props => {
                             </Text>
                         </View>
                         <View style={styles.content}>
-                            <Counter onChange={changeHandler5} max={evaluation.nbTruies} />
+                            <Counter onChange={changeHandler6} max={evaluation.nbTruies} />
                         </View>
                     </View>
                 </ScrollView>
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     },
     photo: {
         height: Dimensions.get('window').height / 5,
-        width: Dimensions.get('window').width / 2
+        width: Dimensions.get('window').width / 1.5
     },
     text: {
         fontFamily: 'open-sans',

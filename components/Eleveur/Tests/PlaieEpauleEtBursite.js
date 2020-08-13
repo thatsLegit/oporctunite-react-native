@@ -22,6 +22,7 @@ const PlaieEpauleEtBursite = props => {
     const [count5, setCount5] = useState(0);
     const [count6, setCount6] = useState(0);
     const [globalCount, setGlobalCount] = useState(0);
+    const [globalCount2, setGlobalCount2] = useState(0);
 
     const dispatch = useDispatch();
 
@@ -41,75 +42,75 @@ const PlaieEpauleEtBursite = props => {
     };
 
     const changeHandler = (count, sign, value) => {
-        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + value  > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value / 2));
+            setGlobalCount(globalCount + value );
         } else {
-            setGlobalCount(globalCount - (value / 2));
+            setGlobalCount(globalCount - value );
         }
     };
     const changeHandler2 = (count2, sign, value) => {
-        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + value  > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount2(count2);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value / 2));
+            setGlobalCount(globalCount + value );
         } else {
-            setGlobalCount(globalCount - (value / 2));
+            setGlobalCount(globalCount - value );
         }
     };
     const changeHandler3 = (count3, sign, value) => {
-        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount + value  > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount3(count3);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value / 2));
+            setGlobalCount(globalCount + value );
         } else {
-            setGlobalCount(globalCount - (value / 2));
+            setGlobalCount(globalCount - value );
         }
     };
     const changeHandler4 = (count, sign, value) => {
-        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount2 + value  > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount4(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value / 2));
+            setGlobalCount2(globalCount2 + value );
         } else {
-            setGlobalCount(globalCount - (value / 2));
+            setGlobalCount2(globalCount2 - value );
         }
     };
     const changeHandler5 = (count, sign, value) => {
-        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount2 + value  > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount5(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value / 2));
+            setGlobalCount2(globalCount2 + value );
         } else {
-            setGlobalCount(globalCount - (value / 2));
+            setGlobalCount2(globalCount2 - value );
         }
     };
     const changeHandler6 = (count, sign, value) => {
-        if (globalCount + (value / 2) > evaluation.nbTruies && sign == 'plus') {
+        if (globalCount2 + value  > evaluation.nbTruies && sign == 'plus') {
             Alert.alert('Erreur', `Le nombre de truies à évaluer pour cette évaluation est de ${evaluation.nbTruies}.`, [{ text: 'Compris', style: 'destructive' }]);
             return 'error';
         }
         setCount6(count);
         if (sign == 'plus') {
-            setGlobalCount(globalCount + (value / 2));
+            setGlobalCount2(globalCount2 + value );
         } else {
-            setGlobalCount(globalCount - (value / 2));
+            setGlobalCount2(globalCount2 - value );
         }
     };
 
@@ -147,9 +148,9 @@ const PlaieEpauleEtBursite = props => {
             <View style={{ alignItems: 'center', height: '7%' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View>
-                        <ProgressBar progress={globalCount / evaluation.nbTruies} width={200} />
+                        <ProgressBar progress={((globalCount+globalCount2)/2) / evaluation.nbTruies} width={200} />
                     </View>
-                    <Text style={styles.counterText}>   {globalCount} / {evaluation.nbTruies} </Text>
+                    <Text style={styles.counterText}>   {(globalCount+globalCount2)/2} / {evaluation.nbTruies} </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>

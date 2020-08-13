@@ -68,7 +68,7 @@ const PropreteCases = props => {
         }
         if (confirmation) {
             modalConfirmationCloser();
-            Alert.alert('Erreur', `Il faut renseigner au moins un enclos pour valider cette évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
+            Alert.alert('Erreur', `Il faut renseigner au moins une case pour valider cette évaluation.`, [{ text: 'Compris', style: 'destructive' }]);
         }
     }, [modalInfo, confirmation, count, count2, count3]);
 
@@ -76,7 +76,7 @@ const PropreteCases = props => {
         <View style={{ flex: 1 }}>
             <View style={{ alignItems: 'center', height: '10%', paddingTop: 5 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.counterText}>   {count + count2 + count3} enclos </Text>
+                    <Text style={styles.counterText}>   {count + count2 + count3} case(s) </Text>
                     <TouchableWithoutFeedback onPress={() => {
                         setModalEchantillonVisible(true);
                     }}>

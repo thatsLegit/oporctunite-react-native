@@ -141,7 +141,7 @@ const ProfilScreen = props => {
     return (
         <View>
             <Text style={{ textAlign: "center", paddingVertical: 10 }}>
-                Vendredi 7 août 14H00, mode hors ligne corrigé
+                Jeudi 13 août
             </Text>
             <Button title='test connection' onPress={() => console.log(isConnected)} />
             <Button title='Paramètres' onPress={() => props.navigation.navigate('Parametre')} />

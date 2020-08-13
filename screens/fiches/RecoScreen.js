@@ -72,7 +72,6 @@ const RecoScreen = props => {
         setIsRefreshing(true);
 
         const connect = await NetInfo.fetch();
-        console.log(connect.isConnected);
         if (!connect.isConnected) {
             setIsConnected(false);
             setMessage({ text: 'Aucune connexion', type: 'danger' });
@@ -80,6 +79,7 @@ const RecoScreen = props => {
         } else {
             await dropBilan();
             await majBilan();
+            await recoHandler();
             setIsConnected(true);
         }
 

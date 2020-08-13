@@ -11,8 +11,7 @@ export const fetchFiches = isConnected => {
         const maj = getState().auth.maj;
         let loadedFiches = {};
 
-        //isConnected && maj
-        if (1 == 1) {
+        if (isConnected && maj) {
             const token = getState().auth.token;
             const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/fiches";
             const bearer = 'Bearer ' + token;

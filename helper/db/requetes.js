@@ -1,5 +1,4 @@
 import { db } from './init';
-import { AsyncStorage } from 'react-native';
 
 
 //Test

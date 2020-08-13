@@ -1,7 +1,6 @@
 var jwtDecode = require('jwt-decode');
 import { AsyncStorage } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
-import { dropTests, dropEvaluation, dropBilan, dropFiches, dropLiaisons, dropCategorieP, dropCategorieG } from '../../helper/db/requetes';
 
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
@@ -40,8 +39,6 @@ export const authenticate = (idutilisateur, token, forceUpdate) => {
 };
 
 export const logout = () => {
-    //creat sqlite
-    dropTests(); dropEvaluation(); dropBilan(); dropFiches(); dropLiaisons(); dropCategorieP(); dropCategorieG();
     AsyncStorage.removeItem('userData'); //clear local storage token
     return { type: LOGOUT }; //clear redux state
 };
@@ -49,7 +46,8 @@ export const logout = () => {
 export const login = (login, password) => {
     return async dispatch => {
 
-        const connection = await NetInfo.fetch();
+        let connection = await NetInfo.fetch();
+        console.log(connection.isConnected);
 
         if (connection.isConnected) {
             const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/auth/login', {
@@ -76,6 +74,12 @@ export const login = (login, password) => {
 
         } else throw new Error('Pas de connexion internet, connexion impossible.');
     };
+};
+
+export const signup = (login, password) => {
+    return async dispatch => {
+        throw new Error("Inscription pour le moment indisponible sur l'appli, vous pouvez créer un compte sur notre site web O'porctunité !");
+    }
 };
 
 export const setUtilisateur = () => {

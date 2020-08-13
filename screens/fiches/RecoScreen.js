@@ -72,6 +72,7 @@ const RecoScreen = props => {
         setIsRefreshing(true);
 
         const connect = await NetInfo.fetch();
+        console.log(connect.isConnected);
         if (!connect.isConnected) {
             setIsConnected(false);
             setMessage({ text: 'Aucune connexion', type: 'danger' });
@@ -133,14 +134,13 @@ const RecoScreen = props => {
         );
     }
 
-    //Pas connecté
     return (
         <View style={{ flex: 1 }}>
             <View style={{ paddingVertical: 25, marginHorizontal: 5 }}>
                 <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
             </View>
             {/* Toutes les notes et y'a des recommandations */}
-            {categReco.length == 4 && !noReco && (
+            {categReco.length != 0 && !noReco && (
                 <Table style={{ flex: 1 }}>
                     <FlatList
                         refreshing={isRefreshing}
@@ -150,35 +150,49 @@ const RecoScreen = props => {
                         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
                         renderItem={(itemData) => fichesHandler(itemData.item)}
                     />
+                    <ModalPopupInfo
+                        visible={modal}
+                        onClose={modalCloser}
+                        text={message.text}
+                        buttonText='Fermer'
+                        type={message.type}
+                    />
                 </Table>
             )}
-            {/* Pas toutes les notes */}
-            {categReco.length == 0 && !noReco && (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
-                        <Text style={styles.commentaire}>
-                            Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
-                        </Text>
-                    </ScrollView>
-                </View>
-            )}
             {/* Y'a toutes les notes mais pas de recommandations (notes trop elevées) */}
-            {noReco && (
+            {!noReco && categReco.length == 0 && (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
                         <Text style={styles.commentaire}>
                             Il semblerait que nous n'ayons pas de fiches à vous recommander pour le moment !
                         </Text>
                     </ScrollView>
+                    <ModalPopupInfo
+                        visible={modal}
+                        onClose={modalCloser}
+                        text={message.text}
+                        buttonText='Fermer'
+                        type={message.type}
+                    />
                 </View>
             )}
-            <ModalPopupInfo
-                visible={modal}
-                onClose={modalCloser}
-                text={message.text}
-                buttonText='Fermer'
-                type={message.type}
-            />
+            {/* Pas toutes les notes */}
+            {noReco && (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
+                        <Text style={styles.commentaire}>
+                            Réalisez au moins une évaluation dans chaque catégorie pour avoir accès à des recommandations personnalisées !
+                        </Text>
+                    </ScrollView>
+                    <ModalPopupInfo
+                        visible={modal}
+                        onClose={modalCloser}
+                        text={message.text}
+                        buttonText='Fermer'
+                        type={message.type}
+                    />
+                </View>
+            )}
         </View>
     );
 

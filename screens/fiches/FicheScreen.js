@@ -8,7 +8,7 @@ const FicheScreen = props => {
     return (
         <PDFReader
             source={{
-                uri: props.route.params.fiche.urlImage,
+                uri: props.route.params.fiche.urlImage
             }}
         />
     );

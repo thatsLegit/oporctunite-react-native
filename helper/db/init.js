@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 export const db = SQLite.openDatabase('OPORCTUNITE.db');
 

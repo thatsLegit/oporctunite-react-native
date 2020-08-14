@@ -21,6 +21,7 @@ import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo'
 const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [alreadyFetched, setAlreadyFetched] = useState(false);
     const [isConnected, setIsConnected] = useState(true);
     const [message, setMessage] = useState({});
     const { token, maj, idutilisateur } = useSelector(state => state.auth);
@@ -28,7 +29,7 @@ const ProfilScreen = props => {
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
-            if (!state.isConnected) {
+            if (!state.isInternetReachable) {
                 setIsConnected(false);
             }
         });
@@ -110,20 +111,21 @@ const ProfilScreen = props => {
 
     useEffect(() => {
         createTableTest(idutilisateur);
-        NetInfo.fetch().then(state => {
-            if (!state.isConnected) {
-                setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
-                setModal(true);
-                setIsLoading(false);
-            } else {
+        if (!alreadyFetched) {
+            if (isConnected) {
                 majTests();
                 dropTests(idutilisateur);
                 dropBilan();
                 majBilan();
+                setAlreadyFetched(true);
+            } else {
+                setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
+                setModal(true);
+                setIsLoading(false);
             }
-            categHandler(state.isConnected);
-        });
-    }, []);
+            categHandler(isConnected);
+        }
+    }, [isConnected]);
 
 
     if (isLoading) {
@@ -143,7 +145,6 @@ const ProfilScreen = props => {
             <Text style={{ textAlign: "center", paddingVertical: 10 }}>
                 Jeudi 13 août
             </Text>
-            <Button title='test connection' onPress={() => console.log(isConnected)} />
             <Button title='Paramètres' onPress={() => props.navigation.navigate('Parametre')} />
             <ModalPopupInfo
                 visible={modal}

@@ -91,14 +91,20 @@ const SearchScreen = props => {
     return (
         <View style={{ flex: 1 }}>
             <SearchBar
+            
+                lightTheme
+            
+              
+  
                 round
                 searchIcon={{ size: 24 }}
                 onChangeText={text => SearchFilterFunction(text)}
                 onClear={text => SearchFilterFunction('')}
                 placeholder="Rechercher une fiche..."
                 value={search}
+
             />
-            <Table style={{ flex: 1 }}>
+            <Table style={{ flex: 1, marginTop:10 }}>
                     <FlatList 
                         refreshing={isRefreshing}
                         onRefresh={refreshHandler}       

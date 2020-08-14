@@ -145,7 +145,7 @@ const ProfilScreen = props => {
     return (
         <View>
             <Text style={{ textAlign: "center", paddingVertical: 10 }}>
-                Jeudi 13 août
+                Vendredi 14 août
             </Text>
             <Button title='Paramètres' onPress={() => props.navigation.navigate('Parametre')} />
             <Button title='Test connexion' onPress={() => console.log(isConnected)} />

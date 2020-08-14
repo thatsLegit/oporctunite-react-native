@@ -23,7 +23,9 @@ export const EleveurDrawerNav = () => {
                     <DrawerItemList {...props} />
                     <View style={styles.LogoutContainer}>
                         <View >
-                            <TouchableOpacity style={styles.logout} onPress={() => {
+                            <TouchableOpacity style={styles.logout} onPress={async () => {
+                                await props.navigation.navigate('Main');
+                                await props.navigation.closeDrawer();
                                 dispatch(authActions.logout());
                             }}>
                                 <Text style={styles.logoutText}>Se déconnecter</Text>

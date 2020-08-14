@@ -47,7 +47,6 @@ export const login = (login, password) => {
     return async dispatch => {
 
         let connection = await NetInfo.fetch();
-        console.log(connection.isConnected);
 
         if (connection.isConnected) {
             const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/auth/login', {

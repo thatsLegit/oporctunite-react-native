@@ -140,7 +140,7 @@ const RecoScreen = props => {
                 <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
             </View>
             {/* Toutes les notes et y'a des recommandations */}
-            {categReco.length != 0(
+            {categReco.length != 0 && (
                 <Table style={{ flex: 1 }}>
                     <FlatList
                         refreshing={isRefreshing}

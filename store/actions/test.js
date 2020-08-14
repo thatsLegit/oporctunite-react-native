@@ -26,7 +26,7 @@ export const soumettreTests = () => {
         for (const test of tests) {
             const connection = await NetInfo.fetch();
 
-            if (!connection.isConnected) {
+            if (!connection.isInternetReachable) {
                 await insertTest(test.nomEvaluation, test.valeur, idutilisateur);
             } else {
                 const valeur = test.valeur;

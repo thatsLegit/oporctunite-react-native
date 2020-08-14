@@ -31,6 +31,8 @@ const ProfilScreen = props => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isInternetReachable) {
                 setIsConnected(false);
+            } else {
+                setIsConnected(true);
             }
         });
         return () => {
@@ -146,6 +148,7 @@ const ProfilScreen = props => {
                 Jeudi 13 août
             </Text>
             <Button title='Paramètres' onPress={() => props.navigation.navigate('Parametre')} />
+            <Button title='Test connexion' onPress={() => console.log(isConnected)} />
             <ModalPopupInfo
                 visible={modal}
                 onClose={modalCloser}

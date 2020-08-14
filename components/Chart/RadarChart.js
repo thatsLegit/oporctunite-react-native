@@ -128,7 +128,7 @@ const RadarChart = props => {
             >
                 <VictoryGroup
                     colorScale={["#2E9BCA", "#FF6666"]}
-                    style={{ data: { fillOpacity: 0.2, strokeWidth: 2 } }}
+                    style={{ data: { fillOpacity: 0.2, strokeWidth: 0.5 } }}
                 >
                     {data.map((data, i) => {
                         return <VictoryArea key={i} data={data} />;
@@ -145,15 +145,16 @@ const RadarChart = props => {
                                 style={{
                                     axisLabel: { padding: 25 },
                                     axis: { stroke: "none" },
-                                    grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.7 }
+                                    grid: { stroke: "grey", strokeWidth: 0.25, opacity: 0.3 }
                                 }}
                                 tickLabelComponent={
-                                    <VictoryLabel />
+                                    <VictoryLabel/>
                                 }
                                 labelPlacement="vertical"
                                 axisValue={i + 1} label={key}
-                                tickFormat={(t) => Math.ceil(t * maxima[key])}
-                                tickValues={[0.25, 0.5, 0.75]}
+                                tickFormat={(t) => t * maxima[key]}
+                                tickValues={[0.2, 0.4, 0.6, 0.8]}
+                                
                             />
                         );
                     })

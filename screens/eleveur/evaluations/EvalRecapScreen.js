@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { View, Text, StyleSheet, Button, Platform } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { FontAwesome, FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
@@ -16,9 +15,14 @@ const EvalRecapScreen = props => {
     const [update, setUpdate] = useState(false);
     const [message, setMessage] = useState({});
     const prevLength = props.route.params ? props.route.params.length : null;
-    console.log(prevLength);
+    const trigger = props.route.params ? props.route.params.trigger : false;
 
-    const modalCloser = () => setModal(false);
+    const modalCloser = () => {
+        setModal(false);
+        props.navigation.setParams({
+            trigger: false
+        });
+    };
 
     const numberHandler = useCallback(async () => {
         const tests = await fetchAllTests(idutilisateur);
@@ -56,10 +60,10 @@ const EvalRecapScreen = props => {
     }, [props.navigation]);
 
     useEffect(() => {
-        if(prevLength != null){
+        if(prevLength != null && trigger){
             numberHandler();
         }
-    }, [prevLength]);
+    }, [prevLength, trigger]);
 
 
     return (

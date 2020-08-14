@@ -31,7 +31,7 @@ const TestRecapScreen = props => {
         const number = tests.rows._array.length;
         await dispatch(testActions.soumettreTests());
         setIsLoading(false);
-        props.navigation.navigate('EvalRecap', { length: number });
+        props.navigation.navigate('EvalRecap', { length: number, trigger: true });
     };
 
     if (isLoading) {

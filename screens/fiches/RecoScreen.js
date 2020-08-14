@@ -17,6 +17,7 @@ const RecoScreen = props => {
     const [categReco, setCategReco] = useState([]);
     const [modal, setModal] = useState(false);
     const [message, setMessage] = useState({});
+    const [noNote, setNoNote] = useState(false);
     const [noReco, setNoReco] = useState(false);
     const { token } = useSelector(state => state.auth);
     const dispatch = useDispatch();
@@ -36,6 +37,8 @@ const RecoScreen = props => {
                 }
                 setCategReco(liste);
                 liste.length == 0 ? setNoReco(true) : setNoReco(false);
+            } else {
+                setNoNote(true);
             }
         });
     }, []);
@@ -130,13 +133,14 @@ const RecoScreen = props => {
         );
     }
 
+    //revoir les conditions
     return (
         <View style={{ flex: 1 }}>
             <View style={{ paddingVertical: 25, marginHorizontal: 5 }}>
                 <Text style={styles.commentaire}>Nous nous basons sur vos résultats aux évaluations pour vous proposer les fiches conseils les plus pertinentes.</Text>
             </View>
             {/* Toutes les notes et y'a des recommandations */}
-            {categReco.length != 0 && !noReco && (
+            {categReco.length != 0(
                 <Table style={{ flex: 1 }}>
                     <FlatList
                         refreshing={isRefreshing}
@@ -156,7 +160,7 @@ const RecoScreen = props => {
                 </Table>
             )}
             {/* Y'a toutes les notes mais pas de recommandations (notes trop elevées) */}
-            {!noReco && categReco.length == 0 && (
+            {noReco && (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
                         <Text style={styles.commentaire}>
@@ -173,7 +177,7 @@ const RecoScreen = props => {
                 </View>
             )}
             {/* Pas toutes les notes */}
-            {noReco && (
+            {noNote && (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ScrollView refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={refreshHandler} />}>
                         <Text style={styles.commentaire}>

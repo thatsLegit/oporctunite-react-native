@@ -119,8 +119,8 @@ const TestScreen = props => {
         await dispatch(testActions.annulerTests());
         await dispatch(evalActions.supprimerEvalSelection());
         await dispatch(sousCategActions.supprimerSousCategSelection());
-        props.navigation.navigate('CategSelection');
         setAnnulationModal(false);
+        props.navigation.navigate('CategSelection');
     };
 
     const btnNext = text => {
@@ -169,7 +169,7 @@ const TestScreen = props => {
 
     return (
         <View style={{ flex: 1 }}>
-            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} behavior={Platform.OS == 'ios' ? 'position' : 'padding'}  keyboardVerticalOffset = {Platform.OS == 'ios' ? 0 : -250} >
+            <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} behavior={Platform.OS == 'ios' ? 'position' : 'padding'} keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : -250} >
                 <View>
                     {!nomEvalDouble ? (<View style={{ alignItems: "center", height: '15%', paddingVertical: 5 }}>
                         <Text style={styles.titre}>

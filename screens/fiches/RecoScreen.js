@@ -62,11 +62,12 @@ const RecoScreen = props => {
         insertNoteGlobaleEvaluations(Data);
     }, []);
 
-
     const notesHandler = useCallback(async () => {
         await dropBilan();
         await majBilan();
+        await recoHandler();
     }, [dispatch]);
+
 
     const refreshHandler = async () => {
         setIsRefreshing(true);
@@ -77,9 +78,7 @@ const RecoScreen = props => {
             setMessage({ text: 'Aucune connexion', type: 'danger' });
             setModal(true);
         } else {
-            await dropBilan();
-            await majBilan();
-            await recoHandler();
+            notesHandler();
             setIsConnected(true);
         }
 
@@ -90,6 +89,7 @@ const RecoScreen = props => {
         NetInfo.fetch().then(state => {
             if (!state.isConnected) {
                 setIsLoading(false);
+                recoHandler();
                 setIsConnected(false);
             } else {
                 setIsRefreshing(true);
@@ -99,10 +99,6 @@ const RecoScreen = props => {
             }
         });
     }, [notesHandler, dispatch]);
-
-    useEffect(() => {
-        recoHandler();
-    }, [dispatch]);
 
 
     const fichesHandler = item => {

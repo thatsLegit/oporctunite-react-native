@@ -9,10 +9,12 @@ import Table from '../../../../components/UI/Table';
 import * as evalActions from '../../../../store/actions/evaluation';
 import * as sousCategActions from '../../../../store/actions/sousCateg';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { fetchAllTests } from '../../../../helper/db/requetes';
 
 
 const TestRecapScreen = props => {
 
+    const idutilisateur = useSelector(state => state.auth.idutilisateur);
     const [isLoading, setIsLoading] = useState(false);
     const tests = useSelector(state => state.test.enCours);
 
@@ -25,9 +27,11 @@ const TestRecapScreen = props => {
 
     const submitHandler = async () => {
         setIsLoading(true);
+        const tests = await fetchAllTests(idutilisateur);
+        const number = tests.rows._array.length;
         await dispatch(testActions.soumettreTests());
         setIsLoading(false);
-        props.navigation.navigate('EvalRecap');
+        props.navigation.navigate('EvalRecap', { length: number });
     };
 
     if (isLoading) {

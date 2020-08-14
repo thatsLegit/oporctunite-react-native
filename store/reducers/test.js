@@ -3,8 +3,7 @@ import { AJOUTER_TEST, SUPPRIMER_TESTS_EN_COURS } from '../actions/test';
 
 //Etat initial
 const initialState = {
-    enCours: [],
-    lastSentEvalsDidReachApi: null
+    enCours: []
 };
 
 export default (state = initialState, action) => {
@@ -18,8 +17,7 @@ export default (state = initialState, action) => {
         case SUPPRIMER_TESTS_EN_COURS:
             return {
                 ...state,
-                enCours: new Array(),
-                lastSentEvalsDidReachApi: action.sentToApi
+                enCours: new Array()
             };
         default:
             return state;

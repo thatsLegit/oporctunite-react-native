@@ -22,14 +22,12 @@ export const soumettreTests = () => {
         const idutilisateur = getState().auth.idutilisateur;
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
         const bearer = 'Bearer ' + token;
-        let sentToApi = true;
 
         for (const test of tests) {
             const connection = await NetInfo.fetch();
 
             if (!connection.isConnected) {
                 await insertTest(test.nomEvaluation, test.valeur, idutilisateur);
-                sentToApi = false;
             } else {
                 const valeur = test.valeur;
                 const nomEvaluation = test.nomEvaluation;
@@ -48,6 +46,6 @@ export const soumettreTests = () => {
             }
         };
 
-        dispatch({ type: SUPPRIMER_TESTS_EN_COURS, sentToApi });
+        dispatch({ type: SUPPRIMER_TESTS_EN_COURS });
     };
 };

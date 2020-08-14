@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
@@ -39,8 +39,8 @@ const SearchScreen = props => {
         );
     };
 
-    const SearchFilterFunction = text=> {
-        const newData = fiches.filter(function(item) {
+    const SearchFilterFunction = text => {
+        const newData = fiches.filter(function (item) {
             const itemData = item.titreFiche ? item.titreFiche.toUpperCase() : ''.toUpperCase();
             const textData = text.toUpperCase();
             return itemData.indexOf(textData) > -1;
@@ -53,8 +53,7 @@ const SearchScreen = props => {
         setIsRefreshing(true);
 
         const connect = await NetInfo.fetch();
-        console.log(connect.isConnected);
-        if (!connect.isConnected) {
+        if (!connect.isInternetReachable) {
             setIsConnected(false);
             setMessage({ text: 'Aucune connexion', type: 'danger' });
             setModal(true);
@@ -67,7 +66,7 @@ const SearchScreen = props => {
 
     useEffect(() => {
         NetInfo.fetch().then(state => {
-            if (!state.isConnected) {
+            if (!state.isInternetReachable) {
                 setIsLoading(false);
                 setIsConnected(false);
             } else {
@@ -99,21 +98,21 @@ const SearchScreen = props => {
                 value={search}
             />
             <Table style={{ flex: 1 }}>
-                    <FlatList 
-                        refreshing={isRefreshing}
-                        onRefresh={refreshHandler}       
-                        keyExtractor={item => item.titreFiche}
-                        data={dataSource.length==0?fiches:dataSource}
-                        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-                        renderItem={(itemData) => fichesHandler(itemData.item)}
-                    />
-                    <ModalPopupInfo
-                        visible={modal}
-                        onClose={modalCloser}
-                        text={message.text}
-                        buttonText='Fermer'
-                        type={message.type}
-                    />
+                <FlatList
+                    refreshing={isRefreshing}
+                    onRefresh={refreshHandler}
+                    keyExtractor={item => item.titreFiche}
+                    data={dataSource.length == 0 ? fiches : dataSource}
+                    ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+                    renderItem={(itemData) => fichesHandler(itemData.item)}
+                />
+                <ModalPopupInfo
+                    visible={modal}
+                    onClose={modalCloser}
+                    text={message.text}
+                    buttonText='Fermer'
+                    type={message.type}
+                />
             </Table>
         </View>
     );

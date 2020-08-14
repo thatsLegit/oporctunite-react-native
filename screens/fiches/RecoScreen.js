@@ -76,7 +76,7 @@ const RecoScreen = props => {
         setIsRefreshing(true);
 
         const connect = await NetInfo.fetch();
-        if (!connect.isConnected) {
+        if (!connect.isInternetReachable) {
             setIsConnected(false);
             setMessage({ text: 'Aucune connexion', type: 'danger' });
             setModal(true);
@@ -90,7 +90,7 @@ const RecoScreen = props => {
 
     useEffect(() => {
         NetInfo.fetch().then(state => {
-            if (!state.isConnected) {
+            if (!state.isInternetReachable) {
                 setIsLoading(false);
                 recoHandler();
                 setIsConnected(false);

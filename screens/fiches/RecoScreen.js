@@ -26,6 +26,19 @@ const RecoScreen = props => {
 
     const fichesReco = useSelector(state => Object.values(state.fiche.fiches).filter(fiche => categReco.includes(fiche.nomCategorieG)));
 
+    useEffect(() => {
+        const unsubscribe = NetInfo.addEventListener(state => {
+            if (!state.isInternetReachable) {
+                setIsConnected(false);
+            } else {
+                setIsConnected(true);
+            }
+        });
+        return () => {
+            unsubscribe();
+        }
+    });
+
     const recoHandler = useCallback(async () => {
         await fetchMoyenneCategorieBilan().then(result => {
             if (result.rows._array.length == 4) {
@@ -74,33 +87,25 @@ const RecoScreen = props => {
 
     const refreshHandler = async () => {
         setIsRefreshing(true);
-
-        const connect = await NetInfo.fetch();
-        if (!connect.isInternetReachable) {
-            setIsConnected(false);
+        if (!isConnected) {
             setMessage({ text: 'Aucune connexion', type: 'danger' });
             setModal(true);
         } else {
             notesHandler();
-            setIsConnected(true);
         }
-
         setIsRefreshing(false);
     };
 
     useEffect(() => {
-        NetInfo.fetch().then(state => {
-            if (!state.isInternetReachable) {
-                setIsLoading(false);
-                recoHandler();
-                setIsConnected(false);
-            } else {
-                setIsRefreshing(true);
-                notesHandler();
-                setIsLoading(false);
-                setIsRefreshing(false);
-            }
-        });
+        if (!isConnected) {
+            setIsLoading(false);
+            recoHandler();
+        } else {
+            setIsRefreshing(true);
+            notesHandler();
+            setIsLoading(false);
+            setIsRefreshing(false);
+        }
     }, [notesHandler, dispatch]);
 
 
@@ -133,7 +138,6 @@ const RecoScreen = props => {
         );
     }
 
-    //revoir les conditions
     return (
         <View style={{ flex: 1 }}>
             <View style={{ paddingVertical: 25, marginHorizontal: 5 }}>

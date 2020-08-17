@@ -316,6 +316,62 @@ export const fetchAllLiaisons = () => {
     return promise;
 };
 
+
+//Favoris
+export const insertFavoris = (idutilisateur, titreFiche, dateFavoris) => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                `INSERT INTO Favoris_${idutilisateur}(idutilisateur, titreFiche, dateFavoris) VALUES (?,?,?);`,
+                [idutilisateur, titreFiche, dateFavoris], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const dropFavoris = async idutilisateur => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                `DELETE FROM Favoris_${idutilisateur};`,
+                [],
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchAllFavoris = async idutilisateur => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                `SELECT * FROM Favoris_${idutilisateur};`,
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
 //Fiche
 export const insertFiche = (titreFiche, urlImage, nomCategorieG) => {
     const promise = new Promise((resolve, reject) => {
@@ -359,6 +415,24 @@ export const fetchAllFiches = () => {
             tx.executeSql(
                 'SELECT * FROM Fiche;',
                 [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
+                    resolve(result);
+                },
+                (_, err) => { //error function
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};
+
+export const fetchFichesFavoris = titreFiche => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * FROM Fiche WHERE Fiche.titreFiche = ?;',
+                [titreFiche],
                 (_, result) => { //success fonction
                     resolve(result);
                 },

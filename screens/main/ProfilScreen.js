@@ -14,7 +14,7 @@ import {
     dropTests, fetchAllTests,
     dropBilan, insertNoteGlobaleEvaluations
 } from '../../helper/db/requetes';
-import { createTableTest } from '../../helper/db/init';
+import { createTableTest, createTableFavoris } from '../../helper/db/init';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 
 
@@ -48,6 +48,7 @@ const ProfilScreen = props => {
         await dispatch(sousCategActions.fetchEvaluationBySousCateg());
         await dispatch(evalActions.fetchLiaisons(isConnected));
         await dispatch(ficheActions.fetchFiches(isConnected));
+        await dispatch(ficheActions.fetchFavoris(isConnected));
         setIsLoading(false);
     }, []);
 
@@ -113,6 +114,7 @@ const ProfilScreen = props => {
 
     useEffect(() => {
         createTableTest(idutilisateur);
+        createTableFavoris(idutilisateur);
         if (!alreadyFetched) {
             if (isConnected) {
                 majTests();

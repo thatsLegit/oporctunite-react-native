@@ -610,7 +610,7 @@ export const fetchMoyenneEvaluationParSousCategorieBilan = nomSousCateg => {
         db.transaction((tx) => {
             tx.executeSql(
 
-                'SELECT nomEvaluation, moyenneGlobaleEval, CASE WHEN AVG(noteEval) == "null" THEN 0 ELSE AVG(noteEval) END AS moyenneEval FROM Bilan WHERE nomSousCateg = ? GROUP BY nomEvaluation;',
+                'SELECT nomEvaluation, moyenneGlobaleEval, noteEval FROM Bilan WHERE nomSousCateg = ? AND  noteEval<>"null" GROUP BY nomEvaluation;',
                 [nomSousCateg], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);

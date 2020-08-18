@@ -65,7 +65,6 @@ const SearchScreen = props => {
                 onClear={text => SearchFilterFunction('')}
                 placeholder="Rechercher une fiche..."
                 value={search}
-
             />
             <Table style={{ flex: 1, paddingTop: 20 }}>
                 <FlatList

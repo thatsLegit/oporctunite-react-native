@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
 import { SearchBar } from 'react-native-elements';
 import NetInfo from '@react-native-community/netinfo';
+import { EvilIcons } from '@expo/vector-icons';
 
 const SearchScreen = props => {
     const fiches = useSelector(state => Object.values(state.fiche.fiches));
@@ -13,6 +14,7 @@ const SearchScreen = props => {
     const [search, setSearch] = useState('');
     const [dataSource, setDataSource] = useState([]);
 
+    
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isInternetReachable) {
@@ -89,6 +91,14 @@ export const screenOptions = (navData) => {
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
             </HeaderButtons>
+        ),
+        headerRight: () =>(
+            <TouchableWithoutFeedback onPress={() => {
+              
+                Alert.alert("Informations", "Pour pouvoir accèder aux fiches il faut posséder une connexion internet, autrement seulement l'accès au nom des fiches et catégories seront disponibles.",);
+            }}>
+                <EvilIcons name="question" size={35} color="white" />
+            </TouchableWithoutFeedback>
         )
     };
 };

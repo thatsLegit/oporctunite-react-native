@@ -5,32 +5,37 @@ import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupIn
 import { EvilIcons } from '@expo/vector-icons';
 const BilanCategorieScreen = props => {
 
-    const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
-    const modalEchantillonCloser = () => setModalEchantillonVisible(false);
+    const [modalVisible, setmodalVisible] = useState(false);
+    const modalCloser = () => setmodalVisible(false);
     return (
         <View style={style.chartContainer}  >
             
-            {props.retourCategorie==true
-                ? 
-                <TouchableOpacity style={style.button} onPress={() => {  props.navigation.navigate("BilanCategorie3Screen") }}>
-                    <Text style={style.buttonText}>Retour catégorie</Text>
-                </TouchableOpacity>
-                :
-                <TouchableOpacity style={style.button} onPress={() => { props.navigation.navigate('Bilan') }}>
-                    <Text style={style.buttonText}>Retour catégories</Text>
-                </TouchableOpacity>
-            }
+            <View style={style.topContainer}>
+                {props.retourCategorie==true
+                    ? 
+                    <TouchableOpacity style={style.button} onPress={() => {  props.navigation.navigate("BilanCategorie3Screen") }}>
+                        <Text style={style.buttonText}>Retour catégorie</Text>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={style.button} onPress={() => { props.navigation.navigate('Bilan') }}>
+                        <Text style={style.buttonText}>Retour catégories</Text>
+                    </TouchableOpacity>
+                }        
 
+                <View style={style.buttonInfo}>
+                    <TouchableWithoutFeedback  onPress={() => {
+                            setmodalVisible(true);
+                        }}>
+                            <EvilIcons name="question" size={35} color="black" />
+                    </TouchableWithoutFeedback>                  
+                </View>
+            </View>
             <View style={style.chartCaption}>
                 
                 <View style={style.label1Container}>
                     <View style={style.label1}></View>
                     <Text>Résultats de mon elevage</Text>
-                    <TouchableWithoutFeedback onPress={() => {
-                    setModalEchantillonVisible(true);
-                }}>
-                    <EvilIcons name="question" size={30} color="black" />
-                </TouchableWithoutFeedback>
+                    
                 </View>
                 <View style={style.label2Container}>
                     <View style={style.label2}></View>
@@ -38,9 +43,10 @@ const BilanCategorieScreen = props => {
                 </View>
             </View>
             {props.chart}
+            
             <ModalPopupInfo
-                visible={modalEchantillonVisible}
-                onClose={modalEchantillonCloser}
+                visible={modalVisible}
+                onClose={modalCloser}
                 text="Cliquer sur la barre bleue d'une sous catégorie ou évaluation pour voir plus de détails."
                 buttonText='Fermer'
             />
@@ -49,6 +55,14 @@ const BilanCategorieScreen = props => {
 };
 
 const style = StyleSheet.create({
+    topContainer:{
+        flexDirection: 'row',
+        alignItems: 'center'  
+    },
+    buttonInfo: {    
+        paddingTop:15
+        
+    },
     button: {
         width: "47%",
         height: 40,

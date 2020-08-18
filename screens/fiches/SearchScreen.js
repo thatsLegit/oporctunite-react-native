@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFeedback, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFeedback, Alert, Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
@@ -14,7 +14,7 @@ const SearchScreen = props => {
     const [search, setSearch] = useState('');
     const [dataSource, setDataSource] = useState([]);
 
-    
+
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isInternetReachable) {
@@ -91,12 +91,12 @@ export const screenOptions = (navData) => {
                 />
             </HeaderButtons>
         ),
-        headerRight: () =>(
+        headerRight: () => (
             <TouchableWithoutFeedback onPress={() => {
-              
-                Alert.alert("Informations", "Pour pouvoir accèder aux fiches il faut posséder une connexion internet, autrement seulement l'accès au nom des fiches et catégories seront disponibles.",);
+
+                Alert.alert("Informations", "Pour pouvoir accèder aux fiches il faut posséder une connexion internet, autrement seulement l'accès au nom des fiches et catégories seront disponibles à titre informatif.",);
             }}>
-                <EvilIcons name="question" size={35} color="white" />
+                <EvilIcons name="question" size={35} color={Platform.OS == 'android' ? "white" : "grey"} />
             </TouchableWithoutFeedback>
         )
     };

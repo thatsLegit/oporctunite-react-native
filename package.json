@@ -44,6 +44,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rn-pdf-reader-js": "^4.1.1",
+    "slugify": "^1.4.5",
     "victory-native": "^35.0.0"
   },
   "devDependencies": {

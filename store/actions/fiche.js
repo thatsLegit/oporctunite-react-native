@@ -142,7 +142,7 @@ export const ajouterFavoris = fiche => {
 export const supprimerFavoris = titreFiche => {
     return async (dispatch, getState) => {
 
-        let modifiedTitle = titreFiche.replace(' ', '+');
+        let modifiedTitle = titreFiche.replace(/ /g, '+');
 
         const token = getState().auth.token;
         const url = `https://oporctunite.envt.fr/oporctunite-api/api/v1/favoris/${modifiedTitle}`;

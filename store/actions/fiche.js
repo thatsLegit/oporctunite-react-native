@@ -168,20 +168,17 @@ export const supprimerFavoris = titreFiche => {
 export const fetchFichesSaved = () => {
     return async (dispatch, getState) => {
         const fiches = Object.values(getState().fiche.fiches);
-        let savedFiches = {};
+        let savedFiches = [];
 
         for (let fiche of fiches) {
             let path = FileSystem.documentDirectory + slugify(fiche.titreFiche, { locale: 'fr' }) + '.pdf';
             const result = await FileSystem.getInfoAsync(path);
             if (result.exists) {
-                fiche.urlImage = path;
-                savedFiches = {
-                    ...savedFiches, [fiche.titreFiche]: fiche
-                }
+                savedFiches.push(fiche.titreFiche);
             }
         }
 
-        dispatch({ type: SET_SAVE, fiches });
+        dispatch({ type: SET_SAVE, savedFiches });
     }
 };
 
@@ -189,6 +186,6 @@ export const deleteFicheSaved = titreFiche => {
     return { type: DELETE_SAVE, titreFiche };
 };
 
-export const addFicheSaved = fiche => {
-    return { type: ADD_SAVE, fiche };
+export const addFicheSaved = titreFiche => {
+    return { type: ADD_SAVE, titreFiche };
 };

@@ -11,8 +11,7 @@ import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo'
 
 
 const RecoScreen = props => {
-    const saved = useSelector(state => Object.keys(state.fiche.save));
-    const savedFiches = useSelector(state => state.fiche.save);
+    const saved = useSelector(state => state.fiche.save);
     const [isConnected, setIsConnected] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
@@ -115,9 +114,9 @@ const RecoScreen = props => {
         if (!isConnected && saved.includes(item.titreFiche)) {
             return (
                 <View style={{ borderRadius: 5 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: savedFiches[item.titreFiche] })}>
-                        <Text style={styles.titre}>{savedFiches[item.titreFiche].titreFiche}</Text>
-                        <Text style={styles.categorie}>{savedFiches[item.titreFiche].nomCategorieG}</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                        <Text style={styles.titre}>{item.titreFiche}</Text>
+                        <Text style={styles.categorie}>{item.nomCategorieG}</Text>
                     </TouchableOpacity>
                 </View>
             );

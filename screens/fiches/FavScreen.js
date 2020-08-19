@@ -9,8 +9,7 @@ import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 
 const FavScreen = props => {
     const favoris = useSelector(state => Object.values(state.fiche.favoris));
-    const saved = useSelector(state => Object.keys(state.fiche.save));
-    const savedFiches = useSelector(state => state.fiche.save);
+    const saved = useSelector(state => state.fiche.save);
     const [isConnected, setIsConnected] = useState(true);
 
     useEffect(() => {
@@ -30,9 +29,9 @@ const FavScreen = props => {
         if (!isConnected && saved.includes(item.titreFiche)) {
             return (
                 <View style={{ borderRadius: 5 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: savedFiches[item.titreFiche] })}>
-                        <Text style={styles.titre}>{savedFiches[item.titreFiche].titreFiche}</Text>
-                        <Text style={styles.categorie}>{savedFiches[item.titreFiche].nomCategorieG}</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                        <Text style={styles.titre}>{item.titreFiche}</Text>
+                        <Text style={styles.categorie}>{item.nomCategorieG}</Text>
                     </TouchableOpacity>
                 </View>
             );

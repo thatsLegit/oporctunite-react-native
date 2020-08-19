@@ -6,7 +6,7 @@ import { SET_FICHES, SET_FAVORIS, ADD_FAVORIS, DELETE_FAVORIS, SET_SAVE, ADD_SAV
 const initialState = {
     fiches: {},
     favoris: {},
-    save: {}
+    save: []
 };
 
 
@@ -37,19 +37,21 @@ export default (state = initialState, action) => {
         case SET_SAVE:
             return {
                 ...state,
-                save: action.fiches
+                save: action.savedFiches
             };
         case ADD_SAVE:
-            return {
-                ...state,
-                save: { ...state.save, [action.fiche.titreFiche]: action.fiche }
-            };
-        case DELETE_SAVE:
-            let updatedSave = { ...state.save };
-            delete updatedSave[action.titreFiche];
+            let updatedSave = [...state.save];
+            updatedSave.push(action.titreFiche);
             return {
                 ...state,
                 save: updatedSave
+            };
+        case DELETE_SAVE:
+            let updatedSave2 = [...state.save];
+            updatedSave2.filter(titre => titre == action.titreFiche);
+            return {
+                ...state,
+                save: updatedSave2
             };
         default:
             return state;

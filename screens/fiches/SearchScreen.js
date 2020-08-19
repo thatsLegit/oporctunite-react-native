@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFeedback, Alert, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { useSelector } from 'react-redux';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import Table from '../../components/UI/Table';
 import { SearchBar } from 'react-native-elements';
 import NetInfo from '@react-native-community/netinfo';
-import { EvilIcons } from '@expo/vector-icons';
+
 
 const SearchScreen = props => {
     const fiches = useSelector(state => Object.values(state.fiche.fiches));
-    const saved = useSelector(state => Object.keys(state.fiche.save));
-    const savedFiches = useSelector(state => state.fiche.save);
+    const saved = useSelector(state => state.fiche.save);
     const [isConnected, setIsConnected] = useState(true);
     const [search, setSearch] = useState('');
     const [dataSource, setDataSource] = useState([]);
@@ -44,9 +43,9 @@ const SearchScreen = props => {
         if (!isConnected && saved.includes(item.titreFiche)) {
             return (
                 <View style={{ borderRadius: 5 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: savedFiches[item.titreFiche] })}>
-                        <Text style={styles.titre}>{savedFiches[item.titreFiche].titreFiche}</Text>
-                        <Text style={styles.categorie}>{savedFiches[item.titreFiche].nomCategorieG}</Text>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                        <Text style={styles.titre}>{item.titreFiche}</Text>
+                        <Text style={styles.categorie}>{item.nomCategorieG}</Text>
                     </TouchableOpacity>
                 </View>
             );
@@ -104,14 +103,6 @@ export const screenOptions = (navData) => {
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
             </HeaderButtons>
-        ),
-        headerRight: () => (
-            <TouchableWithoutFeedback onPress={() => {
-
-                Alert.alert("Informations", "Pour pouvoir accèder aux fiches il faut posséder une connexion internet, autrement seulement l'accès au nom des fiches et catégories seront disponibles à titre informatif.",);
-            }}>
-                <EvilIcons name="question" size={35} color={Platform.OS == 'android' ? "white" : "grey"} />
-            </TouchableWithoutFeedback>
         )
     };
 };

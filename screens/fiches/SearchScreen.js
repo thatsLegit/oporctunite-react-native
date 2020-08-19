@@ -10,6 +10,8 @@ import { EvilIcons } from '@expo/vector-icons';
 
 const SearchScreen = props => {
     const fiches = useSelector(state => Object.values(state.fiche.fiches));
+    const saved = useSelector(state => Object.keys(state.fiche.save));
+    const savedFiches = useSelector(state => state.fiche.save);
     const [isConnected, setIsConnected] = useState(true);
     const [search, setSearch] = useState('');
     const [dataSource, setDataSource] = useState([]);
@@ -39,19 +41,31 @@ const SearchScreen = props => {
     };
 
     const fichesHandler = item => {
+        if (!isConnected && saved.includes(item.titreFiche)) {
+            return (
+                <View style={{ borderRadius: 5 }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                        <Text style={styles.titre}>{savedFiches[item.titreFiche].titreFiche}</Text>
+                        <Text style={styles.categorie}>{savedFiches[item.titreFiche].nomCategorieG}</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
         if (!isConnected) {
             return (
-                <View>
+                <View style={{ backgroundColor: 'rgba(191, 191, 191, 0.9)', borderRadius: 5 }}>
                     <Text style={styles.titre}>{item.titreFiche}</Text>
                     <Text style={styles.categorie}>{item.nomCategorieG}</Text>
                 </View>
             );
         }
         return (
-            <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
-                <Text style={styles.titre}>{item.titreFiche}</Text>
-                <Text style={styles.categorie}>{item.nomCategorieG}</Text>
-            </TouchableOpacity>
+            <View style={{ borderRadius: 5 }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                    <Text style={styles.titre}>{item.titreFiche}</Text>
+                    <Text style={styles.categorie}>{item.nomCategorieG}</Text>
+                </TouchableOpacity>
+            </View>
         );
     };
 

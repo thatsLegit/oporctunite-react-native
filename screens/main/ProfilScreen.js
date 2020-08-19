@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, Dimensions } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
 
@@ -145,20 +145,31 @@ const ProfilScreen = props => {
     }
 
     return (
-        <View>
-            <Text style={{ textAlign: "center", paddingVertical: 10 }}>
-                Vendredi 14 août
+        <View style={styles.container}>
+            
+            <Image style={styles.photo} source={require('../../assets/img/evaluations/Bursite-photo1.png')} />
+
+            {/* Pour un éleveur */}
+            <View style={styles.textContainer}>
+                <Text style={styles.text}>
+                    Nom d'élevage
+                </Text>
+                <Text style={styles.text}>
+                    Code postal, adresse, ville
+                </Text>
+                <Text style={styles.text}>
+                    Email
+                </Text>
+                <Text style={styles.text}>
+                    Numéro de téléphone
+                </Text>
+                <Text style={styles.text}>
+                    Taille de l'élevage
+                </Text>
+            </View>
+            <Text style={{bottom:20, position:"absolute"}}>
+                Mardi 18 août
             </Text>
-            <Button title='Paramètres' onPress={() => props.navigation.navigate('Parametre')} />
-            <Button title='Test connexion' onPress={() => console.log(isConnected)} />
-            <ModalPopupInfo
-                visible={modal}
-                onClose={modalCloser}
-                text={message.text}
-                buttonText='Fermer'
-                type={message.type}
-                align={message.type == 'success' ? true : false}
-            />
         </View>
     );
 };
@@ -175,21 +186,42 @@ export const screenOptions = (navData) => {
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
             </HeaderButtons>
+        ),
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item
+                    title='Paramètre'
+                    iconName={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'}
+                    
+                    onPress={() => navData.navigation.navigate('Parametre')}
+                />
+            </HeaderButtons>
         )
     };
 };
 
 const styles = StyleSheet.create({
-    centered: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
     spinnerContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
+    },
+    photo: {
+        height: Dimensions.get('window').height / 5,
+        width: Dimensions.get('window').width / 3,
+        backgroundColor:"blue",
+        marginVertical:15
+    },
+    textContainer:{     
+        alignItems:"flex-start"
+    },
+    text:{     
+        fontSize:16
+    },
+    container:{
+        alignItems: 'center',
+        flex:1,
     }
 });
 

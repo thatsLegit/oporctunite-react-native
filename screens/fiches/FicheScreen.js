@@ -18,9 +18,9 @@ const slugify = require('slugify');
 const FicheScreen = props => {
     const isFavorite = useSelector(state => Object.keys(state.fiche.favoris).some(titre => titre == props.route.params.fiche.titreFiche));
     const [downloadProgress, setDownloadProgress] = useState(0);
-    const [isDownloaded, setIsDownloaded] = useState(false);
+    const [isDownloaded, setIsDownloaded] = useState();
     const [modalDelete, setModalDelete] = useState(false);
-    const [isConnected, setIsConnected] = useState(true);
+    const [isConnected, setIsConnected] = useState();
 
     let menu = null;
     const path = FileSystem.documentDirectory + slugify(props.route.params.fiche.titreFiche, { locale: 'fr' }) + '.pdf';
@@ -44,6 +44,8 @@ const FicheScreen = props => {
         FileSystem.getInfoAsync(path).then(result => {
             if (result.exists) {
                 setIsDownloaded(true);
+            } else {
+                setIsDownloaded(false);
             }
         });
     }, []);
@@ -78,11 +80,7 @@ const FicheScreen = props => {
 
             try {
                 await downloadResumable.downloadAsync();
-                dispatch(ficheActions.addFicheSaved(new Fiche(
-                    props.route.params.fiche.titreFiche,
-                    path,
-                    props.route.params.fiche.nomCategorieG,
-                )));
+                dispatch(ficheActions.addFicheSaved(props.route.params.fiche.titreFiche));
                 setTimeout(() => {
                     setDownloadProgress(0);
                     setIsDownloaded(true);
@@ -171,32 +169,39 @@ const FicheScreen = props => {
         );
     }
 
-    if (downloadProgress == 0 && !isDownloaded) {
-        return (
-            <View style={{ flex: 1 }}>
-                <PDFReader
-                    noLoader={false}
-                    withPinchZoom={true}
-                    source={{
-                        uri: props.route.params.fiche.urlImage
-                    }}
-                />
-            </View>
-        );
+    if (isDownloaded) {
+        Alert.alert(`path: ${path}`);
+        console.log(`path: ${path}`);
     }
 
-    if (downloadProgress == 0 && isDownloaded) {
-        return (
-            <View style={{ flex: 1 }}>
-                <PDFReader
-                    noLoader={false}
-                    withPinchZoom={true}
-                    source={{
-                        uri: path
-                    }}
-                />
-            </View>
-        );
+    if (isDownloaded !== undefined && isConnected !== undefined && downloadProgress == 0) {
+        if (!isDownloaded) {
+            return (
+                <View style={{ flex: 1 }}>
+                    <PDFReader
+                        noLoader={false}
+                        withPinchZoom={true}
+                        source={{
+                            uri: props.route.params.fiche.urlImage
+                        }}
+                    />
+                </View>
+            );
+        }
+
+        if (isDownloaded) {
+            return (
+                <View style={{ flex: 1 }}>
+                    <PDFReader
+                        noLoader={false}
+                        withPinchZoom={true}
+                        source={{
+                            uri: path
+                        }}
+                    />
+                </View>
+            );
+        }
     }
 
     return (

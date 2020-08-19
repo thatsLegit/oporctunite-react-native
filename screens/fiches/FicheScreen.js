@@ -49,7 +49,7 @@ const FicheScreen = props => {
             setTimeout(() => {
                 setModalDelete(false);
                 setIsDownloaded(false);
-            }, 1000);
+            }, 2000);
         } else {
             const connection = await NetInfo.fetch();
             if (!connection.isInternetReachable) {
@@ -73,7 +73,7 @@ const FicheScreen = props => {
                         setDownloadProgress(0);
                         setIsDownloaded(true);
                         setModalDL(false);
-                    }, 1000);
+                    }, 2000);
                 } catch (e) {
                     console.error(e);
                 }
@@ -154,21 +154,7 @@ const FicheScreen = props => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <AnimatedCircularProgress
-                            size={100}
-                            width={2}
-                            fill={downloadProgress}
-                            tintColor="#00e0ff"
-                            backgroundColor="#3d5875"
-                            duration={1500}>
-                            {
-                                () => (
-                                    <Text>
-                                        {downloadProgress * 100} %
-                                    </Text>
-                                )
-                            }
-                        </AnimatedCircularProgress>
+                        <Text>Fiche enregistrée</Text>
                     </View>
                 </View>
             </Modal>
@@ -178,22 +164,7 @@ const FicheScreen = props => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <AnimatedCircularProgress
-                            size={100}
-                            width={2}
-                            fill={downloadProgress}
-                            tintColor="#00e0ff"
-                            backgroundColor="#3d5875"
-                            duration={1500}>
-                            {
-                                () => (
-                                    <Text>
-                                        Fiche supprimée
-                                    </Text>
-                                )
-
-                            }
-                        </AnimatedCircularProgress>
+                        <Text>Fiche supprimée</Text>
                     </View>
                 </View>
             </Modal>
@@ -226,7 +197,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        backgroundColor: "rgba(255, 255, 255, 0.6)",
         borderRadius: 20,
         padding: 35,
         alignItems: "center",

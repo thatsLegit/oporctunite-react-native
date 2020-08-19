@@ -40,7 +40,7 @@ const ProfilScreen = props => {
         }
     });
 
-    const categHandler = useCallback(async (isConnected) => {
+    const dataHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
         await dispatch(sousCategActions.fetchSousCateg(isConnected));
         await dispatch(categActions.fetchSousCategByCateg());
@@ -49,6 +49,7 @@ const ProfilScreen = props => {
         await dispatch(evalActions.fetchLiaisons(isConnected));
         await dispatch(ficheActions.fetchFiches(isConnected));
         await dispatch(ficheActions.fetchFavoris(isConnected));
+        await dispatch(ficheActions.fetchFichesSaved());
         setIsLoading(false);
     }, []);
 
@@ -127,7 +128,7 @@ const ProfilScreen = props => {
                 setModal(true);
                 setIsLoading(false);
             }
-            categHandler(isConnected);
+            dataHandler(isConnected);
         }
     }, [isConnected]);
 

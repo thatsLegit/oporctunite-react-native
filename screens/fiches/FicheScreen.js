@@ -19,7 +19,6 @@ const FicheScreen = props => {
     const isFavorite = useSelector(state => Object.keys(state.fiche.favoris).some(titre => titre == props.route.params.fiche.titreFiche));
     const [downloadProgress, setDownloadProgress] = useState(0);
     const [isDownloaded, setIsDownloaded] = useState(false);
-    const [modalDL, setModalDL] = useState(false);
     const [modalDelete, setModalDelete] = useState(false);
 
     let menu = null;
@@ -45,11 +44,12 @@ const FicheScreen = props => {
         menu.hide();
         if (isDownloaded) {
             await FileSystem.deleteAsync(path);
+            dispatch(ficheActions.deleteFicheSaved(props.route.params.fiche.titreFiche));
             setModalDelete(true);
             setTimeout(() => {
                 setModalDelete(false);
                 setIsDownloaded(false);
-            }, 2000);
+            }, 2500);
         } else {
             const connection = await NetInfo.fetch();
             if (!connection.isInternetReachable) {
@@ -68,12 +68,15 @@ const FicheScreen = props => {
 
                 try {
                     await downloadResumable.downloadAsync();
-                    setModalDL(true);
+                    dispatch(ficheActions.addFicheSaved(new Fiche(
+                        props.route.params.fiche.titreFiche,
+                        path,
+                        props.route.params.fiche.nomCategorieG,
+                    )));
                     setTimeout(() => {
                         setDownloadProgress(0);
                         setIsDownloaded(true);
-                        setModalDL(false);
-                    }, 2000);
+                    }, 1000);
                 } catch (e) {
                     console.error(e);
                 }
@@ -139,37 +142,62 @@ const FicheScreen = props => {
     }, [isFavorite, isDownloaded]);
 
 
+    if (modalDelete) {
+        return (
+            <View style={styles.centeredView}>
+                <Text style={{ textAlign: 'center' }}>
+                    La fiche {props.route.params.fiche.titreFiche} a bien été supprimée de votre appareil.{"\n"}{"\n"}
+                    Elle ne sera plus disponible en étant 'hors-ligne'.
+                </Text>
+            </View>
+        );
+    }
+
+    if (downloadProgress == 0 && !isDownloaded) {
+        return (
+            <View style={{ flex: 1 }}>
+                <PDFReader
+                    noLoader={false}
+                    withPinchZoom={true}
+                    source={{
+                        uri: props.route.params.fiche.urlImage
+                    }}
+                />
+            </View>
+        );
+    }
+
+    if (downloadProgress == 0 && isDownloaded) {
+        return (
+            <View style={{ flex: 1 }}>
+                <PDFReader
+                    noLoader={false}
+                    withPinchZoom={true}
+                    source={{
+                        uri: path
+                    }}
+                />
+            </View>
+        );
+    }
+
     return (
-        <View style={{ flex: 1 }}>
-            <PDFReader
-                noLoader={false}
-                withPinchZoom={true}
-                source={{
-                    uri: props.route.params.fiche.urlImage
-                }}
-            />
-            <Modal
-                visible={modalDL}
-                transparent={true}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text>Fiche enregistrée</Text>
-                    </View>
-                </View>
-            </Modal>
-            <Modal
-                visible={modalDelete}
-                transparent={true}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text>Fiche supprimée</Text>
-                    </View>
-                </View>
-            </Modal>
-        </View>
-    );
+        <View style={styles.centeredView}>
+            <AnimatedCircularProgress
+                size={100}
+                width={2}
+                fill={downloadProgress}
+                tintColor="#00e0ff"
+                backgroundColor="#3d5875">
+                {
+                    (fill) => (
+                        <Text>
+                            {Math.trunc(fill * 100)} %
+                        </Text>
+                    )
+                }
+            </AnimatedCircularProgress>
+        </View>);
 
 };
 
@@ -194,21 +222,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "rgba(255, 255, 255, 0.6)",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
     }
 });
 

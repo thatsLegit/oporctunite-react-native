@@ -2,6 +2,8 @@ import {
     insertFiche, dropFiches, fetchAllFiches,
     insertFavoris, dropFavoris, fetchAllFavoris, fetchFichesFavoris
 } from '../../helper/db/requetes';
+const slugify = require('slugify');
+import * as FileSystem from 'expo-file-system';
 //Models
 import Fiche from '../../models/Fiche';
 //Actions
@@ -9,6 +11,9 @@ export const SET_FICHES = 'SET_FICHES';
 export const SET_FAVORIS = 'SET_FAVORIS';
 export const ADD_FAVORIS = 'ADD_FAVORIS';
 export const DELETE_FAVORIS = 'DELETE_FAVORIS';
+export const SET_SAVE = 'SET_SAVE';
+export const ADD_SAVE = 'ADD_SAVE';
+export const DELETE_SAVE = 'DELETE_SAVE';
 
 
 export const fetchFiches = isConnected => {
@@ -159,3 +164,31 @@ export const supprimerFavoris = titreFiche => {
         dispatch({ type: DELETE_FAVORIS, titreFiche });
     }
 }
+
+export const fetchFichesSaved = () => {
+    return async (dispatch, getState) => {
+        const fiches = Object.values(getState().fiche.fiches);
+        let savedFiches = {};
+
+        for (let fiche of fiches) {
+            let path = FileSystem.documentDirectory + slugify(fiche.titreFiche, { locale: 'fr' }) + '.pdf';
+            const result = await FileSystem.getInfoAsync(path);
+            if (result.exists) {
+                fiche.urlImage = path;
+                savedFiches = {
+                    ...savedFiches, [fiche.titreFiche]: fiche
+                }
+            }
+        }
+
+        dispatch({ type: SET_SAVE, fiches });
+    }
+};
+
+export const deleteFicheSaved = titreFiche => {
+    return { type: DELETE_SAVE, titreFiche };
+};
+
+export const addFicheSaved = fiche => {
+    return { type: ADD_SAVE, fiche };
+};

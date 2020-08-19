@@ -1,11 +1,12 @@
 //actions
-import { SET_FICHES, SET_FAVORIS, ADD_FAVORIS, DELETE_FAVORIS } from '../actions/fiche';
+import { SET_FICHES, SET_FAVORIS, ADD_FAVORIS, DELETE_FAVORIS, SET_SAVE, ADD_SAVE, DELETE_SAVE } from '../actions/fiche';
 
 
 //Etat initial
 const initialState = {
     fiches: {},
-    favoris: {}
+    favoris: {},
+    save: {}
 };
 
 
@@ -32,6 +33,23 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 favoris: updatedFavoris
+            };
+        case SET_SAVE:
+            return {
+                ...state,
+                save: action.fiches
+            };
+        case ADD_SAVE:
+            return {
+                ...state,
+                save: { ...state.save, [action.fiche.titreFiche]: action.fiche }
+            };
+        case DELETE_SAVE:
+            let updatedSave = { ...state.save };
+            delete updatedSave[action.titreFiche];
+            return {
+                ...state,
+                save: updatedSave
             };
         default:
             return state;

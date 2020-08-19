@@ -44,7 +44,7 @@ const SearchScreen = props => {
         if (!isConnected && saved.includes(item.titreFiche)) {
             return (
                 <View style={{ borderRadius: 5 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: savedFiches[item.titreFiche] })}>
                         <Text style={styles.titre}>{savedFiches[item.titreFiche].titreFiche}</Text>
                         <Text style={styles.categorie}>{savedFiches[item.titreFiche].nomCategorieG}</Text>
                     </TouchableOpacity>

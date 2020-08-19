@@ -11,6 +11,8 @@ import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo'
 
 
 const RecoScreen = props => {
+    const saved = useSelector(state => Object.keys(state.fiche.save));
+    const savedFiches = useSelector(state => state.fiche.save);
     const [isConnected, setIsConnected] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
@@ -110,19 +112,31 @@ const RecoScreen = props => {
 
 
     const fichesHandler = item => {
+        if (!isConnected && saved.includes(item.titreFiche)) {
+            return (
+                <View style={{ borderRadius: 5 }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: savedFiches[item.titreFiche] })}>
+                        <Text style={styles.titre}>{savedFiches[item.titreFiche].titreFiche}</Text>
+                        <Text style={styles.categorie}>{savedFiches[item.titreFiche].nomCategorieG}</Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
         if (!isConnected) {
             return (
-                <View>
+                <View style={{ backgroundColor: 'rgba(191, 191, 191, 0.9)', borderRadius: 5 }}>
                     <Text style={styles.titre}>{item.titreFiche}</Text>
                     <Text style={styles.categorie}>{item.nomCategorieG}</Text>
                 </View>
             );
         }
         return (
-            <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
-                <Text style={styles.titre}>{item.titreFiche}</Text>
-                <Text style={styles.categorie}>{item.nomCategorieG}</Text>
-            </TouchableOpacity>
+            <View style={{ borderRadius: 5 }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
+                    <Text style={styles.titre}>{item.titreFiche}</Text>
+                    <Text style={styles.categorie}>{item.nomCategorieG}</Text>
+                </TouchableOpacity>
+            </View>
         );
     };
 

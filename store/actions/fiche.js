@@ -7,6 +7,8 @@ import Fiche from '../../models/Fiche';
 //Actions
 export const SET_FICHES = 'SET_FICHES';
 export const SET_FAVORIS = 'SET_FAVORIS';
+export const ADD_FAVORIS = 'ADD_FAVORIS';
+export const DELETE_FAVORIS = 'DELETE_FAVORIS';
 
 
 export const fetchFiches = isConnected => {
@@ -112,3 +114,48 @@ export const fetchFavoris = isConnected => {
         dispatch({ type: SET_FAVORIS, favoris: loadedFavoris });
     };
 };
+
+export const ajouterFavoris = fiche => {
+    return async (dispatch, getState) => {
+
+        const token = getState().auth.token;
+        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/favoris";
+        const bearer = 'Bearer ' + token;
+
+        const titreFiche = fiche.titreFiche;
+
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                titreFiche
+            })
+        });
+
+        dispatch({ type: ADD_FAVORIS, fiche });
+    }
+}
+
+export const supprimerFavoris = titreFiche => {
+    return async (dispatch, getState) => {
+
+        let modifiedTitle = titreFiche.replace(/ /g, '+');
+
+        const token = getState().auth.token;
+        const url = `https://oporctunite.envt.fr/oporctunite-api/api/v1/favoris/${modifiedTitle}`;
+        const bearer = 'Bearer ' + token;
+
+        await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        dispatch({ type: DELETE_FAVORIS, titreFiche });
+    }
+}

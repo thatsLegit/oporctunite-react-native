@@ -57,9 +57,9 @@ const ParametreScreen = props => {
     }
     
     return (
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
             
-            <View style={{...styles.container, flex: 1, height: '92%' }} >  
+            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : -40} style={{ height: '92%' }} >  
 
                 <Image style={styles.photo} source={require('../../assets/img/evaluations/Bursite-photo1.png')} />
                 {/* Pour un éleveur */}
@@ -125,7 +125,7 @@ const ParametreScreen = props => {
                         textAlign={'center'}
                     />
                 </View>
-            </View>
+            </KeyboardAvoidingView>
 
             <View style={{ ...styles.footer, height: '8%' }}>
                 <TouchableOpacity
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
     photo: {
         height: Dimensions.get('window').height / 5,
         width: Dimensions.get('window').width / 3,
-        backgroundColor:"blue",
-        marginVertical:15
+        marginVertical:15,
+        alignSelf: 'center',
     },
     textContainer:{     
         alignItems:"center"

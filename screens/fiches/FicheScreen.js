@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import PDFReader from 'rn-pdf-reader-js';
+import PDFReader from '../../rn-pdf-reader-js-upgrade_react_pdf/src/index';
 import { EntypoHeaderButton, MaterialCommunityHeaderButton, AntDesignHeaderButton } from '../../components/UI/HeaderButton';
 import Menu, { MenuItem } from 'react-native-material-menu';
 import { Text, View, Alert, StyleSheet } from 'react-native';
@@ -21,9 +21,16 @@ const FicheScreen = props => {
     const [isDownloaded, setIsDownloaded] = useState();
     const [modalDelete, setModalDelete] = useState(false);
     const [isConnected, setIsConnected] = useState();
+    const [content, setContent] = useState();
 
     let menu = null;
     const path = FileSystem.documentDirectory + slugify(props.route.params.fiche.titreFiche, { locale: 'fr' }) + '.pdf';
+
+    useEffect(() => {
+        FileSystem.getContentUriAsync(path).then(cUri => {
+            setContent(cUri);
+        });
+    }, [])
 
     const dispatch = useDispatch();
 
@@ -169,11 +176,6 @@ const FicheScreen = props => {
         );
     }
 
-    if (isDownloaded) {
-        Alert.alert(`path: ${path}`);
-        console.log(`path: ${path}`);
-    }
-
     if (isDownloaded !== undefined && isConnected !== undefined && downloadProgress == 0) {
         if (!isDownloaded) {
             return (
@@ -196,7 +198,7 @@ const FicheScreen = props => {
                         noLoader={false}
                         withPinchZoom={true}
                         source={{
-                            uri: path
+                            uri: content
                         }}
                     />
                 </View>

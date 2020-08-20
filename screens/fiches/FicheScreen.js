@@ -197,7 +197,6 @@ const FicheScreen = props => {
                     <PDFReader
                         noLoader={false}
                         withPinchZoom={true}
-                        withScroll={true}
                         source={{
                             uri: content
                         }}

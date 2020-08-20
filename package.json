@@ -44,25 +44,14 @@
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "rn-pdf-reader-js": "^4.1.1",
     "slugify": "^1.4.5",
-    "victory-native": "^35.0.0",
-    "buffer": "5.1.0",
-    "csstype": "2.6.8",
-    "js-base64": "2.4.5"
+    "victory-native": "^35.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "babel-preset-expo": "^8.2.3",
-    "redux-devtools-extension": "^2.13.8",
-    "@types/js-base64": "2.3.1",
-    "@types/react": "16.9.17",
-    "@types/react-dom": "16.9.4",
-    "@types/react-native": "0.60.28",
-    "crypto": "1.0.1",
-    "json": "^9.0.6",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "3.7.4"
+    "redux-devtools-extension": "^2.13.8"
   },
   "private": true
 }

@@ -1,50 +1,123 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch } from 'react-redux';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, Image, Dimensions, TextInput, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useReducer, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import * as authActions from '../../store/actions/auth';
 import Colors from '../../constants/Colors';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
+import Table from '../../components/UI/Table';
+import Input from '../../components/UI/Input';
 
+//Pour la validation des champs
+const formReducer = (state, action) => {
+    if (action.type === 'FORM_INPUT_UPDATE') {
+        const updatedValues = { //Udpate the currently changed input
+            ...state.inputValues,
+            [action.input]: action.value
+        };
+        const updatedValidities = { //updated validity of given input in consequence
+            ...state.inputValidities,
+            [action.input]: action.isValid
+        };
+        let updatedFormIsValid = true; //Check the global form validity
+        for (const key in updatedValidities) {
+            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+        }
+        return {
+            formIsValid: updatedFormIsValid,
+            inputValidities: updatedValidities,
+            inputValues: updatedValues
+        };
+    } else if (action.type === 'RESET_INPUTS') {
+        return action.initialState;
+    }
+    return state;
+};
 
 const ParametreScreen = props => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [annulationModal, setAnnulationModal] = useState(false);
-
-    const [nom, setNom] = useState('');
-    const [code, setCode] = useState('');
-    const [adresse, setAdresse] = useState('');
-    const [ville, setVille] = useState('');
-    const [email, setEmail] = useState('');
-    const [tel, setTel] = useState('');
-    const [taille, setTaille] = useState('');
+    const isConnected = props.route.params.isConnected;
+    const { utilisateur, elevage } = useSelector(state => state.auth);
+    const [modalConfirmation, setModalConfirmation] = useState(false);
+    const [modalAnnulation, setModalAnnulation] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const dispatch = useDispatch();
 
-    const modalAnnulationTrigger = () => setAnnulationModal(true);
-    const modalAnnulationCloser = () => setAnnulationModal(false);
+    const initialState = {
+        inputValues: {
+            nomElevage: elevage.nomElevage,
+            codePostal: utilisateur.codePostal.toString(),
+            adresse: utilisateur.adresse.toString(),
+            ville: utilisateur.ville,
+            email: utilisateur.email,
+            telephone: utilisateur.telephone.toString(),
+            tailleElevage: elevage.tailleElevage.toString()
+        },
+        inputValidities: {
+            nomElevage: true,
+            codePostal: true,
+            adresse: true,
+            ville: true,
+            email: true,
+            telephone: true,
+            tailleElevage: true
+        },
+        formIsValid: true
+    }
 
-    const persoDataHandler = useCallback(async () => {
-        await dispatch(authActions.setUtilisateur());
-        setIsLoading(false);
-    }, [dispatch]);
+    //Validation des champs
+    const [formState, dispatchFormState] = useReducer(formReducer, initialState);
 
-    useEffect(() => {
-        persoDataHandler();
-    }, [dispatch, persoDataHandler]);
+    const modalAnnulationCloser = () => setModalAnnulation(false);
+    const modalConfirmationCloser = () => setModalConfirmation(false);
 
-    const annulationHandler = async () => {
-        setNom('');
-        setCode('');
-        setAdresse('');
-        setVille('');
-        setEmail('');
-        setTel('');
-        setTaille('');
-        setAnnulationModal(false);
-        props.navigation.navigate('Profil');
+    //Annulation
+    const annulationHandler = () => {
+        props.navigation.goBack();
+        setModalAnnulation(false);
+        dispatchFormState({
+            type: 'RESET_INPUTS',
+            initialState
+        });
     };
 
+    useEffect(() => {
+        if (error) {
+            Alert.alert('Erreur :/', error, [{ text: 'OK' }]);
+        }
+    }, [error]);
+
+    //Confirmation
+    const confirmationHandler = async () => {
+        setError(null);
+        setIsLoading(true);
+        for (const [key, value] of formState.inputValues) {
+            try {
+                await dispatch(authActions.changerDonneesPersos(key, value));
+            } catch (err) {
+                setError(err.message);
+                setIsLoading(false);
+            }
+        }
+        setIsLoading(false);
+        setModalConfirmation(false);
+        props.navigation.goBack();
+    };
+
+    const inputChangeHandler = useCallback(
+        (inputIdentifier, inputValue, inputValidity) => {
+            dispatchFormState({
+                type: 'FORM_INPUT_UPDATE',
+                value: inputValue,
+                isValid: inputValidity,
+                input: inputIdentifier
+            });
+        }, [dispatchFormState]
+    );
+
+
+    //Loading spinner
     if (isLoading) {
         return (
             <View style={styles.centered}>
@@ -55,100 +128,159 @@ const ParametreScreen = props => {
             </View>
         );
     }
-    
-    return (
-        <View style={styles.container}>
-            
-            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : -40} style={{ height: '92%' }} >  
 
-                <Image style={styles.photo} source={require('../../assets/img/evaluations/Bursite-photo1.png')} />
-                {/* Pour un éleveur */}
-                <View style={styles.textContainer}>
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Nom d'élevage"
-                        placeholderTextColor="#000"
-                        onChangeText={text => setNom(text)}
-                        defaultValue={nom}
-                        textAlign={'center'}
-                    />
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Code postal"
-                        placeholderTextColor="#000"
-                        onChangeText={text => setCode(text)}
-                        defaultValue={code}
-                        keyboardType="number-pad"
-                        textAlign={'center'}
-                    />
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Adresse"
-                        multiline={true}
-                        placeholderTextColor="#000"
-                        onChangeText={text => setAdresse(text)}
-                        defaultValue={adresse}
-                        textAlign={'center'}
-                    />
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Ville"
-                        placeholderTextColor="#000"
-                        onChangeText={text => setVille(text)}
-                        defaultValue={ville}
-                        textAlign={'center'}
-                    />
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Email"
-                        placeholderTextColor="#000"
-                        onChangeText={text => setEmail(text)}
-                        defaultValue={email}
-                        keyboardType="email-address"
-                        textAlign={'center'}
-                    />
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Numéro de téléphone"
-                        placeholderTextColor="#000"
-                        onChangeText={text => setTel(text)}
-                        defaultValue={tel}
-                        keyboardType="phone-pad"
-                        textAlign={'center'}
-                    />
-                    <TextInput
-                        style={styles.text}
-                        placeholder="Taille de l'élevage"
-                        placeholderTextColor="#000"
-                        onChangeText={text => setTaille(text)}
-                        defaultValue={taille}
-                        textAlign={'center'}
-                    />
-                </View>
+    return (
+        <View style={{ flex: 1, alignItems: 'center', paddingTop: isConnected ? 20 : 30 }}>
+            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : -40} style={{ height: '92%' }} >
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View style={{ flex: 1 }}>
+                        {isConnected &&
+                            <View style={{ alignItems: 'center' }}>
+                                <View style={styles.imageContainer}>
+                                    <Image
+                                        style={styles.image}
+                                        source={{ uri: 'https://oporctunite.envt.fr/oporctunite-api/img/photos/' + utilisateur.utilisateurPhoto }}
+                                        resizeMode="cover"
+                                    />
+                                </View>
+                            </View>
+                        }
+                        <Table style={{ flex: isConnected ? 3 : 1, paddingTop: 30 }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="nomElevage"
+                                    label="Nom de l'élevage"
+                                    keyboardType="default"
+                                    required
+                                    minLength={2}
+                                    autoCapitalize="none"
+                                    errorText="Veuillez saisir un nom d'élevage valide."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={elevage.nomElevage}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="codePostal"
+                                    label="Code postal"
+                                    keyboardType="number-pad"
+                                    required
+                                    cp
+                                    errorText="Veuillez saisir un code postal valide."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={utilisateur.codePostal.toString()}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="adresse"
+                                    label="Adresse"
+                                    keyboardType="default"
+                                    required
+                                    minLength={2}
+                                    autoCapitalize="none"
+                                    errorText="Veuillez saisir une adresse valide."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={utilisateur.adresse}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="ville"
+                                    label="Ville"
+                                    keyboardType="default"
+                                    required
+                                    minLength={2}
+                                    autoCapitalize="none"
+                                    errorText="Veuillez saisir un nom de ville, commune existante."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={utilisateur.adresse}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="email"
+                                    label="Email"
+                                    keyboardType='email-address'
+                                    required
+                                    email
+                                    errorText="Veuillez saisir une adresse email valide."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={utilisateur.email}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="telephone"
+                                    label="Téléphone"
+                                    keyboardType='number-pad'
+                                    required
+                                    telephone
+                                    errorText="Veuillez saisir un numéro de téléphone valide."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={utilisateur.telephone.toString()}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Input
+                                    id="tailleElevage"
+                                    label="Taille d'élevage"
+                                    keyboardType='number-pad'
+                                    required
+                                    tailleElevage
+                                    errorText="Veuillez saisir une taille d'élevage valide."
+                                    onInputChange={inputChangeHandler}
+                                    initialValue={elevage.tailleElevage.toString()}
+                                    initiallyValid={true}
+                                />
+                            </View>
+                        </Table>
+                    </View>
+                </ScrollView>
             </KeyboardAvoidingView>
 
             <View style={{ ...styles.footer, height: '8%' }}>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => { modalAnnulationTrigger() }}
+                    onPress={() => setModalAnnulation(true)}
                 >
                     <Text style={styles.footerText}>Annuler</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.footerBtn}
-                    onPress={() => { props.navigation.navigate('Profil') }}
+                    onPress={() => {
+                        if (formState.formIsValid) {
+                            setModalConfirmation(true)
+                        } else {
+                            Alert.alert('Erreur de saisie', 'Vérifier la validité des données saisies', [{ text: 'Compris', style: 'destructive' }]);
+                        }
+                    }}
                 >
                     <Text style={styles.footerText}>Sauvegarder</Text>
                 </TouchableOpacity>
             </View>
-           
+
             <ModalPopupInfo
-                visible={annulationModal}
+                visible={modalAnnulation}
                 onClose={modalAnnulationCloser}
                 text="Êtes-vous sûrs de vouloir annuler les modifications en cours ?"
                 buttonText='Annuler'
                 confirmation
-                onValidation={()=>annulationHandler()}
+                onValidation={() => annulationHandler()}
+            />
+            <ModalPopupInfo
+                visible={modalConfirmation}
+                onClose={modalConfirmationCloser}
+                text="Sauvegarder les modifications en cours ?"
+                buttonText='Annuler'
+                confirmation
+                onValidation={() => confirmationHandler()}
             />
         </View>
     );
@@ -157,7 +289,7 @@ const ParametreScreen = props => {
 
 export const screenOptions = (navData) => {
     return {
-        headerTitle: 'Paramètres',
+        headerTitle: 'Modifier mes données',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
@@ -171,26 +303,20 @@ export const screenOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
-    container:{
-        alignItems: 'center',
-        flex:1,
+    imageContainer: {
+        width: Dimensions.get('window').width * 0.5,
+        height: Dimensions.get('window').width * 0.5,
+        borderRadius: Dimensions.get('window').width * 0.5 / 2,
+        borderWidth: 3,
+        borderColor: 'black',
+        overflow: 'hidden'
     },
-    photo: {
-        height: Dimensions.get('window').height / 5,
-        width: Dimensions.get('window').width / 3,
-        marginVertical:15,
-        alignSelf: 'center',
+    image: {
+        width: '100%',
+        height: '100%',
     },
-    textContainer:{     
-        alignItems:"center"
-    },
-    text:{ 
-        alignItems:"center",
-        color: Colors.secondary,
-        fontSize:16,  
-        borderBottomColor: '#000',
-        borderBottomWidth: 1,
-        width: Dimensions.get('window').width / 2,
+    text: {
+        paddingVertical: 8
     },
     footer: {
         flexDirection: "row",
@@ -211,8 +337,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'open-sans-bold',
         color: "#FFF"
+    },
+    centered: { //spinner
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
-
 });
 
 

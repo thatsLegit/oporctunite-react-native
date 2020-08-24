@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
+import { FontAwesome } from '@expo/vector-icons';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
@@ -10,12 +11,14 @@ import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
 import * as ficheActions from '../../store/actions/fiche';
+import * as authActions from '../../store/actions/auth';
 import {
     dropTests, fetchAllTests,
     dropBilan, insertNoteGlobaleEvaluations
 } from '../../helper/db/requetes';
 import { createTableTest, createTableFavoris } from '../../helper/db/init';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
+import Table from '../../components/UI/Table';
 
 
 const ProfilScreen = props => {
@@ -24,7 +27,7 @@ const ProfilScreen = props => {
     const [alreadyFetched, setAlreadyFetched] = useState(false);
     const [isConnected, setIsConnected] = useState(true);
     const [message, setMessage] = useState({});
-    const { token, maj, idutilisateur } = useSelector(state => state.auth);
+    const { token, maj, idutilisateur, utilisateur, elevage } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -49,7 +52,8 @@ const ProfilScreen = props => {
         await dispatch(evalActions.fetchLiaisons(isConnected));
         await dispatch(ficheActions.fetchFiches(isConnected));
         await dispatch(ficheActions.fetchFavoris(isConnected));
-        await dispatch(ficheActions.fetchFichesSaved());
+        await dispatch(ficheActions.fetchFichesSaved())
+        await dispatch(authActions.setUtilisateur());
         setIsLoading(false);
     }, []);
 
@@ -146,31 +150,46 @@ const ProfilScreen = props => {
     }
 
     return (
-        <View style={styles.container}>
-            
-            <Image style={styles.photo} source={require('../../assets/img/evaluations/Bursite-photo1.png')} />
-
-            {/* Pour un éleveur */}
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>
-                    Nom d'élevage
+        <View style={{ flex: 1, alignItems: 'center', paddingTop: isConnected ? 20 : 30 }}>
+            {isConnected &&
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: 'https://oporctunite.envt.fr/oporctunite-api/img/photos/' + utilisateur.utilisateurPhoto }}
+                        resizeMode="cover"
+                    />
+                </View>
+            }
+            <Table style={{ flex: isConnected ? 3 : 1, paddingTop: 30 }}>
+                <Text style={{ textAlign: 'right' }}>
+                    <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Parametre', { isConnected: isConnected })}>
+                        <FontAwesome name="pencil-square-o" size={24} color="black" />
+                    </TouchableWithoutFeedback>
                 </Text>
                 <Text style={styles.text}>
-                    Code postal, adresse, ville
+                    {"Nom d'élevage: " + elevage.nomElevage}
                 </Text>
                 <Text style={styles.text}>
-                    Email
+                    {"Adresse: " + utilisateur.codePostal}, {utilisateur.adresse}, {utilisateur.ville}
                 </Text>
                 <Text style={styles.text}>
-                    Numéro de téléphone
+                    {"Email: " + utilisateur.email}
                 </Text>
                 <Text style={styles.text}>
-                    Taille de l'élevage
+                    {"Téléphone: " + utilisateur.telephone}
                 </Text>
-            </View>
-            <Text style={{bottom:20, position:"absolute"}}>
-                Mardi 18 août
-            </Text>
+                <Text style={styles.text}>
+                    {"Taille de l'élevage: " + elevage.tailleElevage}
+                </Text>
+            </Table>
+            <ModalPopupInfo
+                visible={modal}
+                onClose={modalCloser}
+                text={message.text}
+                buttonText='Fermer'
+                type={message.type}
+                align={message.type == 'success' ? true : false}
+            />
         </View>
     );
 };
@@ -187,16 +206,6 @@ export const screenOptions = (navData) => {
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
             </HeaderButtons>
-        ),
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title='Paramètre'
-                    iconName={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'}
-                    
-                    onPress={() => navData.navigation.navigate('Parametre')}
-                />
-            </HeaderButtons>
         )
     };
 };
@@ -208,21 +217,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
     },
-    photo: {
-        height: Dimensions.get('window').height / 5,
-        width: Dimensions.get('window').width / 3,
-        backgroundColor:"blue",
-        marginVertical:15
+    imageContainer: {
+        width: Dimensions.get('window').width * 0.5,
+        height: Dimensions.get('window').width * 0.5,
+        borderRadius: Dimensions.get('window').width * 0.5 / 2,
+        borderWidth: 3,
+        borderColor: 'black',
+        overflow: 'hidden'
     },
-    textContainer:{     
-        alignItems:"flex-start"
+    image: {
+        width: '100%',
+        height: '100%',
     },
-    text:{     
-        fontSize:16
-    },
-    container:{
-        alignItems: 'center',
-        flex:1,
+    text: {
+        paddingVertical: 8
     }
 });
 

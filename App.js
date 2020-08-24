@@ -13,6 +13,7 @@ import evalReducer from './store/reducers/evaluation';
 import testReducer from './store/reducers/test';
 import authReducer from './store/reducers/auth';
 import ficheReducer from './store/reducers/fiche';
+import utilisateurReducer from './store/reducers/utilisateur';
 
 import { createDB } from './helper/db/init';
 
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   eval: evalReducer,
   test: testReducer,
   auth: authReducer,
-  fiche: ficheReducer
+  fiche: ficheReducer,
+  utilisateur: utilisateurReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

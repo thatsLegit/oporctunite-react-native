@@ -118,21 +118,21 @@ const AuthScreen = props => {
                             <View style={styles.buttons}>
                                 <Shadow style={styles.buttonConnect}>
                                     <Button
-                                        title={isSignup ? "Inscription" : "Connexion"}
+                                        title="Connexion"
                                         color={Colors.primary}
                                         onPress={authHandler}
                                     />
                                 </Shadow>
-                                <Shadow style={styles.buttonSwitch}>
+                                {<Shadow style={styles.buttonSwitch}>
                                     {isLoading ? <ActivityIndicator size="small" color={Colors.primary} /> :
                                         <Button
-                                            title={`${isSignup ? 'Déjà inscrit ? Connectez-vous !' : 'Pas encore de compte ?'}`}
+                                            title='Pas encore de compte ?'
                                             color='grey'
                                             onPress={() => {
-                                                setIsSignup(!isSignup);
+                                                Alert.alert("L'inscription n'est pas encore disponible sur l'application mobile. Rendez-vous sur oporctunite.envt.fr pour créer votre compte O'porctunité");
                                             }}
                                         />}
-                                </Shadow>
+                                </Shadow>}
                             </View>
                         </ScrollView>
                     </View>

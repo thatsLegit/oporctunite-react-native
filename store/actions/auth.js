@@ -5,7 +5,6 @@ import NetInfo from '@react-native-community/netinfo';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
 export const SET_DID_TRY_AUTO_LOGIN = 'SET_DID_TRY_AUTO_LOGIN';
-export const SET_UTILISATEUR = 'SET_UTILISATEUR';
 
 
 export const setDidTryAutoLogin = () => {
@@ -75,31 +74,6 @@ export const login = (login, password) => {
     };
 };
 
-export const signup = (login, password) => {
-    return async dispatch => {
-        throw new Error("Inscription pour le moment indisponible sur l'appli, vous pouvez créer un compte sur notre site web O'porctunité !");
-    }
-};
-
-export const setUtilisateur = () => {
-    return async (dispatch, getState) => {
-        const token = getState().auth.token;
-        const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/auth/me";
-        const bearer = 'Bearer ' + token;
-
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'authorization': bearer,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const resData = await response.json();
-        dispatch({ type: SET_UTILISATEUR, utilisateur: resData.utilisateur, elevage: resData.elevage });
-    };
-};
-
 const saveDataToStorage = async (idutilisateur, token) => {
     const majDate = Date.now();
     await AsyncStorage.setItem('userData', JSON.stringify({
@@ -108,3 +82,4 @@ const saveDataToStorage = async (idutilisateur, token) => {
         majDate
     }));
 };
+

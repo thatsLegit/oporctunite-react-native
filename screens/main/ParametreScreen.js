@@ -37,7 +37,7 @@ const formReducer = (state, action) => {
 
 const ParametreScreen = props => {
     const isConnected = props.route.params.isConnected;
-    const { utilisateur, elevage } = useSelector(state => state.auth);
+    const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const [modalConfirmation, setModalConfirmation] = useState(false);
     const [modalAnnulation, setModalAnnulation] = useState(false);
     const [isLoading, setIsLoading] = useState(false);

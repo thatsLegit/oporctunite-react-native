@@ -3,8 +3,6 @@ import { AUTHENTICATE, LOGOUT, SET_DID_TRY_AUTO_LOGIN, SET_UTILISATEUR } from ".
 const initialState = {
     token: null,
     idutilisateur: null,
-    utilisateur: null,
-    elevage: null,
     didTryAutoLogin: false,
     maj: false
 };
@@ -23,12 +21,6 @@ export default (state = initialState, action) => {
                 didTryAutoLogin: true,
                 maj: action.maj
             };
-        case SET_UTILISATEUR:
-            return {
-                ...state,
-                utilisateur: action.utilisateur,
-                elevage: action.elevage
-            }
         case LOGOUT:
             return {
                 ...initialState,

@@ -11,7 +11,7 @@ import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
 import * as ficheActions from '../../store/actions/fiche';
-import * as authActions from '../../store/actions/auth';
+import * as utilisateurActions from '../../store/actions/utilisateur';
 import {
     dropTests, fetchAllTests,
     dropBilan, insertNoteGlobaleEvaluations
@@ -27,7 +27,8 @@ const ProfilScreen = props => {
     const [alreadyFetched, setAlreadyFetched] = useState(false);
     const [isConnected, setIsConnected] = useState(true);
     const [message, setMessage] = useState({});
-    const { token, maj, idutilisateur, utilisateur, elevage } = useSelector(state => state.auth);
+    const { token, maj, idutilisateur } = useSelector(state => state.auth);
+    const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -53,7 +54,7 @@ const ProfilScreen = props => {
         await dispatch(ficheActions.fetchFiches(isConnected));
         await dispatch(ficheActions.fetchFavoris(isConnected));
         await dispatch(ficheActions.fetchFichesSaved())
-        await dispatch(authActions.setUtilisateur());
+        await dispatch(utilisateurActions.setUtilisateur());
         setIsLoading(false);
     }, []);
 

@@ -24,7 +24,7 @@ export const authenticate = (idutilisateur, token, forceUpdate) => {
 
         const connection = await NetInfo.fetch();
 
-        if ((Date.now() - majDate > 86400000 * 7 || forceUpdate) && connection.isInternetReachable) {
+        if ((Date.now() - majDate > 86400000 * 7 || forceUpdate) && connection.isConnected) {
             AsyncStorage.setItem('userData', JSON.stringify({
                 ...transformedData,
                 majDate: Date.now()
@@ -46,7 +46,6 @@ export const login = (login, password) => {
     return async dispatch => {
 
         const connection = await NetInfo.fetch();
-        console.log(connection);
 
         if (connection.isConnected) {
             const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/auth/login', {

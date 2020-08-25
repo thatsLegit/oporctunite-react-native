@@ -25,13 +25,13 @@ const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [alreadyFetched, setAlreadyFetched] = useState(false);
-    const [isConnected, setIsConnected] = useState();//mettre à vide ici idéalement
+    const [isConnected, setIsConnected] = useState();
     const [message, setMessage] = useState({});
     const { token, maj, idutilisateur } = useSelector(state => state.auth);
     const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const dispatch = useDispatch();
 
-    useEffect(() => { //revoir ce truc qui run 14 milliard de fois
+    useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isConnected) {
                 setIsConnected(false);
@@ -43,6 +43,8 @@ const ProfilScreen = props => {
             unsubscribe();
         }
     });
+
+    console.log(isConnected);
 
     const dataHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));

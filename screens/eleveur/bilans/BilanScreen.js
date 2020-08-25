@@ -46,7 +46,7 @@ const BilanScreen = props => {
         setIsRefreshing(true);
 
         const connect = await NetInfo.fetch();
-        if (!connect.isInternetReachable) {
+        if (!connect.isConnected) {
             setMessage({ text: 'Aucune connexion', type: 'danger' });
             setModal(true);
         } else {

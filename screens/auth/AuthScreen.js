@@ -85,7 +85,7 @@ const AuthScreen = props => {
     );
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS == 'android' ? "" : "padding"} keyboardVerticalOffset={50} style={styles.screen}>
+        <KeyboardAvoidingView behavior={Platform.OS == 'android' ? "" : "padding"} style={{ flex: 1 }}>
             <TouchableWithoutFeedback onPress={() => {
                 Keyboard.dismiss();
             }}>
@@ -144,9 +144,6 @@ const AuthScreen = props => {
 
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1
-    },
     gradient: {
         flex: 1,
         justifyContent: 'center',

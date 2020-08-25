@@ -75,3 +75,21 @@ export const createTableFavoris = async idutilisateur => {
     });
     return promise;
 };
+
+export const createTableUserData = async idutilisateur => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                `CREATE TABLE IF NOT EXISTS UserData_${idutilisateur}(nomElevage VARCHAR(50) NOT NULL,codePostal INT NOT NULL,adresse VARCHAR(50) NOT NULL,ville VARCHAR(50) NOT NULL,email VARCHAR(50) NOT NULL,telephone INT NOT NULL,tailleElevage INT NOT NULL, PRIMARY KEY(nomElevage));`,
+                [],
+                () => {
+                    resolve();
+                },
+                (_, err) => {
+                    reject(err);
+                }
+            );
+        });
+    });
+    return promise;
+};

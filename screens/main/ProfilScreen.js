@@ -16,7 +16,7 @@ import {
     dropTests, fetchAllTests,
     dropBilan, insertNoteGlobaleEvaluations
 } from '../../helper/db/requetes';
-import { createTableTest, createTableFavoris } from '../../helper/db/init';
+import { createTableTest, createTableFavoris, createTableUserData } from '../../helper/db/init';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 import Table from '../../components/UI/Table';
 
@@ -25,15 +25,15 @@ const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [alreadyFetched, setAlreadyFetched] = useState(false);
-    const [isConnected, setIsConnected] = useState(true);
+    const [isConnected, setIsConnected] = useState();//mettre à vide ici idéalement
     const [message, setMessage] = useState({});
     const { token, maj, idutilisateur } = useSelector(state => state.auth);
     const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(() => { //revoir ce truc qui run 14 milliard de fois
         const unsubscribe = NetInfo.addEventListener(state => {
-            if (!state.isInternetReachable) {
+            if (!state.isConnected) {
                 setIsConnected(false);
             } else {
                 setIsConnected(true);
@@ -53,8 +53,8 @@ const ProfilScreen = props => {
         await dispatch(evalActions.fetchLiaisons(isConnected));
         await dispatch(ficheActions.fetchFiches(isConnected));
         await dispatch(ficheActions.fetchFavoris(isConnected));
-        await dispatch(ficheActions.fetchFichesSaved())
-        await dispatch(utilisateurActions.setUtilisateur());
+        await dispatch(ficheActions.fetchFichesSaved());
+        await dispatch(utilisateurActions.fetchUtilisateur(isConnected));
         setIsLoading(false);
     }, []);
 
@@ -119,21 +119,23 @@ const ProfilScreen = props => {
     }, []);
 
     useEffect(() => {
-        createTableTest(idutilisateur);
-        createTableFavoris(idutilisateur);
-        if (!alreadyFetched) {
-            if (isConnected) {
-                majTests();
-                dropTests(idutilisateur);
-                dropBilan();
-                majBilan();
-                setAlreadyFetched(true);
-            } else {
-                setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
-                setModal(true);
-                setIsLoading(false);
+        if (isConnected !== undefined) {
+            createTableTest(idutilisateur);
+            createTableFavoris(idutilisateur);
+            createTableUserData(idutilisateur);
+            if (!alreadyFetched) {
+                if (isConnected) {
+                    majTests();
+                    dropTests(idutilisateur);
+                    dropBilan();
+                    majBilan();
+                    setAlreadyFetched(true);
+                } else {
+                    setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
+                    setModal(true);
+                }
+                dataHandler(isConnected);
             }
-            dataHandler(isConnected);
         }
     }, [isConnected]);
 
@@ -162,11 +164,11 @@ const ProfilScreen = props => {
                 </View>
             }
             <Table style={{ flex: isConnected ? 3 : 1, paddingTop: 30 }}>
-                <Text style={{ textAlign: 'right' }}>
+                {isConnected && (<Text style={{ textAlign: 'right' }}>
                     <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Parametre', { isConnected: isConnected })}>
                         <FontAwesome name="pencil-square-o" size={24} color="black" />
                     </TouchableWithoutFeedback>
-                </Text>
+                </Text>)}
                 <Text style={styles.text}>
                     {"Nom d'élevage: " + elevage.nomElevage}
                 </Text>

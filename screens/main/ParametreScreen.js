@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
-import * as authActions from '../../store/actions/auth';
+import * as utilisateurActions from '../../store/actions/utilisateur';
 import Colors from '../../constants/Colors';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
 import Table from '../../components/UI/Table';
@@ -94,7 +94,7 @@ const ParametreScreen = props => {
         setIsLoading(true);
         for (const [key, value] of formState.inputValues) {
             try {
-                await dispatch(authActions.changerDonneesPersos(key, value));
+                await dispatch(utilisateurActions.changerDonneesPersos(key, value));
             } catch (err) {
                 setError(err.message);
                 setIsLoading(false);

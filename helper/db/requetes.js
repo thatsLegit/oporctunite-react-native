@@ -445,31 +445,14 @@ export const fetchFichesFavoris = titreFiche => {
     return promise;
 };
 
-/* export const insertNoteCategories = (title, imageUri, address, lat, lng) => {
+//userData
+export const insertUserData = async (idutilisateur, nomElevage, codePostal, adresse, ville, email, telephone, tailleElevage) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO places(nomCategorieG, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?);',
-                [title, imageUri, address, lat, lng], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
-                    resolve(result);
-                },
-                (_, err) => { //error function
-                    reject(err);
-                }
-            );
-        });
-    });
-    return promise;
-}; */
-/*
-export const insertNoteGlobaleCategories = (title, imageUri, address, lat, lng) => {
-    const promise = new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                'INSERT INTO places(title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?);',
-                [title, imageUri, address, lat, lng], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
+                `INSERT INTO UserData_${idutilisateur}(nomElevage, codePostal, adresse, ville, email, telephone, tailleElevage) VALUES (?,?,?,?,?,?,?);`,
+                [nomElevage, codePostal, adresse, ville, email, telephone, tailleElevage], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
                     resolve(result);
                 },
                 (_, err) => { //error function
@@ -481,13 +464,13 @@ export const insertNoteGlobaleCategories = (title, imageUri, address, lat, lng) 
     return promise;
 };
 
-export const insertNoteSousCategories = (title, imageUri, address, lat, lng) => {
+export const dropUserData = async idutilisateur => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO places(title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?);',
-                [title, imageUri, address, lat, lng], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
+                `DELETE FROM UserData_${idutilisateur};`,
+                [],
+                (_, result) => { //success fonction
                     resolve(result);
                 },
                 (_, err) => { //error function
@@ -499,13 +482,13 @@ export const insertNoteSousCategories = (title, imageUri, address, lat, lng) => 
     return promise;
 };
 
-export const insertNoteGlobaleSousCategories = (title, imageUri, address, lat, lng) => {
+export const fetchUserData = async idutilisateur => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO places(title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?);',
-                [title, imageUri, address, lat, lng], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
+                `SELECT * FROM UserData_${idutilisateur};`,
+                [], //prepared statement to avoid sql injections.
+                (_, result) => { //success fonction
                     resolve(result);
                 },
                 (_, err) => { //error function
@@ -517,43 +500,8 @@ export const insertNoteGlobaleSousCategories = (title, imageUri, address, lat, l
     return promise;
 };
 
-export const insertNoteEvaluations = (title, imageUri, address, lat, lng) => {
-    const promise = new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                'INSERT INTO places(title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?);',
-                [title, imageUri, address, lat, lng], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
-                    resolve(result);
-                },
-                (_, err) => { //error function
-                    reject(err);
-                }
-            );
-        });
-    });
-    return promise;
-};
 
-export const insertNoteGlobaleEvaluations = (title, imageUri, address, lat, lng) => {
-    const promise = new Promise((resolve, reject) => {
-        db.transaction((tx) => {
-            tx.executeSql(
-                'INSERT INTO places(title, imageUri, address, lat, lng) VALUES (?, ?, ?, ?, ?);',
-                [title, imageUri, address, lat, lng], //prepared statement to avoid sql injections.
-                (_, result) => { //sucess fonction
-                    resolve(result);
-                },
-                (_, err) => { //error function
-                    reject(err);
-                }
-            );
-        });
-    });
-    return promise;
-};
 
-*/
 export const insertNoteGlobaleEvaluations = (Data) => {
 
     let query = "INSERT INTO Bilan(idTest, nomEvaluation, moyenneGlobaleEval, noteEval, dateTest, nomSousCateg, moyenneGlobaleSousCateg, moyenneSousCateg, nomCateg, moyenneGlobaleCateg, moyenneCateg) VALUES";

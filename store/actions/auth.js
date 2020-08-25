@@ -45,9 +45,10 @@ export const logout = () => {
 export const login = (login, password) => {
     return async dispatch => {
 
-        let connection = await NetInfo.fetch();
+        const connection = await NetInfo.fetch();
+        console.log(connection);
 
-        if (connection.isInternetReachable) {
+        if (connection.isConnected) {
             const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/auth/login', {
                 method: 'POST',
                 headers: {
@@ -70,7 +71,8 @@ export const login = (login, password) => {
             saveDataToStorage(idutilisateur, resData.token);
             dispatch(authenticate(idutilisateur, resData.token, true));
 
-        } else throw new Error('Pas de connexion internet, connexion impossible.');
+        } else
+            throw new Error('Pas de connexion internet, connexion impossible.');
     };
 };
 

@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform } from 'react-native';
 
 //This component represents each separate input of the add/create product form
 //This component internally decides wether an input is valid or not and the info
@@ -99,6 +99,7 @@ const Input = props => {
                 value={inputState.value}
                 onChangeText={textChangeHandler}
                 onBlur={lostFocusHandler}
+                returnKeyType={(Platform.OS === 'ios') ? 'done' : 'next'}
             />
             {!inputState.isValid && inputState.touched && (
                 <View style={styles.errorContainer}>

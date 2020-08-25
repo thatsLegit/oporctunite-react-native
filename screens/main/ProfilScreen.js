@@ -44,8 +44,6 @@ const ProfilScreen = props => {
         }
     });
 
-    console.log(isConnected);
-
     const dataHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
         await dispatch(sousCategActions.fetchSousCateg(isConnected));

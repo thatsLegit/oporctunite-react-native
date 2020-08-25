@@ -1,4 +1,5 @@
 import { fetchUserData, dropUserData, insertUserData } from '../../helper/db/requetes';
+import NetInfo from '@react-native-community/netinfo';
 
 export const SET_UTILISATEUR = 'SET_UTILISATEUR';
 export const UPDATE_PERSONAL_DATA = 'UPDATE_PERSONAL_DATA';
@@ -32,7 +33,7 @@ export const fetchUtilisateur = isConnected => {
             await insertUserData(idutilisateur, elevage.nomElevage, utilisateur.codePostal, utilisateur.adresse, utilisateur.ville, utilisateur.email, utilisateur.telephone, elevage.tailleElevage);
 
             //Dans le store: l'integralité des tables utilisateur et elevage de mysql distante
-            dispatch({ type: SET_UTILISATEUR, utilisateur: utilisateur, elevage: elevage });
+            dispatch({ type: SET_UTILISATEUR, utilisateur, elevage });
 
         } else {
 
@@ -46,21 +47,53 @@ export const fetchUtilisateur = isConnected => {
             };
             const utilisateur = {
                 adresse: userData.adresse,
-                codePostal: userData.email,
+                codePostal: userData.codePostal,
                 email: userData.email,
                 telephone: userData.telephone,
                 ville: userData.ville
             };
 
-            dispatch({ type: SET_UTILISATEUR, utilisateur: utilisateur, elevage: elevage });
+            dispatch({ type: SET_UTILISATEUR, utilisateur, elevage });
         }
     };
 };
 
-export const changerDonneesPersos = (dataName, dataValue) => {
-    return async dispatch => {
+export const changerDonneesPersos = data => {
+    return async (dispatch, getState) => {
 
+        const connection = await NetInfo.fetch();
 
-        dispatch({ type: UPDATE_PERSONAL_DATA, utilisateur: resData.utilisateur, elevage: resData.elevage });
+        if (connection.isConnected) {
+            //Modif sur l'api
+            const token = getState().auth.token;
+            const url = 'https://oporctunite.envt.fr/oporctunite-api/api/v1/utilisateurs/userData';
+            const bearer = 'Bearer ' + token;
+
+            await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'authorization': bearer,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            //Modif sur le store
+            const utilisateurData = {
+                codePostal: parseInt(data.codePostal),
+                adresse: data.adresse,
+                ville: data.ville,
+                email: data.email,
+                telephone: parseInt(data.telephone),
+            };
+            const elevageData = {
+                nomElevage: data.nomElevage,
+                tailleElevage: parseInt(data.tailleElevage)
+            };
+
+            dispatch({ type: UPDATE_PERSONAL_DATA, utilisateurData, elevageData });
+        } else {
+            throw new Error('Pas de connexion internet, action impossible.');
+        }
     }
 };

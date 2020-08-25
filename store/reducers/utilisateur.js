@@ -13,9 +13,24 @@ export default (state = initialState, action) => {
                 ...state,
                 utilisateur: action.utilisateur,
                 elevage: action.elevage
-            }
+            };
+        case UPDATE_PERSONAL_DATA:
+            let utilisateurModified = { ...state.utilisateur };
+            utilisateurModified.codePostal = action.utilisateurData.codePostal;
+            utilisateurModified.adresse = action.utilisateurData.adresse;
+            utilisateurModified.ville = action.utilisateurData.ville;
+            utilisateurModified.email = action.utilisateurData.email;
+            utilisateurModified.telephone = action.utilisateurData.telephone;
+            let elevageModified = { ...state.elevage };
+            elevageModified.nomElevage = action.elevageData.nomElevage;
+            elevageModified.tailleElevage = action.elevageData.tailleElevage;
+            return {
+                ...state,
+                utilisateur: utilisateurModified,
+                elevage: elevageModified
+            };
         case LOGOUT:
-            return initialState
+            return initialState;
         default:
             return state;
     }

@@ -40,6 +40,7 @@ const ParametreScreen = props => {
     const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const [modalConfirmation, setModalConfirmation] = useState(false);
     const [modalAnnulation, setModalAnnulation] = useState(false);
+    const [modalErreur, setModalErreur] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const ParametreScreen = props => {
         inputValues: {
             nomElevage: elevage.nomElevage,
             codePostal: utilisateur.codePostal.toString(),
-            adresse: utilisateur.adresse.toString(),
+            adresse: utilisateur.adresse,
             ville: utilisateur.ville,
             email: utilisateur.email,
             telephone: utilisateur.telephone.toString(),
@@ -71,6 +72,7 @@ const ParametreScreen = props => {
 
     const modalAnnulationCloser = () => setModalAnnulation(false);
     const modalConfirmationCloser = () => setModalConfirmation(false);
+    const modalErreurCloser = () => setModalErreur(false);
 
     //Annulation
     const annulationHandler = () => {
@@ -82,27 +84,21 @@ const ParametreScreen = props => {
         });
     };
 
-    useEffect(() => {
-        if (error) {
-            Alert.alert('Erreur :/', error, [{ text: 'OK' }]);
-        }
-    }, [error]);
-
     //Confirmation
     const confirmationHandler = async () => {
         setError(null);
         setIsLoading(true);
-        for (const [key, value] of formState.inputValues) {
-            try {
-                await dispatch(utilisateurActions.changerDonneesPersos(key, value));
-            } catch (err) {
-                setError(err.message);
-                setIsLoading(false);
-            }
+        try {
+            await dispatch(utilisateurActions.changerDonneesPersos(formState.inputValues));
+            setIsLoading(false);
+            setModalConfirmation(false);
+            props.navigation.goBack();
+        } catch (err) {
+            setModalConfirmation(false);
+            setIsLoading(false);
+            setError(err.message);
+            setModalErreur(true);
         }
-        setIsLoading(false);
-        setModalConfirmation(false);
-        props.navigation.goBack();
     };
 
     const inputChangeHandler = useCallback(
@@ -197,7 +193,7 @@ const ParametreScreen = props => {
                                     autoCapitalize="none"
                                     errorText="Veuillez saisir un nom de ville, commune existante."
                                     onInputChange={inputChangeHandler}
-                                    initialValue={utilisateur.adresse}
+                                    initialValue={utilisateur.ville}
                                     initiallyValid={true}
                                 />
                             </View>
@@ -256,7 +252,7 @@ const ParametreScreen = props => {
                     style={styles.footerBtn}
                     onPress={() => {
                         if (formState.formIsValid) {
-                            setModalConfirmation(true)
+                            setModalConfirmation(true);
                         } else {
                             Alert.alert('Erreur de saisie', 'Vérifier la validité des données saisies', [{ text: 'Compris', style: 'destructive' }]);
                         }
@@ -281,6 +277,12 @@ const ParametreScreen = props => {
                 buttonText='Annuler'
                 confirmation
                 onValidation={() => confirmationHandler()}
+            />
+            <ModalPopupInfo
+                visible={modalErreur}
+                onClose={modalErreurCloser}
+                text={error}
+                buttonText='OK'
             />
         </View>
     );

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { FontAwesome } from '@expo/vector-icons';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -18,7 +19,7 @@ import {
 } from '../../helper/db/requetes';
 import { createTableTest, createTableFavoris, createTableUserData } from '../../helper/db/init';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
-import Table from '../../components/UI/Table';
+import CustomTable from '../../components/UI/Table';
 
 
 const ProfilScreen = props => {
@@ -152,47 +153,74 @@ const ProfilScreen = props => {
         );
     }
 
+    //Tableau expliquant le mode hors ligne si hors ligne
+    const tableHead = ['', 'En ligne', 'Hors-ligne'];
+    const tableTitle = ['Réaliser des évaluations', 'consulter le bilan', 'Mettre à jour le bilan', 'Lire les fiches conseils', 'Recommandations', 'Données personnelles'];
+    const tableData = [
+        ['oui', 'oui'],
+        ['oui', 'oui'],
+        ['oui', 'non'],
+        ['oui', 'non'],
+        ['oui', 'oui'],
+        ['lire', 'lire/modifier']
+    ];
+
     return (
-        <View style={{ flex: 1, alignItems: 'center', paddingTop: isConnected ? 20 : 30 }}>
-            {isConnected &&
-                <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.image}
-                        source={{ uri: 'https://oporctunite.envt.fr/oporctunite-api/img/photos/' + utilisateur.utilisateurPhoto }}
-                        resizeMode="cover"
-                    />
-                </View>
+        <View style={{ flex: 1 }}>
+            <View style={{ flex: 1.5, alignItems: 'center', paddingTop: isConnected ? 20 : 30 }}>
+                {isConnected &&
+                    <View style={styles.imageContainer}>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: 'https://oporctunite.envt.fr/oporctunite-api/img/photos/' + utilisateur.utilisateurPhoto }}
+                            resizeMode="cover"
+                        />
+                    </View>
+                }
+                <CustomTable style={{ flex: isConnected ? 3 : 2, paddingTop: 30 }}>
+                    {isConnected && (
+                        <Text style={{ textAlign: 'right' }}>
+                            <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Parametre', { isConnected: isConnected })}>
+                                <FontAwesome name="pencil-square-o" size={24} color="black" />
+                            </TouchableWithoutFeedback>
+                        </Text>)
+                    }
+                    <Text style={styles.text}>
+                        {"Nom d'élevage: " + elevage.nomElevage}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Adresse: " + utilisateur.codePostal}, {utilisateur.adresse}, {utilisateur.ville}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Email: " + utilisateur.email}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Téléphone: " + utilisateur.telephone}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Taille de l'élevage: " + elevage.tailleElevage}
+                    </Text>
+                </CustomTable>
+            </View>
+            {!isConnected && (
+                <View style={styles.tableContainer}>
+                    <Table borderStyle={{ borderWidth: 1 }}>
+                        <Row data={tableHead} flexArr={[2, 1, 1]} style={styles.head} textStyle={styles.tableText} />
+                        <TableWrapper style={styles.wrapper}>
+                            <Col data={tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.tableText} />
+                            <Rows data={tableData} flexArr={[0.5, 0.5]} style={styles.row} textStyle={styles.tableText} />
+                        </TableWrapper>
+                    </Table>
+                </View>)
             }
-            <Table style={{ flex: isConnected ? 3 : 1, paddingTop: 30 }}>
-                {isConnected && (<Text style={{ textAlign: 'right' }}>
-                    <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Parametre', { isConnected: isConnected })}>
-                        <FontAwesome name="pencil-square-o" size={24} color="black" />
-                    </TouchableWithoutFeedback>
-                </Text>)}
-                <Text style={styles.text}>
-                    {"Nom d'élevage: " + elevage.nomElevage}
-                </Text>
-                <Text style={styles.text}>
-                    {"Adresse: " + utilisateur.codePostal}, {utilisateur.adresse}, {utilisateur.ville}
-                </Text>
-                <Text style={styles.text}>
-                    {"Email: " + utilisateur.email}
-                </Text>
-                <Text style={styles.text}>
-                    {"Téléphone: " + utilisateur.telephone}
-                </Text>
-                <Text style={styles.text}>
-                    {"Taille de l'élevage: " + elevage.tailleElevage}
-                </Text>
-            </Table>
-            <ModalPopupInfo
+            {modal && <ModalPopupInfo
                 visible={modal}
                 onClose={modalCloser}
                 text={message.text}
                 buttonText='Fermer'
                 type={message.type}
                 align={message.type == 'success' ? true : false}
-            />
+            />}
         </View>
     );
 };
@@ -234,7 +262,14 @@ const styles = StyleSheet.create({
     },
     text: {
         paddingVertical: 8
-    }
+    },
+    //Table
+    tableContainer: { flex: 1, padding: 16, paddingTop: -16 },
+    head: { height: 40, backgroundColor: '#f1f8ff' },
+    wrapper: { flexDirection: 'row' },
+    title: { flex: 1, backgroundColor: '#f6f8fa' },
+    row: { height: 28 },
+    tableText: { textAlign: 'center' }
 });
 
 

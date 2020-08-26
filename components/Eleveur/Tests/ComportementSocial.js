@@ -168,15 +168,13 @@ const ComportementSocial = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingBottom: 15, left: 5 }}>
+                            <View style={{ paddingVertical: 15, left: 5 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Nombre d'animaux montrant un comportement social positif {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                        Nombre d'animaux montrant un comportement social positif {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.counter}>
@@ -190,15 +188,13 @@ const ComportementSocial = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingVertical: 15, left: 5 }}>
+                            <View style={{ paddingVertical: 15, left: 5 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Nombre d'animaux montrant un comportement social négatif {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                        Nombre d'animaux montrant un comportement social négatif {" "}
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.counter}>

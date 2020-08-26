@@ -123,12 +123,10 @@ const EtatCorporel = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de truies maigres {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                        Nombre de truies maigres {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -138,15 +136,13 @@ const EtatCorporel = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 30 }}>
+                            <View style={{ paddingTop: 30 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de truies normales {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                        Nombre de truies normales {" "}
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -156,15 +152,13 @@ const EtatCorporel = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 30 }}>
+                            <View style={{ paddingTop: 30 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de truies grasses {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput3Visible(true);
-                                    }}>
+                                        Nombre de truies grasses {" "}
+                                    <Text onPress={() => setModalInput3Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>

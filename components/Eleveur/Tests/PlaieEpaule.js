@@ -116,7 +116,7 @@ const PlaieEpaule = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Pas de lésions sur les épaules observées {" "}
+                                    Pas de lésions sur les épaules observées {" "}
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -128,7 +128,7 @@ const PlaieEpaule = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Mise en évidence d'une vieille lésion (cicatrice formée) ou d'une récente blessure qui est en voie de guérisson ou rougissante sans pénétration du tissu  {" "}
+                                    Mise en évidence d'une vieille lésion (cicatrice formée) ou d'une récente blessure qui est en voie de guérisson ou rougissante sans pénétration du tissu  {" "}
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -140,7 +140,7 @@ const PlaieEpaule = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Une lésion/blessure ouverte {" "}
+                                    Une lésion/blessure ouverte {" "}
                                 </Text>
                             </View>
                             <View style={styles.content}>

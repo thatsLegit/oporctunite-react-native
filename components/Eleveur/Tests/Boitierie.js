@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -121,15 +121,13 @@ const Boiterie = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                    Absence de boiterie à boiterie faible {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                        Absence de boiterie à boiterie faible {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -138,15 +136,13 @@ const Boiterie = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Boiterie modérée {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                        Boiterie modérée {" "}
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -155,15 +151,13 @@ const Boiterie = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Boiterie sévère {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput3Visible(true);
-                                    }}>
+                                        Boiterie sévère {" "}
+                                    <Text onPress={() => setModalInput3Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>

@@ -178,11 +178,9 @@ const PlaieEpauleEtBursite = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Lésions modérées
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
+                                <Text onPress={() => setModalInput2Visible(true)}>
                                     <EvilIcons name="question" size={30} color="black" />
-                                </TouchableWithoutFeedback>
+                                </Text>
                             </Text>
                         </View>
                         <View style={styles.content} >

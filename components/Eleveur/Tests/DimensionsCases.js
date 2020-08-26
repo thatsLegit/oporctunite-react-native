@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Dimensions, Alert, TouchableWithoutFeedback, Image } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Alert, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { CheckBox } from "native-base";
@@ -65,11 +65,9 @@ const DimensionsCases = props => {
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.text}>
                                     La case de mise-bas est de taille adéquate pour la truie {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInputVisible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInputVisible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                         </View>

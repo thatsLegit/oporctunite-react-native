@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { EvilIcons } from '@expo/vector-icons';
 import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
@@ -180,9 +180,9 @@ const TestScreen = props => {
                         </Text>
                         <Text style={styles.titre2}>
                             {selectedEvaluation.nomEvaluation}
-                            {needInfo && <TouchableWithoutFeedback onPress={() => setInfoModalVisible(true)}>
+                            {needInfo && <Text onPress={() => setInfoModalVisible(true)}>
                                 <EvilIcons name="question" size={30} color="black" />
-                            </TouchableWithoutFeedback>}{" "}
+                            </Text>}{" "}
                             ({indexEvaluation + 1} / {selectedEvaluations.length})
                         </Text>
                     </View>) :
@@ -199,14 +199,14 @@ const TestScreen = props => {
                             </Text>
                             <Text style={styles.titre2}>
                                 {selectedEvaluation.nomEvaluation}
-                                {needInfo ? <TouchableWithoutFeedback onPress={() => setInfoModalVisible(true)}>
+                                {needInfo ? <Text onPress={() => setInfoModalVisible(true)}>
                                     <EvilIcons name="question" size={30} color="black" />
-                                </TouchableWithoutFeedback> : " "}
+                                </Text> : " "}
                                 et{" "}
                                 {nextSelectedEvaluation.nomEvaluation}
-                                {needInfo2 && <TouchableWithoutFeedback onPress={() => setInfoModalVisible2(true)}>
+                                {needInfo2 && <Text onPress={() => setInfoModalVisible2(true)}>
                                     <EvilIcons name="question" size={30} color="black" />
-                                </TouchableWithoutFeedback>}{" "}
+                                </Text>}{" "}
                                 ({indexEvaluation + 2} / {selectedEvaluations.length})
                             </Text>
                         </View>)

@@ -161,11 +161,9 @@ const LesionVulveEtMetrite = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                  Absence/légères lésions sur la vulve{" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
+                                <Text onPress={() => setModalInput1Visible(true)}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                </Text>
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -177,11 +175,9 @@ const LesionVulveEtMetrite = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                  Lésions modérées{" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput2Visible(true);
-                                }}>
+                                <Text onPress={() => setModalInput2Visible(true)}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                </Text>
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -193,11 +189,9 @@ const LesionVulveEtMetrite = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Lésions sévères {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput3Visible(true);
-                                }}>
+                                <Text onPress={() => setModalInput3Visible(true)}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                </Text>
                             </Text>
                         </View>
                         <View style={styles.content}>
@@ -220,11 +214,9 @@ const LesionVulveEtMetrite = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Présence de métrite {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput4Visible(true);
-                                }}>
+                                <Text onPress={() => setModalInput4Visible(true)}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                </Text>
                             </Text>
                         </View>
                         <View style={styles.content}>

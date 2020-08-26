@@ -13,7 +13,6 @@ const Eternuement = props => {
 
     const { modalInfo, evaluation, confirmation, navigation, Vtype } = props;
     const [modalEchantillonVisible, setModalEchantillonVisible] = useState(false);
-    const [modalInput1Visible, setModalInput1Visible] = useState(false);
     const [modalInfoVisible, setModalInfoVisible] = useState(modalInfo);
     const [modalConfirmation, setModalConfirmation] = useState(confirmation);
     const [count, setCount] = useState(0);
@@ -61,8 +60,6 @@ const Eternuement = props => {
         }
     };
 
-
-    const modalInput1Closer = () => setModalInput1Visible(false);
     const modalEchantillonCloser = () => setModalEchantillonVisible(false);
 
     const modalInfoCloser = () => {
@@ -125,9 +122,7 @@ const Eternuement = props => {
                             <Counter onChange={changeHandler} max={evaluation.nbTruies} />
                         </View>
 
-                        <Chrono
-                            temps={5}
-                        />
+                        <Chrono temps={5} />
                     </View>
                 </ScrollView>
             </View>

@@ -88,15 +88,13 @@ const PropreteCases = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de cases propres {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                    Nombre de cases propres {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -106,15 +104,13 @@ const PropreteCases = props => {
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de cases sales {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                    Nombre de cases sales {" "}
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -124,15 +120,13 @@ const PropreteCases = props => {
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Nombre de cases très sales {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput3Visible(true);
-                                    }}>
+                                    Nombre de cases très sales {" "}
+                                    <Text onPress={() => setModalInput3Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -207,8 +201,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20,
-        paddingVertical: 15
+        marginLeft: 20
     }
 });
 

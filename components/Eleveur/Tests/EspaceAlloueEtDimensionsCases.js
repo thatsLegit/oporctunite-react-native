@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, Alert, Dimensions, TextInput, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, Alert, Dimensions, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -196,11 +196,9 @@ const EspaceAlloueEtDimensionsCases = props => {
                                 <View style={{ flex: 1 }}>
                                     <Text style={styles.text}>
                                         La case de mise-bas est de taille adéquate pour la truie {" "}
-                                        <TouchableWithoutFeedback onPress={() => {
-                                            setModalInputVisible(true);
-                                        }}>
+                                        <Text onPress={() => setModalInputVisible(true)}>
                                             <FontAwesome name="question-circle" size={24} color="black" />
-                                        </TouchableWithoutFeedback>
+                                        </Text>
                                     </Text>
                                 </View>
                             </View>

@@ -120,15 +120,13 @@ const LesionVulve = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                 Absence/légère lésions sur la vulve{" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                    Absence/légère lésions sur la vulve{" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -137,15 +135,13 @@ const LesionVulve = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                  Lésions modérées{" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -154,15 +150,13 @@ const LesionVulve = props => {
                         </View>
 
                         <View>
-                            <View>
-                                <Text style={{ ...styles.text, paddingTop: 20, paddingBottom: 10 }}>
+                            <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+                                <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                 Lésions sévères {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput3Visible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInput3Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>

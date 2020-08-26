@@ -98,15 +98,13 @@ const ProlapsusRectal = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Présence d'un prolapsus rectal {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                        Présence d'un prolapsus rectal {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -121,8 +119,8 @@ const ProlapsusRectal = props => {
                             <View>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Absence de prolapsus rectal
-                            </Text>
+                                    Absence de prolapsus rectal
+                                </Text>
                             </View>
                             <View style={styles.content}>
                                 <Counter onChange={changeHandler2} max={evaluation.nbTruies} />
@@ -180,8 +178,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20,
-        paddingVertical: 15
+        marginLeft: 20
     }
 });
 

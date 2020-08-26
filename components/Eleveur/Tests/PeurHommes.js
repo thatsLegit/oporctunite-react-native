@@ -130,31 +130,25 @@ const PeurHommes = props => {
                             <Shadow style={styles.description}>
                                 <Text style={{ fontFamily: 'open-sans', fontSize: 17 }}>
                                     Les mesures sont différentes selon si les truies sont en groupe {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput4Visible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInput4Visible(true)}>
                                         <EvilIcons name="question" size={30} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                     {" "} ou en case {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput5Visible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInput5Visible(true)}>
                                         <EvilIcons name="question" size={30} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </Shadow>
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Truies ayant une peur faible de l'homme {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                        Truies ayant une peur faible de l'homme {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -163,15 +157,13 @@ const PeurHommes = props => {
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Truies ayant une peur modérée de l'homme {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                        Truies ayant une peur modérée de l'homme {" "}
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -180,15 +172,13 @@ const PeurHommes = props => {
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Truies ayant une peur importante de l'homme {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput3Visible(true);
-                                    }}>
+                                    Truies ayant une peur importante de l'homme {" "}
+                                    <Text onPress={() => setModalInput3Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -283,8 +273,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20,
-        paddingVertical: 15
+        marginLeft: 20
     },
     description: {
         width: '90%',

@@ -142,11 +142,9 @@ const ProlapsusUterinEtRectal = props => {
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Présence d'un prolapsus utérin {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                                 <View style={styles.content}>
                                     <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-uterin-photo1.png')} />
@@ -161,11 +159,9 @@ const ProlapsusUterinEtRectal = props => {
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Présence d'un prolapsus rectal {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput2Visible(true);
-                                    }}>
+                                    <Text onPress={() => setModalInput2Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                                 <View style={styles.content}>
                                     <Image style={styles.photo} source={require('../../../assets/img/evaluations/Prolapsus-rectal-photo1.png')} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableWithoutFeedback, Dimensions, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import Counter from '../../UI/Counter';
 import ProgressBar from 'react-native-progress/Bar';
@@ -111,11 +111,9 @@ const Haletement = props => {
                             <Text style={styles.text}>
                                 <Text style={{ fontSize: 25 }}>• {" "}</Text>
                                     Truies présentant des signes d'halètement {" "}
-                                <TouchableWithoutFeedback onPress={() => {
-                                    setModalInput1Visible(true);
-                                }}>
+                                <Text onPress={() => setModalInput1Visible(true)}>
                                     <FontAwesome name="question-circle" size={24} color="black" />
-                                </TouchableWithoutFeedback>
+                                </Text>
                             </Text>
                         </View>
                         <View style={styles.counter}>

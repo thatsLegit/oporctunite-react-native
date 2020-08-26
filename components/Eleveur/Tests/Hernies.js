@@ -116,15 +116,13 @@ const EtatCorporel = props => {
                 <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ flex: 1 }}>
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Hernie sévère {" "}
-                                    <TouchableWithoutFeedback onPress={() => {
-                                        setModalInput1Visible(true);
-                                    }}>
+                                        Hernie sévère {" "}
+                                    <Text onPress={() => setModalInput1Visible(true)}>
                                         <FontAwesome name="question-circle" size={24} color="black" />
-                                    </TouchableWithoutFeedback>
+                                    </Text>
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -134,10 +132,10 @@ const EtatCorporel = props => {
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Hernie légère {" "}
+                                    Hernie légère {" "}
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -147,10 +145,10 @@ const EtatCorporel = props => {
                         </View>
 
                         <View>
-                            <View>
+                            <View style={{ paddingVertical: 15 }}>
                                 <Text style={styles.text}>
                                     <Text style={{ fontSize: 25 }}>• {" "}</Text>
-                                Absence d'hernies {" "}
+                                    Absence d'hernies {" "}
                                 </Text>
                             </View>
                             <View style={styles.content}>
@@ -212,8 +210,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'open-sans',
         fontSize: 17,
-        marginLeft: 20,
-        paddingVertical: 15
+        marginLeft: 20
     }
 });
 

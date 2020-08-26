@@ -65,16 +65,16 @@ const Mortalite = props => {
                                     <View>
                                         <Text style={styles.text}>
                                             <Text style={{ fontSize: 20 }}>A = </Text>
-                                    Le nombre total d'animaux placés dans le bâtiment.
-                                    </Text>
+                                            Le nombre total d'animaux placés dans le bâtiment.
+                                        </Text>
                                     </View>
                                 </View>
                                 <View style={{ paddingTop: 20 }}>
                                     <View>
                                         <Text style={styles.text}>
                                             <Text style={{ fontSize: 20 }}>M = </Text>
-                                        Nombre total d'animaux qui sont morts ou qui ont été retrouvés morts durant les 12 derniers mois.
-                                    </Text>
+                                            Nombre total d'animaux qui sont morts ou qui ont été retrouvés morts durant les 12 derniers mois.
+                                        </Text>
                                     </View>
                                 </View>
                             </Shadow>

@@ -29,7 +29,7 @@ const RecoScreen = props => {
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
-            if (!state.isInternetReachable) {
+            if (!state.isConnected) {
                 setIsConnected(false);
             } else {
                 setIsConnected(true);

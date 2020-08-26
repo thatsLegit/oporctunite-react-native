@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Colors from '../../constants/Colors';
 
@@ -80,6 +80,7 @@ const Counter = props => {
                     autoCapitalize='none'
                     autoCorrect={false}
                     keyboardType='number-pad'
+                    returnKeyType={(Platform.OS === 'ios') ? 'done' : 'next'}
                     maxLength={3}
                 />
                 <Icon.Button

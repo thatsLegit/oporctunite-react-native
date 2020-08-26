@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { FontAwesome } from '@expo/vector-icons';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
@@ -10,26 +12,29 @@ import * as categActions from '../../store/actions/categ';
 import * as sousCategActions from '../../store/actions/sousCateg';
 import * as evalActions from '../../store/actions/evaluation';
 import * as ficheActions from '../../store/actions/fiche';
+import * as utilisateurActions from '../../store/actions/utilisateur';
 import {
     dropTests, fetchAllTests,
     dropBilan, insertNoteGlobaleEvaluations
 } from '../../helper/db/requetes';
-import { createTableTest, createTableFavoris } from '../../helper/db/init';
+import { createTableTest, createTableFavoris, createTableUserData } from '../../helper/db/init';
 import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
+import CustomTable from '../../components/UI/Table';
 
 
 const ProfilScreen = props => {
     const [modal, setModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [alreadyFetched, setAlreadyFetched] = useState(false);
-    const [isConnected, setIsConnected] = useState(true);
+    const [isConnected, setIsConnected] = useState();
     const [message, setMessage] = useState({});
     const { token, maj, idutilisateur } = useSelector(state => state.auth);
+    const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const dispatch = useDispatch();
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
-            if (!state.isInternetReachable) {
+            if (!state.isConnected) {
                 setIsConnected(false);
             } else {
                 setIsConnected(true);
@@ -50,6 +55,7 @@ const ProfilScreen = props => {
         await dispatch(ficheActions.fetchFiches(isConnected));
         await dispatch(ficheActions.fetchFavoris(isConnected));
         await dispatch(ficheActions.fetchFichesSaved());
+        await dispatch(utilisateurActions.fetchUtilisateur(isConnected));
         setIsLoading(false);
     }, []);
 
@@ -114,21 +120,23 @@ const ProfilScreen = props => {
     }, []);
 
     useEffect(() => {
-        createTableTest(idutilisateur);
-        createTableFavoris(idutilisateur);
-        if (!alreadyFetched) {
-            if (isConnected) {
-                majTests();
-                dropTests(idutilisateur);
-                dropBilan();
-                majBilan();
-                setAlreadyFetched(true);
-            } else {
-                setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
-                setModal(true);
-                setIsLoading(false);
+        if (isConnected !== undefined) {
+            createTableTest(idutilisateur);
+            createTableFavoris(idutilisateur);
+            createTableUserData(idutilisateur);
+            if (!alreadyFetched) {
+                if (isConnected) {
+                    majTests();
+                    dropTests(idutilisateur);
+                    dropBilan();
+                    majBilan();
+                    setAlreadyFetched(true);
+                } else {
+                    setMessage({ text: "Votre connexion est faible ou absente, certaines fonctionnalités seront limitées.", type: 'danger' });
+                    setModal(true);
+                }
+                dataHandler(isConnected);
             }
-            dataHandler(isConnected);
         }
     }, [isConnected]);
 
@@ -145,32 +153,74 @@ const ProfilScreen = props => {
         );
     }
 
-    return (
-        <View style={styles.container}>
-            
-            <Image style={styles.photo} source={require('../../assets/img/evaluations/Bursite-photo1.png')} />
+    //Tableau expliquant le mode hors ligne si hors ligne
+    const tableHead = ['', 'En ligne', 'Hors-ligne'];
+    const tableTitle = ['Réaliser des évaluations', 'consulter le bilan', 'Mettre à jour le bilan', 'Lire les fiches conseils', 'Recommandations', 'Données personnelles'];
+    const tableData = [
+        ['oui', 'oui'],
+        ['oui', 'oui'],
+        ['oui', 'non'],
+        ['oui', 'non'],
+        ['oui', 'oui'],
+        ['lire', 'lire/modifier']
+    ];
 
-            {/* Pour un éleveur */}
-            <View style={styles.textContainer}>
-                <Text style={styles.text}>
-                    Nom d'élevage
-                </Text>
-                <Text style={styles.text}>
-                    Code postal, adresse, ville
-                </Text>
-                <Text style={styles.text}>
-                    Email
-                </Text>
-                <Text style={styles.text}>
-                    Numéro de téléphone
-                </Text>
-                <Text style={styles.text}>
-                    Taille de l'élevage
-                </Text>
+    return (
+        <View style={{ flex: 1 }}>
+            <View style={{ flex: 1.5, alignItems: 'center', paddingTop: isConnected ? 20 : 30 }}>
+                {isConnected &&
+                    <View style={styles.imageContainer}>
+                        <Image
+                            style={styles.image}
+                            source={{ uri: 'https://oporctunite.envt.fr/oporctunite-api/img/photos/' + utilisateur.utilisateurPhoto }}
+                            resizeMode="cover"
+                        />
+                    </View>
+                }
+                <CustomTable style={{ flex: isConnected ? 3 : 2, paddingTop: 30 }}>
+                    {isConnected && (
+                        <Text style={{ textAlign: 'right' }}>
+                            <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Parametre', { isConnected: isConnected })}>
+                                <FontAwesome name="pencil-square-o" size={24} color="black" />
+                            </TouchableWithoutFeedback>
+                        </Text>)
+                    }
+                    <Text style={styles.text}>
+                        {"Nom d'élevage: " + elevage.nomElevage}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Adresse: " + utilisateur.codePostal}, {utilisateur.adresse}, {utilisateur.ville}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Email: " + utilisateur.email}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Téléphone: " + utilisateur.telephone}
+                    </Text>
+                    <Text style={styles.text}>
+                        {"Taille de l'élevage: " + elevage.tailleElevage}
+                    </Text>
+                </CustomTable>
             </View>
-            <Text style={{bottom:20, position:"absolute"}}>
-                Mardi 18 août
-            </Text>
+            {!isConnected && (
+                <View style={styles.tableContainer}>
+                    <Table borderStyle={{ borderWidth: 1 }}>
+                        <Row data={tableHead} flexArr={[2, 1, 1]} style={styles.head} textStyle={styles.tableText} />
+                        <TableWrapper style={styles.wrapper}>
+                            <Col data={tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.tableText} />
+                            <Rows data={tableData} flexArr={[0.5, 0.5]} style={styles.row} textStyle={styles.tableText} />
+                        </TableWrapper>
+                    </Table>
+                </View>)
+            }
+            {modal && <ModalPopupInfo
+                visible={modal}
+                onClose={modalCloser}
+                text={message.text}
+                buttonText='Fermer'
+                type={message.type}
+                align={message.type == 'success' ? true : false}
+            />}
         </View>
     );
 };
@@ -187,16 +237,6 @@ export const screenOptions = (navData) => {
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
             </HeaderButtons>
-        ),
-        headerRight: () => (
-            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-                <Item
-                    title='Paramètre'
-                    iconName={Platform.OS === 'android' ? 'md-settings' : 'ios-settings'}
-                    
-                    onPress={() => navData.navigation.navigate('Parametre')}
-                />
-            </HeaderButtons>
         )
     };
 };
@@ -208,22 +248,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
     },
-    photo: {
-        height: Dimensions.get('window').height / 5,
-        width: Dimensions.get('window').width / 3,
-        backgroundColor:"blue",
-        marginVertical:15
+    imageContainer: {
+        width: Dimensions.get('window').width * 0.5,
+        height: Dimensions.get('window').width * 0.5,
+        borderRadius: Dimensions.get('window').width * 0.5 / 2,
+        borderWidth: 3,
+        borderColor: 'black',
+        overflow: 'hidden'
     },
-    textContainer:{     
-        alignItems:"flex-start"
+    image: {
+        width: '100%',
+        height: '100%',
     },
-    text:{     
-        fontSize:16
+    text: {
+        paddingVertical: 8
     },
-    container:{
-        alignItems: 'center',
-        flex:1,
-    }
+    //Table
+    tableContainer: { flex: 1, padding: 16, paddingTop: -16 },
+    head: { height: 40, backgroundColor: '#f1f8ff' },
+    wrapper: { flexDirection: 'row' },
+    title: { flex: 1, backgroundColor: '#f6f8fa' },
+    row: { height: 28 },
+    tableText: { textAlign: 'center' }
 });
 
 

@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Platform } from 'react-native';
 
 //This component represents each separate input of the add/create product form
 //This component internally decides wether an input is valid or not and the info
@@ -54,7 +54,11 @@ const Input = props => {
     //These are the different checks that have to be adapted to each component
     const textChangeHandler = text => {
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const CPregex = /^\d{5}$/;
+        const telephone = /^\d{10}$/;
+        const tailleElevage = /[0-9]{1,}/;
         let isValid = true;
+
         if (props.required && text.trim().length === 0) {
             isValid = false;
         }
@@ -68,6 +72,15 @@ const Input = props => {
             isValid = false;
         }
         if (props.minLength != null && text.length < props.minLength) {
+            isValid = false;
+        }
+        if (props.cp && !CPregex.test(parseInt(text))) {
+            isValid = false;
+        }
+        if (props.telephone && !telephone.test(parseInt(text))) {
+            isValid = false;
+        }
+        if (props.tailleElevage && !tailleElevage.test(parseInt(text))) {
             isValid = false;
         }
         dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
@@ -86,6 +99,7 @@ const Input = props => {
                 value={inputState.value}
                 onChangeText={textChangeHandler}
                 onBlur={lostFocusHandler}
+                returnKeyType={(Platform.OS === 'ios') ? 'done' : 'next'}
             />
             {!inputState.isValid && inputState.touched && (
                 <View style={styles.errorContainer}>

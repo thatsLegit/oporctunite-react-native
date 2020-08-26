@@ -41,7 +41,7 @@ export const EleveurDrawerNav = () => {
                 name='Main'
                 component={MainNavigator}
                 options={{
-                    title: 'Profil',
+                    title: 'Mon compte',
                     drawerIcon: drawerConfig => (
                         <MaterialCommunityIcons
                             name="pig"

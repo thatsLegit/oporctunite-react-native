@@ -119,6 +119,7 @@ const ComportementSocial = props => {
                                 autoCapitalize='none'
                                 autoCorrect={false}
                                 keyboardType='number-pad'
+                                returnKeyType={(Platform.OS === 'ios') ? 'done' : 'next'}
                                 maxLength={3}
                             />
                         </InputBorder>

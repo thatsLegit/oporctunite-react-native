@@ -98,6 +98,7 @@ const Mortalite = props => {
                                             autoCapitalize='none'
                                             autoCorrect={false}
                                             keyboardType='number-pad'
+                                            returnKeyType={(Platform.OS === 'ios') ? 'done' : 'next'}
                                             maxLength={5}
                                         />
                                     </InputBorder>
@@ -121,6 +122,7 @@ const Mortalite = props => {
                                             autoCapitalize='none'
                                             autoCorrect={false}
                                             keyboardType='number-pad'
+                                            returnKeyType={(Platform.OS === 'ios') ? 'done' : 'next'}
                                             maxLength={5}
                                         />
                                     </InputBorder>

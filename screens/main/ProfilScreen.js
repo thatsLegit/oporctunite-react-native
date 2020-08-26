@@ -179,11 +179,11 @@ const ProfilScreen = props => {
                 }
                 <CustomTable style={{ flex: isConnected ? 3 : 2, paddingTop: 30 }}>
                     {isConnected && (
-                        <Text style={{ textAlign: 'right' }}>
+                        <View style={{ alignSelf: 'flex-end' }}>
                             <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Parametre', { isConnected: isConnected })}>
                                 <FontAwesome name="pencil-square-o" size={24} color="black" />
                             </TouchableWithoutFeedback>
-                        </Text>)
+                        </View>)
                     }
                     <Text style={styles.text}>
                         {"Nom d'élevage: " + elevage.nomElevage}

@@ -40,7 +40,7 @@ const SearchScreen = props => {
     };
 
     const fichesHandler = item => {
-        if (!isConnected && saved.includes(item.titreFiche)) {
+        if (!isConnected && saved.includes(item.titreFiche) && Platform.OS=='ios') {
             return (
                 <View style={{ borderRadius: 5 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>

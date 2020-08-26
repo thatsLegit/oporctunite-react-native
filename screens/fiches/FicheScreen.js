@@ -149,7 +149,7 @@ const FicheScreen = props => {
                         <Item
                             title='warning'
                             iconName='exclamationcircleo'
-                            onPress={() => Alert.alert('Vous etes actuellement hors-ligne. Retrouvez une connexion pour effectuer des actions sur cette fiche.', 'Compris', [{ text: 'Compris', style: 'destructive' }])}
+                            onPress={() => Alert.alert('Attention', 'Vous êtes actuellement hors-ligne. Retrouvez une connexion pour effectuer des actions sur cette fiche.', [{ text: 'Compris', style: 'destructive' }])}
                         />
                     </HeaderButtons>
                 )

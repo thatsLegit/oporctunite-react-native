@@ -24,12 +24,17 @@
     "ios": {
       "bundleIdentifier": "com.yourcompany.yourappname",
       "buildNumber": "1.0.0",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets."
+      }
     },
     "android": {
       "package": "com.yourcompany.yourappname",
       "softwareKeyboardLayoutMode": "pan",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions" : []
     }
+    
   }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Button, Platform } from 'react-native';
+import { View, Text, StyleSheet, Button, Platform, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { FontAwesome, FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
@@ -68,10 +68,26 @@ const EvalRecapScreen = props => {
 
     return (
         <View>
-            <Text>
-                Récapitulatif des évaluations effectuées.
-            </Text>
-            <Button title='Réaliser des évaluations' onPress={() => { props.navigation.navigate('CategSelection') }} />
+            <View style={styles.buttonContainer}>
+                <Button title='Réaliser des évaluations' onPress={() => { props.navigation.navigate('CategSelection') }} />
+            </View>
+            <View style={styles.progContainer}>
+                <Text style={styles.progTitle}>
+                    Progression des évaluations réalisées
+                </Text>
+                {/* Ici on aurait la progression des évaluations par catégorie, 
+                par ex si 6 evals dans une catég et seulement 2 de réalisées, ça fait 33%. 
+                Faire ça pour chaque catég et afficher des barres de prog pour chacunes */}
+                <Text>En développement</Text>
+            </View>
+            <View style={styles.lastEvalContainer}>
+                <Text style={styles.lastEvalTitle}>
+                    Vos dernières évaluations
+                </Text>
+                <Text>En développement</Text>
+                {/* Tableau récap des derniers evals soumises, avec le statut sauvegardé ou envoyé, 
+                la note, la date, intituté de l'éval... dans la limite de 15 evaluations */}
+            </View>
             <ModalPopupInfo
                 visible={modal}
                 onClose={modalCloser}

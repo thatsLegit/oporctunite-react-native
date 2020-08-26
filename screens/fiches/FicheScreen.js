@@ -149,7 +149,7 @@ const FicheScreen = props => {
                         <Item
                             title='warning'
                             iconName='exclamationcircleo'
-                            onPress={() => Alert.alert('Vous etes actuellement hors-ligne. Retrouvez une connexion pour effectuer des actions sur cette fiche.')}
+                            onPress={() => Alert.alert('Vous etes actuellement hors-ligne. Retrouvez une connexion pour effectuer des actions sur cette fiche.', 'Compris', [{ text: 'Compris', style: 'destructive' }])}
                         />
                     </HeaderButtons>
                 )
@@ -167,11 +167,6 @@ const FicheScreen = props => {
                 </Text>
             </View>
         );
-    }
-
-    if (isDownloaded) {
-        Alert.alert(`path: ${path}`);
-        console.log(`path: ${path}`);
     }
 
     if (isDownloaded !== undefined && isConnected !== undefined && downloadProgress == 0) {

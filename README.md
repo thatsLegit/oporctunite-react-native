@@ -18,7 +18,7 @@ Installer yarn
 avec Brew package manager :
 
 ```
-brew yarn install
+brew install yarn
 ```
 
 Ou télécharger directement via le terminal :
@@ -44,25 +44,46 @@ Installer les dépendances
 yarn install
 ```
     
-## Etape 5: 
-Lancer "Metro Bundler" (qui permet de choisir le support sur lequel l'application sera lancée)
+## Etape 5: Installer les IDE et émulateurs
 
+### windows
+
+Tuto : *https://www.infoworld.com/article/3095406/android-studio-for-beginners-part-1-installation-and-setup.html* <br>
+
+> Télécharger Android Studio <br>
+> Sur la page d'accueil (Welcome to Android Studio), cliquer sur Configure (en bas à droite) <br>
+> AVD Manager <br>
+> Create virtual device (en bas à gauche) <br>
+> Installer le JDK et tous les plugins nécéssaires
+
+### MacOS
+
+> Télécharger XCode <br>
+> Préférences -> Locations -> Command Line Tools : votre version de XCode
+
+
+## Etape 6: 
+Lancer "Metro Bundler"
+
+*Dépend de votre OS*
 ```
 yarn android
+yarn ios
 ```
 
-Cette commande lance "Metro Bundler", et essaye de lancer l'application sur un appareil/simulateur disponible
+Cette commande lance "Metro Bundler", et essaye de lancer l'application sur un appareil/simulateur disponible. <br>
+
+## Etape 7 :
+Testez l'application !<br>
+
+Une fois lancée, l'appli pourra être testée sur votre appareil physique : <br>
+    > Télécharger l'application Expo sur le PlayStore <br>
+    > Scanner le QR code en bas à gauche du "Metro Bundler" avec le scanner de l'application Expo <br><br>
     
-## Etape 6: Accéder à l'application
-- 7.1: Par appareil physique <br>
-        > Télécharger l'application Expo sur le PlayStore <br>
-        > Scanner le QR code en bas à gauche du "Metro Bundler" avec le scanner de l'application Expo <br>
+Ou sur l'émulateur : <br>
+    > Sur windows, il faut donc lancer l'AVD avant le Metro Bundler.<br>
+    > Sur MacOS, peut importe, Xcode lancera l'émulateur par défaut automatiquement au lancement de Metro
         
-- 7.2: Par émulateur *Pas fini, essayer avec 7.1* <br>
-        > Télécharger Android Studio <br>
-        > Sur la page d'accueil (Welcome to Android Studio), cliquer sur Configure (en bas à droite) <br>
-        > AVD Manager <br>
-        > Create virtual device (en bas à gauche) <br>
 
 # Environnement:
     - Expo: 3.21.5

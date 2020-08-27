@@ -24,7 +24,10 @@
     "ios": {
       "bundleIdentifier": "com.envt.oporctunite",
       "buildNumber": "1.0.0",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "We will access the photo library in further developments of the app to enable the possibility for a user to change his profile photo"
+      }
     },
     "android": {
       "package": "com.envt.oporctunite",

@@ -1,3 +1,11 @@
+# Restant à faire
+- Partie ‘aide’ dans le drawer pour mettre les liens de contact, pol de conf et doc de l’appli (indispensable pour upload sur les stores)
+- Trouver une solution pour la visualisation des pdf hors ligne sur android (pistes : utiliser WebBrowser, Sharing, IntentLauncher, ou Linking pour ouvrir le pdf dans le navigateur ou un lecteur de pdf).
+- Finir le dernier écran non-fait de l’appli
+- Corriger pb variable Int pour téléphone dans la bd, cause un mini-bug dans la modif des données persos
+- Possibilité de modif l’image de profil ?
+- Ajouter des id dans la bd pour les evals, catégories, sous-catégories (permettra de simplifier la partie bilan, évaluations et évitera des choses écrites 'en dur')…
+
 # Installation
 
 ## Etape 1: 

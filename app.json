@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Oporctunite-React-Native",
-    "slug": "Oporctunite-React-Native",
+    "name": "Oporctunite",
+    "slug": "oporctunite-react-native",
+    "sdkVersion": "38.0.0",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,19 +22,19 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.yourcompany.yourappname",
+      "bundleIdentifier": "com.envt.oporctunite",
       "buildNumber": "1.0.0",
-      "supportsTablet": true,
-      "infoPlist": {
-        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets."
-      }
+      "supportsTablet": true
     },
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.envt.oporctunite",
       "softwareKeyboardLayoutMode": "pan",
       "versionCode": 1,
-      "permissions" : []
+      "permissions": [
+        "MANAGE_DOCUMENTS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     }
-    
   }
 }

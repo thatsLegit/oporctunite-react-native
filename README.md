@@ -86,4 +86,6 @@ Ou sur l'émulateur : <br>
         
 
 # Environnement:
-    - Expo: 3.21.5
+- expo-cli: 3.21.5
+- expo: 38
+- react-native > 0.62

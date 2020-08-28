@@ -97,3 +97,6 @@ Ou sur l'émulateur : <br>
 - expo-cli: 3.21.5
 - expo: 38
 - react-native > 0.62
+
+# Documentation app stores
+*https://oporctunite.envt.fr/oporctunite-api/img/AppStore_GooglePlay.pdf*

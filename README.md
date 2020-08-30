@@ -5,7 +5,7 @@
 - Corriger pb variable Int pour téléphone dans la bd, cause un mini-bug dans la modif des données persos
 - Possibilité de modif l’image de profil ?
 - Ajouter des id dans la bd pour les evals, catégories, sous-catégories (permettra de simplifier la partie bilan, évaluations et évitera des choses écrites 'en dur')…
-- La requête fetchMoyenneEvaluationParSousCategorieBilan ne renvoit pas la bonne note
+- CORRIGER MAIS A VALIDER - La requête fetchMoyenneEvaluationParSousCategorieBilan ne renvoit pas la bonne note
 
 # Installation
 

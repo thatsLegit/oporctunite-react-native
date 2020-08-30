@@ -631,8 +631,8 @@ export const fetchMoyenneEvaluationParSousCategorieBilan = nomSousCateg => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-
-                'SELECT nomEvaluation, moyenneGlobaleEval, noteEval FROM Bilan WHERE nomSousCateg = ? AND  noteEval<>"null" GROUP BY nomEvaluation;',
+                // MAX(idTest) permet d'avoir la dernière note de l"évaluation
+                'SELECT DISTINCT nomEvaluation, moyenneGlobaleEval, noteEval, MAX(idTest) FROM Bilan WHERE nomSousCateg == ? AND noteEval<>"null" GROUP BY nomEvaluation;',
                 [nomSousCateg], //prepared statement to avoid sql injections.
                 (_, result) => { //sucess fonction
                     resolve(result);

@@ -79,7 +79,7 @@ const EvalSelectionScreen = props => {
                             <View style={{ flexDirection: 'row', alignItems: 'flex-start', paddingVertical: 5 }}>
                                 <CheckBox style={{ marginRight: 15 }} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                                 <TouchableOpacity onPress={() => setSelectAll(!selectAll)}>
-                                    <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout selectionner</Text>
+                                    <Text style={{ fontFamily: 'open-sans', fontSize: 15 }}>Tout sélectionner</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

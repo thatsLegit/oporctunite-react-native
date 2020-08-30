@@ -155,7 +155,7 @@ const ProfilScreen = props => {
 
     //Tableau expliquant le mode hors ligne si hors ligne
     const tableHead = ['', 'En ligne', 'Hors-ligne'];
-    const tableTitle = ['Réaliser des évaluations', 'consulter le bilan', 'Mettre à jour le bilan', 'Lire les fiches conseils', 'Recommandations', 'Données personnelles'];
+    const tableTitle = ['Réaliser des évaluations', 'Consulter le bilan', 'Mettre à jour le bilan', 'Lire les fiches conseils', 'Recommandations', 'Données personnelles'];
     const tableData = [
         ['oui', 'oui'],
         ['oui', 'oui'],

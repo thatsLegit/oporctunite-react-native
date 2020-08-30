@@ -129,7 +129,7 @@ const AuthScreen = props => {
                                             title='Pas encore de compte ?'
                                             color='grey'
                                             onPress={() => {
-                                                Alert.alert("L'inscription n'est pas encore disponible sur l'application mobile. Rendez-vous sur oporctunite.envt.fr pour créer votre compte O'porctunité");
+                                                Alert.alert("En cours de développement","L'inscription n'est pas encore disponible sur l'application.");
                                             }}
                                         />}
                                 </Shadow>}

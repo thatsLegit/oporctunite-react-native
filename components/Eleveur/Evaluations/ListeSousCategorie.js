@@ -18,7 +18,7 @@ const ListeSousCategorie = props => {
             <View style={styles.checkBoxAll}>
                 <CheckBox style={{ marginRight: 15 }} checked={selectAll} color={Colors.accent} onPress={() => setSelectAll(!selectAll)} />
                 <TouchableOpacity onPress={() => setSelectAll(!selectAll)}>
-                    <Text style={styles.selectionText}>Tout selectionner</Text>
+                    <Text style={styles.selectionText}>Tout sélectionner</Text>
                 </TouchableOpacity>
             </View>
             <FlatList

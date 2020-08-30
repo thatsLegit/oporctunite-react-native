@@ -221,6 +221,11 @@ const ProfilScreen = props => {
                 type={message.type}
                 align={message.type == 'success' ? true : false}
             />}
+
+            <View style={styles.version}>
+                <Text>Version du 30/08</Text>
+                <Text>Corrections erreurs de syntaxe + bug bilan graphique bâton des évaluations</Text>
+            </View>
         </View>
     );
 };
@@ -232,7 +237,7 @@ export const screenOptions = (navData) => {
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
-                    title='Menu'
+                    title='Menu's
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
@@ -269,7 +274,8 @@ const styles = StyleSheet.create({
     wrapper: { flexDirection: 'row' },
     title: { flex: 1, backgroundColor: '#f6f8fa' },
     row: { height: 28 },
-    tableText: { textAlign: 'center' }
+    tableText: { textAlign: 'center' },
+    version:{alignItems:"center", justifyContent: 'center'}
 });
 
 

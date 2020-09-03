@@ -7,7 +7,7 @@ import TopNavigationForm from '../../../../components/Navigation/TopNavigationFo
 import Colors from '../../../../constants/Colors';
 import Shadow from '../../../../components/UI/Shadow';
 import * as evalActions from '../../../../store/actions/evaluation';
-import ModalPopupInfo from '../../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import ModalPopupInfo from '../../../../components/UI/ModalPopupInfo';
 import Table from '../../../../components/UI/Table';
 
 

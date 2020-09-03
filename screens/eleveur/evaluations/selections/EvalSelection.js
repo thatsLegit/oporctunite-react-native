@@ -7,8 +7,8 @@ import Colors from '../../../../constants/Colors';
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 import * as sousCategActions from '../../../../store/actions/sousCateg';
 import * as evalActions from '../../../../store/actions/evaluation';
-import SelectedSousCategorieItem from '../../../../components/Eleveur/Evaluations/SelectedSousCategorieItem';
-import CorrespondingEvaluations from '../../../../components/Eleveur/Evaluations/CorrespondingEvaluations';
+import SelectedSousCategorieItem from '../../../../components/Evaluations/Selection/SelectedSousCategorieItem';
+import CorrespondingEvaluations from '../../../../components/Evaluations/Selection/CorrespondingEvaluations';
 import Shadow from '../../../../components/UI/Shadow';
 
 

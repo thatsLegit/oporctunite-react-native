@@ -18,7 +18,7 @@ import {
     dropBilan, insertNoteGlobaleEvaluations
 } from '../../helper/db/requetes';
 import { createTableTest, createTableFavoris, createTableUserData } from '../../helper/db/init';
-import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
+import ModalPopupInfo from '../../components/UI/ModalPopupInfo';
 import CustomTable from '../../components/UI/Table';
 
 
@@ -237,7 +237,7 @@ export const screenOptions = (navData) => {
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item
-                    title='Menu's
+                    title='Menu' s
                     iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
                     onPress={() => navData.navigation.toggleDrawer()}
                 />
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     title: { flex: 1, backgroundColor: '#f6f8fa' },
     row: { height: 28 },
     tableText: { textAlign: 'center' },
-    version:{alignItems:"center", justifyContent: 'center'}
+    version: { alignItems: "center", justifyContent: 'center' }
 });
 
 

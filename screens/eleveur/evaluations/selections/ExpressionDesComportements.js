@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { useSelector } from 'react-redux';
-import ListeSousCategorie from '../../../../components/Eleveur/Evaluations/ListeSousCategorie';
+import ListeSousCategorie from '../../../../components/Evaluations/Selection/ListeSousCategorie';
 import TopNavigationForm from '../../../../components/Navigation/TopNavigationForm';
 
 

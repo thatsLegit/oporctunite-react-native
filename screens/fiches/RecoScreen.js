@@ -7,7 +7,7 @@ import Table from '../../components/UI/Table';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { dropBilan, fetchMoyenneCategorieBilan, insertNoteGlobaleEvaluations } from '../../helper/db/requetes';
 import NetInfo from '@react-native-community/netinfo';
-import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
+import ModalPopupInfo from '../../components/UI/ModalPopupInfo';
 
 
 const RecoScreen = props => {
@@ -111,7 +111,7 @@ const RecoScreen = props => {
 
 
     const fichesHandler = item => {
-        if (!isConnected && saved.includes(item.titreFiche) && Platform.OS=='ios') {
+        if (!isConnected && saved.includes(item.titreFiche) && Platform.OS == 'ios') {
             return (
                 <View style={{ borderRadius: 5 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>

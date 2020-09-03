@@ -5,7 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 import * as utilisateurActions from '../../store/actions/utilisateur';
 import Colors from '../../constants/Colors';
-import ModalPopupInfo from '../../components/Eleveur/Evaluations/ModalPopupInfo';
+import ModalPopupInfo from '../../components/UI/ModalPopupInfo';
 import Table from '../../components/UI/Table';
 import Input from '../../components/UI/Input';
 

@@ -7,7 +7,7 @@ import { CustomHeaderButton } from '../../../components/UI/HeaderButton';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { dropBilan, insertNoteGlobaleEvaluations } from '../../../helper/db/requetes'
 import NetInfo from '@react-native-community/netinfo';
-import ModalPopupInfo from '../../../components/Eleveur/Evaluations/ModalPopupInfo';
+import ModalPopupInfo from '../../../components/UI/ModalPopupInfo';
 
 
 const BilanScreen = props => {

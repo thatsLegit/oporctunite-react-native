@@ -6,6 +6,7 @@
 - Possibilité de modif l’image de profil ?
 - Ajouter des id dans la bd pour les evals, catégories, sous-catégories (permettra de simplifier la partie bilan, évaluations et évitera des choses écrites 'en dur')…
 - CORRIGER MAIS A VALIDER - La requête fetchMoyenneEvaluationParSousCategorieBilan ne renvoit pas la bonne note
+- Formattage des images dans les evaluations
 
 # Installation
 

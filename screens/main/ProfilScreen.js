@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import NetInfo from '@react-native-community/netinfo';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
 import { FontAwesome } from '@expo/vector-icons';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -32,6 +32,7 @@ const ProfilScreen = props => {
     const { utilisateur, elevage } = useSelector(state => state.utilisateur);
     const dispatch = useDispatch();
 
+    //Event listener sur la présence de la connexion
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isConnected) {
@@ -45,6 +46,8 @@ const ProfilScreen = props => {
         }
     });
 
+    //c'est ici que sont appelées toutes les fonctions qui permettent
+    //de fetch les données que ce soit dans l'api ou sur sqlite
     const dataHandler = useCallback(async (isConnected) => {
         await dispatch(categActions.fetchCateg(isConnected));
         await dispatch(sousCategActions.fetchSousCateg(isConnected));
@@ -61,6 +64,7 @@ const ProfilScreen = props => {
 
     const modalCloser = () => setModal(false);
 
+    //fonction générique permettant de 'mettre à jour' les données du bilan
     const majBilan = useCallback(async () => {
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
         const bearer = 'Bearer ' + token;
@@ -83,6 +87,8 @@ const ProfilScreen = props => {
         insertNoteGlobaleEvaluations(Data);
     }, [dispatch]);
 
+    //Si des tests on été sauvegardés en local, ils seront envoyés ici au lancement
+    //de l'appli si y'a une connexion (donc fonctionnera uniquement sur cet écran)
     const majTests = useCallback(async () => {
         const result = await fetchAllTests(idutilisateur);
 
@@ -119,8 +125,11 @@ const ProfilScreen = props => {
 
     }, []);
 
+    //fonction principale de l'écran, s'éxecute lorsque l'état de la connexion change.
+    //On s'arrange pour que les données ne soient fetch qu'une fois si elles l'ont deja été
     useEffect(() => {
         if (isConnected !== undefined) {
+            //Tables générées IF NOT EXISTS pour chaque utilisateur de l'appli sur l'appareil
             createTableTest(idutilisateur);
             createTableFavoris(idutilisateur);
             createTableUserData(idutilisateur);

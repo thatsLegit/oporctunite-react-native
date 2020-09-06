@@ -10,19 +10,27 @@ import * as evalActions from '../../../../store/actions/evaluation';
 import ModalPopupInfo from '../../../../components/UI/ModalPopupInfo';
 import Table from '../../../../components/UI/Table';
 
+//Ecran d'info récapitulant la séléction et permettant de lier certaines évaluations
 
 const EvalInfoScreen = props => {
+    //Ensemble des evals
     const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat());
+
+    //Evals séléctionnées
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).sort((a, b) => a.priorite - b.priorite));
+
     const [modal, setModal] = useState(true);
-    const skipped = useRef(false);
+    const skipped = useRef(false); //pour la liaison d'évals
     const dispatch = useDispatch();
 
-    const linkHandler = (evaluation) => dispatch(evalActions.ajouterALaSelection(evaluation));
+    //Déclenché lorsqu'on lie deux evals
+    const linkHandler = evaluation => dispatch(evalActions.ajouterALaSelection(evaluation));
 
     const modalCloser = () => setModal(false);
 
+    //Fonction appelée pour afficher chaque éval séléctionnée
     const evalInfoHandler = (item, index) => {
+        //Passer à l'éval suivante car l'éval est liée à la précédente ?
         if (skipped.current) {
             skipped.current = false;
             return;
@@ -30,6 +38,7 @@ const EvalInfoScreen = props => {
         const idLiaison = item.idLiaison;
         let evalLiee;
         let alreadySelected = false;
+        //Cas 1 : liaison possible et les 2 evals liables sont deja dans la liste des évals séléctionnées
         if (idLiaison != "0") {
             for (var i = index + 1; i < selectedEvaluations.length; i++) {
                 if (selectedEvaluations[i].idLiaison == idLiaison) {
@@ -39,6 +48,7 @@ const EvalInfoScreen = props => {
                 }
             }
         } else {
+            //Cas 2 : aucune liaison possible
             return (
                 <View>
                     <Text style={styles.item}>{item.nomEvaluation}</Text>
@@ -47,6 +57,7 @@ const EvalInfoScreen = props => {
                 </View>
             );
         }
+        //Cas 1 : afficher l'eval double
         if (alreadySelected) {
             skipped.current = true;
             return (
@@ -56,6 +67,7 @@ const EvalInfoScreen = props => {
                     <Text style={styles.temps}>Nombre de truies à évaluer : {item.nbTruies != null ? item.nbTruies : 'indéfini'}.</Text>
                 </View>
             );
+            //Cas 3 : liaison possible mais une seule séléctionnée : on propose de lier
         } else {
             for (const evaluation of evaluations) {
                 if (evaluation.idLiaison == idLiaison && evaluation.nomEvaluation != item.nomEvaluation) {

@@ -15,6 +15,8 @@ export const fetchSousCateg = isConnected => {
         const maj = getState().auth.maj;
         let loadedSousCategories = {};
 
+        //Une fois tous les 7j min, si on a une co :
+        //insert/drop toutes les lignes de la table Categorie_P (sqlite)
         if (isConnected && maj) {
             const token = getState().auth.token;
             const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/sousCategories";
@@ -39,6 +41,7 @@ export const fetchSousCateg = isConnected => {
             }
 
         } else {
+            //Le reste du temps, fetch les données sur sqlite (en ligne ou hors-ligne)
             const sousCategories = await fetchAllCategoriesP();
 
             for (const sCateg of sousCategories.rows._array) {
@@ -48,6 +51,7 @@ export const fetchSousCateg = isConnected => {
             }
         }
 
+        //Dispatcher dans le store
         dispatch({ type: SET_SOUS_CATEG, sousCateg: loadedSousCategories });
     };
 };

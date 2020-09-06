@@ -12,19 +12,22 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { fetchAllTests } from '../../../../helper/db/requetes';
 
 
+//Ecran qui récapitule les évaluations réalisées et les notes
 const TestRecapScreen = props => {
 
     const idutilisateur = useSelector(state => state.auth.idutilisateur);
     const [isLoading, setIsLoading] = useState(false);
-    const tests = useSelector(state => state.test.enCours);
+    const tests = useSelector(state => state.test.enCours); //liste des tests réalisés
 
     const dispatch = useDispatch();
 
+    //Supprime les séléctions d'évals/sous-catég du store
     useEffect(() => {
         dispatch(evalActions.supprimerEvalSelection());
         dispatch(sousCategActions.supprimerSousCategSelection());
     }, []);
 
+    //Soumet les tests réalisés
     const submitHandler = async () => {
         setIsLoading(true);
         const tests = await fetchAllTests(idutilisateur);

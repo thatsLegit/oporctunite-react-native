@@ -15,16 +15,17 @@ const RecoScreen = props => {
     const [isConnected, setIsConnected] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const [categReco, setCategReco] = useState([]);
+    const [categReco, setCategReco] = useState([]); //Liste des categories de fiches recommandées
     const [modal, setModal] = useState(false);
     const [message, setMessage] = useState({});
-    const [noNote, setNoNote] = useState(false);
-    const [noReco, setNoReco] = useState(false);
-    const { token } = useSelector(state => state.auth);
+    const [noNote, setNoNote] = useState(false); //booléen : y'a-t-il une note dans chaque catégorie ?
+    const [noReco, setNoReco] = useState(false); //booléen : y'a-t-il des fiches à recommander ?
+    const { token } = useSelector(state => state.auth); //delivré à la connexion
     const dispatch = useDispatch();
 
     const modalCloser = () => setModal(false);
 
+    //selection des fiches parmi les catégories à recommander
     const fichesReco = useSelector(state => Object.values(state.fiche.fiches).filter(fiche => categReco.includes(fiche.nomCategorieG)));
 
     useEffect(() => {
@@ -40,6 +41,7 @@ const RecoScreen = props => {
         }
     });
 
+    //détermination des catégories pour lesquelles la moy de l'utilisateur est inférieure à la moyenne globale
     const recoHandler = useCallback(async () => {
         await fetchMoyenneCategorieBilan().then(result => {
             if (result.rows._array.length == 4) {
@@ -57,6 +59,7 @@ const RecoScreen = props => {
         });
     }, []);
 
+    //maj des notes du bilan, s'execute lors du pull to refresh
     const majBilan = useCallback(async () => {
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/bilans/evaluations/all";
         const bearer = 'Bearer ' + token;
@@ -97,6 +100,7 @@ const RecoScreen = props => {
         setIsRefreshing(false);
     };
 
+    //logique principale de l'écran, s'éxecute à la fin du 1er render
     useEffect(() => {
         if (!isConnected) {
             setIsLoading(false);

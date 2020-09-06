@@ -23,6 +23,8 @@ export const soumettreTests = () => {
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/tests";
         const bearer = 'Bearer ' + token;
 
+        //Pour savoir si on soumet chaque test dans l'api ou en local, 
+        //on vérifie la connexion avant chaque envoi
         for (const test of tests) {
             const connection = await NetInfo.fetch();
 

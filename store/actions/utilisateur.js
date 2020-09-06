@@ -37,7 +37,7 @@ export const fetchUtilisateur = isConnected => {
 
         } else {
 
-            //Si pas de co, dans le store, la même chose que dans sqlite
+            //Si pas de co, on met dans le store ce qu'on a dans la table utilisateur (sqlite)
             const result = await fetchUserData(idutilisateur);
             const userData = result.rows._array[0];
 

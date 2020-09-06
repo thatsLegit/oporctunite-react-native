@@ -13,8 +13,7 @@ export const fetchCateg = isConnected => {
         let loadedCategories = {};
 
         //Une fois tous les 7j min, si on a une co :
-        //insert/drop toutes les lignes de la table sqlite
-
+        //insert/drop toutes les lignes de la table Categorie_G (sqlite)
         if (isConnected && maj) {
             const token = getState().auth.token;
             const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/categories";
@@ -39,7 +38,7 @@ export const fetchCateg = isConnected => {
             };
 
         } else {
-            //Le reste du temps, fetch les données sur sqlite (en ligne ou hl),
+            //Le reste du temps, fetch les données sur sqlite (en ligne ou hors-ligne)
             const categories = await fetchAllCategoriesG();
 
             for (const categ of categories.rows._array) {
@@ -49,12 +48,11 @@ export const fetchCateg = isConnected => {
             }
         }
 
-        //Comme avant, les dispatcher dans le store
+        //Dispatcher dans le store
         dispatch({ type: SET_CATEG, categ: loadedCategories });
     };
 };
 
-//Cette fonction là on peut tjr la faire sur sqlite a priori
 export const fetchSousCategByCateg = () => {
     return async (dispatch, getState) => {
 
@@ -65,7 +63,8 @@ export const fetchSousCategByCateg = () => {
             categ.push(key);
         }
 
-        //Cette fonction envoie plusieurs requêtes vers sqlite/dispatch vers redux
+        //Cette fonction envoie plusieurs requêtes vers sqlite et dispatch vers redux
+        //Pas de requêtes sur l'api, donc fonctionne tant hors-ligne que en ligne
         for (let cat of categ) {
             const sousCategories = await getSousCategoriesGivenCateg(cat);
 

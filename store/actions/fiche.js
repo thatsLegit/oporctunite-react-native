@@ -22,6 +22,8 @@ export const fetchFiches = isConnected => {
         const maj = getState().auth.maj;
         let loadedFiches = {};
 
+        //Une fois tous les 7j min, si on a une co :
+        //insert/drop toutes les lignes de la table fiche (sqlite)
         if (isConnected && maj) {
             const token = getState().auth.token;
             const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/fiches";
@@ -50,6 +52,7 @@ export const fetchFiches = isConnected => {
             };
 
         } else {
+            //Le reste du temps, fetch les données sur sqlite (en ligne ou hors-ligne)
             const fiches = await fetchAllFiches();
 
             for (const fiche of fiches.rows._array) {
@@ -63,6 +66,7 @@ export const fetchFiches = isConnected => {
             }
         }
 
+        //Dispatcher dans le store
         dispatch({ type: SET_FICHES, fiches: loadedFiches });
     };
 };

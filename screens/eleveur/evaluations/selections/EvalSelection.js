@@ -11,27 +11,35 @@ import SelectedSousCategorieItem from '../../../../components/Evaluations/Select
 import CorrespondingEvaluations from '../../../../components/Evaluations/Selection/CorrespondingEvaluations';
 import Shadow from '../../../../components/UI/Shadow';
 
+//Selection des évaluations correspondantes à la séléction de sous-catégories
 
 const EvalSelectionScreen = props => {
 
-    const [filtersHeight, setFiltersHeight] = useState(0);
+    const [filtersHeight, setFiltersHeight] = useState(0); //enregistre la hauteur en pixel de la partie 'filtre des sous-catégories'
 
+    //Sous-catégories séléctionnées
     const selectedSousCat = useSelector(state => Object.values(state.sousCateg.sousCategSelection));
     const selectedSousCatNames = selectedSousCat.map(sousCat => sousCat.nomSousCateg);
 
+    //Eval correspondantes
     const evaluations = useSelector(state => Object.values(state.sousCateg.sousCategories).flat().filter(e => selectedSousCatNames.includes(e.nomCategorieP)));
 
+    //A-t-on bien une séléction ? permet surtout d'éviter des bugs lorsque des évals sont déselectionnées (ne pas suppr)
     const emptySelectionOrNot = useSelector(state => state.eval.evalSelection);
 
+    //Etat tout séléctionner
     const [selectAll, setSelectAll] = useState(false);
+
     const dispatch = useDispatch();
 
+    //Declenché quand on suppr une sous-cat
     const removeSCategHandler = item => {
         dispatch(sousCategActions.supprimerDeLaSelection(item.nomSousCateg));
         const nomEval = evaluations.filter(e => e.nomCategorieP == item.nomSousCateg).map(ev => ev.nomEvaluation);
         dispatch(evalActions.supprimerDeLaSelection(nomEval[0]));
     };
 
+    //Met à jour la hauteur en px de la partie 'filtre des sous-catégories'
     const filtersHeightHandler = useCallback((height) => {
         filtersHeight == 0 && setFiltersHeight(height + 70);
     }, [filtersHeight]);

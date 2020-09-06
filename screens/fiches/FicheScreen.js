@@ -13,8 +13,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import * as FileSystem from 'expo-file-system';
 const slugify = require('slugify');
 
-
-//Modal semi-transparent avec un spinner indiquant l'enregistrement ou la mise en favoris de la fiche.
+//Ecran d'affichage de la fiche
 const FicheScreen = props => {
     const isFavorite = useSelector(state => Object.keys(state.fiche.favoris).some(titre => titre == props.route.params.fiche.titreFiche));
     const [downloadProgress, setDownloadProgress] = useState(0);
@@ -22,11 +21,17 @@ const FicheScreen = props => {
     const [modalDelete, setModalDelete] = useState(false);
     const [isConnected, setIsConnected] = useState();
 
+    //Pour le menu déroulant (3 points verticaux)
     let menu = null;
+    const setMenuRef = ref => menu = ref;
+    const showMenu = () => menu.show();
+
+    //Création du chemin de sauvegarde de la fiche en local
     const path = FileSystem.documentDirectory + slugify(props.route.params.fiche.titreFiche, { locale: 'fr' }) + '.pdf';
 
     const dispatch = useDispatch();
 
+    //Connexion event listener
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isConnected) {
@@ -40,6 +45,7 @@ const FicheScreen = props => {
         }
     });
 
+    //Si un doc est enregistrée dans path, alors declarer la fiche comme étant enregistrée
     useEffect(() => {
         FileSystem.getInfoAsync(path).then(result => {
             if (result.exists) {
@@ -50,12 +56,7 @@ const FicheScreen = props => {
         });
     }, []);
 
-    const setMenuRef = ref => menu = ref;
-
-    const showMenu = () => {
-        menu.show();
-    };
-
+    //Lorsqu'on appuie sur enregistrer...
     const saveHandler = async () => {
         menu.hide();
         if (isDownloaded) {
@@ -91,6 +92,7 @@ const FicheScreen = props => {
         };
     }
 
+    //Lorsqu'on appuie sur mettre en favoris...
     const favorisHandler = async () => {
         menu.hide();
         if (!isFavorite) {
@@ -104,6 +106,7 @@ const FicheScreen = props => {
         }
     };
 
+    //Gestion de l'affichage de ... vs ! dans le header à droite :
     useEffect(() => {
         if (isConnected) {
             props.navigation.setOptions({

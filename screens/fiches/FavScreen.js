@@ -8,10 +8,11 @@ import { CustomHeaderButton } from '../../components/UI/HeaderButton';
 
 
 const FavScreen = props => {
-    const favoris = useSelector(state => Object.values(state.fiche.favoris));
-    const saved = useSelector(state => state.fiche.save);
+    const favoris = useSelector(state => Object.values(state.fiche.favoris)); //fiches favories contenues dans le store
+    const saved = useSelector(state => state.fiche.save); //fiches favories enregistrées sur l'appareil, référencées dans le store
     const [isConnected, setIsConnected] = useState(true);
 
+    //Event listener pour la connexion
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isConnected) {
@@ -26,7 +27,8 @@ const FavScreen = props => {
     });
 
     const fichesHandler = item => {
-        if (!isConnected && saved.includes(item.titreFiche) && Platform.OS=='ios') {
+        //la fiche est enregistrée sur l'appareil
+        if (!isConnected && saved.includes(item.titreFiche) && Platform.OS == 'ios') {
             return (
                 <View style={{ borderRadius: 5 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>
@@ -36,6 +38,7 @@ const FavScreen = props => {
                 </View>
             );
         }
+        //fiche non-enregistrée, pas de connexion
         if (!isConnected) {
             return (
                 <View style={{ backgroundColor: 'rgba(191, 191, 191, 0.9)', borderRadius: 5 }}>
@@ -44,6 +47,7 @@ const FavScreen = props => {
                 </View>
             );
         }
+        //fiche enregistrée, connecté
         return (
             <View style={{ borderRadius: 5 }}>
                 <TouchableOpacity onPress={() => props.navigation.navigate('Fiche', { fiche: item })}>

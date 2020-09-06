@@ -54,25 +54,32 @@ import * as sousCategActions from '../../../../store/actions/sousCateg';
 const TestScreen = props => {
 
     const [infoModalVisible, setInfoModalVisible] = useState(false);
-    const [infoModalVisible2, setInfoModalVisible2] = useState(false);
+    const [infoModalVisible2, setInfoModalVisible2] = useState(false); //Pour les evals doubles
     const [modalConfirmation, setModalConfirmation] = useState(false);
     const [annulationModal, setAnnulationModal] = useState(false);
-    const [indexEvaluation, setIndexEvaluation] = useState(0);
+    const [indexEvaluation, setIndexEvaluation] = useState(0); //index de l'eval en cours dans la liste des evals selectionnées
     const [needInfo, setNeedInfo] = useState(true);
-    const [needInfo2, setNeedInfo2] = useState(true);
+    const [needInfo2, setNeedInfo2] = useState(true); //Pour les evals doubles
 
+    //Trier les evals par ordre de priorité (voir mysql)
     const selectedEvaluations = useSelector(state => Object.values(state.eval.evalSelection).sort((a, b) => a.priorite - b.priorite));
+    //evaluation actuellement affichée
     const selectedEvaluation = selectedEvaluations[indexEvaluation];
 
     //Rajouté pour les évals doubles
     const liaisons = useSelector(state => state.eval.liaisons);
+
+    // Les evals étant triées par priorité, si eval double il y a, elles seront à coté dans la liste des evals selectionnées
     let nextSelectedEvaluation;
     let nomEvalDouble;
 
-    if (selectedEvaluations.length != 0 &&
-        selectedEvaluation.idLiaison != "0" &&
-        selectedEvaluations[indexEvaluation + 1] &&
-        selectedEvaluations[indexEvaluation + 1].idLiaison == selectedEvaluation.idLiaison) {
+    if (selectedEvaluations.length != 0 && //si la liste des evals selectionnées n'est pas vide
+        selectedEvaluation.idLiaison != "0" && //si l'eval actuelle est liée (idLiaison != "0")
+        selectedEvaluations[indexEvaluation + 1] && //si y'a une eval après l'actuelle
+        selectedEvaluations[indexEvaluation + 1].idLiaison == selectedEvaluation.idLiaison) //si l'eval actuelle et la suivante sont bien liées
+    {
+        //Affecter une valeur à l'éval double 
+        //Remarque: ces variables ne sont pas des states, donc c'est redéfini à chaque render, notamment quand l'eval actuelle change
         for (const key in liaisons) {
             if (key == selectedEvaluation.idLiaison) {
                 nomEvalDouble = liaisons[key.toString()].NomEvalDouble;
@@ -81,6 +88,7 @@ const TestScreen = props => {
         }
     }
 
+    //Permet de déterminer quelles evals n'ont pas besoin de popup d'information
     useEffect(() => {
         if (selectedEvaluation && selectedEvaluation.nomEvaluation == 'Dimensions des cases de mise-bas'
             || selectedEvaluation && selectedEvaluation.nomEvaluation == 'Prolapsus rectal'
@@ -99,11 +107,13 @@ const TestScreen = props => {
         }
     }, [selectedEvaluation]);
 
+    //Liste des catégories d'évaluations
     let selectedCategorie = useSelector(state => state.categ.categories);
     let selectedCategorie2 = selectedCategorie; //Rajouté pour les évals doubles
 
     const dispatch = useDispatch();
 
+    //Declenché quand le bouton confirmer du modal de confirmation est appuyé
     const nextValidationHandler = () => {
         setModalConfirmation(false);
         setIndexEvaluation(indexEvaluation + (nomEvalDouble ? 2 : 1));
@@ -115,6 +125,7 @@ const TestScreen = props => {
     const modalInfoCloser2 = () => setInfoModalVisible2(false); //Rajouté pour les évals doubles
     const modalConfirmationCloser = () => setModalConfirmation(false);
 
+    //Declenché quand on appuie sur le bouton annuler
     const annulationHandler = async () => {
         await dispatch(testActions.annulerTests());
         await dispatch(evalActions.supprimerEvalSelection());
@@ -123,11 +134,12 @@ const TestScreen = props => {
         props.navigation.navigate('CategSelection');
     };
 
+    //Affiche le modal de confirmation quand on clique sur suivant ou valider
     const btnNext = text => {
         return (
             <TouchableOpacity
                 style={styles.footerBtn}
-                onPress={() => { setModalConfirmation(true) }}
+                onPress={() => setModalConfirmation(true)}
             >
                 <Text style={styles.footerText}>{text} </Text>
             </TouchableOpacity>
@@ -143,6 +155,7 @@ const TestScreen = props => {
         );
     }
 
+    //Determine la catégorie de l'éval actuelle
     loop1:
     for (const key in selectedCategorie) {
         loop2:
@@ -170,6 +183,8 @@ const TestScreen = props => {
     return (
         <View style={{ flex: 1 }}>
             <KeyboardAvoidingView style={{ flex: 1, height: '92%' }} behavior={Platform.OS == 'ios' ? 'position' : 'padding'} keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : -250} >
+
+                {/* Header */}
                 <View>
                     {!nomEvalDouble ? (<View style={{ alignItems: "center", height: '15%', paddingVertical: 5 }}>
                         <Text style={styles.titre}>
@@ -212,6 +227,7 @@ const TestScreen = props => {
                         </View>)
                     }
 
+                    {/* Body */}
                     {!nomEvalDouble ? (
                         <View style={{ height: '85%' }}>
                             {selectedEvaluation.nomEvaluation == 'Etat corporel' && <EtatCorporel
@@ -222,7 +238,7 @@ const TestScreen = props => {
                                 confirmation={modalConfirmation}
                                 navigation={props.navigation}
                                 onNextValidation={nextValidationHandler}
-                                Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'}
+                                Vtype={(indexEvaluation + 1) == (selectedEvaluations.length) ? 'valider' : 'suivant'} //Si l'eval actuelle est la dernière alors le type sera valider, sinon suivant
                             />}
                             {selectedEvaluation.nomEvaluation == 'Apport en eau' && <ApportEnEau
                                 evaluation={selectedEvaluation}
@@ -627,6 +643,7 @@ const TestScreen = props => {
                 </View>
             </KeyboardAvoidingView>
 
+            {/* Footer */}
             <View style={{ ...styles.footer, height: '8%' }}>
                 <TouchableOpacity
                     style={styles.footerBtn}

@@ -8,12 +8,21 @@ import ModalPopupInfo from '../../../components/UI/ModalPopupInfo';
 import { fetchAllTests } from '../../../helper/db/requetes';
 
 
+//Premier ecran dans la navigation des évaluations, cet écran reste à finir
+//Le but pour l'instant ici est d'afficher une popup informant de l'envoi ou
+//de la sauvegarde des évaluations tout juste effectuées.
 const EvalRecapScreen = props => {
 
     const idutilisateur = useSelector(state => state.auth.idutilisateur);
     const [modal, setModal] = useState(false);
-    const [update, setUpdate] = useState(false);
+    const [update, setUpdate] = useState(false); //sert uniquement à rafraichir l'ecran lorsque necessaire
     const [message, setMessage] = useState({});
+
+    //Ces deux props sont transmises par l'écran précédent RecapScreen :
+    //prevLength indique le nombre d'évaluations sauvegardées avant la soumission des tests
+    //trigger est un booléen qui indique si on doit afficher une fenetre popup ou non.
+    //En effet, il ne doit s'afficher que si de nouvelles évals ont été sauvegardées
+    //suite à la réalisation d'une série de tests
     const prevLength = props.route.params ? props.route.params.length : null;
     const trigger = props.route.params ? props.route.params.trigger : false;
 
@@ -24,6 +33,7 @@ const EvalRecapScreen = props => {
         });
     };
 
+    //Fonction qui détermine le contenu de la fenêtre popup
     const numberHandler = useCallback(async () => {
         const tests = await fetchAllTests(idutilisateur);
         const number = tests.rows._array.length;
@@ -52,6 +62,7 @@ const EvalRecapScreen = props => {
     }, []);
 
 
+    //Permet de rafraichir cet écran à chaque fois qu'on navigue dessus
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', () => {
             setUpdate(!update);
@@ -59,6 +70,7 @@ const EvalRecapScreen = props => {
         return unsubscribe;
     }, [props.navigation]);
 
+    //Determine si on affiche le modal ou pas
     useEffect(() => {
         if(prevLength != null && trigger){
             numberHandler();

@@ -5,8 +5,13 @@ import * as sousCategActions from '../../store/actions/sousCateg';
 import Colors from '../../constants/Colors';
 import Shadow from '../UI/Shadow';
 
+//Boutons de navigation utilisés dans la séléction des évaluations
+
 
 const TopNavigationForm = props => {
+    const dispatch = useDispatch();
+
+    //Permet de vérifier s'il y a bien eu une séléction avant de passer à l'écran suivant.
     const { selection } = props;
     const isEmpty = (obj) => {
         return Object.keys(obj).length === 0;
@@ -15,7 +20,6 @@ const TopNavigationForm = props => {
         if (selection != undefined && !isEmpty(selection)) return false;
         if (selection == undefined || isEmpty(selection)) return true;
     }
-    const dispatch = useDispatch();
 
     return (
         <View style={styles.formContainer}>

@@ -17,7 +17,7 @@ import utilisateurReducer from './store/reducers/utilisateur';
 
 import { createDB } from './helper/db/init';
 
-
+//Initialisation de la bd (CREATE TABLE IF NOT EXISTS ...)
 createDB().then(() => {
   console.log('Initialized database.');
 }).catch(err => {
@@ -25,6 +25,7 @@ createDB().then(() => {
   console.log(err);
 });
 
+//Initialisation du store redux
 const rootReducer = combineReducers({
   sousCateg: sousCategReducer,
   categ: categReducer,
@@ -37,7 +38,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-
+//Chargement des polices
 const fetchFonts = () => {
   return Font.loadAsync({
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
@@ -45,6 +46,7 @@ const fetchFonts = () => {
   });
 };
 
+//Racine de l'app
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -52,6 +54,7 @@ export default function App() {
     return <AppLoading startAsync={fetchFonts} onFinish={() => setFontLoaded(true)} onError={(err) => console.log(err)} />
   }
 
+  //Render du store avec le composant principal de la navigation
   return (
     <Provider store={store}>
       <AppNavigator />

@@ -4,6 +4,8 @@ import { HeaderButton } from 'react-navigation-header-buttons';
 import { Ionicons, MaterialCommunityIcons, Entypo, AntDesign } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 
+//Composnat utilisé pour insérer des bouttons dans le header
+
 export const CustomHeaderButton = props => {
     return <HeaderButton {...props}
         IconComponent={Ionicons}

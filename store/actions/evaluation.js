@@ -24,7 +24,8 @@ export const ajouterALaSelection = evaluation => {
 };
 
 export const fetchEvaluations = async (token, maj, isConnected) => {
-
+    //Une fois tous les 7j min, si on a une co :
+    //insert/drop toutes les lignes de la table evaluation (sqlite)
     if (isConnected && maj) {
         const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/evaluations";
         const bearer = 'Bearer ' + token;
@@ -52,6 +53,7 @@ export const fetchLiaisons = isConnected => {
         const maj = getState().auth.maj;
         let loadedLiaisons = {};
 
+        //Comme pour les évals, insert/drop de la table liaisons
         if (isConnected && maj) {
             const token = getState().auth.token;
             const url = "https://oporctunite.envt.fr/oporctunite-api/api/v1/liaisons";
@@ -79,6 +81,7 @@ export const fetchLiaisons = isConnected => {
             }
 
         } else {
+            //Le reste du temps, fetch les données sur sqlite (en ligne ou hors-ligne)
             const liaisons = await fetchAllLiaisons();
 
             for (const liaison of liaisons.rows._array) {
@@ -91,6 +94,7 @@ export const fetchLiaisons = isConnected => {
             }
         }
 
+        //Dispatcher dans le store
         dispatch({ type: SET_LIAISONS, liaisons: loadedLiaisons });
     };
 };

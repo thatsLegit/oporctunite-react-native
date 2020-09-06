@@ -11,8 +11,8 @@ export const setDidTryAutoLogin = () => {
     return { type: SET_DID_TRY_AUTO_LOGIN };
 };
 
-//set a date in localStorage on login, 
-//on authenticate, if that date is older than 7 days and the user has internet
+//localStorage -> get date, 
+//if that date is older than 7 days and the user has an internet connexion :
 //set majDate to true in the store
 //set the date back to Date.now() in localstorage
 //then, the rest of the time majDate is set to false
@@ -47,6 +47,7 @@ export const login = (login, password) => {
 
         const connection = await NetInfo.fetch();
 
+        //tentative de connexion
         if (connection.isConnected) {
             const response = await fetch('https://oporctunite.envt.fr/oporctunite-api/api/v1/auth/login', {
                 method: 'POST',
@@ -67,7 +68,9 @@ export const login = (login, password) => {
             const decoded = jwtDecode(resData.token);
             const idutilisateur = decoded.idutilisateur;
 
+            //Placement de données utilisateur en cache
             saveDataToStorage(idutilisateur, resData.token);
+            //Placement de données utililisateur dans le store
             dispatch(authenticate(idutilisateur, resData.token, true));
 
         } else
@@ -75,6 +78,7 @@ export const login = (login, password) => {
     };
 };
 
+//Données de cache
 const saveDataToStorage = async (idutilisateur, token) => {
     const majDate = Date.now();
     await AsyncStorage.setItem('userData', JSON.stringify({

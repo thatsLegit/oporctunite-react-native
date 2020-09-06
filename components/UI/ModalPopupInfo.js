@@ -2,10 +2,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { View, Modal, TouchableHighlight, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import Colors from '../../constants/Colors';
 
+//Fenetre popup générique utilisée dans l'ensemble de l'appli
 
 const ModalPopupInfo = props => {
     const { visible, confirmation } = props;
-    const [modalHeight, setModalHeight] = useState(0);
+    const [modalHeight, setModalHeight] = useState(0); //La hauteur du modal s'adapte au nb de lignes du texte à l'intérieur
     const [modalVisible, setModalVisible] = useState(visible);
 
     useEffect(() => {
@@ -15,6 +16,8 @@ const ModalPopupInfo = props => {
     const modalHeightHandler = useCallback((height) => {
         setModalHeight(height + 70);
     }, [modalHeight]);
+
+    //Styles de modal additionnels : 'danger', 'success"
 
     const style = {
         ...styles.modalView,
